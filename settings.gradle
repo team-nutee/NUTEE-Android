@@ -1,0 +1,2 @@
+rootProject.name='NUTEE_Android'
+include ':app'
