@@ -9,11 +9,13 @@
 
     <TextView
         android:id="@+id/text_login_title"
+        android:text="NUTEE"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:textColor="@color/nuteeBase"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="NUTEE"
-        android:textSize="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,6 +35,7 @@
     <EditText
         android:id="@+id/et_login_pw"
         android:hint="패스워드"
+        android:inputType="textPassword"
         android:textSize="13sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -49,17 +52,19 @@
         android:layout_marginTop="12dp"
         android:textSize="14sp"
         android:text="로그인 유지"
+        android:textColor="@color/nuteeBase"
         app:layout_constraintTop_toBottomOf="@+id/et_login_pw"
         tools:layout_editor_absoluteX="44dp" />
 
     <TextView
-        android:id="@+id/text_forget_id_or_pw"
+        android:id="@+id/text_forget_id_or_pw_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
         android:gravity="center"
         android:textSize="12sp"
         android:text="아이디혹은 비밀번호를 잊으셨나요??"
+        android:textColor="@color/nuteeBase"
         app:layout_constraintTop_toBottomOf="@+id/check_login_save"
         tools:layout_editor_absoluteX="0dp" />
 
@@ -70,7 +75,61 @@
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="24dp"
         android:text="로그인"
-        app:layout_constraintTop_toBottomOf="@+id/text_forget_id_or_pw"
+        android:textColor="@color/colorWhite"
+        android:background="@color/nuteeBase"
+        app:layout_constraintTop_toBottomOf="@+id/text_forget_id_or_pw_button"
         tools:layout_editor_absoluteX="18dp" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        app:layout_constraintTop_toBottomOf="@+id/btn_login"
+        tools:layout_editor_absoluteX="0dp">
+
+        <View
+            android:id="@+id/viewline1"
+            android:layout_width="146dp"
+            android:layout_height="2dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/first_visit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="처음이신가요?"
+            android:textSize="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/viewline2"
+            app:layout_constraintStart_toEndOf="@+id/viewline1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/viewline2"
+            android:layout_width="142dp"
+            android:layout_height="2dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/text_register_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="회원가입"
+        android:textStyle="bold"
+        android:textColor="@color/nuteeBase"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
