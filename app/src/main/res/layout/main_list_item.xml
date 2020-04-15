@@ -6,6 +6,117 @@
     android:layout_height="wrap_content">
 
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/img_list_profile"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@mipmap/nutee_logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_main_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="user name"
+        android:textColor="#000000"
+        app:layout_constraintStart_toEndOf="@+id/img_list_profile"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/text_main_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginEnd="16dp"
+        android:text="test text line"
+        android:textColor="#000000"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_main_username" />
+
+
+    <ImageView
+        android:id="@+id/img_main_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/main_more_horiz_img"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintBottom_toBottomOf="@id/list_line"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_main_content"
+        android:layout_marginBottom="5dp">
+
+        <ImageView
+            android:id="@+id/img_main_count_image"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="16dp"
+            android:src="@drawable/main_image_img" />
+
+        <TextView
+            android:id="@+id/text_main_count_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:text="0"
+            android:textColor="@color/colorGray" />
+
+        <ImageView
+            android:id="@+id/img_main_count_comment"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/main_comment_img" />
+
+        <TextView
+            android:id="@+id/text_main_count_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:text="0"
+            android:textColor="@color/colorGray" />
+
+        <ImageView
+            android:id="@+id/img_main_count_like"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/main_favorite_img"/>
+
+        <TextView
+            android:id="@+id/text_main_count_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:text="0"
+            android:textColor="@color/colorGray" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/list_line"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
 
 
 

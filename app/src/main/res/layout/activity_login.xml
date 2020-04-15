@@ -7,6 +7,7 @@
     tools:context=".login.LoginActivity"
     android:background="@color/colorWhite">
 
+    <!--로그인 타이틀 버튼-->
     <TextView
         android:id="@+id/text_login_title"
         android:text="NUTEE"
@@ -21,6 +22,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!--로그인 아이디-->
     <EditText
         android:id="@+id/et_login_id"
         android:layout_width="match_parent"
@@ -32,6 +34,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_login_title" />
 
+    <!--로그인 비밀번호-->
     <EditText
         android:id="@+id/et_login_pw"
         android:hint="패스워드"
@@ -44,6 +47,7 @@
         app:layout_constraintTop_toBottomOf="@+id/et_login_id"
         tools:layout_editor_absoluteX="0dp" />
 
+    <!--로그인 유지 여부 체크박스-->
     <CheckBox
         android:id="@+id/check_login_save"
         android:layout_width="match_parent"
@@ -56,6 +60,7 @@
         app:layout_constraintTop_toBottomOf="@+id/et_login_pw"
         tools:layout_editor_absoluteX="44dp" />
 
+    <!--비밀번호 찾기 텍스트 버튼-->
     <TextView
         android:id="@+id/text_forget_id_or_pw_button"
         android:layout_width="match_parent"
@@ -68,6 +73,7 @@
         app:layout_constraintTop_toBottomOf="@+id/check_login_save"
         tools:layout_editor_absoluteX="0dp" />
 
+    <!--로그인 버튼-->
     <Button
         android:id="@+id/btn_login"
         android:layout_width="match_parent"
@@ -80,7 +86,7 @@
         app:layout_constraintTop_toBottomOf="@+id/text_forget_id_or_pw_button"
         tools:layout_editor_absoluteX="18dp" />
 
-
+    <!--화면을 나누는 bar-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
@@ -120,6 +126,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!--회원가입 텍스트 버튼-->
     <TextView
         android:id="@+id/text_register_button"
         android:layout_width="wrap_content"
