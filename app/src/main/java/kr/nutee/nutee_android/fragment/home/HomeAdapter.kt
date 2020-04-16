@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kr.nutee.nutee_android.R
 
-class HomeAdapter (private val context: Context) : RecyclerView.Adapter<HomeViewHolder>(){
+class HomeAdapter(private val context: Context) : RecyclerView.Adapter<HomeViewHolder>() {
 
 	var data = mutableListOf<HomeData>()
 

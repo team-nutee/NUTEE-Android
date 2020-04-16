@@ -8,7 +8,7 @@ import android.view.ViewGroup
 
 import kr.nutee.nutee_android.R
 
-class ProflieFragment : Fragment() {
+class ProfileFragment : Fragment() {
 
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?,

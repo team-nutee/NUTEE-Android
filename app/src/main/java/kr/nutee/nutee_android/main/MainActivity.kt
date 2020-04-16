@@ -3,17 +3,19 @@ package kr.nutee.nutee_android.main
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.viewpager.widget.ViewPager
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.
 import kr.nutee.nutee_android.R
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.)
 
         init()
     }
+
+
 
     //View pager 전환 함수
     private fun init(){
@@ -36,7 +38,7 @@ class MainActivity : AppCompatActivity() {
             })
         }
 
-        main_bottom_nav.setOnNavigationItemReselectedListener {
+        main_bottom_nav.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.menu_home -> main_viewpager.currentItem = 0
                 R.id.menu_search -> main_viewpager.currentItem = 1
