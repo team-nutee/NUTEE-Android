@@ -5,9 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.login_activity.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.main.MainActivity
 
@@ -15,7 +14,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		setContentView(R.layout.activity_login)
+		setContentView(R.layout.login_activity)
 
 		text_forget_id_or_pw_button.setOnClickListener(this)
 		btn_login.setOnClickListener(this)

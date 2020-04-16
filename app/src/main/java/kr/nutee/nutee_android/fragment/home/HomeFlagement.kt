@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.main_fragment_home.*
 
 import kr.nutee.nutee_android.R
 
@@ -21,7 +21,7 @@ class HomeFlagement : Fragment() {
 		container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View? {
-		return inflater.inflate(R.layout.fragment_home,container,false)
+		return inflater.inflate(R.layout.main_fragment_home,container,false)
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -27,7 +27,7 @@ class SplashActivity : AppCompatActivity() {
     //해당 Activity 생명주기 생성
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
+        setContentView(R.layout.splash_activity)
 
         //핸들러 사용
         mDelayHandler = Handler()
