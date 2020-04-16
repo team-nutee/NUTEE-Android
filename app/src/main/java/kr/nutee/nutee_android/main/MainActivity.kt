@@ -3,14 +3,14 @@ package kr.nutee.nutee_android.main
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.viewpager.widget.ViewPager
-import kotlinx.android.synthetic.main.
+import kotlinx.android.synthetic.main.activity_main.*
 import kr.nutee.nutee_android.R
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.)
+        setContentView(R.layout.activity_main)
 
         init()
     }
