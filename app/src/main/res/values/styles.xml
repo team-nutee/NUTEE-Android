@@ -9,6 +9,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!--누티엡 시작시 태마 변경사항-->
     <style name="NuteeStart" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="windowNoTitle">true</item>
         <!-- Customize your theme here. -->
@@ -16,5 +17,12 @@
         <item name="colorPrimaryDark">@color/nuteeBase</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
+    <!--Edit Text 커스텀 테마-->
+    <style name="EditTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!--colorAccent: 커서색, 드래그 시 하이라이트 색, EditText 선택 시 밑줄 하이라이트 색 등 강조 색을 변경-->
+        <item name="colorAccent">@color/nuteeBase</item>
+    </style>
+
 
 </resources>

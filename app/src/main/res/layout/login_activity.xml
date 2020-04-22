@@ -25,23 +25,27 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!--로그인 아이디-->
+
+    <!--로그인 비밀번호-->
     <EditText
         android:id="@+id/et_login_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="100dp"
         android:hint="아이디"
         android:textSize="13sp"
+        android:theme="@style/EditTheme"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_login_title" />
 
-    <!--로그인 비밀번호-->
     <EditText
         android:id="@+id/et_login_pw"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:hint="패스워드"
+        android:theme="@style/EditTheme"
         android:inputType="textPassword"
         android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="@+id/et_login_id"
@@ -81,7 +85,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="24dp"
-        android:background="@color/nuteeBase"
+        android:background="@drawable/radius"
         android:text="로그인"
         android:textColor="@color/colorWhite"
         app:layout_constraintEnd_toEndOf="@+id/text_forget_id_or_pw_button"
@@ -135,7 +139,9 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/viewline2"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="@+id/viewline1"
-        app:layout_constraintTop_toBottomOf="@+id/first_visit" />
+        app:layout_constraintTop_toBottomOf="@+id/first_visit"
+        app:layout_constraintVertical_bias="0.2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
