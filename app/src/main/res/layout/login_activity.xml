@@ -25,20 +25,20 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!--로그인 아이디-->
-
-    <!--로그인 비밀번호-->
     <EditText
         android:id="@+id/et_login_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="80dp"
         android:hint="아이디"
+        android:inputType="text"
         android:textSize="13sp"
         android:theme="@style/EditTheme"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_login_title" />
-
+    <!--로그인 비밀번호-->
     <EditText
         android:id="@+id/et_login_pw"
         android:layout_width="match_parent"
@@ -72,6 +72,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
         android:gravity="center"
+        android:clickable="true"
         android:text="아이디혹은 비밀번호를 잊으셨나요??"
         android:textColor="@color/nuteeBase"
         android:textSize="12sp"
@@ -85,8 +86,9 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="24dp"
-        android:background="@drawable/radius"
+        android:background="@drawable/button_selector"
         android:text="로그인"
+        android:enabled="false"
         android:textColor="@color/colorWhite"
         app:layout_constraintEnd_toEndOf="@+id/text_forget_id_or_pw_button"
         app:layout_constraintHorizontal_bias="0.0"
@@ -135,6 +137,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="회원가입"
+        android:clickable="true"
         android:textColor="@color/nuteeBase"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
