@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-
+    <!--프로필 사진-->
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/img_list_profile"
         android:layout_width="50dp"
@@ -15,7 +15,7 @@
         android:src="@mipmap/nutee_logo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
+    <!--유저 이름-->
     <TextView
         android:id="@+id/text_main_username"
         android:layout_width="wrap_content"
@@ -27,7 +27,7 @@
         app:layout_constraintStart_toEndOf="@+id/img_list_profile"
         app:layout_constraintTop_toTopOf="parent" />
 
-
+    <!--내용-->
     <TextView
         android:id="@+id/text_main_content"
         android:layout_width="match_parent"
@@ -36,12 +36,14 @@
         android:layout_marginStart="80dp"
         android:layout_marginEnd="16dp"
         android:text="test text line"
+        android:ellipsize="end"
+        android:maxLines="5"
         android:textColor="#000000"
         android:textSize="10sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_main_username" />
 
-
+    <!--더 보기 버튼-->
     <ImageView
         android:id="@+id/img_main_more"
         android:layout_width="wrap_content"
@@ -51,7 +53,7 @@
         android:layout_marginRight="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
+    <!--하단 사진,댓글,좋아요 수 관리 레이아웃-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
