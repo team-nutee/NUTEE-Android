@@ -4,6 +4,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="windowNoTitle">true</item>
         <!-- Customize your theme here. -->
+        <item name="backgroundColor">@color/colorWhite</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorWhite</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -22,6 +23,12 @@
     <style name="EditTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!--colorAccent: 커서색, 드래그 시 하이라이트 색, EditText 선택 시 밑줄 하이라이트 색 등 강조 색을 변경-->
         <item name="colorAccent">@color/nuteeBase</item>
+    </style>
+
+    <style name="SearchEditTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!--colorAccent: 커서색, 드래그 시 하이라이트 색, EditText 선택 시 밑줄 하이라이트 색 등 강조 색을 변경-->
+        <item name="colorAccent">@color/nuteeBase</item>
+        <item name="android:textColorHint">@color/nuteeBase</item>
     </style>
 
 
