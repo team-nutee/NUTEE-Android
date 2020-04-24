@@ -14,8 +14,7 @@
         <activity android:name=".login.LoginActivity" />
         <activity android:name=".main.MainActivity" /> <!-- Splash 화면 -->
         <activity
-            android:name=".SplashActivity"
-            android:theme="@style/NuteeStart">
+            android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
