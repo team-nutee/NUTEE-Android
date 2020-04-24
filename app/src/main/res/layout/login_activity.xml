@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
     android:paddingLeft="24dp"
     android:paddingRight="24dp"
     tools:context=".login.LoginActivity">
@@ -33,7 +32,6 @@
         android:hint="아이디"
         android:inputType="text"
         android:textSize="13sp"
-        android:theme="@style/EditTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,7 +43,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:hint="패스워드"
-        android:theme="@style/EditTheme"
         android:inputType="textPassword"
         android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="@+id/et_login_id"
