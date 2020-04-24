@@ -1,35 +1,21 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="windowNoTitle">true</item>
         <!-- Customize your theme here. -->
-        <item name="backgroundColor">@color/colorWhite</item>
+        <!--상단바 색상-->
         <item name="colorPrimary">@color/colorPrimary</item>
+        <!--상태바 색상-->
         <item name="colorPrimaryDark">@color/colorWhite</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
-
-    <!--누티엡 시작시 태마 변경사항-->
-    <style name="NuteeStart" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="windowNoTitle">true</item>
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/nuteeBase</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
-
-    <!--Edit Text 커스텀 테마-->
-    <style name="EditTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!--colorAccent: 커서색, 드래그 시 하이라이트 색, EditText 선택 시 밑줄 하이라이트 색 등 강조 색을 변경-->
         <item name="colorAccent">@color/nuteeBase</item>
-    </style>
-
-    <style name="SearchEditTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!--colorAccent: 커서색, 드래그 시 하이라이트 색, EditText 선택 시 밑줄 하이라이트 색 등 강조 색을 변경-->
-        <item name="colorAccent">@color/nuteeBase</item>
+        <!--textInputLayout hint 색상-->
         <item name="android:textColorHint">@color/nuteeBase</item>
+        <!--배경화면 색상 지정-->
+        <item name="android:windowBackground">@color/colorWhite</item>
     </style>
+
 
 
 </resources>
