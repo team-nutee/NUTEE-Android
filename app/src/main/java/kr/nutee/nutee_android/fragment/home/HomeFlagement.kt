@@ -12,9 +12,9 @@ import kr.nutee.nutee_android.R
 
 class HomeFlagement : Fragment() {
 
-	lateinit var homeAdapter: HomeAdapter
+	private lateinit var homeAdapter: HomeAdapter
 
-	val datas = mutableListOf<HomeData>()
+	private val datas = mutableListOf<HomeData>()
 
 	override fun onCreateView(
 		inflater: LayoutInflater,
