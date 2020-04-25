@@ -28,13 +28,9 @@ class HomeFlagement : Fragment() {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
-		homeAdapter =
-			HomeAdapter(view.context)
-		rv_home.run {
-			adapter = homeAdapter
-			layoutManager = LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, false)
-		}
-		loadDatas()
+		homeAdapter = HomeAdapter(view.context)
+		rv_home.adapter = homeAdapter // RecyclerView의 어뎁터를 지정한다.
+		loadDatas() //데이터 임의 생성하여 전달
 	}
 
 	private fun loadDatas() {

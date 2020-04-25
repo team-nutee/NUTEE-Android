@@ -8,6 +8,8 @@ import com.bumptech.glide.Glide
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.home.HomeData
 
+
+/*home fragment RecyclerView 내부 하나의 뷰의 정보를 지정하는 클래스 */
 class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 	val profileImg = itemView.findViewById<ImageView>(R.id.img_list_profile)
 	val profileName = itemView.findViewById<TextView>(R.id.text_main_username)

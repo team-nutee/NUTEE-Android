@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.home.HomeData
 
+/*data를 각각 list item View들 과 연결시켜줄 클래스 */
 class HomeAdapter(private val context: Context) : RecyclerView.Adapter<HomeViewHolder>() {
 
 	var data = mutableListOf<HomeData>()
@@ -20,6 +21,7 @@ class HomeAdapter(private val context: Context) : RecyclerView.Adapter<HomeViewH
 		return data.size
 	}
 
+	//뷰 홀더와 데이터를 매칭
 	override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
 		holder.bind(data[position])
 	}
