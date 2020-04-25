@@ -3,6 +3,7 @@ package kr.nutee.nutee_android.ui.main
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.main_activity.*
@@ -17,21 +18,31 @@ class MainActivity : AppCompatActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.main_activity)
+	}
+    
+    //엑티비티가 사용자와 상호작용하기전에 설정
+    override fun onResume() {
+        super.onResume()
 
-        var transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-		transaction.replace(R.id.frame_layout,
-            HomeFlagement()
-        ).commitAllowingStateLoss()
+        //초기 fragment 설정
+        supportFragmentManager.beginTransaction().replace(R.id.frame_layout, HomeFlagement()).commitAllowingStateLoss()
 
-        //하단 nav bar 화면 전환
-		main_bottom_nav.setOnNavigationItemSelectedListener {
+        //navigationBottomView 등록
+        mainNavigationBottomView(main_bottom_nav, supportFragmentManager)
+    }
+
+    // NavigationBottomView 화면전환
+    private fun mainNavigationBottomView(bottomNavigationView: BottomNavigationView, fragmentManager: FragmentManager){
+        main_bottom_nav.setOnNavigationItemSelectedListener {
             when(it.itemId){
                 R.id.menu_home-> {
+                    main_title.text = resources.getText(R.string.fragment_home)
                     loadFragment(HomeFlagement())
                     return@setOnNavigationItemSelectedListener true
                 }
 
                 R.id.menu_search-> {
+                    main_title.text = resources.getString(R.string.fragment_search)
                     loadFragment(SearchFragment())
                     return@setOnNavigationItemSelectedListener true
                 }
@@ -42,20 +53,21 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.menu_pin-> {
+                    main_title.text = resources.getString(R.string.fragment_notice)
                     loadFragment(NoticeFlagment())
                     return@setOnNavigationItemSelectedListener true
                 }
 
                 R.id.menu_profile-> {
+                    main_title.text = resources.getString(R.string.fragment_profile)
                     loadFragment(ProfileFragment())
                     return@setOnNavigationItemSelectedListener true
                 }
 
             }
             false
-
         }
-	}
+    }
 
     //fragment load 함수
     private fun loadFragment(fragment: Fragment) {
