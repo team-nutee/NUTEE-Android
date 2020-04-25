@@ -3,6 +3,7 @@ package kr.nutee.nutee_android.ui.main.fragment.home
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.home.HomeData
@@ -24,6 +25,14 @@ class HomeAdapter(private val context: Context) : RecyclerView.Adapter<HomeViewH
 	//뷰 홀더와 데이터를 매칭
 	override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
 		holder.bind(data[position])
+
+		holder.btn_favorite.setOnClickListener{
+			it.isActivated = !it.isActivated
+		}
+
+		holder.itemView.setOnClickListener {
+			Toast.makeText(context, "$position", Toast.LENGTH_SHORT).show();
+		}
 	}
 
 }
