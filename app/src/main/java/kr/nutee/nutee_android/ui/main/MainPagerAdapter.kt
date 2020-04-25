@@ -1,4 +1,4 @@
-package kr.nutee.nutee_android.main
+package kr.nutee.nutee_android.ui.main
 
 
 /*

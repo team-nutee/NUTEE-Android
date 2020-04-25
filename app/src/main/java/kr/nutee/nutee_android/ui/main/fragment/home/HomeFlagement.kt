@@ -1,4 +1,4 @@
-package kr.nutee.nutee_android.fragment.home
+package kr.nutee.nutee_android.ui.main.fragment.home
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.main_fragment_home.*
 
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.data.home.HomeData
 
 class HomeFlagement : Fragment() {
 
@@ -27,7 +28,8 @@ class HomeFlagement : Fragment() {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
-		homeAdapter = HomeAdapter(view.context)
+		homeAdapter =
+			HomeAdapter(view.context)
 		rv_home.run {
 			adapter = homeAdapter
 			layoutManager = LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, false)

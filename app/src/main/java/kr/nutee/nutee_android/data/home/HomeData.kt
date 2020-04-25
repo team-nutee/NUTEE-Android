@@ -1,4 +1,4 @@
-package kr.nutee.nutee_android.fragment.home
+package kr.nutee.nutee_android.data.home
 
 data class HomeData(
 	val name: String,

@@ -1,4 +1,4 @@
-package kr.nutee.nutee_android.main
+package kr.nutee.nutee_android.ui.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -7,10 +7,10 @@ import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.main_activity.*
 import kr.nutee.nutee_android.R
-import kr.nutee.nutee_android.fragment.home.HomeFlagement
-import kr.nutee.nutee_android.fragment.notice.NoticeFlagment
-import kr.nutee.nutee_android.fragment.profile.ProfileFragment
-import kr.nutee.nutee_android.fragment.search.SearchFragment
+import kr.nutee.nutee_android.ui.main.fragment.home.HomeFlagement
+import kr.nutee.nutee_android.ui.main.fragment.notice.NoticeFlagment
+import kr.nutee.nutee_android.ui.main.fragment.profile.ProfileFragment
+import kr.nutee.nutee_android.ui.main.fragment.search.SearchFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,7 +19,9 @@ class MainActivity : AppCompatActivity() {
 		setContentView(R.layout.main_activity)
 
         var transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-		transaction.replace(R.id.frame_layout, HomeFlagement()).commitAllowingStateLoss()
+		transaction.replace(R.id.frame_layout,
+            HomeFlagement()
+        ).commitAllowingStateLoss()
 
         //하단 nav bar 화면 전환
 		main_bottom_nav.setOnNavigationItemSelectedListener {

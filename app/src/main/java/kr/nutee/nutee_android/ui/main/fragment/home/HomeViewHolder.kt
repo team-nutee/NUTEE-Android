@@ -1,4 +1,4 @@
-package kr.nutee.nutee_android.fragment.home
+package kr.nutee.nutee_android.ui.main.fragment.home
 
 import android.view.View
 import android.widget.ImageView
@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.data.home.HomeData
 
 class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 	val profileImg = itemView.findViewById<ImageView>(R.id.img_list_profile)

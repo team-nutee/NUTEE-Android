@@ -1,10 +1,11 @@
-package kr.nutee.nutee_android.fragment.home
+package kr.nutee.nutee_android.ui.main.fragment.home
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.data.home.HomeData
 
 class HomeAdapter(private val context: Context) : RecyclerView.Adapter<HomeViewHolder>() {
 

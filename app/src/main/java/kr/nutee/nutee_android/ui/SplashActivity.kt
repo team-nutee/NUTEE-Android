@@ -1,10 +1,11 @@
-package kr.nutee.nutee_android
+package kr.nutee.nutee_android.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import kr.nutee.nutee_android.login.LoginActivity
+import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.ui.login.LoginActivity
 
 /*
 * Splash 화면 Activity

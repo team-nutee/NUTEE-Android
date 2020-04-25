@@ -1,4 +1,4 @@
-package kr.nutee.nutee_android.login
+package kr.nutee.nutee_android.ui.login
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -13,7 +13,7 @@ import androidx.core.widget.addTextChangedListener
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.login_activity.*
 import kr.nutee.nutee_android.R
-import kr.nutee.nutee_android.main.MainActivity
+import kr.nutee.nutee_android.ui.main.MainActivity
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
