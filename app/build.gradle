@@ -1,10 +1,15 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
+
+    dataBinding {
+        enabled true
+    }
 
     defaultConfig {
         applicationId "kr.nutee.nutee_android"
@@ -38,6 +43,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    //dataBinding
+    kapt 'com.android.databinding:compiler:3.1.4'
 
     //material 디자인 라이브러리
     implementation 'com.google.android.material:material:1.1.0'
