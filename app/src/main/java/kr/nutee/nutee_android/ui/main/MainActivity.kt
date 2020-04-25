@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.main_activity)
 	}
-    
+
     //엑티비티가 사용자와 상호작용하기전에 설정
     override fun onResume() {
         super.onResume()
