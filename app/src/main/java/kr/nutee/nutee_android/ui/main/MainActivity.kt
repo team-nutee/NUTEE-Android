@@ -2,6 +2,7 @@ package kr.nutee.nutee_android.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -52,7 +53,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.menu_add-> {
                     val intent = Intent(this, AddActivity::class.java)
                     startActivity(intent)
-
+                    finish()
                     return@setOnNavigationItemSelectedListener true
                 }
 
