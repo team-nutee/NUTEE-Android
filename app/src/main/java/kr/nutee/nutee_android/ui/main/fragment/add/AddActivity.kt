@@ -1,24 +1,27 @@
 package kr.nutee.nutee_android.ui.main.fragment.add
 
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.Window
 import android.view.WindowManager
+import android.widget.Button
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.add_activity.*
-import kotlinx.android.synthetic.main.custom_dialog.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.ui.main.MainActivity
 
 
-class AddActivity : AppCompatActivity() {
+class AddActivity : AppCompatActivity(){
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.add_activity)
+
+
 
 		//내용이 변경되는 이벤트 처리
 		et_add_content.addTextChangedListener(contentWatcher)
@@ -31,21 +34,29 @@ class AddActivity : AppCompatActivity() {
 
 	}
 
-
 	override fun onBackPressed() {
-		onDialog()
-		super.onBackPressed()
+		val dialog = Dialog(this)
+		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+		dialog.setCancelable(false)
+		dialog.setContentView(R.layout.custom_dialog)
+
+		val body = dialog.findViewById<TextView>(R.id.dialog_text)
+		body.text = "작성을 취소하시겠습니까??"
+		val okButton = dialog.findViewById<Button>(R.id.okButton)
+		val cancelButton = dialog.findViewById<Button>(R.id.cancelButton)
+
+		okButton.setOnClickListener {
+			dialog.dismiss()
+			val intent = Intent(this, MainActivity::class.java)
+			startActivity(intent)
+			finish()
+		}
+		cancelButton.setOnClickListener { dialog.dismiss() }
+
+		dialog.show()
 	}
 
-	private fun onDialog() {
-		val builder = AlertDialog.Builder(this)
-		val dialogView = layoutInflater.inflate(R.layout.custom_dialog, null)
-		val dialogText = dialogView.findViewById<TextView>(R.id.dialog_text)
-		dialogText.text = "작성을 취소하시겠습니까??"
 
-
-		builder.setView(dialogView).setPositiveButton("예",this.okButton.setOnClickListener {  })
-	}
 
 	private val contentWatcher = object : TextWatcher {
 		override fun afterTextChanged(s: Editable?) {
@@ -64,3 +75,4 @@ class AddActivity : AppCompatActivity() {
 
 	}
 }
+

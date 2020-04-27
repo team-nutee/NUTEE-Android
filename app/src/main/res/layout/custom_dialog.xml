@@ -1,20 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <data>
-        <variable
-            name="title"
-            type="String" />
-        <variable
-            name="massage"
-            type="String" />
-        <variable
-            name="okay"
-            type="String" />
-    </data>
-
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
@@ -28,8 +12,8 @@
         android:layout_height="80dp"
         android:gravity="center"
         android:textColor="#000000"
-        android:textSize="16dp"
-        android:text="작성을 취소하시겠습니까??"
+        android:textSize="16sp"
+        android:text="text massage"
         android:textStyle="bold"
         />
     <View
@@ -42,6 +26,23 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/cancelButton"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="아니오"
+            android:textColor="#C11714"
+            android:textSize="16sp"
+            android:background="@drawable/button_selector_w"/>
+
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorGray" />
+
+        <Button
             android:id="@+id/okButton"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -51,23 +52,6 @@
             android:textStyle="bold"
             android:textColor="@color/nuteeBase"
             android:textSize="16dp"
-            android:background="#ffffff"/>
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/colorGray" />
-
-        <Button
-            android:id="@+id/cancelButton"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="취소"
-            android:textColor="#C11714"
-            android:textSize="16dp"
-            android:background="#ffffff"/>
+            android:background="@drawable/button_selector_w"/>
     </LinearLayout>
 </LinearLayout>
-</layout>
