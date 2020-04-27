@@ -2,6 +2,7 @@ package kr.nutee.nutee_android.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -41,12 +42,14 @@ class MainActivity : AppCompatActivity() {
                 R.id.menu_home-> {
                     main_title.text = resources.getText(R.string.fragment_home)
                     loadFragment(HomeFlagement())
+                    text_setting.visibility = View.INVISIBLE
                     return@setOnNavigationItemSelectedListener true
                 }
 
                 R.id.menu_search-> {
                     main_title.text = resources.getString(R.string.fragment_search)
                     loadFragment(SearchFragment())
+                    text_setting.visibility = View.INVISIBLE
                     return@setOnNavigationItemSelectedListener true
                 }
 
@@ -60,12 +63,14 @@ class MainActivity : AppCompatActivity() {
                 R.id.menu_pin-> {
                     main_title.text = resources.getString(R.string.fragment_notice)
                     loadFragment(NoticeFlagment())
+                    text_setting.visibility = View.INVISIBLE
                     return@setOnNavigationItemSelectedListener true
                 }
 
                 R.id.menu_profile-> {
                     main_title.text = resources.getString(R.string.fragment_profile)
                     loadFragment(ProfileFragment())
+                    text_setting.visibility = View.VISIBLE
                     return@setOnNavigationItemSelectedListener true
                 }
 
