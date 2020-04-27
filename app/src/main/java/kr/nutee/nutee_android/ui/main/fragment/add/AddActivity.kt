@@ -1,16 +1,20 @@
 package kr.nutee.nutee_android.ui.main.fragment.add
 
 import android.app.Dialog
+import android.app.Service
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Window
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.add_activity.*
+import kotlinx.android.synthetic.main.main_fragment_search.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.ui.main.MainActivity
 
@@ -21,17 +25,22 @@ class AddActivity : AppCompatActivity(){
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.add_activity)
 
-
-
 		//내용이 변경되는 이벤트 처리
 		et_add_content.addTextChangedListener(contentWatcher)
-		//자동으로 키보드가 올라오도록 한다.
-		window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+		/*//자동으로 키보드가 올라오도록 한다.
+		window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)*/
 
 		text_back_button.setOnClickListener {
 			onBackPressed()
 		}
+	}
 
+	override fun onResume() {
+		super.onResume()
+
+		et_add_content.requestFocus()
+		val inputMethodManager : InputMethodManager = getSystemService(Service.INPUT_METHOD_SERVICE) as InputMethodManager
+		inputMethodManager.showSoftInput(et_add_content,0)
 	}
 
 	override fun onBackPressed() {

@@ -29,8 +29,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
-        android:text="게시"
         android:enabled="false"
+        android:text="게시"
         android:textColor="@color/text_selector"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -44,22 +44,31 @@
         android:id="@+id/et_add_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
+        android:background="@null"
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
-        app:layout_constraintBottom_toTopOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/text_back_button"
-        tools:layout_editor_absoluteX="4dp">
+        app:layout_constraintBottom_toTopOf="@+id/add_bottom_line"
+        app:layout_constraintEnd_toEndOf="@+id/text_create_button"
+        app:layout_constraintStart_toStartOf="@+id/text_back_button"
+        app:layout_constraintTop_toBottomOf="@+id/text_back_button"/>
 
-        <requestFocus />
-    </EditText>
+
+    <View
+        android:id="@+id/add_bottom_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/nuteeBase"
+        app:layout_constraintBottom_toTopOf="@+id/imageView"
+        tools:layout_editor_absoluteX="4dp" />
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="40dp"
         android:layout_height="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/et_add_content"
+        app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/main_image_img" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
