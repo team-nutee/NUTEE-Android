@@ -1,13 +1,11 @@
 package kr.nutee.nutee_android.ui.main.fragment.home
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.main_fragment_home.*
-
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.home.HomeData
 

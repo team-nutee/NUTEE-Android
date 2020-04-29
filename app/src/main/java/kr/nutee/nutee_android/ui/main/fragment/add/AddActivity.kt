@@ -27,8 +27,7 @@ class AddActivity : AppCompatActivity(){
 
 		//내용이 변경되는 이벤트 처리
 		et_add_content.addTextChangedListener(contentWatcher)
-		/*//자동으로 키보드가 올라오도록 한다.
-		window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)*/
+
 
 		text_back_button.setOnClickListener {
 			onBackPressed()
@@ -38,7 +37,9 @@ class AddActivity : AppCompatActivity(){
 	override fun onResume() {
 		super.onResume()
 
+		//해당 edit Text 에 자동 클릭하도록 한다.
 		et_add_content.requestFocus()
+		//자동으로 키보드가 올라오는 이벤트 처리
 		val inputMethodManager : InputMethodManager = getSystemService(Service.INPUT_METHOD_SERVICE) as InputMethodManager
 		inputMethodManager.showSoftInput(et_add_content,0)
 	}
