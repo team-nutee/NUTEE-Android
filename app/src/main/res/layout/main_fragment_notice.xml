@@ -6,99 +6,62 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.fragment.notice.NoticeFlagment">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <HorizontalScrollView
-            android:id="@+id/horizontalScrollView"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_notice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="none">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tabGravity="fill"
+            app:tabMode="scrollable"
+            app:tabTextColor="#000000"
+            app:tabSelectedTextColor="@color/nuteeBase"
+            app:tabTextAppearance="@style/TabLayoutTextStyle">
 
-            <LinearLayout
+            <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:text="학사공지" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="학사공지"
-                    android:textColor="@color/text_selector_w_b"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:layout_margin="4dp"
-                    android:clickable="true"/>
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="수업공지" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="수업공지"
-                    android:textColor="@color/text_selector_w_b"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:layout_margin="4dp"
-                    android:clickable="true"/>
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="학점교류" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="학점교류"
-                    android:textColor="@color/text_selector_w_b"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:layout_margin="4dp"
-                    android:clickable="true"/>
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="장학공지" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="장학공지"
-                    android:textColor="@color/text_selector_w_b"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:layout_margin="4dp"
-                    android:clickable="true"/>
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="일반공지" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="학사공지"
-                    android:textColor="@color/text_selector_w_b"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:layout_margin="4dp"
-                    android:clickable="true"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="일반공지"
-                    android:textColor="@color/text_selector_w_b"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:layout_margin="4dp"
-                    android:clickable="true"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="행사공지"
-                    android:textColor="@color/text_selector_w_b"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:layout_margin="4dp"
-                    android:clickable="true"/>
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="행사공지" />
+        </com.google.android.material.tabs.TabLayout>
 
-            </LinearLayout>
-
-        </HorizontalScrollView>
 
         <androidx.viewpager.widget.ViewPager
-            android:id="@+id/main_viewpager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tab_notice"
+            tools:layout_editor_absoluteX="42dp" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
