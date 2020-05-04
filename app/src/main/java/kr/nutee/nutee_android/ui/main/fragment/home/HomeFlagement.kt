@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
 import kotlinx.android.synthetic.main.main_fragment_home.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.home.HomeData
@@ -25,6 +27,8 @@ class HomeFlagement : Fragment() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
+
+		rv_home.addItemDecoration(DividerItemDecoration(this.context, LinearLayout.VERTICAL))
 
 		homeAdapter = HomeAdapter(view.context)
 		rv_home.adapter = homeAdapter // RecyclerView의 어뎁터를 지정한다.
