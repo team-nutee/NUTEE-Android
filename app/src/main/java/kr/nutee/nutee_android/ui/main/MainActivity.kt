@@ -16,6 +16,7 @@ import kr.nutee.nutee_android.ui.main.fragment.home.HomeFlagement
 import kr.nutee.nutee_android.ui.main.fragment.notice.NoticeFlagment
 import kr.nutee.nutee_android.ui.main.fragment.profile.ProfileFragment
 import kr.nutee.nutee_android.ui.main.fragment.search.SearchFragment
+import kr.nutee.nutee_android.ui.setting.SettingActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,6 +31,11 @@ class MainActivity : AppCompatActivity() {
 
         //초기 fragment 설정
         supportFragmentManager.beginTransaction().replace(R.id.frame_layout, HomeFlagement()).commitAllowingStateLoss()
+
+        text_setting.setOnClickListener {
+            val intent = Intent(this, SettingActivity::class.java)
+            startActivity(intent)
+        }
 
         //navigationBottomView 등록
         mainNavigationBottomView(main_bottom_nav)
