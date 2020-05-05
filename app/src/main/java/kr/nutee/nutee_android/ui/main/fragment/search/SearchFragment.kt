@@ -16,7 +16,9 @@ import kr.nutee.nutee_android.R
 class SearchFragment : Fragment() {
 
 	override fun onResume() {
+		//검색창 강제 선택
 		et_search_bar.requestFocus()
+		//검색창 강제 선택시 키보드가 자동으로 보이게 함
 		val inputMethodManager : InputMethodManager = activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 		inputMethodManager.showSoftInput(et_search_bar,0)
 

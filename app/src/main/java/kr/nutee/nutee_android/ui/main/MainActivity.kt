@@ -129,8 +129,3 @@ class MainActivity : AppCompatActivity() {
 }
 
 
-
-private fun BottomNavigationView.setOnNavigationItemSelectedListener() {
-
-}
-

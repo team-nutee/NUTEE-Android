@@ -18,7 +18,9 @@ import kotlinx.android.synthetic.main.main_fragment_search.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.ui.main.MainActivity
 
-
+/*
+* 글쓰기
+*/
 class AddActivity : AppCompatActivity(){
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,6 +47,7 @@ class AddActivity : AppCompatActivity(){
 	}
 
 	override fun onBackPressed() {
+		//뒤로가기 버튼을 클릭한경우 custom dialog를 띄우고 이벤트 처리
 		val dialog = Dialog(this)
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
 		dialog.setCancelable(false)
