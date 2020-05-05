@@ -3,6 +3,7 @@ package kr.nutee.nutee_android.ui.login
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -12,6 +13,7 @@ import android.widget.EditText
 import androidx.core.widget.addTextChangedListener
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.login_activity.*
+import kr.nutee.nutee_android.App
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.ui.main.MainActivity
 
@@ -24,9 +26,24 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.login_activity)
 
+		//prefs에 저장된 정보가있다면 ID&PW창을 채워주고 자동로그인
+		if (!App.prefs.local_login_id.isNullOrBlank() && !App.prefs.local_login_pw.isNullOrBlank()) {
+			et_login_id.setText(App.prefs.local_login_id)
+			et_login_pw.setText(App.prefs.local_login_pw)
+
+			Handler().postDelayed({
+				val intent = Intent(this, MainActivity::class.java)
+				startActivity(intent)
+				finish()
+			}, 500)
+		}
+
+		//ID&PW 입력 이벤트 처리
 		et_login_id.addTextChangedListener(textWatcher)
 		et_login_pw.addTextChangedListener(textWatcher)
 
+
+		//버튼 이벤트 처리
 		text_forget_id_or_pw_button.setOnClickListener(this)
 		btn_login.setOnClickListener(this)
 		text_register_button.setOnClickListener(this)
@@ -55,6 +72,11 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 						et_login_pw.text.isNullOrBlank() -> Snackbar.make(v, "패스워드를 입력하세요", Snackbar.LENGTH_SHORT).show()
 					}
 				} else {
+					if (check_login_save.isChecked) {
+						//로그인 유지시 id/pw 저장
+						App.prefs.local_login_id = et_login_id.text.toString()
+						App.prefs.local_login_pw = et_login_pw.text.toString()
+					}
 					val intent = Intent(this, MainActivity::class.java)
 					startActivity(intent)
 					finish()
@@ -74,15 +96,13 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
 	private val textWatcher = object : TextWatcher {
 		override fun afterTextChanged(s: Editable?) {
-
+			btn_login.isEnabled = et_login_id.text.isNotEmpty() && et_login_pw.text.isNotEmpty()
 		}
 
 		override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
 		}
 
 		override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-			btn_login.isEnabled = et_login_id.text.isNotEmpty() && et_login_pw.text.isNotEmpty()
 		}
 
 	}

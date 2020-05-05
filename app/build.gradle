@@ -58,6 +58,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.6.2'
     //Retrofit 라이브러리 응답으로 가짜 객체를 만들기 위해
     implementation 'com.squareup.retrofit2:retrofit-mock:2.6.2'
+    //SharedPreferences 저장시 내용을 암호화하는 라이브러리
+    implementation 'com.scottyab:secure-preferences-lib:0.1.7'
 
 
 }

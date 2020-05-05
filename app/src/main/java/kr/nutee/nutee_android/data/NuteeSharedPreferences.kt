@@ -2,6 +2,7 @@ package kr.nutee.nutee_android.data
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.securepreferences.SecurePreferences
 
 /*
 * NUTEE 사용자 정보를 로컬에 저장하는 class
@@ -12,7 +13,8 @@ class NuteeSharedPreferences(context: Context){
 	val PREFS_LOCAL_LOGIN_ID = "local_login_id"
 	val PREFS_LOCAL_LOGIN_PW = "local_login_pw"
 
-	val prefs: SharedPreferences = context.getSharedPreferences(PREFS_FILENAME,0)
+	//SharedPreferences를 암호화하여 저장한다.
+	val prefs : SharedPreferences = SecurePreferences(context, "userpassword", PREFS_FILENAME)
 	val editor = prefs.edit()
 
 	var local_login_id : String?
