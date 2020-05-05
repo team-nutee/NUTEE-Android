@@ -54,5 +54,10 @@ dependencies {
     implementation group: 'com.github.bumptech.glide', name: 'glide', version: '4.9.0'
     kapt "com.github.bumptech.glide:compiler:4.10.0"
 
+    //Retrofit 라이브러리 : https://github.com/square/retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.6.2'
+    //Retrofit 라이브러리 응답으로 가짜 객체를 만들기 위해
+    implementation 'com.squareup.retrofit2:retrofit-mock:2.6.2'
+
 
 }
