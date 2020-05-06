@@ -48,14 +48,14 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     // 동그란 이미지 커스텀 뷰
     implementation group: 'de.hdodenhof', name: 'circleimageview', version: '3.1.0'
-
     //이미지 로딩 라이브러리 : glide
     // https://mvnrepository.com/artifact/com.github.bumptech.glide/glide
     implementation group: 'com.github.bumptech.glide', name: 'glide', version: '4.9.0'
     kapt "com.github.bumptech.glide:compiler:4.10.0"
-
     //Retrofit 라이브러리 : https://github.com/square/retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.6.2'
+    //gson은 json구조를 java객체로 직렬화,역직렬화 해주는 라이브러리
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
     //Retrofit 라이브러리 응답으로 가짜 객체를 만들기 위해
     implementation 'com.squareup.retrofit2:retrofit-mock:2.6.2'
     //SharedPreferences 저장시 내용을 암호화하는 라이브러리
