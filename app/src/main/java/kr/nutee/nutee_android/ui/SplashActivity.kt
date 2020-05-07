@@ -17,7 +17,7 @@ class SplashActivity : AppCompatActivity() {
     private val SPLASH_DELAY: Long = 1000 //1 seconds
 
     private val mRunnable: Runnable = Runnable {
-        // 아직 스레드가 끝나지 않은 경우
+        // 아직 끝나지 않은 경우
         if (!isFinishing) {
             val intent = Intent(applicationContext, LoginActivity::class.java)
             startActivity(intent)
