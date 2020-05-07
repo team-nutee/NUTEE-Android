@@ -60,9 +60,10 @@ class AddActivity : AppCompatActivity(){
 
 		okButton.setOnClickListener {
 			dialog.dismiss()
+			finish()
 			val intent = Intent(this, MainActivity::class.java)
 			startActivity(intent)
-			finish()
+
 		}
 		cancelButton.setOnClickListener { dialog.dismiss() }
 
