@@ -6,13 +6,142 @@
     android:layout_height="match_parent"
     tools:context=".ui.login.RegisterActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="register"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <ProgressBar
+        android:id="@+id/pb_register_progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="32dp"
+        android:progressTint="@color/nuteeBase"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:max="3"
+        />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_register_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:padding="16dp"
+        app:layout_constraintStart_toStartOf="@+id/pb_register_progress_bar"
+        app:layout_constraintTop_toBottomOf="@+id/pb_register_progress_bar">
+
+        <TextView
+            android:id="@+id/text_register_email_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="등록을 위해 학교이메일이 필요해요!!🙂"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_register_email_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="45dp"
+            android:text="이메일"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/text_register_email_1"
+            app:layout_constraintTop_toBottomOf="@+id/text_register_email_1" />
+
+        <EditText
+            android:id="@+id/et_register_email"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="example@office.skhu.ac.kr"
+            android:inputType="textEmailAddress"
+            app:layout_constraintEnd_toStartOf="@+id/text_register_email_btn"
+            app:layout_constraintStart_toStartOf="@+id/text_register_email_2"
+            app:layout_constraintTop_toBottomOf="@+id/text_register_email_2" />
+
+        <TextView
+            android:id="@+id/text_register_email_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:enabled="false"
+            android:focusable="true"
+            android:text="인증하기"
+            android:textColor="@color/text_selector"
+            android:textSize="14sp"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="@+id/et_register_email"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/et_register_email" />
+
+        <TextView
+            android:id="@+id/text_register_email_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:text="이메일 확인"
+            android:textColor="@color/nuteeBase"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@+id/et_register_email"
+            app:layout_constraintTop_toBottomOf="@+id/et_register_email" />
+
+        <LinearLayout
+            android:id="@+id/ll_register_auth_num"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/et_register_email"
+            tools:layout_editor_absoluteX="16dp"
+            android:visibility="invisible">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.9"
+                android:orientation="vertical"
+                >
+                <EditText
+                    android:id="@+id/et_auth_num"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="인증번호"
+                    android:inputType="number"/>
+
+                <TextView
+                    android:id="@+id/text_auth_num_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"
+                    android:text="인증번호확인"
+                    android:textColor="@color/nuteeBase"
+                    android:textSize="12sp"
+                    />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/text_auth_num_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:enabled="false"
+                android:focusable="true"
+                android:text="확인"
+                android:textColor="@color/text_selector"
+                android:textSize="14sp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_weight="0.1"/>
+
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
