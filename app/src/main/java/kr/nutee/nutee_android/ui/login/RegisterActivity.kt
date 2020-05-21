@@ -9,7 +9,6 @@ import android.view.View
 import android.view.Window
 import android.view.animation.Animation
 import android.view.animation.Animation.AnimationListener
-import android.view.animation.AnimationSet
 import android.view.animation.AnimationUtils
 import android.view.animation.LinearInterpolator
 import android.widget.Button
@@ -18,6 +17,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import kotlinx.android.synthetic.main.register_activity.*
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.ui.extend.customDialog
+import kr.nutee.nutee_android.ui.extend.textChangedListener
 
 
 class RegisterActivity : AppCompatActivity(), View.OnClickListener {
@@ -33,10 +34,16 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 
 	private fun init() {
 		/*초기 설정 메소드*/
-		et_register_email.addTextChangedListener(emailWatcher)
+		//이메일 인증칸 조건 만족시 버튼 보이게 하고 해당 버튼 클릭시 이벤트 적용
+		et_register_email.textChangedListener {
+			text_register_email_btn.isEnabled = !it.isNullOrBlank()
+		}
 		text_register_email_btn.setOnClickListener(this)
 
-		et_auth_num.addTextChangedListener(authNumWatcher)
+		//인증 번호칸 조건 만족시 버튼 보이게 하고 해당 버튼 클릭시 이벤트 적용
+		et_auth_num.textChangedListener {
+			text_auth_num_btn.isEnabled = !it.isNullOrBlank()
+		}
 		text_auth_num_btn.setOnClickListener(this)
 
 		updateProgress(0, 1)
@@ -74,7 +81,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 
 		val inAnimation = AnimationUtils.loadAnimation(applicationContext,R.anim.up_in)
 		val outAnimation = AnimationUtils.loadAnimation(applicationContext, R.anim.up_out)
-		outAnimation.setAnimationListener(object:Animation.AnimationListener{
+		outAnimation.setAnimationListener(object:AnimationListener{
 			override fun onAnimationRepeat(animation: Animation?)=Unit
 
 			override fun onAnimationEnd(animation: Animation?) {
@@ -90,32 +97,12 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 
 	}
 
-	private fun backPressDialog(){
-		//뒤로가기 버튼을 클릭한경우 custom dialog를 띄우고 이벤트 처리
-		val dialog = Dialog(this)
-		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-		dialog.setCancelable(false)
-		dialog.setContentView(R.layout.custom_dialog)
-
-		val body = dialog.findViewById<TextView>(R.id.dialog_text)
-		body.text = "회원가입을 종료하실껀가요?\uD83D\uDE25"
-		val okButton = dialog.findViewById<Button>(R.id.okButton)
-		val cancelButton = dialog.findViewById<Button>(R.id.cancelButton)
-
-		dialog.show()
-
-		okButton.setOnClickListener {
-			dialog.dismiss()
-			onBackPressed()
-		}
-		cancelButton.setOnClickListener { dialog.dismiss() }
-	}
-
 	override fun onBackPressed() {
 		when (page) {
 			1 -> {
-				backPressDialog()
-				super.onBackPressed()
+				customDialog(
+					"회원가입을 종료하실껀가요?\uD83D\uDE25"
+				) {super.onBackPressed()}
 			}
 		}
 	}
@@ -133,22 +120,6 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 				pb_register_progress_bar.progress = 2
 			}
 		}
-	}
-
-	private val emailWatcher = object : TextWatcher {
-		override fun afterTextChanged(s: Editable?) {
-			text_register_email_btn.isEnabled = !s.isNullOrBlank()
-		}
-		override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
-		override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) =Unit
-	}
-	private val authNumWatcher = object : TextWatcher {
-		override fun afterTextChanged(s: Editable?) {
-			text_auth_num_btn.isEnabled = !s.isNullOrBlank()
-		}
-		override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
-		override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
-
 	}
 
 }
