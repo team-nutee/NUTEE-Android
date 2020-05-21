@@ -10,6 +10,7 @@ import android.view.animation.LinearInterpolator
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
 import kotlinx.android.synthetic.main.register_activity.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.ui.extend.changeLayout_down
@@ -34,23 +35,38 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 		updateProgress(0, 1)
 		cl_register_email.visibility = View.VISIBLE
 
+		/*각 페이지마다 입력칸 이벤트 설정, 버튼 이벤트 지정*/
 		/*page == 1*/
-		//이메일 인증칸 조건 만족시 버튼 보이게 하고 해당 버튼 클릭시 이벤트 적용
 		et_register_email.textChangedListener {
 			text_register_email_btn.isEnabled = !it.isNullOrBlank()
 		}
 		text_register_email_btn.setOnClickListener(this)
-
-		//인증 번호칸 조건 만족시 버튼 보이게 하고 해당 버튼 클릭시 이벤트 적용
 		et_auth_num.textChangedListener {
 			text_auth_num_btn.isEnabled = !it.isNullOrBlank()
 		}
 		text_auth_num_btn.setOnClickListener(this)
+
 		/*page==2*/
 		et_register_id.textChangedListener {
 			text_register_id_btn.isEnabled = !it.isNullOrBlank()
 		}
+		text_register_id_btn.setOnClickListener(this)
 
+		/*page==3*/
+		et_register_nick.textChangedListener {
+			text_register_nick_btn.isEnabled = !it.isNullOrBlank()
+		}
+		text_register_nick_btn.setOnClickListener(this)
+
+		/*page==4*/
+		et_register_password.textChangedListener {
+			text_register_password_btn.isEnabled = !it.isNullOrBlank()
+		}
+		et_register_password_check.textChangedListener {
+			text_register_password_check_btn.isEnabled = !it.isNullOrBlank()
+		}
+		text_register_password_btn.setOnClickListener(this)
+		text_register_password_check_btn.setOnClickListener(this)
 	}
 
 	private fun updateProgress(current_status: Int, next_status: Int) {
@@ -77,6 +93,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 			//page 2
 			R.id.text_register_id_btn -> {
 				pb_register_progress_bar.progress = ++page
+				ll_register_id.visibility = View.INVISIBLE
 				changeLayout_down(cl_register_id,cl_register_nick){
 					showEditTextAlphaTranslate(ll_register_nick)
 				}
@@ -84,6 +101,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 			//page 3
 			R.id.text_register_nick_btn ->{
 				pb_register_progress_bar.progress = ++page
+				ll_register_nick.visibility = View.INVISIBLE
 				changeLayout_down(cl_register_nick,cl_register_password){
 					showEditTextAlphaTranslate(ll_register_password)
 					showEditTextAlphaTranslate(ll_register_password_check)
@@ -100,14 +118,16 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 				) {super.onBackPressed()}
 			}
 			2 ->{
-				page--
+				pb_register_progress_bar.progress = --page
 				changeLayout_down(cl_register_id, cl_register_email){}
 			}
 			3 -> {
-				page--
+				pb_register_progress_bar.progress = --page
+				changeLayout_down(cl_register_nick,cl_register_id){}
 			}
 			else -> {
-				page--
+				pb_register_progress_bar.progress = --page
+				changeLayout_down(cl_register_password, cl_register_nick){}
 			}
 		}
 	}
