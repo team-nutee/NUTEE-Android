@@ -18,34 +18,31 @@ import kr.nutee.nutee_android.ui.setting.SettingActivity
 
 class MainActivity : AppCompatActivity() {
 
+	private var pressTime:Long = 0 //onBackPressedEvent 처리 변수
+
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.main_activity)
+		init()
 	}
 
-    //엑티비티가 사용자와 상호작용하기전에 설정
-    override fun onResume() {
-        super.onResume()
+	private fun init() {
+		//초기 fragment 설정
+		supportFragmentManager.beginTransaction().replace(R.id.frame_layout, HomeFlagement()).commitAllowingStateLoss()
 
-        //초기 fragment 설정
-        supportFragmentManager.beginTransaction().replace(R.id.frame_layout, HomeFlagement()).commitAllowingStateLoss()
+		text_setting.setOnClickListener {
+			val intent = Intent(this, SettingActivity::class.java)
+			startActivity(intent)
+		}
 
-        text_setting.setOnClickListener {
-            val intent = Intent(this, SettingActivity::class.java)
-            startActivity(intent)
-        }
-
-        //navigationBottomView 등록
-        mainNavigationBottomView(main_bottom_nav)
-    }
-
-    private var pressTime:Long = 0
+		//navigationBottomView 등록
+		mainNavigationBottomView(main_bottom_nav)
+	}
 
     override fun onBackPressed() {
-
         if (System.currentTimeMillis()- pressTime < 2000) {
             super.onBackPressed()
-            //모든 액티비티 
+            // 어떤 엑티비티에서도 종료
             finishAffinity()
         }
         Toast.makeText(this,"한 번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show()
@@ -61,35 +58,30 @@ class MainActivity : AppCompatActivity() {
                     main_title.text = resources.getText(R.string.fragment_home)
                     loadFragment(HomeFlagement())
                     text_setting.visibility = View.INVISIBLE
-                    return@setOnNavigationItemSelectedListener true
                 }
 
                 R.id.menu_search-> {
                     main_title.text = resources.getString(R.string.fragment_search)
                     loadFragment(SearchFragment())
                     text_setting.visibility = View.INVISIBLE
-                    return@setOnNavigationItemSelectedListener true
                 }
 
                 R.id.menu_add-> {
                     val intent = Intent(this, AddActivity::class.java)
                     startActivity(intent)
                     finish()
-                    return@setOnNavigationItemSelectedListener true
                 }
 
                 R.id.menu_pin-> {
                     main_title.text = resources.getString(R.string.fragment_notice)
                     loadFragment(NoticeFlagment())
                     text_setting.visibility = View.INVISIBLE
-                    return@setOnNavigationItemSelectedListener true
                 }
 
                 R.id.menu_profile-> {
                     main_title.text = resources.getString(R.string.fragment_profile)
                     loadFragment(ProfileFragment())
                     text_setting.visibility = View.VISIBLE
-                    return@setOnNavigationItemSelectedListener true
                 }
 
             }
@@ -103,40 +95,6 @@ class MainActivity : AppCompatActivity() {
         transaction.replace(R.id.frame_layout, fragment)
         transaction.commit()
     }
-
-
-	//View pager 전환 함수
-	/*private fun init(){
-		with(main_viewpager) {
-			adapter = MainPagerAdapter(supportFragmentManager)
-			offscreenPageLimit = 4
-			addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-				override fun onPageScrollStateChanged(state: Int) = kotlin.Unit
-
-				override fun onPageScrolled(
-					position: Int,
-					positionOffset: Float,
-					positionOffsetPixels: Int
-				) = kotlin.Unit
-				//패이지가 선택되면 해당 페이지 isChecked 를 true 로
-				override fun onPageSelected(position: Int) {
-					main_bottom_nav.menu.getItem(position).isChecked = true
-				}
-			})
-		}
-
-
-		main_bottom_nav.setOnNavigationItemSelectedListener {
-			when (it.itemId) {
-				R.id.menu_home -> main_viewpager.currentItem = 0
-				R.id.menu_search -> main_viewpager.currentItem = 1
-				*//*R.id.menu_add -> main_viewpager.currentItem = 2*//*
-                R.id.menu_pin -> main_viewpager.currentItem = 2
-                R.id.menu_profile -> main_viewpager.currentItem = 3
-            }
-            true
-        }
-    }*/
 
 }
 
