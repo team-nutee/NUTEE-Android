@@ -36,14 +36,12 @@
 
 
 ## 2.프로그램 구조
-
 ![img](https://k.kakaocdn.net/dn/NiCrj/btqElX4uI7z/tk8lTg1csPr1ImW7WOCJDK/img.png)
-
 프로그램 구조는 다음과 같이 data, network, ui 3가지로 나누어 패키징 하였다.
 
 ##### ui
-
 ![img](https://k.kakaocdn.net/dn/b6zHCM/btqEjPGM31k/ohE4NPtkkyqX96OGkkkI11/img.png)
+
 
 ui 내부에도 역시 큰 틀로 나뉘어 패키징을 진행하였다.
 
@@ -75,8 +73,8 @@ down_alpha_translate.xml,down_in.xml,down_out.xml 3가지 애니메이션으로
 
 down_in.xml,down_out.xml 의 경우
 
-changeLayout_down이라는 Kotlin 확장함수를 제작하여 처리하였다.
 
+changeLayout_down이라는 Kotlin 확장함수를 제작하여 처리하였다.
 ![img](https://k.kakaocdn.net/dn/drSW0Y/btqElFpvBRi/YgnfyRGdNsVLSYBkN9fekk/img.png)
 
 내부 핸들러로 처리된 부분은 해당 ConstrainLayout이 나타나고 조금의 딜레이를 주어 myAni()함수를 매개 변수로 받아 내부 down_alpha_translate.xml 애니메이션을 처리하였다.
@@ -84,7 +82,6 @@ changeLayout_down이라는 Kotlin 확장함수를 제작하여 처리하였다.
 #### 2) kotlin 확장함수
 
 ##### customDialog
-
 ![img](https://k.kakaocdn.net/dn/bbbibe/btqEjPfHHWM/LmDaCLQWk88fJn6Tp5ONk1/img.png)
 
 customDialog를 띄우고 매개변수로 Dialog에 띄울 message와 okButton를 눌렀을 경우 처리할 함수를 받아 처리하였다.
@@ -92,8 +89,7 @@ customDialog를 띄우고 매개변수로 Dialog에 띄울 message와 okButton�
 ---
 
 ##### textChangedListener
-
-##### ![img](https://k.kakaocdn.net/dn/bI6JoL/btqEjPUmZnd/nRetj2cAh8rIbqnlx5R9V0/img.png)
+![img](https://k.kakaocdn.net/dn/bI6JoL/btqEjPUmZnd/nRetj2cAh8rIbqnlx5R9V0/img.png)
 
 EditText의 변화를 감지하여 로직을 처리하는 확장함수로 input 이벤트 이후 처리할 함수를 매개변수로 받아 처리하였다.
 
