@@ -8,12 +8,9 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import androidx.core.widget.addTextChangedListener
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.login_activity.*
-import kr.nutee.nutee_android.App
+import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.ui.main.MainActivity
 

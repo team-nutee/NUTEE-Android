@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/nutee_logo_round"
         android:supportsRtl="true"
-        android:name=".App"
+        android:name=".data.App"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.setting.SettingActivity"></activity>
         <activity

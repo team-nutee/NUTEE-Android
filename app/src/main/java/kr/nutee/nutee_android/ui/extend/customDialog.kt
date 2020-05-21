@@ -26,8 +26,4 @@ fun Context.customDialog(msg: String, okClickEvent: ()-> Unit) {
 		okClickEvent()
 	}
 	cancelButton.setOnClickListener { dialog.dismiss() }
-
-
-
-
 }

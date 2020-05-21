@@ -1,12 +1,12 @@
 package kr.nutee.nutee_android.ui.extend
 
 import android.content.Context
+import android.os.Handler
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.constraintlayout.widget.ConstraintLayout
 import kr.nutee.nutee_android.R
-import java.util.logging.Handler
 
 /*
 이전 레이아웃과 다음 레이아웃을 받아
@@ -24,7 +24,7 @@ fun Context.changeLayout_down(prevLayout: ConstraintLayout, nextLayout: Constrai
 			//out된것은 Gone처리, in되는것은 보이도록 설정
 			nextLayout.visibility = View.VISIBLE
 			// Handler를 사용하여 딜레이 후 실행 Runnale를 실행
-			val mDelayHandler = android.os.Handler()
+			val mDelayHandler = Handler()
 			val mRunnable : Runnable = Runnable { myAni() }
 			mDelayHandler.postDelayed(mRunnable,200)
 		}

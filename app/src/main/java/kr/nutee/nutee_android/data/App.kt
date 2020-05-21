@@ -1,7 +1,6 @@
-package kr.nutee.nutee_android
+package kr.nutee.nutee_android.data
 
 import android.app.Application
-import kr.nutee.nutee_android.data.NuteeSharedPreferences
 
 class App:Application() {
 
