@@ -1,6 +1,8 @@
 package kr.nutee.nutee_android.ui.login
 
 import android.animation.ObjectAnimator
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.animation.Animation
@@ -21,6 +23,8 @@ import kr.nutee.nutee_android.ui.extend.textChangedListener
 class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 
 	var page : Int = 1
+	private var user_id: String = ""
+	private var user_pw: String = ""
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -64,9 +68,12 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 		}
 		et_register_password_check.textChangedListener {
 			text_register_password_check_btn.isEnabled = !it.isNullOrBlank()
+			text_register_ok_btn.isEnabled = !it.isNullOrBlank()
 		}
 		text_register_password_btn.setOnClickListener(this)
 		text_register_password_check_btn.setOnClickListener(this)
+
+		text_register_ok_btn.setOnClickListener(this)
 	}
 
 	private fun updateProgress(current_status: Int, next_status: Int) {
@@ -79,6 +86,8 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 	}
 
 	override fun onClick(v: View?) {
+		val intent = Intent()
+
 		when (v!!.id) {
 			//page 1
 			R.id.text_register_email_btn -> {
@@ -92,6 +101,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 			}
 			//page 2
 			R.id.text_register_id_btn -> {
+				user_id = et_register_id.text.toString()
 				pb_register_progress_bar.progress = ++page
 				ll_register_id.visibility = View.INVISIBLE
 				changeLayout_down(cl_register_id,cl_register_nick){
@@ -106,6 +116,14 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 					showEditTextAlphaTranslate(ll_register_password)
 					showEditTextAlphaTranslate(ll_register_password_check)
 				}
+			}
+			//page 4
+			R.id.text_register_ok_btn ->{
+				user_pw = et_register_password.text.toString()
+				intent.putExtra("id", user_id)
+				intent.putExtra("pw", user_pw)
+				setResult(Activity.RESULT_OK, intent)
+				finish()
 			}
 		}
 	}

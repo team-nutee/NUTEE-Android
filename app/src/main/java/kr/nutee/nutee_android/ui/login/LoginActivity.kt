@@ -1,5 +1,6 @@
 package kr.nutee.nutee_android.ui.login
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,6 +13,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.login_activity.*
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.ui.extend.textChangedListener
 import kr.nutee.nutee_android.ui.main.MainActivity
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
@@ -36,8 +38,12 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 		}
 
 		//ID&PW 입력 이벤트 처리
-		et_login_id.addTextChangedListener(textWatcher)
-		et_login_pw.addTextChangedListener(textWatcher)
+		et_login_id.textChangedListener {
+			btn_login.isEnabled = et_login_id.text.isNotEmpty() && et_login_pw.text.isNotEmpty()
+		}
+		et_login_pw.textChangedListener {
+			btn_login.isEnabled = et_login_id.text.isNotEmpty() && et_login_pw.text.isNotEmpty()
+		}
 
 
 		//버튼 이벤트 처리
@@ -91,19 +97,15 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 		}
 	}
 
-	private val textWatcher = object : TextWatcher {
-		override fun afterTextChanged(s: Editable?) {
-			btn_login.isEnabled = et_login_id.text.isNotEmpty() && et_login_pw.text.isNotEmpty()
-		}
+	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+		super.onActivityResult(requestCode, resultCode, data)
 
-		override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+		if (requestCode == REQUEST_CODE) {
+			if (resultCode == Activity.RESULT_OK) {
+				et_login_id.setText(data?.getStringExtra("id"))
+				et_login_pw.setText(data?.getStringExtra("pw"))
+			}
 		}
-
-		override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-		}
-
 	}
-
-
 }
 

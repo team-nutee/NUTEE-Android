@@ -382,7 +382,7 @@
                     android:id="@+id/et_register_password"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="닉네임"
+                    android:hint="비밀번호"
                     android:textSize="14sp"
                     android:inputType="text"
                     android:layout_weight="0.9"/>
@@ -462,6 +462,22 @@
                 android:textSize="12sp"
                 android:visibility="invisible" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_register_ok_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:clickable="true"
+            android:enabled="false"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="회원가입 하기"
+            android:textColor="@color/text_selector"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            tools:layout_editor_absoluteX="149dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
