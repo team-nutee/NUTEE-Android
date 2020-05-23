@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import kr.nutee.nutee_android.R
-import kr.nutee.nutee_android.ui.login.LoginActivity
+import kr.nutee.nutee_android.ui.member.LoginActivity
 
 /*
 * Splash 화면 Activity

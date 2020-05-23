@@ -1,24 +1,27 @@
-package kr.nutee.nutee_android.ui.login
+package kr.nutee.nutee_android.ui.member
 
 import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.login_activity.*
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.member.login.RequestLogin
+import kr.nutee.nutee_android.network.RequestToServer
+import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.extend.textChangedListener
 import kr.nutee.nutee_android.ui.main.MainActivity
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
 	private val REQUEST_CODE = 1
+	val requestToServer = RequestToServer
 
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,9 +83,20 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 						App.prefs.local_login_id = et_login_id.text.toString()
 						App.prefs.local_login_pw = et_login_pw.text.toString()
 					}
-					val intent = Intent(this, MainActivity::class.java)
-					startActivity(intent)
-					finish()
+					requestToServer.service.requestLogin(
+						RequestLogin(
+							userId = et_login_id.text.toString(),
+							password = et_login_pw.text.toString()
+						)
+					).customEnqueue(
+						onError = { Toast.makeText(this,"올바르지 못한 요청입니다.",Toast.LENGTH_SHORT).show()},
+						onSuccess = {
+							Log.d(logTag,"로그인 성공")
+							val intent = Intent(this, MainActivity::class.java)
+							startActivity(intent)
+							finish()
+						}
+					)
 				}
 			}
 

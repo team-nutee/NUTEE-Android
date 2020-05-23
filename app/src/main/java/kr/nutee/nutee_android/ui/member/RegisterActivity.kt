@@ -1,4 +1,4 @@
-package kr.nutee.nutee_android.ui.login
+package kr.nutee.nutee_android.ui.member
 
 import android.animation.ObjectAnimator
 import android.app.Activity
@@ -6,13 +6,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.animation.Animation
-import android.view.animation.Animation.AnimationListener
 import android.view.animation.AnimationUtils
 import android.view.animation.LinearInterpolator
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.isVisible
 import kotlinx.android.synthetic.main.register_activity.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.ui.extend.changeLayout_down

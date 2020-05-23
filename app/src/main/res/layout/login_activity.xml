@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:paddingLeft="24dp"
     android:paddingRight="24dp"
-    tools:context=".ui.login.LoginActivity">
+    tools:context=".ui.member.LoginActivity">
 
     <!--로그인 타이틀 버튼-->
     <TextView

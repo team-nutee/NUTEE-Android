@@ -18,8 +18,8 @@
         <activity
             android:name=".ui.main.fragment.add.AddActivity"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".ui.login.RegisterActivity" />
-        <activity android:name=".ui.login.LoginActivity" />
+        <activity android:name=".ui.member.RegisterActivity" />
+        <activity android:name=".ui.member.LoginActivity" />
         <activity android:name=".ui.main.MainActivity" /> <!-- Splash 화면 -->
         <activity android:name=".ui.SplashActivity">
             <intent-filter>
