@@ -7,12 +7,14 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.View
-import android.widget.Toast
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.widget.TextView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.login_activity.*
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.R
-import kr.nutee.nutee_android.member.login.RequestLogin
+import kr.nutee.nutee_android.data.member.login.RequestLogin
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.extend.textChangedListener
@@ -21,7 +23,7 @@ import kr.nutee.nutee_android.ui.main.MainActivity
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
 	private val REQUEST_CODE = 1
-	val requestToServer = RequestToServer
+	private val requestToServer = RequestToServer
 
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,12 +91,17 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 							password = et_login_pw.text.toString()
 						)
 					).customEnqueue(
-						onError = { Toast.makeText(this,"올바르지 못한 요청입니다.",Toast.LENGTH_SHORT).show()},
 						onSuccess = {
-							Log.d(logTag,"로그인 성공")
-							val intent = Intent(this, MainActivity::class.java)
-							startActivity(intent)
-							finish()
+							if (it.isSuccessful) {
+								Log.d(logTag,"로그인 성공")
+								val intent = Intent(this, MainActivity::class.java)
+								startActivity(intent)
+								finish()
+							} else if (it.code() == 401){
+								Log.d(logTag,"로그인 실패")
+								showTextShake(text_login_id_check,"아이디 혹은 비번이 확실하지 않습니다")
+								showTextShake(text_login_pw_check,"아이디 혹은 비번이 확실하지 않습니다")
+							}
 						}
 					)
 				}
@@ -120,6 +127,15 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 				et_login_pw.setText(data?.getStringExtra("pw"))
 			}
 		}
+	}
+
+	/* 애니메이션 설정 */
+	private fun showTextShake(myTextView: TextView, msg:String) {
+		myTextView.text = msg
+		val animation: Animation =
+			AnimationUtils.loadAnimation(applicationContext, R.anim.shake)
+		myTextView.startAnimation(animation)
+		myTextView.visibility = View.VISIBLE
 	}
 }
 
