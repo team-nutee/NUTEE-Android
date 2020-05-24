@@ -4,24 +4,31 @@ import android.animation.ObjectAnimator
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.animation.LinearInterpolator
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.register_activity.*
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.data.member.register.RequestEmailOTP
+import kr.nutee.nutee_android.data.member.register.RequestOTPCheck
+import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.changeLayout_down
 import kr.nutee.nutee_android.ui.extend.customDialog
+import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.extend.textChangedListener
 
 
 class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 
-	var page : Int = 1
+	var page: Int = 1
 	private var user_id: String = ""
 	private var user_pw: String = ""
+	val requestToServer = RequestToServer
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -39,7 +46,8 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 		/*각 페이지마다 입력칸 이벤트 설정, 버튼 이벤트 지정*/
 		/*page == 1*/
 		et_register_email.textChangedListener {
-			text_register_email_btn.isEnabled = !it.isNullOrBlank()
+			text_register_email_btn.isEnabled =
+				(!it.isNullOrBlank()) && isValidEmail(et_register_email.text.toString())
 		}
 		text_register_email_btn.setOnClickListener(this)
 		et_auth_num.textChangedListener {
@@ -84,38 +92,35 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 
 	override fun onClick(v: View?) {
 		val intent = Intent()
-
 		when (v!!.id) {
 			//page 1
 			R.id.text_register_email_btn -> {
-				showEditTextAlphaTranslate(ll_register_auth_num)
+				requestToEmailOTP()
 			}
 			R.id.text_auth_num_btn -> {
 				pb_register_progress_bar.progress = ++page
-				changeLayout_down(cl_register_email, cl_register_id) {
-					showEditTextAlphaTranslate(ll_register_id)
-				}
+				requestToOTP()
 			}
 			//page 2
 			R.id.text_register_id_btn -> {
 				user_id = et_register_id.text.toString()
 				pb_register_progress_bar.progress = ++page
 				ll_register_id.visibility = View.INVISIBLE
-				changeLayout_down(cl_register_id,cl_register_nick){
+				changeLayout_down(cl_register_id, cl_register_nick) {
 					showEditTextAlphaTranslate(ll_register_nick)
 				}
 			}
 			//page 3
-			R.id.text_register_nick_btn ->{
+			R.id.text_register_nick_btn -> {
 				pb_register_progress_bar.progress = ++page
 				ll_register_nick.visibility = View.INVISIBLE
-				changeLayout_down(cl_register_nick,cl_register_password){
+				changeLayout_down(cl_register_nick, cl_register_password) {
 					showEditTextAlphaTranslate(ll_register_password)
 					showEditTextAlphaTranslate(ll_register_password_check)
 				}
 			}
 			//page 4
-			R.id.text_register_ok_btn ->{
+			R.id.text_register_ok_btn -> {
 				user_pw = et_register_password.text.toString()
 				intent.putExtra("id", user_id)
 				intent.putExtra("pw", user_pw)
@@ -130,30 +135,91 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 			1 -> {
 				customDialog(
 					"회원가입을 종료하실껀가요?\uD83D\uDE25"
-				) {super.onBackPressed()}
+				) { super.onBackPressed() }
 			}
-			2 ->{
+			2 -> {
 				pb_register_progress_bar.progress = --page
-				changeLayout_down(cl_register_id, cl_register_email){}
+				changeLayout_down(cl_register_id, cl_register_email) {}
 			}
 			3 -> {
 				pb_register_progress_bar.progress = --page
-				changeLayout_down(cl_register_nick,cl_register_id){}
+				changeLayout_down(cl_register_nick, cl_register_id) {}
 			}
 			else -> {
 				pb_register_progress_bar.progress = --page
-				changeLayout_down(cl_register_password, cl_register_nick){}
+				changeLayout_down(cl_register_password, cl_register_nick) {}
 			}
 		}
 	}
+
+	/* 서버 연결 관련 */
+	private fun requestToEmailOTP() {
+		requestToServer.service.requestEmailOTP(
+			RequestEmailOTP(
+				schoolEmail = et_register_email.text.toString()
+			)
+		).customEnqueue(
+			onSuccess = {
+				Log.d("Send OTP Status", it.code().toString())
+				if (it.code()==200) {
+					showTextShake(text_register_email_text, "입력하신 이메일로 OTP 인증번호가 발송되었습니다.", getColor(R.color.nuteeBase))
+					showEditTextAlphaTranslate(ll_register_auth_num)
+				}
+				else if (it.code() == 409) {
+					showTextShake(text_register_email_text, "이미 가입된 이메일입니다.", getColor(R.color.colorRed))
+				}
+			}
+		)
+	}
+
+	private fun requestToOTP() {
+		requestToServer.service.requestOTPCheck(
+			RequestOTPCheck(
+				otpcheck = et_auth_num.text.toString()
+			)
+		).customEnqueue(
+			onSuccess = {
+				Log.d("checkOTP Status", it.code().toString())
+				if (it.code() == 200) {
+					showTextShake(text_auth_num_text, "OTP 인증에 성공했습니다.", getColor(R.color.nuteeBase))
+					changeLayout_down(cl_register_email, cl_register_id) {
+						showEditTextAlphaTranslate(ll_register_id)
+					}
+				} else {
+					Log.d("code",it.code().toString())
+					showTextShake(text_auth_num_text, "잘못된 인증번호입니다.", getColor(R.color.colorRed))
+				}
+			}
+		)
+	}
+
+	/* 이메일 정규식 확인 */
+	private fun isValidEmail(email: String): Boolean {
+		val reg = Regex("^[a-zA-Z0-9]+@office.skhu.ac.kr")
+		return if (email.matches(reg)) {
+			Log.d("RegisterValid", email.matches(reg).toString())
+			email.matches(reg)
+		} else email.matches(Regex("nutee.skhu.2020@gmail.com"))
+	}
+
 	/* 애니메이션 함수 */
 
-	// 나타나면서 내려오기 애니메이션 적용 함수
+	// 리니어 레이아웃이 나타나면서 내려오기 애니메이션 적용 함수
 	private fun showEditTextAlphaTranslate(mylayout: LinearLayout) {
 		val animation: Animation =
 			AnimationUtils.loadAnimation(applicationContext, R.anim.down_alpha_translate)
 		mylayout.startAnimation(animation)
 		mylayout.visibility
+	}
+
+	// 텍스트뷰 나타나면서 흔들리는 에니메이션 적용
+	private fun showTextShake(myTextView: TextView, msg: String, color: Int) {
+		myTextView.text = msg
+		myTextView.setTextColor(color)
+		val animation: Animation =
+			AnimationUtils.loadAnimation(applicationContext, R.anim.shake)
+		myTextView.startAnimation(animation)
+		myTextView.visibility = View.VISIBLE
 	}
 
 }

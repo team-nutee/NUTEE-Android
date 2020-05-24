@@ -43,6 +43,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
         <TextView
             android:id="@+id/text_register_email_2"
             android:layout_width="wrap_content"
@@ -59,7 +60,7 @@
             android:id="@+id/et_register_email"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="example@office.skhu.ac.kr"
+            android:hint="email@office.skhu.ac.kr"
             android:textSize="14sp"
             android:inputType="textEmailAddress"
             app:layout_constraintEnd_toStartOf="@+id/text_register_email_btn"
