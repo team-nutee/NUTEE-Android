@@ -1,4 +1,4 @@
-package kr.nutee.nutee_android.member.login
+package kr.nutee.nutee_android.data.member.login
 
 data class RequestLogin(
 	val userId: String,
