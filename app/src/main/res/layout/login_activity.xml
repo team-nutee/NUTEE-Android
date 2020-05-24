@@ -36,7 +36,21 @@
         app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_login_title" />
+
     <!--로그인 비밀번호-->
+
+    <TextView
+        android:visibility="invisible"
+        android:id="@+id/text_login_id_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="login text"
+        android:textColor="@color/colorRed"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/et_login_id"
+        app:layout_constraintTop_toBottomOf="@+id/et_login_id" />
+
     <EditText
         android:id="@+id/et_login_pw"
         android:layout_width="match_parent"
@@ -50,6 +64,18 @@
         app:layout_constraintTop_toBottomOf="@+id/et_login_id" />
 
     <!--로그인 유지 여부 체크박스-->
+    <TextView
+        android:id="@+id/text_login_pw_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="login text"
+        android:textColor="@color/colorRed"
+        android:textSize="12sp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@+id/et_login_pw"
+        app:layout_constraintTop_toBottomOf="@+id/et_login_pw" />
+
     <CheckBox
         android:id="@+id/check_login_save"
         android:layout_width="match_parent"

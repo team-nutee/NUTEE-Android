@@ -10,8 +10,7 @@
         <item name="colorPrimaryDark">@color/colorWhite</item>
         <!--colorAccent: 커서색, 드래그 시 하이라이트 색, EditText 선택 시 밑줄 하이라이트 색 등 강조 색을 변경-->
         <item name="colorAccent">@color/nuteeBase</item>
-        <!--textInputLayout hint 색상-->
-        <item name="android:textColorHint">@color/nuteeBase</item>
+
         <!--배경화면 색상 지정-->
         <item name="android:windowBackground">@color/colorWhite</item>
     </style>
