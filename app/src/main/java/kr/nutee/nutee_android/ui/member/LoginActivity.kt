@@ -94,13 +94,17 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 						onSuccess = {
 							if (it.isSuccessful) {
 								Log.d(logTag,"로그인 성공")
+								val cookie = it.headers().get("Set-Cookie").toString()
+								val token = cookie.split(";")
+								App.prefs.local_login_token = token[0]
+								Log.d(logTag,token[0])
 								val intent = Intent(this, MainActivity::class.java)
 								startActivity(intent)
 								finish()
 							} else if (it.code() == 401){
 								Log.d(logTag,"로그인 실패")
-								showTextShake(text_login_id_check,"아이디 혹은 비번이 확실하지 않습니다")
-								showTextShake(text_login_pw_check,"아이디 혹은 비번이 확실하지 않습니다")
+								showTextShake(text_login_id_check,"아이디 혹은 비밀번호가 확실하지 않습니다")
+								showTextShake(text_login_pw_check,"아이디 혹은 비밀번호가 확실하지 않습니다")
 							}
 						}
 					)

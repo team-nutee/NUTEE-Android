@@ -12,6 +12,7 @@ class NuteeSharedPreferences(context: Context){
 	//회원 정보
 	val PREFS_LOCAL_LOGIN_ID = "local_login_id"
 	val PREFS_LOCAL_LOGIN_PW = "local_login_pw"
+	val PREFS_TOKEN = "local_login_token"
 
 	//SharedPreferences를 암호화하여 저장한다.
 	val prefs : SharedPreferences = SecurePreferences(context, "userpassword", PREFS_FILENAME)
@@ -24,5 +25,9 @@ class NuteeSharedPreferences(context: Context){
 	var local_login_pw : String?
 		get() = prefs.getString(PREFS_LOCAL_LOGIN_PW, null)
 		set(value) = editor.putString(PREFS_LOCAL_LOGIN_PW, value).apply()
+
+	var local_login_token : String?
+		get() = prefs.getString(PREFS_TOKEN, null)
+		set(value) = editor.putString(PREFS_TOKEN, value).apply()
 
 }

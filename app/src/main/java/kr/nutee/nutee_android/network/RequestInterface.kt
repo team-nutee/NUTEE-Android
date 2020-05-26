@@ -2,10 +2,11 @@ package kr.nutee.nutee_android.network
 
 import kr.nutee.nutee_android.data.member.login.RequestLogin
 import kr.nutee.nutee_android.data.member.login.ResponseLogin
-import kr.nutee.nutee_android.data.member.register.RequestEmailOTP
-import kr.nutee.nutee_android.data.member.register.RequestOTPCheck
+import kr.nutee.nutee_android.data.member.register.*
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.http.Body
+import retrofit2.http.Header
 import retrofit2.http.POST
 
 interface RequestInterface {
@@ -14,7 +15,7 @@ interface RequestInterface {
 	@POST("/api/user/login")
 	fun requestLogin(@Body body: RequestLogin): Call<ResponseLogin>
 
-	// Register
+	/*Register*/
 
 	//Email OTP
 	@POST("/api/user/otpsend")
@@ -25,4 +26,18 @@ interface RequestInterface {
 	fun requestOTPCheck(@Body body: RequestOTPCheck) : Call<Unit>
 
 	// id Check
+	@POST("/api/user/idcheck")
+	fun requestIdCheck(@Body body : RequestIdCheck) : Call<Unit>
+
+	//nick check
+	@POST("/api/user/nicknamecheck")
+	fun requestNickCheck(@Body body: RequestNickCheck): Call<Unit>
+
+	//Register
+	@POST("/api/user")
+	fun requestRegister(@Body body:RequestRegister): Call<ResponseRegister>
+
+	//pw check
+	@POST()
+	fun requestPasswordCheck(@Header("Cookie")cookie: String, @Body body : RequestIdCheck): Call<Unit>
 }

@@ -142,9 +142,22 @@
                 android:textColor="@color/nuteeBase"
                 android:textSize="12sp"
                 />
-
-
         </LinearLayout>
+        <TextView
+            android:id="@+id/text_register_next_btn1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:clickable="true"
+            android:enabled="false"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="다음으로 ➔"
+            android:textColor="@color/text_selector"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_register_auth_num" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -230,13 +243,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="invisible"
-                android:text="인증번호확인"
+                android:text="아이디확인"
                 android:textColor="@color/nuteeBase"
                 android:textSize="12sp"
                 />
-
-
         </LinearLayout>
+        <TextView
+            android:id="@+id/text_register_next_btn2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:clickable="true"
+            android:enabled="false"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="다음으로 ➔"
+            android:textColor="@color/text_selector"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_register_id" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -324,9 +350,23 @@
                 android:textColor="@color/nuteeBase"
                 android:textSize="12sp"
                 />
-
-
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_register_next_btn3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:clickable="true"
+            android:enabled="false"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="다음으로 ➔"
+            android:textColor="@color/text_selector"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_register_nick" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -370,23 +410,24 @@
             android:layout_height="match_parent"
             android:layout_marginTop="20dp"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@+id/text_register_pw2"
             android:visibility="invisible"
-            >
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/text_register_pw2"
+            app:layout_constraintTop_toBottomOf="@+id/text_register_pw2">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
+
                 <EditText
                     android:id="@+id/et_register_password"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.9"
                     android:hint="비밀번호"
-                    android:textSize="14sp"
-                    android:inputType="text"
-                    android:layout_weight="0.9"/>
+                    android:inputType="textPassword"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/text_register_password_btn"
@@ -408,11 +449,10 @@
                 android:id="@+id/text_register_pw_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="invisible"
                 android:text="비밀번호"
                 android:textColor="@color/nuteeBase"
-                android:textSize="12sp"
-                />
+                android:textSize="10sp"
+                android:visibility="invisible" />
         </LinearLayout>
 
         <LinearLayout
@@ -421,8 +461,9 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:visibility="invisible"
-            app:layout_constraintTop_toBottomOf="@+id/ll_register_password"
-            >
+            app:layout_constraintEnd_toEndOf="@+id/ll_register_password"
+            app:layout_constraintStart_toStartOf="@+id/ll_register_password"
+            app:layout_constraintTop_toBottomOf="@+id/ll_register_password">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -468,18 +509,19 @@
             android:id="@+id/text_register_ok_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="20dp"
             android:clickable="true"
             android:enabled="false"
             android:focusable="true"
             android:gravity="center"
-            android:text="회원가입 하기"
+            android:text="회원가입 완료 하기"
             android:textColor="@color/text_selector"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="1.0"
-            tools:layout_editor_absoluteX="149dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_register_password_check" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
 
