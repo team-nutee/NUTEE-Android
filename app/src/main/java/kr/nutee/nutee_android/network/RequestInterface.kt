@@ -1,22 +1,24 @@
 package kr.nutee.nutee_android.network
 
+import kr.nutee.nutee_android.data.main.home.ResponseMain
 import kr.nutee.nutee_android.data.member.login.RequestLogin
 import kr.nutee.nutee_android.data.member.login.ResponseLogin
 import kr.nutee.nutee_android.data.member.register.*
 import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.http.Body
-import retrofit2.http.Header
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface RequestInterface {
+
+	//Main loading
+	@GET("/api/posts")
+	fun requestMain(@Query("lastId") lastId:Int,
+					@Query("limit")limit:Int):Call<ResponseMain>
 
 	// Login
 	@POST("/api/user/login")
 	fun requestLogin(@Body body: RequestLogin): Call<ResponseLogin>
 
 	/*Register*/
-
 	//Email OTP
 	@POST("/api/user/otpsend")
 	fun requestEmailOTP(@Body body: RequestEmailOTP): Call<Unit>
