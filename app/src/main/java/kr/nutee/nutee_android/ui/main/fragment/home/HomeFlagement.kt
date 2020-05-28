@@ -1,7 +1,6 @@
 package kr.nutee.nutee_android.ui.main.fragment.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,14 +42,14 @@ class HomeFlagement : Fragment() {
 	private fun loadMain() {
 		requestToServer.service.requestMain(
 			lastId, limit
-		).customEnqueue { response: Response<ResponseMain> ->
+		).customEnqueue { response ->
 			response.body()?.let {
 				setAdapter(it)
 			}
 		}
 	}
 
-	private fun setAdapter(mainItem: List<ResponseMainItem>) {
+	private fun setAdapter(mainItem: ResponseMain) {
 		homeAdapter = HomeAdapter(mainItem, this.context!!)
 		rv_home.adapter = homeAdapter
 	}
