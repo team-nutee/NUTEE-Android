@@ -6,6 +6,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.main.home.ResponseMainItem
 import kr.nutee.nutee_android.network.RequestToServer
@@ -25,6 +26,9 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 		Glide.with(itemView).load(userImageLoad).into(profileImg)
 		profileName.text = customData.User.nickname
 		content.text = customData.content
+		btn_favorite.setOnClickListener{
+			it.isActivated = !it.isActivated
+		}
 	}
 
 	private fun imageSetting(customData: ResponseMainItem):String {

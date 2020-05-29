@@ -118,7 +118,6 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 	}
 
 	override fun onClick(v: View?) {
-		val intent = Intent()
 		when (v!!.id) {
 			//page 1
 			R.id.text_register_email_btn -> requestToEmailOTP()

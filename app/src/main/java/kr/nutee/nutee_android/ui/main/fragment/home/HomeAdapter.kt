@@ -26,10 +26,6 @@ class HomeAdapter(var data: ResponseMain, val context: Context) : RecyclerView.A
 	override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
 		holder.bind(data[position])
 
-		holder.btn_favorite.setOnClickListener{
-			it.isActivated = !it.isActivated
-		}
-
 		holder.itemView.setOnClickListener {
 			Toast.makeText(context, "$position", Toast.LENGTH_SHORT).show();
 		}
