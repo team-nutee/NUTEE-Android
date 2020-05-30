@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.main_activity.*
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.ui.extend.loadFragment
 import kr.nutee.nutee_android.ui.main.fragment.add.AddActivity
 import kr.nutee.nutee_android.ui.main.fragment.home.HomeFlagement
 import kr.nutee.nutee_android.ui.main.fragment.notice.NoticeFlagment
@@ -87,13 +88,6 @@ class MainActivity : AppCompatActivity() {
             }
             false
         }
-    }
-
-    //fragment load 함수
-    private fun loadFragment(fragment: Fragment) {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.frame_layout, fragment)
-        transaction.commit()
     }
 
 }
