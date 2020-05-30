@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import kotlinx.android.synthetic.main.setting_activity.*
 import kr.nutee.nutee_android.R
-import kr.nutee.nutee_android.TermOfUseActivity
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.ui.member.LoginActivity
 
