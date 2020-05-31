@@ -21,33 +21,30 @@ import kr.nutee.nutee_android.ui.main.MainActivity
 /**
  * A simple [Fragment] subclass.
  */
-class HomeDetailFragment : Fragment() {
+class HomeDetailFragment(var lastId: Int) : Fragment() {
 
-	var lastId = 0
-	private var limit = 1
 
 	private val requestToServer = RequestToServer
+
 
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View? {
 		// Inflate the layout for this fragment
-		val view = inflater.inflate(R.layout.main_fragment_home_detail, container, false)
 		loadDetail()
+		val view = inflater.inflate(R.layout.main_fragment_home_detail, container, false)
 		return view
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-
 		backPressEvent(view)
 	}
 
 	private fun loadDetail() {
-		requestToServer.service.requestMain(
-			lastId, limit
-		).customEnqueue { response ->
+		requestToServer.service.requestMain(lastId,1)
+			.customEnqueue { response ->
 			response.body()?.let {
 				bindDetail(it[0])
 			}
@@ -57,7 +54,7 @@ class HomeDetailFragment : Fragment() {
 	private fun bindDetail(responseMainItem: ResponseMainItem) {
 		//유저 이미지 매핑
 		val userImageLoad = imageSetting(responseMainItem.User.Image?.src)
-		Glide.with(context).load(userImageLoad).into(img_detail_profile)
+		context?.let { Glide.with(it).load(userImageLoad).into(img_detail_profile) }
 		//유저 정보 매핑
 		text_detail_nick.text = responseMainItem.User.nickname
 		text_detail_time.text =
