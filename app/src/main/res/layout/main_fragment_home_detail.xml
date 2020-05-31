@@ -41,7 +41,7 @@
                 android:gravity="center_horizontal"
                 android:lineSpacingExtra="4sp"
                 android:text="닉네임"
-                android:textColor="#707070"
+                android:textColor="#000000"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/img_detail_profile"
@@ -49,7 +49,7 @@
                 app:layout_goneMarginStart="15dp" />
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/text_detail_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
@@ -72,12 +72,12 @@
 
             <TextView
                 android:id="@+id/text_detail_content"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
                 android:lineSpacingExtra="3sp"
                 android:text="Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."
-                android:textColor="#707070"
+                android:textColor="#000000"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="@+id/img_detail_more"
                 app:layout_constraintStart_toStartOf="@+id/img_detail_profile"
@@ -107,9 +107,13 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_detail_image1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="11dp"
                 android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/text_detail_favorit_count"
+                app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toEndOf="@+id/text_detail_content"
                 app:layout_constraintStart_toStartOf="@+id/text_detail_content"
                 app:layout_constraintTop_toBottomOf="@+id/text_detail_content">
@@ -119,15 +123,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="15dp"
-                    android:scaleType="centerInside"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/image_test" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_detail_image2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="11dp"
                 android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/text_detail_favorit_count"
+                app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toEndOf="@+id/text_detail_content"
                 app:layout_constraintStart_toStartOf="@+id/text_detail_content"
                 app:layout_constraintTop_toBottomOf="@+id/text_detail_content">
@@ -135,29 +143,32 @@
                 <ImageView
                     android:id="@+id/img_detail_image2_1"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerInside"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/image_test"
+                    app:layout_goneMarginEnd="0.5dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginEnd="2.5dp"
                     app:layout_constraintEnd_toStartOf="@+id/img_detail_image2_2"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintHorizontal_weight="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:id="@+id/img_detail_image2_2"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerInside"
+                    android:layout_height="0dp"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/image_test"
-                    android:layout_marginStart="2.5dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/img_detail_image2_1"
+                    android:layout_marginStart="0.5dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_weight="0.5"
                     app:layout_constraintStart_toEndOf="@+id/img_detail_image2_1"
-                    app:layout_constraintTop_toTopOf="@+id/img_detail_image2_1" />
+                    app:layout_constraintTop_toTopOf="parent" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -166,7 +177,7 @@
                 android:layout_height="0dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="11dp"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintBottom_toTopOf="@+id/text_detail_favorit_count"
                 app:layout_constraintEnd_toEndOf="@+id/text_detail_content"
@@ -216,6 +227,38 @@
                     app:layout_constraintStart_toStartOf="@+id/img_detail_image3_2"
                     app:layout_constraintTop_toBottomOf="@+id/img_detail_image3_2"
                     app:layout_constraintVertical_weight="0.5"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_detail_image_more"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="11dp"
+                android:visibility="gone"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintBottom_toTopOf="@+id/text_detail_favorit_count"
+                app:layout_constraintEnd_toEndOf="@+id/text_detail_content"
+                app:layout_constraintStart_toStartOf="@+id/text_detail_content"
+                app:layout_constraintTop_toBottomOf="@+id/text_detail_content">
+
+                <ImageView
+                    android:id="@+id/img_detail_image_more_top"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:layout_marginTop="1dp"
+                    android:src="@drawable/image_test" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#95333333"
+                    android:textSize="18sp"
+                    android:textColor="#000000"
+                    android:lineSpacingExtra="3sp"
+                    android:gravity="center"
+                    android:text="+ N"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
