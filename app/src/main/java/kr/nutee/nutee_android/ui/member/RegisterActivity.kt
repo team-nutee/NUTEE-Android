@@ -2,14 +2,12 @@ package kr.nutee.nutee_android.ui.member
 
 import android.animation.ObjectAnimator
 import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.animation.LinearInterpolator
-import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -17,7 +15,7 @@ import kotlinx.android.synthetic.main.register_activity.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.member.register.*
 import kr.nutee.nutee_android.network.RequestToServer
-import kr.nutee.nutee_android.ui.extend.changeLayout_down
+import kr.nutee.nutee_android.ui.extend.changeLayoutDown
 import kr.nutee.nutee_android.ui.extend.customDialog
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.extend.textChangedListener
@@ -124,7 +122,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 			R.id.text_auth_num_btn -> requestToOTP(text_register_next_btn1)
 			R.id.text_register_next_btn1->{
 				pb_register_progress_bar.progress = ++page
-				changeLayout_down(cl_register_email, cl_register_id) {
+				changeLayoutDown(cl_register_email, cl_register_id) {
 					showEditTextAlphaTranslate(ll_register_id)
 				}
 			}
@@ -132,7 +130,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 			R.id.text_register_id_btn -> requestIdCheck(text_register_next_btn2)
 			R.id.text_register_next_btn2->{
 				pb_register_progress_bar.progress = ++page
-				changeLayout_down(cl_register_id, cl_register_nick) {
+				changeLayoutDown(cl_register_id, cl_register_nick) {
 					showEditTextAlphaTranslate(ll_register_nick)
 				}
 			}
@@ -140,7 +138,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 			R.id.text_register_nick_btn -> requestNicknameCheck(text_register_next_btn3)
 			R.id.text_register_next_btn3->{
 				pb_register_progress_bar.progress = ++page
-				changeLayout_down(cl_register_nick, cl_register_password) {
+				changeLayoutDown(cl_register_nick, cl_register_password) {
 					showEditTextAlphaTranslate(ll_register_password)
 				}
 			}
@@ -172,15 +170,15 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 			}
 			2 -> {
 				pb_register_progress_bar.progress = --page
-				changeLayout_down(cl_register_id, cl_register_email) {}
+				changeLayoutDown(cl_register_id, cl_register_email) {}
 			}
 			3 -> {
 				pb_register_progress_bar.progress = --page
-				changeLayout_down(cl_register_nick, cl_register_id) {}
+				changeLayoutDown(cl_register_nick, cl_register_id) {}
 			}
 			else -> {
 				pb_register_progress_bar.progress = --page
-				changeLayout_down(cl_register_password, cl_register_nick) {}
+				changeLayoutDown(cl_register_password, cl_register_nick) {}
 			}
 		}
 	}

@@ -12,7 +12,7 @@ import kr.nutee.nutee_android.R
 이전 레이아웃과 다음 레이아웃을 받아
 이전 레이아웃이 아래로 사라지고 다음 레이아웃이 위에서 아래로 나타나게 한다.
  */
-fun Context.changeLayout_down(prevLayout: ConstraintLayout, nextLayout: ConstraintLayout, myAni: ()->Unit) {
+fun Context.changeLayoutDown(prevLayout: ConstraintLayout, nextLayout: ConstraintLayout, myAni: ()->Unit) {
 
 
 	val inAnimation = AnimationUtils.loadAnimation(applicationContext, R.anim.down_in)
