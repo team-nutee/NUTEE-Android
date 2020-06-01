@@ -6,6 +6,7 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.main_fragment_home_detail.*
@@ -60,6 +61,45 @@ class HomeDetailFragment(var lastId: Int) : Fragment() {
 		text_detail_time.text =
 			responseMainItem.createdAt?.let { DateParser(it).calculateDiffDate() }
 		text_detail_content.text = responseMainItem.content
+		// 컨텐츠 이미지 매핑
+		imageLoadAndSet(responseMainItem)
+	}
+
+	private fun imageLoadAndSet(response: ResponseMainItem) {
+		when (response.Images.size) {
+			1 -> {
+				cl_detail_image1.visibility = View.VISIBLE
+				context?.let {
+					Glide.with(it).load(imageSetting(response.Images[0].src))
+						.into(img_detail_image1_1)
+				}
+			}
+			2 -> {
+				cl_detail_image2.visibility = View.VISIBLE
+				val imageList = listOf<ImageView>(img_detail_image2_1, img_detail_image2_2)
+				for (i in 0 until 2) {
+					context?.let {
+						Glide.with(it).load(imageSetting(response.Images[i].src)).into(imageList[i])
+					}
+				}
+			}
+			3 -> {
+				cl_detail_image3.visibility = View.VISIBLE
+				val imageList =
+					listOf<ImageView>(img_detail_image3_1, img_detail_image3_2, img_detail_image3_3)
+				for (i in 0 until 3) {
+					context?.let {
+						Glide.with(it).load(imageSetting(response.Images[i].src)).into(imageList[i])
+					}
+				}
+			}
+			else -> {
+				cl_detail_image_more.visibility = View.VISIBLE
+				context?.let {
+					Glide.with(it).load(imageSetting(response.Images[0].src)).into(img_detail_image_more_top)
+				}
+			}
+		}
 	}
 
 	private fun backPressEvent(view: View) {
