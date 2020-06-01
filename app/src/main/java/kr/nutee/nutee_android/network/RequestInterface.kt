@@ -42,4 +42,8 @@ interface RequestInterface {
 	//pw check
 	@POST()
 	fun requestPasswordCheck(@Header("Cookie")cookie: String, @Body body : RequestIdCheck): Call<Unit>
+
+	//logout
+	@POST("/api/user/logout")
+	fun reqeustLogout(@Body body: RequestLogin):Call<String>
 }
