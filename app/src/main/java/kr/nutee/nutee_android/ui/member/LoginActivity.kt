@@ -25,6 +25,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 	private val REQUEST_CODE = 1
 	private val requestToServer = RequestToServer
 
+	val logTag = "LoginActivityButtonEv"
+
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -34,12 +36,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 		if (!App.prefs.local_login_id.isNullOrBlank() && !App.prefs.local_login_pw.isNullOrBlank()) {
 			et_login_id.setText(App.prefs.local_login_id)
 			et_login_pw.setText(App.prefs.local_login_pw)
-
-			Handler().postDelayed({
-				val intent = Intent(this, MainActivity::class.java)
-				startActivity(intent)
-				finish()
-			}, 500)
+			requestlogin(App.prefs.local_login_id.toString(),App.prefs.local_login_pw.toString())
 		}
 
 		//ID&PW 입력 이벤트 처리
@@ -60,7 +57,6 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
 	//클릭 이벤트 구현
 	override fun onClick(v: View?) {
-		val logTag = "LoginActivityButtonEv"
 		//해당 View의 id 값을 가져올 변수 id 생성
 
 		//각 버튼인 경우 동작 매칭
@@ -80,34 +76,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 						et_login_pw.text.isNullOrBlank() -> Snackbar.make(v, "패스워드를 입력하세요", Snackbar.LENGTH_SHORT).show()
 					}
 				} else {
-					if (check_login_save.isChecked) {
-						//로그인 유지시 id/pw 저장
-						App.prefs.local_login_id = et_login_id.text.toString()
-						App.prefs.local_login_pw = et_login_pw.text.toString()
-					}
-					requestToServer.service.requestLogin(
-						RequestLogin(
-							userId = et_login_id.text.toString(),
-							password = et_login_pw.text.toString()
-						)
-					).customEnqueue(
-						onSuccess = {
-							if (it.isSuccessful) {
-								Log.d(logTag,"로그인 성공")
-								val cookie = it.headers().get("Set-Cookie").toString()
-								val token = cookie.split(";")
-								App.prefs.local_login_token = token[0]
-								Log.d(logTag,token[0])
-								val intent = Intent(this, MainActivity::class.java)
-								startActivity(intent)
-								finish()
-							} else if (it.code() == 401){
-								Log.d(logTag,"로그인 실패")
-								showTextShake(text_login_id_check,"아이디 혹은 비밀번호가 확실하지 않습니다")
-								showTextShake(text_login_pw_check,"아이디 혹은 비밀번호가 확실하지 않습니다")
-							}
-						}
-					)
+					requestlogin(et_login_id.text.toString(),et_login_pw.text.toString())
 				}
 			}
 
@@ -120,6 +89,37 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 			}
 
 		}
+	}
+
+	private fun requestlogin(id:String,pw:String) {
+		requestToServer.service.requestLogin(
+			RequestLogin(
+				userId = id,
+				password = pw
+			)
+		).customEnqueue(
+			onSuccess = {
+				if (it.isSuccessful) {
+					if (check_login_save.isChecked) {
+						//로그인 유지시 id/pw 저장
+						App.prefs.local_login_id = et_login_id.text.toString()
+						App.prefs.local_login_pw = et_login_pw.text.toString()
+					}
+					Log.d(logTag,"로그인 성공")
+					val cookie = it.headers().get("Set-Cookie").toString()
+					val token = cookie.split(";")
+					App.prefs.local_login_token = token[0]
+					Log.d(logTag,token[0])
+					val intent = Intent(this, MainActivity::class.java)
+					startActivity(intent)
+					finish()
+				} else if (it.code() == 401){
+					Log.d(logTag,"로그인 실패")
+					showTextShake(text_login_id_check,"아이디 혹은 비밀번호가 확실하지 않습니다")
+					showTextShake(text_login_pw_check,"아이디 혹은 비밀번호가 확실하지 않습니다")
+				}
+			}
+		)
 	}
 
 	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
