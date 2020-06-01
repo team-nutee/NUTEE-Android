@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.data.DateParser
 import kr.nutee.nutee_android.data.main.home.ResponseMainItem
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.imageSetting
@@ -19,16 +20,24 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 	val profileName = itemView.findViewById<TextView>(R.id.text_main_username)
 	val content = itemView.findViewById<TextView>(R.id.text_main_content)
 	val btn_favorite = itemView.findViewById<ImageView>(R.id.img_main_count_like)
+	val text_main_count_image = itemView.findViewById<TextView>(R.id.text_main_count_image)
+	val text_main_count_comment = itemView.findViewById<TextView>(R.id.text_main_count_comment)
+	val text_main_count_like = itemView.findViewById<TextView>(R.id.text_main_count_like)
+	val text_main_updateat = itemView.findViewById<TextView>(R.id.text_main_updateat)
 
 	fun bind(customData: ResponseMainItem) {
 		val userImageLoad = imageSetting(customData.User.Image?.src)
 		Log.d("ImageLoading", userImageLoad)
 		Glide.with(itemView).load(userImageLoad).into(profileImg)
 		profileName.text = customData.User.nickname
+		text_main_updateat.text = customData.updatedAt?.let { DateParser(it).calculateDiffDate() }
 		content.text = customData.content
 		btn_favorite.setOnClickListener{
 			it.isActivated = !it.isActivated
 		}
+		text_main_count_image.text = customData.Images.size.toString()
+		text_main_count_comment.text = customData.Comments.size.toString()
+		text_main_count_like.text = customData.Likers.size.toString()
 	}
 
 }

@@ -27,6 +27,20 @@
         app:layout_constraintStart_toEndOf="@+id/img_list_profile"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/text_main_updateat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:lineSpacingExtra="2sp"
+        android:textColor="#afafaf"
+        android:textSize="11sp"
+        android:layout_marginStart="11dp"
+        app:layout_constraintBottom_toBottomOf="@+id/text_main_username"
+        app:layout_constraintStart_toEndOf="@+id/text_main_username"
+        app:layout_constraintTop_toTopOf="@+id/text_main_username"
+        tools:text="date" />
+
     <!--내용-->
     <TextView
         android:id="@+id/text_main_content"

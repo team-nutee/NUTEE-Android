@@ -59,30 +59,35 @@ class MainActivity : AppCompatActivity() {
                     main_title.text = resources.getText(R.string.fragment_home)
                     loadFragment(HomeFlagement())
                     text_setting.visibility = View.INVISIBLE
+					return@setOnNavigationItemSelectedListener true
                 }
 
                 R.id.menu_search-> {
                     main_title.text = resources.getString(R.string.fragment_search)
                     loadFragment(SearchFragment())
                     text_setting.visibility = View.INVISIBLE
+					return@setOnNavigationItemSelectedListener true
                 }
 
                 R.id.menu_add-> {
                     val intent = Intent(this, AddActivity::class.java)
                     startActivity(intent)
                     finish()
+					return@setOnNavigationItemSelectedListener true
                 }
 
                 R.id.menu_pin-> {
                     main_title.text = resources.getString(R.string.fragment_notice)
                     loadFragment(NoticeFlagment())
                     text_setting.visibility = View.INVISIBLE
+					return@setOnNavigationItemSelectedListener true
                 }
 
                 R.id.menu_profile-> {
                     main_title.text = resources.getString(R.string.fragment_profile)
                     loadFragment(ProfileFragment())
                     text_setting.visibility = View.VISIBLE
+					return@setOnNavigationItemSelectedListener true
                 }
 
             }

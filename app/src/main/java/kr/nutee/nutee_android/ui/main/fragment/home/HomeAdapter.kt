@@ -1,15 +1,14 @@
 package kr.nutee.nutee_android.ui.main.fragment.home
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.main.home.ResponseMain
 import kr.nutee.nutee_android.ui.extend.loadFragment
-import kr.nutee.nutee_android.ui.main.MainActivity
+import kr.nutee.nutee_android.ui.main.fragment.home.detail.HomeDetailFragment
 
 
 /*data를 각각 list item View들 과 연결시켜줄 클래스 */
@@ -29,8 +28,12 @@ class HomeAdapter(var data: ResponseMain, val context: Context) : RecyclerView.A
 		holder.bind(data[position])
 
 		holder.itemView.setOnClickListener {
-			HomeDetailFragment().lastId = data[position].id!! + 1
-			context.loadFragment(HomeDetailFragment())
+			Log.d("DetailClick","${data[position].id}")
+			context.loadFragment(
+				HomeDetailFragment(
+					data[position].id!! + 1
+				)
+			)
 		}
 	}
 
