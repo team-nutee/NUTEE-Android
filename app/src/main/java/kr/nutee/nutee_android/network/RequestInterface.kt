@@ -1,5 +1,6 @@
 package kr.nutee.nutee_android.network
 
+import kr.nutee.nutee_android.data.main.home.Comment
 import kr.nutee.nutee_android.data.main.home.ResponseMain
 import kr.nutee.nutee_android.data.member.login.RequestLogin
 import kr.nutee.nutee_android.data.member.login.ResponseLogin
@@ -13,6 +14,14 @@ interface RequestInterface {
 	@GET("/api/posts")
 	fun requestMain(@Query("lastId") lastId:Int,
 					@Query("limit")limit:Int):Call<ResponseMain>
+
+	//comment
+	@POST("/api/post/{id}/comment")
+	fun requestComment(
+		@Header("Cookie")cookie: String,
+		@Path("id") id:Int,
+		@Body content:String
+	):Call<Comment>
 
 	// Login
 	@POST("/api/user/login")

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="15dp"
+    android:paddingEnd="20dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/img_comment_profile"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="9dp"
+        android:src="@drawable/profileimg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_commnet_nick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="3sp"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toEndOf="@+id/img_comment_profile"
+        app:layout_constraintTop_toTopOf="@+id/img_comment_profile"
+        tools:text="닉네임" />
+
+    <TextView
+        android:id="@+id/text_comment_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:lineSpacingExtra="3sp"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/img_comment_more"
+        app:layout_constraintStart_toStartOf="@+id/text_commnet_nick"
+        app:layout_constraintTop_toBottomOf="@+id/text_commnet_nick"
+        tools:text="대대대댇글"/>
+
+    <TextView
+        android:id="@+id/text_comment_updateAt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="2sp"
+        android:textColor="#707070"
+        android:textSize="11sp"
+        app:layout_constraintBottom_toBottomOf="@+id/text_commnet_nick"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/text_commnet_nick"
+        tools:text="date" />
+
+    <ImageView
+        android:id="@+id/img_comment_more"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/main_more_horiz_img"
+        app:layout_constraintEnd_toEndOf="@+id/text_comment_updateAt"
+        app:layout_constraintTop_toBottomOf="@+id/text_comment_updateAt" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

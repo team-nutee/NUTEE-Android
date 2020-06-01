@@ -19,6 +19,7 @@ fun <ResponseType> Call<ResponseType>.customEnqueue(
 		}
 
 		override fun onResponse(call: Call<ResponseType>, response: Response<ResponseType>) {
+			Log.d("request",call.request().toString())
 			Log.d("Network:Code",response.code().toString())
 			onSuccess(response)
 		}

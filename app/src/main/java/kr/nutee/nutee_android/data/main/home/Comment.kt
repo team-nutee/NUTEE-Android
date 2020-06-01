@@ -4,7 +4,7 @@ data class Comment(
     /*val ParentId: Int,*/
     val PostId: Int,
     /*val ReComment: List<Any>,*/
-    val User: CommentUser,
+    val User: CommentUser?,
     val UserId: Int,
     val commentLikers: List<CommentLiker>,
     val content: String,
