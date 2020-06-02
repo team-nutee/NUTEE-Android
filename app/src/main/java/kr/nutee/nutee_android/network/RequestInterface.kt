@@ -1,9 +1,12 @@
 package kr.nutee.nutee_android.network
 
+import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.main.home.Comment
 import kr.nutee.nutee_android.data.main.home.ResponseMain
+import kr.nutee.nutee_android.data.main.home.detail.RequestComment
 import kr.nutee.nutee_android.data.member.login.RequestLogin
 import kr.nutee.nutee_android.data.member.login.ResponseLogin
+import kr.nutee.nutee_android.data.member.logout.ResponseLogout
 import kr.nutee.nutee_android.data.member.register.*
 import retrofit2.Call
 import retrofit2.http.*
@@ -20,7 +23,7 @@ interface RequestInterface {
 	fun requestComment(
 		@Header("Cookie")cookie: String,
 		@Path("id") id:Int,
-		@Body content:String
+		@Body content: RequestComment
 	):Call<Comment>
 
 	// Login
@@ -54,5 +57,5 @@ interface RequestInterface {
 
 	//logout
 	@POST("/api/user/logout")
-	fun reqeustLogout(@Body body: RequestLogin):Call<String>
+	fun reqeustLogout(@Header("Cookie")token: String = App.prefs.local_login_token.toString()):Call<ResponseLogout>
 }
