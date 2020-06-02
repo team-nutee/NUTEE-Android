@@ -34,6 +34,8 @@ class HomeDetailFragment(private var lastId: Int) : Fragment(),View.OnClickListe
 
 
 
+
+
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?,
 		savedInstanceState: Bundle?

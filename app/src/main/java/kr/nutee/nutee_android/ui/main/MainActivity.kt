@@ -40,6 +40,9 @@ class MainActivity : AppCompatActivity() {
 	}
 
     override fun onBackPressed() {
+		if (supportFragmentManager.backStackEntryCount > 0) {
+			supportFragmentManager.popBackStack()
+		}
         if (System.currentTimeMillis()- pressTime < 2000) {
             super.onBackPressed()
             // 어떤 엑티비티에서도 종료
