@@ -12,6 +12,8 @@ import kr.nutee.nutee_android.data.DateParser
 import kr.nutee.nutee_android.data.main.home.ResponseMainItem
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.imageSetting
+import kr.nutee.nutee_android.ui.main.MainActivity
+import kr.nutee.nutee_android.ui.main.fragment.home.detail.HomeDetailFragment
 
 
 /*home fragment RecyclerView 내부 하나의 뷰의 정보를 지정하는 클래스 */
@@ -38,6 +40,14 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 		text_main_count_image.text = customData.Images.size.toString()
 		text_main_count_comment.text = customData.Comments.size.toString()
 		text_main_count_like.text = customData.Likers.size.toString()
+
+		itemView.setOnClickListener{
+			Log.d("DetailClick",customData.id.toString())
+			val transaction = (it.context as MainActivity).supportFragmentManager.beginTransaction()
+			transaction.replace(R.id.frame_layout, HomeDetailFragment(customData.id!! + 1))
+			transaction.addToBackStack(null)
+			transaction.commit()
+		}
 	}
 
 }

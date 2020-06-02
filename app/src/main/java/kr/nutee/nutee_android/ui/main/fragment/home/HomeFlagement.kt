@@ -10,12 +10,11 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import kotlinx.android.synthetic.main.main_fragment_home.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.main.home.ResponseMain
-import kr.nutee.nutee_android.data.main.home.ResponseMainItem
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 import retrofit2.Response
 
-class HomeFlagement : Fragment() {
+class HomeFlagement() : Fragment() {
 
 	private lateinit var homeAdapter: HomeAdapter
 	val requestToServer = RequestToServer

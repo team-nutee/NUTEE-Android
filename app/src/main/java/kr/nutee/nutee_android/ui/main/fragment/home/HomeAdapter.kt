@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.main.home.ResponseMain
 import kr.nutee.nutee_android.ui.extend.loadFragment
+import kr.nutee.nutee_android.ui.main.MainActivity
 import kr.nutee.nutee_android.ui.main.fragment.home.detail.HomeDetailFragment
 
 
@@ -26,15 +27,6 @@ class HomeAdapter(var data: ResponseMain, val context: Context) : RecyclerView.A
 	//뷰 홀더와 데이터를 매칭
 	override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
 		holder.bind(data[position])
-
-		holder.itemView.setOnClickListener {
-			Log.d("DetailClick","${data[position].id}")
-			context.loadFragment(
-				HomeDetailFragment(
-					data[position].id!! + 1
-				)
-			)
-		}
 	}
 
 }

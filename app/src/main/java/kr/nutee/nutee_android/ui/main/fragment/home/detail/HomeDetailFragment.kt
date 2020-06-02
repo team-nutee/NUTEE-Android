@@ -9,17 +9,17 @@ import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.main_fragment_home_detail.*
-import kotlinx.android.synthetic.main.main_fragment_home_detail.view.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.DateParser
 import kr.nutee.nutee_android.data.main.home.Comment
 import kr.nutee.nutee_android.data.main.home.ResponseMainItem
+import kr.nutee.nutee_android.data.main.home.detail.RequestComment
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.extend.imageSetting
-import kr.nutee.nutee_android.ui.extend.loadFragment
 import kr.nutee.nutee_android.ui.extend.textChangedListener
+import kr.nutee.nutee_android.ui.main.MainActivity
 import kr.nutee.nutee_android.ui.main.fragment.home.HomeFlagement
 
 /**
@@ -40,13 +40,7 @@ class HomeDetailFragment(private var lastId: Int) : Fragment(),View.OnClickListe
 	): View? {
 		// Inflate the layout for this fragment
 		loadDetail()
-		val view = inflater.inflate(R.layout.main_fragment_home_detail, container, false)
-		return view
-	}
-
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
-		backPressEvent(view)
+		return inflater.inflate(R.layout.main_fragment_home_detail, container, false)
 	}
 
 	private fun loadDetail() {
@@ -90,12 +84,16 @@ class HomeDetailFragment(private var lastId: Int) : Fragment(),View.OnClickListe
 		when (v!!.id) {
 			R.id.img_comment_upload_btn ->{
 				requestToServer.service.requestComment(
-					App.prefs.PREFS_TOKEN,
+					App.prefs.local_login_token,
 					postId,
-					et_detail_comment.text.toString()
+					RequestComment(et_detail_comment.text.toString())
 				).customEnqueue {
 					if (it.isSuccessful) {
-						loadDetail()
+						val transaction = (context as MainActivity).supportFragmentManager.beginTransaction()
+						transaction.detach(this)
+						transaction.attach(this)
+						transaction.commit()
+						et_detail_comment.text = null
 					}
 				}
 			}
@@ -154,7 +152,6 @@ class HomeDetailFragment(private var lastId: Int) : Fragment(),View.OnClickListe
 		view.requestFocus();
 		view.setOnKeyListener { _, keyCode, _ ->
 			if (keyCode == KeyEvent.KEYCODE_BACK) {
-				context?.loadFragment(HomeFlagement())
 				return@setOnKeyListener true
 			}
 			return@setOnKeyListener false

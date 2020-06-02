@@ -11,3 +11,4 @@ fun Context.loadFragment(fragment: Fragment) {
 	transaction.replace(R.id.frame_layout, fragment)
 	transaction.commit()
 }
+
