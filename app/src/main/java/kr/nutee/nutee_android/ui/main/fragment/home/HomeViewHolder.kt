@@ -43,10 +43,11 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
 		itemView.setOnClickListener{
 			Log.d("DetailClick",customData.id.toString())
-			val transaction = (it.context as MainActivity).supportFragmentManager.beginTransaction()
-			transaction.replace(R.id.frame_layout, HomeDetailFragment(customData.id!! + 1))
-			transaction.addToBackStack(null)
-			transaction.commit()
+			val transaction = (itemView.context as MainActivity).supportFragmentManager.beginTransaction()
+			transaction
+				.replace(R.id.frame_layout, HomeDetailFragment(customData.id!! + 1))
+				.addToBackStack(null)
+				.commit()
 		}
 	}
 
