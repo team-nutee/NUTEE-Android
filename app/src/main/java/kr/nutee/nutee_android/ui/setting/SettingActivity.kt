@@ -3,6 +3,7 @@ package kr.nutee.nutee_android.ui.setting
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import kotlinx.android.synthetic.main.setting_activity.*
 import kr.nutee.nutee_android.R
@@ -42,13 +43,13 @@ class SettingActivity : AppCompatActivity(), View.OnClickListener {
 
 	private fun requestLogout() {
 		requestToServer.service.reqeustLogout(
-			RequestLogin(
-				App.prefs.PREFS_LOCAL_LOGIN_ID, App.prefs.PREFS_LOCAL_LOGIN_PW
-			)
+			App.prefs.PREFS_TOKEN
 		).customEnqueue {
 			if (it.isSuccessful) {
-				App.prefs.local_login_id = null
-				App.prefs.local_login_pw = null
+				Log.d("Logout",it.message())
+				App.prefs.local_login_id = ""
+				App.prefs.local_login_pw = ""
+				App.prefs.local_login_token = ""
 				val intent = Intent(this, LoginActivity::class.java)
 				startActivity(intent)
 				finishAffinity()

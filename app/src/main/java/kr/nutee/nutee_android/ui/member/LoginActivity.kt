@@ -33,10 +33,10 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 		setContentView(R.layout.login_activity)
 
 		//prefs에 저장된 정보가있다면 ID&PW창을 채워주고 자동로그인
-		if (!App.prefs.local_login_id.isNullOrBlank() && !App.prefs.local_login_pw.isNullOrBlank()) {
+		if (!App.prefs.local_login_id.isBlank() && !App.prefs.local_login_pw.isBlank()) {
 			et_login_id.setText(App.prefs.local_login_id)
 			et_login_pw.setText(App.prefs.local_login_pw)
-			requestlogin(App.prefs.local_login_id.toString(),App.prefs.local_login_pw.toString())
+			requestlogin(App.prefs.local_login_id,App.prefs.local_login_pw)
 		}
 
 		//ID&PW 입력 이벤트 처리
@@ -109,7 +109,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 					val cookie = it.headers().get("Set-Cookie").toString()
 					val token = cookie.split(";")
 					App.prefs.local_login_token = token[0]
-					Log.d(logTag,token[0])
+					Log.d(logTag,App.prefs.local_login_token.toString())
 					val intent = Intent(this, MainActivity::class.java)
 					startActivity(intent)
 					finish()

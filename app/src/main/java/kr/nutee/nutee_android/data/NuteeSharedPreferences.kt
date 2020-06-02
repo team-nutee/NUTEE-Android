@@ -18,16 +18,16 @@ class NuteeSharedPreferences(context: Context){
 	val prefs : SharedPreferences = SecurePreferences(context, "userpassword", PREFS_FILENAME)
 	val editor = prefs.edit()
 
-	var local_login_id : String?
-		get() = prefs.getString(PREFS_LOCAL_LOGIN_ID, null)
+	var local_login_id : String
+		get() = prefs.getString(PREFS_LOCAL_LOGIN_ID, "")!!
 		set(value) = editor.putString(PREFS_LOCAL_LOGIN_ID, value).apply()
 
-	var local_login_pw : String?
-		get() = prefs.getString(PREFS_LOCAL_LOGIN_PW, null)
+	var local_login_pw : String
+		get() = prefs.getString(PREFS_LOCAL_LOGIN_PW, "")!!
 		set(value) = editor.putString(PREFS_LOCAL_LOGIN_PW, value).apply()
 
-	var local_login_token : String?
-		get() = prefs.getString(PREFS_TOKEN, null)
+	var local_login_token : String
+		get() = prefs.getString(PREFS_TOKEN, "")!!
 		set(value) = editor.putString(PREFS_TOKEN, value).apply()
 
 }
