@@ -14,6 +14,7 @@ import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.imageSetting
 import kr.nutee.nutee_android.ui.main.MainActivity
 import kr.nutee.nutee_android.ui.main.fragment.home.detail.HomeDetailFragment
+import kr.nutee.nutee_android.ui.member.LoginActivity
 
 
 /*home fragment RecyclerView 내부 하나의 뷰의 정보를 지정하는 클래스 */
@@ -26,6 +27,7 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 	val text_main_count_comment = itemView.findViewById<TextView>(R.id.text_main_count_comment)
 	val text_main_count_like = itemView.findViewById<TextView>(R.id.text_main_count_like)
 	val text_main_updateat = itemView.findViewById<TextView>(R.id.text_main_updateat)
+	val img_main_more = itemView.findViewById<ImageView>(R.id.img_main_more)
 
 	fun bind(customData: ResponseMainItem) {
 		val userImageLoad = imageSetting(customData.User.Image?.src)
@@ -48,6 +50,11 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 				.replace(R.id.frame_layout, HomeDetailFragment(customData.id!! + 1))
 				.addToBackStack(null)
 				.commit()
+		}
+		img_main_more.setOnClickListener{
+			if (customData.User.id == LoginActivity().userId) {
+
+			}
 		}
 	}
 

@@ -42,15 +42,16 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
 		if (supportFragmentManager.backStackEntryCount > 0) {
 			supportFragmentManager.popBackStack()
-		}
-        if (System.currentTimeMillis()- pressTime < 2000) {
-            super.onBackPressed()
-            // 어떤 엑티비티에서도 종료
-            finishAffinity()
-        }
-        Toast.makeText(this,"한 번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show()
+		} else{
+			if (System.currentTimeMillis()- pressTime < 2000) {
+				super.onBackPressed()
+				// 어떤 엑티비티에서도 종료
+				finishAffinity()
+			}
+			Toast.makeText(this,"한 번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show()
 
-        pressTime = System.currentTimeMillis()
+			pressTime = System.currentTimeMillis()
+		}
     }
 
     // NavigationBottomView 화면전환

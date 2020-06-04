@@ -1,13 +1,17 @@
 package kr.nutee.nutee_android.network
 
 import kr.nutee.nutee_android.data.App
+import kr.nutee.nutee_android.data.main.add.RequestImage
+import kr.nutee.nutee_android.data.main.add.RequestPost
 import kr.nutee.nutee_android.data.main.home.Comment
 import kr.nutee.nutee_android.data.main.home.ResponseMain
+import kr.nutee.nutee_android.data.main.home.ResponseMainItem
 import kr.nutee.nutee_android.data.main.home.detail.RequestComment
 import kr.nutee.nutee_android.data.member.login.RequestLogin
 import kr.nutee.nutee_android.data.member.login.ResponseLogin
 import kr.nutee.nutee_android.data.member.logout.ResponseLogout
 import kr.nutee.nutee_android.data.member.register.*
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -25,6 +29,14 @@ interface RequestInterface {
 		@Path("id") id:Int,
 		@Body content: RequestComment
 	):Call<Comment>
+
+	//Post
+	@POST("/api/post")
+	fun requestPost(@Header("Cookie")cookie: String, @Body content:RequestPost):Call<ResponseMainItem>
+
+	@Multipart
+	@POST("/api/post/images")
+	fun requestImage(@Part("image") image: RequestImage):Call<ArrayList<String>>
 
 	// Login
 	@POST("/api/user/login")

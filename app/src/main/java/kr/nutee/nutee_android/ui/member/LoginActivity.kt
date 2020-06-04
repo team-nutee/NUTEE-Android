@@ -14,6 +14,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.login_activity.*
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.data.main.home.User
 import kr.nutee.nutee_android.data.member.login.RequestLogin
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
@@ -24,6 +25,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
 	private val REQUEST_CODE = 1
 	private val requestToServer = RequestToServer
+
+	public var userId = 0
 
 	val logTag = "LoginActivityButtonEv"
 
@@ -110,6 +113,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 					val token = cookie.split(";")
 					App.prefs.local_login_token = token[0]
 					Log.d(logTag,App.prefs.local_login_token.toString())
+					userId = it.body()?.id?.toInt() ?: 0
 					val intent = Intent(this, MainActivity::class.java)
 					startActivity(intent)
 					finish()
