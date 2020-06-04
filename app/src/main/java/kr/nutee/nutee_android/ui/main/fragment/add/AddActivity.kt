@@ -3,7 +3,6 @@ package kr.nutee.nutee_android.ui.main.fragment.add
 import android.app.Activity
 import android.app.Service
 import android.content.Intent
-import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -19,6 +18,12 @@ import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customDialog
 import kr.nutee.nutee_android.ui.extend.textChangedListener
 import kr.nutee.nutee_android.ui.main.MainActivity
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.*
 
 
 /*
@@ -95,24 +100,29 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 		if (requestCode == REQUEST_CODE_PICK_IMAGE && resultCode == Activity.RESULT_OK && data != null) {
 			if (data.data != null) {
 				img_selected_image.setImageBitmap(createImageBitmap(data.data!!))
-				Log.d("filePath", getRealPathFromURI(data.data!!)!!)
+				Log.d("filePath", getRealPathFromURI(data.data!!))
+				Log.d("fileMultipart", changeToMultiPart(
+					getRealPathFromURI(data.data!!),
+					createImageBitmap(data.data!!)
+				).toString())
+
 			}
 
 		}
 	}
-	private fun createImageBitmap(data: Uri): Bitmap? {
+	private fun createImageBitmap(data: Uri): Bitmap {
 		val inputStream = contentResolver.openInputStream(data)
 		val img = BitmapFactory.decodeStream(inputStream)
 		inputStream?.close()
 		return img
 	}
 
-	private fun getRealPathFromURI(contentUri: Uri): String? {
-		val result:String?
+	private fun getRealPathFromURI(contentUri: Uri): String {
+		val result:String
 		val filePathColumns = arrayOf(MediaStore.Images.Media.DISPLAY_NAME)
 		val cursor = contentResolver.query(contentUri, filePathColumns, null, null, null);
 		if (cursor == null) { // Source is Dropbox or other similar local file path
-			result = contentUri.path;
+			result = contentUri.path!!;
 		} else {
 			cursor.moveToFirst();
 			val idx = cursor.getColumnIndex(filePathColumns[0]);
@@ -120,6 +130,24 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 			cursor.close();
 		}
 		return result
+	}
+
+	private fun changeToMultiPart(path: String, bitmap: Bitmap): MultipartBody.Part? {
+		var multipartFile: MultipartBody.Part? = null
+		val file = File(path)
+		try {
+			val outputStream = BufferedOutputStream(FileOutputStream(file))
+			bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+			outputStream.close()
+			//RequestBody.create(MediaType.parse("multipart/form-data"), file)
+			val requestFile = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+			multipartFile = MultipartBody.Part.createFormData("image", file.name, requestFile)
+		} catch (e: FileNotFoundException) {
+			e.printStackTrace()
+		} catch (e: IOException) {
+			e.printStackTrace()
+		}
+		return multipartFile
 	}
 
 }
