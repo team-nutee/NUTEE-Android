@@ -54,14 +54,26 @@
         app:layout_constraintStart_toStartOf="@+id/text_back_button"
         app:layout_constraintTop_toBottomOf="@+id/text_back_button"/>
 
-    <ImageView
-        android:id="@+id/img_selected_image"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/image_test"
+
+    <ScrollView
+        android:id="@+id/sv_selected_image"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/add_bottom_line"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_image_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/main_fragment_add_photo_item" />
+
+    </ScrollView>
 
 
     <View

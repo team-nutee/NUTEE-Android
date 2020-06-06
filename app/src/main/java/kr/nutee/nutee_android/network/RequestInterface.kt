@@ -1,7 +1,6 @@
 package kr.nutee.nutee_android.network
 
 import kr.nutee.nutee_android.data.App
-import kr.nutee.nutee_android.data.main.add.RequestImage
 import kr.nutee.nutee_android.data.main.add.RequestPost
 import kr.nutee.nutee_android.data.main.home.Comment
 import kr.nutee.nutee_android.data.main.home.ResponseMain
@@ -36,7 +35,7 @@ interface RequestInterface {
 
 	@Multipart
 	@POST("/api/post/images")
-	fun requestImage(@Part("image") image: RequestImage):Call<ArrayList<String>>
+	fun requestImage(@Part image: ArrayList<MultipartBody.Part>):Call<ArrayList<String>>
 
 	// Login
 	@POST("/api/user/login")

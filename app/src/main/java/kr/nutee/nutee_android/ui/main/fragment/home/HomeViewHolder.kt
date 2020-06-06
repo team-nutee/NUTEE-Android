@@ -31,7 +31,6 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
 	fun bind(customData: ResponseMainItem) {
 		val userImageLoad = imageSetting(customData.User.Image?.src)
-		Log.d("ImageLoading", userImageLoad)
 		Glide.with(itemView).load(userImageLoad).into(profileImg)
 		profileName.text = customData.User.nickname
 		text_main_updateat.text = customData.updatedAt?.let { DateParser(it).calculateDiffDate() }

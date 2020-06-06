@@ -3,27 +3,21 @@ package kr.nutee.nutee_android.ui.main.fragment.add
 import android.app.Activity
 import android.app.Service
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.add_activity.*
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.data.App
+import kr.nutee.nutee_android.data.main.add.RequestPost
 import kr.nutee.nutee_android.network.RequestToServer
-import kr.nutee.nutee_android.ui.extend.customDialog
-import kr.nutee.nutee_android.ui.extend.textChangedListener
+import kr.nutee.nutee_android.ui.extend.*
 import kr.nutee.nutee_android.ui.main.MainActivity
-import okhttp3.MediaType
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import java.io.*
 
 
 /*
@@ -32,8 +26,9 @@ import java.io.*
 class AddActivity : AppCompatActivity(), View.OnClickListener {
 
 	val requestToServer = RequestToServer
-	val REQUEST_CODE_PICK_IMAGE = 1001
-
+	private val REQUEST_CODE_PICK_IMAGE = 1001
+	var selectedImage = arrayListOf<Uri>()
+	private lateinit var imageAdapter: ImageAdapter
 
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,7 +76,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 
 	private fun openImageChooser() {
 		Intent(Intent.ACTION_PICK).also {
-			it.type = "image/*"
+			it.type = MediaStore.Images.Media.CONTENT_TYPE
 			it.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
 			val mimeTypes = arrayOf("image/jpeg", "image/png")
 			it.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
@@ -90,7 +85,20 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	}
 
 	private fun uploadContent() {
-
+		requestToServer.service.requestImage(createImageMultipart(selectedImage)).customEnqueue {response->
+			if (response.isSuccessful) {
+				Log.d("imageUplod","업로드 완료>${response.body().toString()}")
+				requestToServer.service.requestPost(
+					App.prefs.local_login_token,
+					RequestPost(
+						et_add_content.text.toString(),
+						response.body()
+					)).customEnqueue {postRes->
+					if (postRes.isSuccessful) {
+						
+					}
+				}
+			}}
 
 	}
 
@@ -99,55 +107,39 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 
 		if (requestCode == REQUEST_CODE_PICK_IMAGE && resultCode == Activity.RESULT_OK && data != null) {
 			if (data.data != null) {
-				img_selected_image.setImageBitmap(createImageBitmap(data.data!!))
-				Log.d("filePath", getRealPathFromURI(data.data!!))
-				Log.d("fileMultipart", changeToMultiPart(
-					getRealPathFromURI(data.data!!),
-					createImageBitmap(data.data!!)
-				).toString())
+				val selectedImageArrayList = arrayListOf<Uri>()
+				if (data.clipData != null) {
+					val clipdata = data.clipData!!
+					when {
+						clipdata.itemCount > 10 -> {
+							Toast.makeText(this, "사진은 10개까지 선택 가능합니다", Toast.LENGTH_SHORT).show()
+							return
+						}
+						else -> {
+							for (i in 0 until clipdata.itemCount) {
+								selectedImageArrayList.add(clipdata.getItemAt(i).uri)
+							}
+							selectedImage.clear()
+							selectedImage = selectedImageArrayList
+							setImageAndAdpater()
+
+						}
+					}
+				}else{//멀티 선택 미지원 기기에서 clipData가 없음.
+					selectedImageArrayList.add(data.data!!)
+					selectedImage = selectedImageArrayList
+					setImageAndAdpater()
+				}
 
 			}
-
 		}
 	}
-	private fun createImageBitmap(data: Uri): Bitmap {
-		val inputStream = contentResolver.openInputStream(data)
-		val img = BitmapFactory.decodeStream(inputStream)
-		inputStream?.close()
-		return img
+
+	private fun setImageAndAdpater() {
+		sv_selected_image.visibility = View.VISIBLE
+		imageAdapter = ImageAdapter(selectedImage, this)
+		rv_image_list.adapter = imageAdapter
 	}
 
-	private fun getRealPathFromURI(contentUri: Uri): String {
-		val result:String
-		val filePathColumns = arrayOf(MediaStore.Images.Media.DISPLAY_NAME)
-		val cursor = contentResolver.query(contentUri, filePathColumns, null, null, null);
-		if (cursor == null) { // Source is Dropbox or other similar local file path
-			result = contentUri.path!!;
-		} else {
-			cursor.moveToFirst();
-			val idx = cursor.getColumnIndex(filePathColumns[0]);
-			result = cursor.getString(idx);
-			cursor.close();
-		}
-		return result
-	}
-
-	private fun changeToMultiPart(path: String, bitmap: Bitmap): MultipartBody.Part? {
-		var multipartFile: MultipartBody.Part? = null
-		val file = File(path)
-		try {
-			val outputStream = BufferedOutputStream(FileOutputStream(file))
-			bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
-			outputStream.close()
-			//RequestBody.create(MediaType.parse("multipart/form-data"), file)
-			val requestFile = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-			multipartFile = MultipartBody.Part.createFormData("image", file.name, requestFile)
-		} catch (e: FileNotFoundException) {
-			e.printStackTrace()
-		} catch (e: IOException) {
-			e.printStackTrace()
-		}
-		return multipartFile
-	}
 
 }
