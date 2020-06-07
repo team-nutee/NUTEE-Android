@@ -7,10 +7,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import kotlinx.android.synthetic.main.term_of_use_activity.view.*
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.DateParser
 import kr.nutee.nutee_android.data.main.home.ResponseMainItem
 import kr.nutee.nutee_android.network.RequestToServer
+import kr.nutee.nutee_android.ui.extend.customSelectDialog
 import kr.nutee.nutee_android.ui.extend.imageSetting
 import kr.nutee.nutee_android.ui.main.MainActivity
 import kr.nutee.nutee_android.ui.main.fragment.home.detail.HomeDetailFragment
@@ -51,8 +54,14 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 				.commit()
 		}
 		img_main_more.setOnClickListener{
-			if (customData.User.id == LoginActivity().userId) {
-
+			if (customData.User.id.toString() == App.prefs.local_user_id) {
+				itemView.context.customSelectDialog(View.GONE, View.VISIBLE, View.VISIBLE,
+					{},
+					{ Log.d("글수정 버튼", "누름") },
+					{ Log.d("글삭제 버튼", "누름") })
+			} else {
+				itemView.context.customSelectDialog(View.VISIBLE, View.GONE, View.GONE,
+					{Log.d("글신고", "누름") })
 			}
 		}
 	}
