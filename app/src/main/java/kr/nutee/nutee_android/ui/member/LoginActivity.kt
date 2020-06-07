@@ -109,10 +109,12 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 						App.prefs.local_login_pw = et_login_pw.text.toString()
 					}
 					Log.d(logTag,"로그인 성공")
-					val cookie = it.headers().get("Set-Cookie").toString()
+					val cookie = it.headers()["Set-Cookie"].toString()
 					val token = cookie.split(";")
 					App.prefs.local_login_token = token[0]
-					Log.d(logTag,App.prefs.local_login_token.toString())
+					App.prefs.local_user_id = it.body()!!.id.toString()
+					Log.d(logTag,App.prefs.local_login_token)
+					Log.d(logTag,App.prefs.local_user_id)
 					userId = it.body()?.id?.toInt() ?: 0
 					val intent = Intent(this, MainActivity::class.java)
 					startActivity(intent)
