@@ -72,6 +72,10 @@ dependencies {
 
     //SharedPreferences 암호화
     implementation 'com.scottyab:secure-preferences-lib:0.1.7'
+
+    //사진을 보내거나 retrofit으로 오가는 로그를 기록하기 위한 라이브러리
     implementation 'com.squareup.okhttp3:okhttp:4.7.2'
+
+
 
 }

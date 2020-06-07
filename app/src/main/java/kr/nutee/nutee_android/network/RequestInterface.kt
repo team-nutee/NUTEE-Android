@@ -68,5 +68,7 @@ interface RequestInterface {
 
 	//logout
 	@POST("/api/user/logout")
-	fun reqeustLogout(@Header("Cookie")token: String = App.prefs.local_login_token.toString()):Call<ResponseLogout>
+	fun reqeustLogout(@Header("Cookie")token: String = App.prefs.local_login_token):Call<ResponseLogout>
+
+
 }
