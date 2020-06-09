@@ -99,8 +99,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 							)
 						).customEnqueue { postRes ->
 							if (postRes.isSuccessful) {
-								setResult(Activity.RESULT_OK)
-								finish()
+								loadFragment(HomeFlagement())
 							}
 						}
 					}
@@ -114,7 +113,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 				)
 			).customEnqueue { postRes ->
 				if (postRes.isSuccessful) {
-					finish()
+					loadFragment(HomeFlagement())
 				}
 			}
 		}
