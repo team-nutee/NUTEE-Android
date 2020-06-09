@@ -37,6 +37,10 @@ interface RequestInterface {
 	@POST("/api/post/images")
 	fun requestImage(@Part image: ArrayList<MultipartBody.Part>):Call<ArrayList<String>>
 
+	// delete post
+	@DELETE("/api/post/{id}")
+	fun requestDelete(@Header("Cookie")cookie: String,@Path("id") id:Int):Call<Unit>
+
 	// Login
 	@POST("/api/user/login")
 	fun requestLogin(@Body body: RequestLogin): Call<ResponseLogin>
