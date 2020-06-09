@@ -50,21 +50,7 @@ class HomeFlagement() : Fragment() {
 		refreshEvent()
 		addScrollerListener()
 	}
-
-	private fun refreshEvent() {
-		rv_home_refresh.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(this.context!!, R.color.nuteeBase))
-		rv_home_refresh.setColorSchemeColors(Color.WHITE)
-		rv_home_refresh.setOnRefreshListener {
-			loadMain(lastId){
-				contentArrayList = it
-				setAdapter(it)
-				loadId = it.last().id!!
-			}
-			rv_home_refresh.isRefreshing = false
-		}
-	}
-
-	 private fun loadMain(loadingId:Int,loadfun:(resMain:ResponseMain)->Unit) {
+	private fun loadMain(loadingId:Int,loadfun:(resMain:ResponseMain)->Unit) {
 		requestToServer.service.requestMain(
 			loadingId, limit
 		).customEnqueue { response ->
@@ -77,6 +63,19 @@ class HomeFlagement() : Fragment() {
 	private fun setAdapter(mainItem: ResponseMain) {
 		homeAdapter = HomeAdapter(mainItem, this.context!!)
 		rv_home.adapter = homeAdapter
+	}
+
+	private fun refreshEvent() {
+		rv_home_refresh.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(this.context!!, R.color.nuteeBase))
+		rv_home_refresh.setColorSchemeColors(Color.WHITE)
+		rv_home_refresh.setOnRefreshListener {
+			loadMain(lastId){
+				contentArrayList = it
+				setAdapter(it)
+				loadId = it.last().id!!
+			}
+			rv_home_refresh.isRefreshing = false
+		}
 	}
 
 	private fun addScrollerListener() {

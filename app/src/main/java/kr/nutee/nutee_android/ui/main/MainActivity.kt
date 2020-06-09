@@ -1,7 +1,9 @@
 package kr.nutee.nutee_android.ui.main
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +21,7 @@ import kr.nutee.nutee_android.ui.setting.SettingActivity
 class MainActivity : AppCompatActivity() {
 
 	private var pressTime:Long = 0 //onBackPressedEvent 처리 변수
+	private val REQUEST_CODE_ADD = 101
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -74,8 +77,7 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.menu_add-> {
                     val intent = Intent(this, AddActivity::class.java)
-                    startActivity(intent)
-                    finish()
+                    startActivityForResult(intent,REQUEST_CODE_ADD)
 					return@setOnNavigationItemSelectedListener true
                 }
 
@@ -97,6 +99,16 @@ class MainActivity : AppCompatActivity() {
             false
         }
     }
+
+	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+		super.onActivityResult(requestCode, resultCode, data)
+		if (resultCode == REQUEST_CODE_ADD && resultCode == Activity.RESULT_OK) {
+			Log.d("ADD","리프레시 성공")
+			main_title.text = resources.getText(R.string.fragment_home)
+			loadFragment(HomeFlagement())
+			text_setting.visibility = View.INVISIBLE
+		}
+	}
 
 }
 

@@ -12,12 +12,14 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.add_activity.*
+import kotlinx.android.synthetic.main.main_fragment_home.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.main.add.RequestPost
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.*
 import kr.nutee.nutee_android.ui.main.MainActivity
+import kr.nutee.nutee_android.ui.main.fragment.home.HomeFlagement
 
 
 /*
@@ -68,9 +70,8 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	override fun onBackPressed() {
 		//뒤로가기 버튼을 클릭한경우 custom dialog를 띄우고 이벤트 처리
 		customDialog("작성을 취소하시겠습니까??") {
+			setResult(Activity.RESULT_CANCELED)
 			finish()
-			val intent = Intent(this, MainActivity::class.java)
-			startActivity(intent)
 		}
 	}
 
@@ -85,20 +86,39 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	}
 
 	private fun uploadContent() {
-		requestToServer.service.requestImage(createImageMultipart(selectedImage)).customEnqueue {response->
-			if (response.isSuccessful) {
-				Log.d("imageUplod","업로드 완료>${response.body().toString()}")
-				requestToServer.service.requestPost(
-					App.prefs.local_login_token,
-					RequestPost(
-						et_add_content.text.toString(),
-						response.body()
-					)).customEnqueue {postRes->
-					if (postRes.isSuccessful) {
-						
+		if (selectedImage.size > 0) {
+			requestToServer.service.requestImage(createImageMultipart(selectedImage))
+				.customEnqueue { response ->
+					if (response.isSuccessful) {
+						Log.d("imageUplod", "업로드 완료>${response.body().toString()}")
+						requestToServer.service.requestPost(
+							App.prefs.local_login_token,
+							RequestPost(
+								et_add_content.text.toString(),
+								response.body()
+							)
+						).customEnqueue { postRes ->
+							if (postRes.isSuccessful) {
+								setResult(Activity.RESULT_OK)
+								finish()
+							}
+						}
 					}
 				}
-			}}
+		} else {
+			requestToServer.service.requestPost(
+				App.prefs.local_login_token,
+				RequestPost(
+					et_add_content.text.toString(),
+					null
+				)
+			).customEnqueue { postRes ->
+				if (postRes.isSuccessful) {
+					finish()
+				}
+			}
+		}
+
 
 	}
 

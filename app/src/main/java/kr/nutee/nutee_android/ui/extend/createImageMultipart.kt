@@ -17,8 +17,9 @@ fun Context.createImageMultipart(fileUri: ArrayList<Uri>): ArrayList<MultipartBo
 
 		parcelFileDescriptor?.let {
 			FileInputStream(parcelFileDescriptor.fileDescriptor)
-			val file = File(this.cacheDir, this.contentResolver.getFileName(uri))
+			val file = File(this.cacheDir,this.contentResolver.getFileName(uri))
 			FileOutputStream(file)
+			/*val myfile = File(fileout.toString())*/
 			Log.d("UriFilePath", file.path)
 			val requestFile = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
 			body.add(MultipartBody.Part.createFormData("image", file.path, requestFile))

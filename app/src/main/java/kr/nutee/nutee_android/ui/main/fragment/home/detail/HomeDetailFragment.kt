@@ -1,6 +1,7 @@
 package kr.nutee.nutee_android.ui.main.fragment.home.detail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -31,10 +32,6 @@ class HomeDetailFragment(private var lastId: Int) : Fragment(),View.OnClickListe
 	private var postId:Int = 0
 
 	private val requestToServer = RequestToServer
-
-
-
-
 
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?,
@@ -108,7 +105,8 @@ class HomeDetailFragment(private var lastId: Int) : Fragment(),View.OnClickListe
 				1 -> {
 					cl_detail_image1.visibility = View.VISIBLE
 					context?.let {
-						Glide.with(it).load(imageSetting(response.Images[0].src))
+						Log.d("imageUrl",RequestToServer.retrofit.baseUrl().toString()+response.Images[0].src)
+						Glide.with(it).load(RequestToServer.retrofit.baseUrl().toString()+response.Images[0].src)
 							.into(img_detail_image1_1)
 					}
 				}
