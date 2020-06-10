@@ -1,6 +1,7 @@
 package kr.nutee.nutee_android.network
 
 import kr.nutee.nutee_android.data.App
+import kr.nutee.nutee_android.data.main.RequestReport
 import kr.nutee.nutee_android.data.main.add.RequestPost
 import kr.nutee.nutee_android.data.main.home.Comment
 import kr.nutee.nutee_android.data.main.home.ResponseMain
@@ -39,7 +40,11 @@ interface RequestInterface {
 
 	// delete post
 	@DELETE("/api/post/{id}")
-	fun requestDelete(@Header("Cookie")cookie: String,@Path("id") id:Int):Call<Unit>
+	fun requestDelete(@Header("Cookie")cookie: String,@Path("id") id:Int?):Call<Unit>
+
+	// report post
+	@POST("/api/post/{id}/report")
+	fun requestReport(@Body content: RequestReport, @Path("id") id: Int?):Call<Unit>
 
 	// Login
 	@POST("/api/user/login")
