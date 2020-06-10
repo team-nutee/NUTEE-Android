@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -12,8 +13,10 @@ import kotlinx.android.synthetic.main.term_of_use_activity.view.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.DateParser
+import kr.nutee.nutee_android.data.main.RequestReport
 import kr.nutee.nutee_android.data.main.home.ResponseMainItem
 import kr.nutee.nutee_android.network.RequestToServer
+import kr.nutee.nutee_android.ui.extend.cumstomReportDialog
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.extend.customSelectDialog
 import kr.nutee.nutee_android.ui.extend.imageSetting
@@ -69,7 +72,7 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 						Log.d("글삭제 버튼", "누름")
 						requestToServer.service.requestDelete(
 							App.prefs.local_login_token,
-							customData.id!!
+							customData.id
 						).customEnqueue {
 							if (it.isSuccessful) {
 								HomeFlagement()
@@ -78,7 +81,20 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 					})
 			} else {
 				itemView.context.customSelectDialog(View.VISIBLE, View.GONE, View.GONE,
-					{Log.d("글신고", "누름") })
+					{
+						Log.d("글신고", "누름")
+						it.context.cumstomReportDialog{
+							requestToServer.service.requestReport(
+								RequestReport(it), customData.id)
+								.customEnqueue{ res->
+								if (res.isSuccessful) {
+									Toast
+										.makeText(itemView.context,"신고가 성공적으로 접수되었습니다.",Toast.LENGTH_SHORT)
+										.show()
+								}
+							}
+						}
+					})
 			}
 		}
 	}
