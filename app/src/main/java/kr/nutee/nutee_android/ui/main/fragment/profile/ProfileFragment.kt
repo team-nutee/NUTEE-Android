@@ -6,16 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.main_fragment_home_detail.*
 import kotlinx.android.synthetic.main.main_fragment_proflie.*
 
 import kr.nutee.nutee_android.R
-import kr.nutee.nutee_android.data.UserData
+import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.member.login.ResponseLogin
+import kr.nutee.nutee_android.network.RequestToServer
+import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.extend.imageSetting
-import kr.nutee.nutee_android.ui.member.LoginActivity
 
 class ProfileFragment : Fragment() {
+
+	val requestToServer = RequestToServer
 
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?,
@@ -27,7 +29,13 @@ class ProfileFragment : Fragment() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		bindUserProfile(UserData.userData)
+		requestUserData()
+	}
+
+	private fun requestUserData() {
+		requestToServer.service.requestUserData(App.prefs.local_login_token).customEnqueue {
+			if (it.isSuccessful) { bindUserProfile(it.body()!!) }
+		}
 	}
 
 	private fun bindUserProfile(res: ResponseLogin) {

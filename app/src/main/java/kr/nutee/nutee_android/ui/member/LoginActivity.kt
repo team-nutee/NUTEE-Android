@@ -13,7 +13,6 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.login_activity.*
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.R
-import kr.nutee.nutee_android.data.UserData
 import kr.nutee.nutee_android.data.member.login.RequestLogin
 import kr.nutee.nutee_android.data.member.login.ResponseLogin
 import kr.nutee.nutee_android.network.RequestToServer
@@ -115,7 +114,6 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 					App.prefs.local_user_id = it.body()!!.id.toString()
 					Log.d(logTag,App.prefs.local_login_token)
 					Log.d(logTag,App.prefs.local_user_id)
-					UserData.userData = it.body()!!
 					val intent = Intent(this, MainActivity::class.java)
 					startActivity(intent)
 					finish()

@@ -53,6 +53,9 @@ interface RequestInterface {
 	@DELETE("/api/post/{id}/like")
 	fun requestDelLike(@Header("Cookie")cookie: String,@Path("id") id:Int?)
 
+	// load user
+	@GET("/api/user")
+	fun requestUserData(@Header("Cookie")cookie: String):Call<ResponseLogin>
 
 	/*Login*/
 	// Login

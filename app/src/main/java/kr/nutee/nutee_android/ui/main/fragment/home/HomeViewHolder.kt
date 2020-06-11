@@ -46,13 +46,12 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 		profileName.text = customData.User.nickname
 		text_main_updateat.text = customData.updatedAt?.let { DateParser(it).calculateDiffDate() }
 		content.text = customData.content
-		btn_favorite.setOnClickListener{
-			it.isActivated = !it.isActivated
-		}
+		setLikeEvent(btn_favorite,customData)
 		text_main_count_image.text = customData.Images.size.toString()
 		text_main_count_comment.text = customData.Comments.size.toString()
 		text_main_count_like.text = customData.Likers.size.toString()
 
+		btn_favorite.setOnClickListener{ likeClickEvent(it) }
 		itemView.setOnClickListener{
 			Log.d("DetailClick",customData.id.toString())
 			val transaction = (itemView.context as MainActivity).supportFragmentManager.beginTransaction()
@@ -62,40 +61,57 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 				.commit()
 		}
 		img_main_more.setOnClickListener{
-			if (customData.User.id.toString() == App.prefs.local_user_id) {
-				itemView.context.customSelectDialog(View.GONE, View.VISIBLE, View.VISIBLE,
-					{},
-					{
-						Log.d("글수정 버튼", "누름")
-					},
-					{
-						Log.d("글삭제 버튼", "누름")
-						requestToServer.service.requestDelete(
-							App.prefs.local_login_token,
-							customData.id
-						).customEnqueue {
-							if (it.isSuccessful) {
-								HomeFlagement()
-							}
+			moreEvent(it,customData)
+		}
+	}
+
+	private fun setLikeEvent(it: View, customData: ResponseMainItem) {
+		val boolLike = customData.Likers.any{ liker ->
+			liker.Like.UserId == App.prefs.local_user_id.toInt()
+		}
+
+		it.isActivated = boolLike
+
+	}
+
+	private fun likeClickEvent(it: View) {
+		it.isActivated = !it.isActivated
+	}
+
+	private fun moreEvent(it:View, customData: ResponseMainItem) {
+		if (customData.User.id.toString() == App.prefs.local_user_id) {
+			itemView.context.customSelectDialog(View.GONE, View.VISIBLE, View.VISIBLE,
+				{},
+				{
+					Log.d("글수정 버튼", "누름")
+				},
+				{
+					Log.d("글삭제 버튼", "누름")
+					requestToServer.service.requestDelete(
+						App.prefs.local_login_token,
+						customData.id
+					).customEnqueue {
+						if (it.isSuccessful) {
+							HomeFlagement()
 						}
-					})
-			} else {
-				itemView.context.customSelectDialog(View.VISIBLE, View.GONE, View.GONE,
-					{
-						Log.d("글신고", "누름")
-						it.context.cumstomReportDialog{
-							requestToServer.service.requestReport(
-								RequestReport(it), customData.id)
-								.customEnqueue{ res->
+					}
+				})
+		} else {
+			itemView.context.customSelectDialog(View.VISIBLE, View.GONE, View.GONE,
+				{
+					Log.d("글신고", "누름")
+					it.context.cumstomReportDialog{
+						requestToServer.service.requestReport(
+							RequestReport(it), customData.id)
+							.customEnqueue{ res->
 								if (res.isSuccessful) {
 									Toast
 										.makeText(itemView.context,"신고가 성공적으로 접수되었습니다.",Toast.LENGTH_SHORT)
 										.show()
 								}
 							}
-						}
-					})
-			}
+					}
+				})
 		}
 	}
 
