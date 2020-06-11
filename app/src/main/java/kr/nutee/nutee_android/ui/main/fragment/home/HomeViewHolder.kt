@@ -51,7 +51,7 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 		text_main_count_comment.text = customData.Comments.size.toString()
 		text_main_count_like.text = customData.Likers.size.toString()
 
-		btn_favorite.setOnClickListener{ likeClickEvent(it) }
+		btn_favorite.setOnClickListener{ likeClickEvent(it,customData) }
 		itemView.setOnClickListener{
 			Log.d("DetailClick",customData.id.toString())
 			val transaction = (itemView.context as MainActivity).supportFragmentManager.beginTransaction()
@@ -74,8 +74,25 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
 	}
 
-	private fun likeClickEvent(it: View) {
-		it.isActivated = !it.isActivated
+	private fun likeClickEvent(it: View, customData: ResponseMainItem) {
+		if (it.isActivated) {
+			//좋아요 버튼 활성상태
+			requestToServer.service.requestDelLike(App.prefs.local_login_token, customData.id)
+				.customEnqueue { res->
+					if (res.isSuccessful) {
+						it.isActivated = !it.isActivated
+					}
+				}
+
+		} else {
+			//비활성 상태
+			requestToServer.service.requestLike(App.prefs.local_login_token, customData.id)
+				.customEnqueue { res->
+					if (res.isSuccessful) {
+						it.isActivated = !it.isActivated
+					}
+				}
+		}
 	}
 
 	private fun moreEvent(it:View, customData: ResponseMainItem) {

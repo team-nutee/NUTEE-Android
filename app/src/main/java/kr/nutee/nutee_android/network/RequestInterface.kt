@@ -48,10 +48,10 @@ interface RequestInterface {
 
 	//Like post
 	@POST("/api/post/{id}/like")
-	fun requestLike(@Header("Cookie")cookie: String,@Path("id") id:Int?)
+	fun requestLike(@Header("Cookie")cookie: String,@Path("id") id:Int?):Call<Unit>
 
 	@DELETE("/api/post/{id}/like")
-	fun requestDelLike(@Header("Cookie")cookie: String,@Path("id") id:Int?)
+	fun requestDelLike(@Header("Cookie")cookie: String,@Path("id") id:Int?):Call<Unit>
 
 	// load user
 	@GET("/api/user")
