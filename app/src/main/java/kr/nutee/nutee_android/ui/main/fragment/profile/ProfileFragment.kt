@@ -5,8 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.main_fragment_home_detail.*
+import kotlinx.android.synthetic.main.main_fragment_proflie.*
 
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.data.UserData
+import kr.nutee.nutee_android.data.member.login.ResponseLogin
+import kr.nutee.nutee_android.ui.extend.imageSetting
+import kr.nutee.nutee_android.ui.member.LoginActivity
 
 class ProfileFragment : Fragment() {
 
@@ -20,6 +27,14 @@ class ProfileFragment : Fragment() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
+		bindUserProfile(UserData.userData)
+	}
+
+	private fun bindUserProfile(res: ResponseLogin) {
+		text_user_name.text = res.nickname
+		val userImageLoad = imageSetting(res.Image)
+		context?.let { Glide.with(it).load(userImageLoad).into(img_profile_image) }
+		text_profile_content_num.text = res.Posts.size.toString()
 	}
 
 

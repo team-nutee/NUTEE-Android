@@ -7,19 +7,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.main_fragment_home_detail.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.DateParser
+import kr.nutee.nutee_android.data.main.RequestReport
 import kr.nutee.nutee_android.data.main.home.Comment
 import kr.nutee.nutee_android.data.main.home.ResponseMainItem
 import kr.nutee.nutee_android.data.main.home.detail.RequestComment
 import kr.nutee.nutee_android.network.RequestToServer
-import kr.nutee.nutee_android.ui.extend.customEnqueue
-import kr.nutee.nutee_android.ui.extend.imageSetting
-import kr.nutee.nutee_android.ui.extend.textChangedListener
+import kr.nutee.nutee_android.ui.extend.*
 import kr.nutee.nutee_android.ui.main.MainActivity
 import kr.nutee.nutee_android.ui.main.fragment.home.HomeFlagement
 
@@ -72,6 +72,7 @@ class HomeDetailFragment(private var lastId: Int) : Fragment(),View.OnClickListe
 			}
 		}
 		img_comment_upload_btn.setOnClickListener(this)
+		img_detail_more.setOnClickListener { detailMore(responseMainItem) }
 	}
 
 	private fun setCommentAdpater(comments: List<Comment>) {
@@ -147,16 +148,42 @@ class HomeDetailFragment(private var lastId: Int) : Fragment(),View.OnClickListe
 
 	}
 
-	private fun backPressEvent(view: View) {
-		view.isFocusableInTouchMode = true
-		view.requestFocus();
-		view.setOnKeyListener { _, keyCode, _ ->
-			if (keyCode == KeyEvent.KEYCODE_BACK) {
-				return@setOnKeyListener true
-			}
-			return@setOnKeyListener false
+	private fun detailMore(res: ResponseMainItem) {
+		if (res.User.id.toString() == App.prefs.local_user_id) {
+			context?.customSelectDialog(View.GONE, View.VISIBLE, View.VISIBLE,
+				{},
+				{
+					Log.d("글수정 버튼", "누름")
+				},
+				{
+					Log.d("글삭제 버튼", "누름")
+					requestToServer.service.requestDelete(
+						App.prefs.local_login_token,
+						res.id
+					).customEnqueue {
+						if (it.isSuccessful) {
+							HomeFlagement()
+						}
+					}
+				})
+		} else {
+			context?.customSelectDialog(View.VISIBLE, View.GONE, View.GONE,
+				{
+					Log.d("글신고", "누름")
+					context?.cumstomReportDialog{
+						requestToServer.service.requestReport(
+							RequestReport(it), res.id)
+							.customEnqueue{ res->
+								if (res.isSuccessful) {
+									Toast
+										.makeText(context,"신고가 성공적으로 접수되었습니다.", Toast.LENGTH_SHORT)
+										.show()
+								}
+							}
+					}
+				}
+			)
 		}
-
 	}
 }
 
