@@ -46,6 +46,10 @@ interface RequestInterface {
 	@POST("/api/post/{id}/report")
 	fun requestReport(@Body content: RequestReport, @Path("id") id: Int?):Call<Unit>
 
+	// load user
+	@GET("/api/user")
+	fun requestUserData(@Header("Cookie")cookie: String):Call<ResponseLogin>
+
 	// Login
 	@POST("/api/user/login")
 	fun requestLogin(@Body body: RequestLogin): Call<ResponseLogin>
