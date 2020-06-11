@@ -46,6 +46,15 @@ interface RequestInterface {
 	@POST("/api/post/{id}/report")
 	fun requestReport(@Body content: RequestReport, @Path("id") id: Int?):Call<Unit>
 
+	//Like post
+	@POST("/api/post/{id}/like")
+	fun requestLike(@Header("Cookie")cookie: String,@Path("id") id:Int?)
+
+	@DELETE("/api/post/{id}/like")
+	fun requestDelLike(@Header("Cookie")cookie: String,@Path("id") id:Int?)
+
+
+	/*Login*/
 	// Login
 	@POST("/api/user/login")
 	fun requestLogin(@Body body: RequestLogin): Call<ResponseLogin>
