@@ -2,6 +2,7 @@ package kr.nutee.nutee_android.network
 
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.main.RequestReport
+import kr.nutee.nutee_android.data.main.add.RequestFixPost
 import kr.nutee.nutee_android.data.main.add.RequestPost
 import kr.nutee.nutee_android.data.main.home.Comment
 import kr.nutee.nutee_android.data.main.home.ResponseMain
@@ -58,6 +59,13 @@ interface RequestInterface {
 	@DELETE("/api/post/{id}/like")
 	fun requestDelLike(@Header("Cookie") cookie: String, @Path("id") id: Int?): Call<Unit>
 
+	@PATCH("/api/post")
+	fun requestFixPost(
+		@Header("Cookie") cookie: String,
+		@Body content: RequestFixPost
+	): Call<ResponseMainItem>
+
+	/*User Profile*/
 	// load user
 	@GET("/api/user")
 	fun requestUserData(@Header("Cookie") cookie: String): Call<ResponseLogin>
@@ -89,11 +97,17 @@ interface RequestInterface {
 	fun requestRegister(@Body body: RequestRegister): Call<ResponseRegister>
 
 	//pw check
-	@POST()
+	@FormUrlEncoded
+	@POST("/api/user/passwordcheck")
 	fun requestPasswordCheck(
 		@Header("Cookie") cookie: String,
-		@Body body: RequestIdCheck
+		@Field("password") password:String
 	): Call<Unit>
+
+	//password change
+	@FormUrlEncoded
+	@POST("/api/user/passwordchange")
+	fun requestChagePassword(@Header("Cookie") cookie: String,@Field("newpassword")newpassword:String):Call<Unit>
 
 	//logout
 	@POST("/api/user/logout")

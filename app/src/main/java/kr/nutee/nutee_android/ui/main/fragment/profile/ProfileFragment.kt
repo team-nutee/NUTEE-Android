@@ -34,7 +34,8 @@ class ProfileFragment : Fragment() {
 
 	private fun requestUserData() {
 		requestToServer.service.requestUserData(App.prefs.local_login_token).customEnqueue {
-			if (it.isSuccessful) { bindUserProfile(it.body()!!) }
+			if (it.isSuccessful) {
+				it.body()?.let { result -> bindUserProfile(result)} }
 		}
 	}
 
