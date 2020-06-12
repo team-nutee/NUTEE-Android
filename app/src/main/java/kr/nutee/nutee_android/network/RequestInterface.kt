@@ -19,43 +19,48 @@ interface RequestInterface {
 
 	//Main loading
 	@GET("/api/posts")
-	fun requestMain(@Query("lastId") lastId:Int,
-					@Query("limit")limit:Int):Call<ResponseMain>
+	fun requestMain(
+		@Query("lastId") lastId: Int,
+		@Query("limit") limit: Int
+	): Call<ResponseMain>
 
 	//comment
 	@POST("/api/post/{id}/comment")
 	fun requestComment(
-		@Header("Cookie")cookie: String,
-		@Path("id") id:Int,
+		@Header("Cookie") cookie: String,
+		@Path("id") id: Int,
 		@Body content: RequestComment
-	):Call<Comment>
+	): Call<Comment>
 
 	//Post
 	@POST("/api/post")
-	fun requestPost(@Header("Cookie")cookie: String, @Body content:RequestPost):Call<ResponseMainItem>
+	fun requestPost(
+		@Header("Cookie") cookie: String,
+		@Body content: RequestPost
+	): Call<ResponseMainItem>
 
 	@Multipart
 	@POST("/api/post/images")
-	fun requestImage(@Part image: ArrayList<MultipartBody.Part>):Call<ArrayList<String>>
+	fun requestImage(@Part image: ArrayList<MultipartBody.Part>): Call<ArrayList<String>>
 
 	// delete post
 	@DELETE("/api/post/{id}")
-	fun requestDelete(@Header("Cookie")cookie: String,@Path("id") id:Int?):Call<Unit>
+	fun requestDelete(@Header("Cookie") cookie: String, @Path("id") id: Int?): Call<Unit>
 
 	// report post
 	@POST("/api/post/{id}/report")
-	fun requestReport(@Body content: RequestReport, @Path("id") id: Int?):Call<Unit>
+	fun requestReport(@Body content: RequestReport, @Path("id") id: Int?): Call<Unit>
 
 	//Like post
 	@POST("/api/post/{id}/like")
-	fun requestLike(@Header("Cookie")cookie: String,@Path("id") id:Int?):Call<Unit>
+	fun requestLike(@Header("Cookie") cookie: String, @Path("id") id: Int?): Call<Unit>
 
 	@DELETE("/api/post/{id}/like")
-	fun requestDelLike(@Header("Cookie")cookie: String,@Path("id") id:Int?):Call<Unit>
+	fun requestDelLike(@Header("Cookie") cookie: String, @Path("id") id: Int?): Call<Unit>
 
 	// load user
 	@GET("/api/user")
-	fun requestUserData(@Header("Cookie")cookie: String):Call<ResponseLogin>
+	fun requestUserData(@Header("Cookie") cookie: String): Call<ResponseLogin>
 
 	/*Login*/
 	// Login
@@ -69,11 +74,11 @@ interface RequestInterface {
 
 	//check OTP
 	@POST("/api/user/otpcheck")
-	fun requestOTPCheck(@Body body: RequestOTPCheck) : Call<Unit>
+	fun requestOTPCheck(@Body body: RequestOTPCheck): Call<Unit>
 
 	// id Check
 	@POST("/api/user/idcheck")
-	fun requestIdCheck(@Body body : RequestIdCheck) : Call<Unit>
+	fun requestIdCheck(@Body body: RequestIdCheck): Call<Unit>
 
 	//nick check
 	@POST("/api/user/nicknamecheck")
@@ -81,15 +86,27 @@ interface RequestInterface {
 
 	//Register
 	@POST("/api/user")
-	fun requestRegister(@Body body:RequestRegister): Call<ResponseRegister>
+	fun requestRegister(@Body body: RequestRegister): Call<ResponseRegister>
 
 	//pw check
 	@POST()
-	fun requestPasswordCheck(@Header("Cookie")cookie: String, @Body body : RequestIdCheck): Call<Unit>
+	fun requestPasswordCheck(
+		@Header("Cookie") cookie: String,
+		@Body body: RequestIdCheck
+	): Call<Unit>
 
 	//logout
 	@POST("/api/user/logout")
-	fun reqeustLogout(@Header("Cookie")token: String = App.prefs.local_login_token):Call<ResponseLogout>
+	fun reqeustLogout(@Header("Cookie") token: String = App.prefs.local_login_token): Call<ResponseLogout>
+
+	/*Find user Data*/
+	@FormUrlEncoded
+	@POST("/api/user/findid")
+	fun requestFindId(@Field("schoolEmail")schoolEmail:String):Call<Unit>
+
+	@FormUrlEncoded
+	@POST("/api/user/reissuance")
+	fun requestFindPw(@Field("userId")userId:String,@Field("schoolEmail")schoolEmail: String):Call<Unit>
 
 
 }

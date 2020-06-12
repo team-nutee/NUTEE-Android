@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingHorizontal="20dp"
-    tools:context=".ui.member.UserFindActivity">
+    tools:context=".ui.member.UserFindActivity"
+    android:id="@+id/cl_user_find">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_find_id"
@@ -47,18 +48,26 @@
             android:layout_marginTop="9dp"
             android:hint="email@office.skhu.ac.kr"
             android:lineSpacingExtra="3sp"
-            android:textColor="#848484"
             android:textSize="14sp"
             app:layout_constraintEnd_toStartOf="@+id/text_find_id_email_btn"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
         <TextView
+            android:id="@+id/text_find_id_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@+id/et_find_id_email"
+            app:layout_constraintTop_toBottomOf="@+id/et_find_id_email"
+            tools:text="find id result" />
+
+        <TextView
             android:id="@+id/text_find_id_email_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:lineSpacingExtra="3sp"
-            android:textColor="@color/nuteeBase"
+            android:enabled="false"
+            android:textColor="@color/text_selector"
             android:textSize="13sp"
             app:layout_constraintBottom_toBottomOf="@+id/et_find_id_email"
             app:layout_constraintEnd_toEndOf="parent"
@@ -118,7 +127,6 @@
             android:layout_marginTop="12dp"
             android:hint="ID"
             android:lineSpacingExtra="3sp"
-            android:textColor="#848484"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@+id/et_find_pw_email"
             app:layout_constraintStart_toStartOf="@+id/textView10"
@@ -143,19 +151,27 @@
             android:layout_marginTop="12dp"
             android:hint="email@office.skhu.ac.kr"
             android:lineSpacingExtra="3sp"
-            android:textColor="#848484"
             android:textSize="14sp"
-            app:layout_constraintEnd_toStartOf="@+id/textView12"
+            app:layout_constraintEnd_toStartOf="@+id/text_find_pw_btn"
             app:layout_constraintStart_toStartOf="@+id/textView11"
             app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
         <TextView
-            android:id="@+id/textView12"
+            android:id="@+id/text_find_pw_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@+id/et_find_pw_email"
+            app:layout_constraintTop_toBottomOf="@+id/et_find_pw_email"
+            tools:text="find pw result" />
+
+        <TextView
+            android:id="@+id/text_find_pw_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:lineSpacingExtra="3sp"
             android:text="찾으러가기"
-            android:textColor="@color/nuteeBase"
+            android:enabled="false"
+            android:textColor="@color/text_selector"
             android:textSize="13sp"
             app:layout_constraintBottom_toBottomOf="@+id/et_find_pw_email"
             app:layout_constraintEnd_toEndOf="parent"
