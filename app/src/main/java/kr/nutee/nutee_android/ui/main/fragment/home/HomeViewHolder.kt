@@ -1,5 +1,6 @@
 package kr.nutee.nutee_android.ui.main.fragment.home
 
+import android.content.Intent
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
@@ -21,9 +22,11 @@ import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.extend.customSelectDialog
 import kr.nutee.nutee_android.ui.extend.imageSetting
 import kr.nutee.nutee_android.ui.main.MainActivity
+import kr.nutee.nutee_android.ui.main.fragment.add.AddActivity
 import kr.nutee.nutee_android.ui.main.fragment.home.detail.HomeDetailFragment
 import kr.nutee.nutee_android.ui.member.LoginActivity
 import okhttp3.internal.notify
+import java.util.ArrayList
 
 
 /*home fragment RecyclerView 내부 하나의 뷰의 정보를 지정하는 클래스 */
@@ -80,6 +83,7 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 				{},
 				{
 					Log.d("글수정 버튼", "누름")
+					fixPost(customData)
 				},
 				{
 					Log.d("글삭제 버튼", "누름")
@@ -109,6 +113,18 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 					}
 				})
 		}
+	}
+
+	private fun fixPost(customData: ResponseMainItem) {
+		val intent = Intent(itemView.context,AddActivity::class.java)
+		intent.putExtra("postId",customData.id)
+		intent.putExtra("content",customData.content)
+		val imageArrayList = arrayListOf<String>()
+		customData.Images.forEach{
+			imageArrayList.add(it.src)
+		}
+		intent.putStringArrayListExtra("image", imageArrayList)
+		itemView.context.startActivity(intent)
 	}
 
 }

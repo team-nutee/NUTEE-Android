@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/et_change_pw"
+        android:id="@+id/et_do_change_pw"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -35,6 +35,15 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <TextView
+        android:id="@+id/text_change_pw_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/et_do_change_pw"
+        app:layout_constraintTop_toBottomOf="@+id/et_do_change_pw"
+        tools:text="result" />
+
+    <TextView
         android:id="@+id/text_change_pw_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -43,10 +52,88 @@
         android:textSize="14sp"
         android:clickable="true"
         android:enabled="false"
-        app:layout_constraintBottom_toBottomOf="@+id/et_change_pw"
+        app:layout_constraintBottom_toBottomOf="@+id/et_do_change_pw"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/et_change_pw"
+        app:layout_constraintTop_toTopOf="@+id/et_do_change_pw"
         android:focusable="true" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:visibility="gone"
+        android:id="@+id/cl_pw_change"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/text_change_pw_button"
+        app:layout_constraintStart_toStartOf="@+id/et_do_change_pw"
+        app:layout_constraintTop_toBottomOf="@+id/text_change_pw_result">
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="변경할 비밀번호를 입력해주세요"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/et_pw_change_pw"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:textSize="14sp"
+            android:hint="비밀번호"
+            android:inputType="textPassword"
+            app:layout_constraintEnd_toEndOf="@id/et_pw_change_check"
+            app:layout_constraintStart_toStartOf="@+id/textView12"
+            app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+        <EditText
+            android:id="@+id/et_pw_change_check"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textSize="14sp"
+            android:hint="비밀번호 확인"
+            android:inputType="textPassword"
+            app:layout_constraintEnd_toStartOf="@+id/text_pw_change_btn"
+            app:layout_constraintStart_toStartOf="@+id/et_pw_change_pw"
+            app:layout_constraintTop_toBottomOf="@+id/et_pw_change_pw" />
+
+        <TextView
+            android:id="@+id/text_pw_change_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="변경하기"
+            android:textColor="@color/text_selector"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/et_pw_change_check"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/et_pw_change_check" />
+
+        <TextView
+            android:id="@+id/text_pw_change_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="TextView"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@+id/et_pw_change_pw"
+            app:layout_constraintTop_toBottomOf="@+id/et_pw_change_pw" />
+
+        <TextView
+            android:id="@+id/text_pw_change_check_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="TextView"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@+id/et_pw_change_check"
+            app:layout_constraintTop_toBottomOf="@+id/et_pw_change_check" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <TextView
         android:id="@+id/text_termofuse_btn"

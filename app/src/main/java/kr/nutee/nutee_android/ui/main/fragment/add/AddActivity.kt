@@ -11,10 +11,11 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import kotlinx.android.synthetic.main.add_activity.*
-import kotlinx.android.synthetic.main.main_fragment_home.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
+import kr.nutee.nutee_android.data.main.add.RequestFixPost
 import kr.nutee.nutee_android.data.main.add.RequestPost
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.*
@@ -31,12 +32,21 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	private val REQUEST_CODE_PICK_IMAGE = 1001
 	var selectedImage = arrayListOf<Uri>()
 	private lateinit var imageAdapter: ImageAdapter
+	var postId = 0
 
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.add_activity)
+		fixDataMapping()
 		init()
+
+	}
+
+	private fun fixDataMapping() {
+		val content = intent.getStringExtra("content")
+		postId = intent.getIntExtra("postId",0)
+		et_add_content.setText(content)
 	}
 
 	private fun init() {
@@ -59,10 +69,19 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 		when (v!!.id) {
 			R.id.text_back_button -> onBackPressed()
 			R.id.img_upload_image_btn -> {
-				openImageChooser()
+				Toast.makeText(this,
+					"안드로이드 버전에서는 이미지 업로드시\n 이미지 불러오기가 불안정하여 추후 업데이트 예정입니다.",
+					Toast.LENGTH_SHORT
+				).show()
+				//openImageChooser()
 			}
 			R.id.text_create_button -> {
-				uploadContent()
+				if (intent.hasExtra("content")) {
+					fixPostUpload()
+				} else {
+					uploadContent()
+				}
+
 			}
 		}
 	}
@@ -87,39 +106,60 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 
 	private fun uploadContent() {
 		if (selectedImage.size > 0) {
-			requestToServer.service.requestImage(createImageMultipart(selectedImage))
-				.customEnqueue { response ->
-					if (response.isSuccessful) {
-						Log.d("imageUplod", "업로드 완료>${response.body().toString()}")
-						requestToServer.service.requestPost(
-							App.prefs.local_login_token,
-							RequestPost(
-								et_add_content.text.toString(),
-								response.body()
-							)
-						).customEnqueue { postRes ->
-							if (postRes.isSuccessful) {
-								loadFragment(HomeFlagement())
-							}
+			uploadHasImage()
+		} else {
+			uploadNonImage()
+		}
+	}
+	private fun fixPostUpload() {
+		requestToServer.service.requestFixPost(
+			App.prefs.local_login_token,
+			RequestFixPost(
+				postId,
+				et_add_content.text.toString(),
+				null
+			)
+		).customEnqueue {
+			if (it.isSuccessful) {
+				gotoMain()
+			}
+		}
+	}
+
+	private fun uploadHasImage() {
+		requestToServer.service.requestImage(createImageMultipart(selectedImage))
+			.customEnqueue { response ->
+				if (response.isSuccessful) {
+					Log.d("imageUplod", "업로드 완료>${response.body().toString()}")
+					requestToServer.service.requestPost(
+						App.prefs.local_login_token,
+						RequestPost(
+							et_add_content.text.toString(),
+							response.body()
+						)
+					).customEnqueue { postRes ->
+						if (postRes.isSuccessful) {
+							gotoMain()
 						}
 					}
 				}
-		} else {
-			requestToServer.service.requestPost(
-				App.prefs.local_login_token,
-				RequestPost(
-					et_add_content.text.toString(),
-					null
-				)
-			).customEnqueue { postRes ->
-				if (postRes.isSuccessful) {
-					loadFragment(HomeFlagement())
-				}
+			}
+	}
+	private fun uploadNonImage() {
+		requestToServer.service.requestPost(
+			App.prefs.local_login_token,
+			RequestPost(
+				et_add_content.text.toString(),
+				null
+			)
+		).customEnqueue { postRes ->
+			if (postRes.isSuccessful) {
+				gotoMain()
 			}
 		}
-
-
 	}
+
+
 
 	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 		super.onActivityResult(requestCode, resultCode, data)
@@ -160,5 +200,10 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 		rv_image_list.adapter = imageAdapter
 	}
 
+	private fun gotoMain() {
+		val intent = Intent(this, MainActivity::class.java)
+		startActivity(intent)
+		finish()
+	}
 
 }
