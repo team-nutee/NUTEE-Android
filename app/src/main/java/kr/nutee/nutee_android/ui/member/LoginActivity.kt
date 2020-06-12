@@ -25,8 +25,6 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 	private val REQUEST_CODE = 1
 	private val requestToServer = RequestToServer
 
-	lateinit var responseLogin:ResponseLogin
-
 	val logTag = "LoginActivityButtonEv"
 
 
@@ -65,7 +63,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 		when (v!!.id) {
 			//id&pw 찾기 버튼 클릭시
 			R.id.text_forget_id_or_pw_button -> {
-				Log.d(logTag, "forget id or pw text button test")
+				val intent = Intent(this,UserFindActivity::class.java)
+				startActivity(intent)
 			}
 
 			//로그인 버튼 클릭시
