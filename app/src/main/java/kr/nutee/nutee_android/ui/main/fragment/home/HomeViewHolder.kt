@@ -8,9 +8,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import kotlinx.android.synthetic.main.main_fragment_home.view.*
-import kotlinx.android.synthetic.main.term_of_use_activity.view.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.DateParser
@@ -24,9 +21,6 @@ import kr.nutee.nutee_android.ui.extend.imageSetting
 import kr.nutee.nutee_android.ui.main.MainActivity
 import kr.nutee.nutee_android.ui.main.fragment.add.AddActivity
 import kr.nutee.nutee_android.ui.main.fragment.home.detail.HomeDetailFragment
-import kr.nutee.nutee_android.ui.member.LoginActivity
-import okhttp3.internal.notify
-import java.util.ArrayList
 
 
 /*home fragment RecyclerView 내부 하나의 뷰의 정보를 지정하는 클래스 */
@@ -44,7 +38,11 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 	val text_main_updateat = itemView.findViewById<TextView>(R.id.text_main_updateat)
 	val img_main_more = itemView.findViewById<ImageView>(R.id.img_main_more)
 
-	fun bind(customData: ResponseMainItem) {
+	fun bind(
+		customData: ResponseMainItem,
+		position: Int,
+		homeAdapter: HomeAdapter
+	) {
 		val userImageLoad = imageSetting(customData.User.Image?.src)
 		Glide.with(itemView).load(userImageLoad).into(profileImg)
 		profileName.text = customData.User.nickname
@@ -66,15 +64,44 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 		img_main_more.setOnClickListener{
 			moreEvent(it,customData)
 		}
+		btn_favorite.setOnClickListener {
+			likeClickEvent(it, customData ,position, homeAdapter)
+		}
 	}
 
 	private fun setLikeEvent(it: View, customData: ResponseMainItem) {
 		val boolLike = customData.Likers.any{ liker ->
 			liker.Like.UserId == App.prefs.local_user_id.toInt()
 		}
-
 		it.isActivated = boolLike
+	}
 
+	private fun likeClickEvent(
+		it: View,
+		customData: ResponseMainItem,
+		position: Int,
+		homeAdapter: HomeAdapter
+	) {
+		if (it.isActivated) {
+			//좋아요 버튼 눌림
+			requestToServer.service.requestDelLike(App.prefs.local_login_token, customData.id)
+				.customEnqueue { res->
+					if (res.isSuccessful) {
+						it.isActivated = false
+						text_main_count_like.text = (text_main_count_like.text.toString().toInt() - 1).toString()
+					}
+				}
+
+		} else {
+			//좋아요 안눌림
+			requestToServer.service.requestLike(App.prefs.local_login_token, customData.id)
+				.customEnqueue { res->
+					if (res.isSuccessful) {
+						it.isActivated = true
+						text_main_count_like.text = (text_main_count_like.text.toString().toInt() + 1).toString()
+					}
+				}
+		}
 	}
 
 	private fun moreEvent(it:View, customData: ResponseMainItem) {
