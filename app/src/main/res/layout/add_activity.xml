@@ -90,6 +90,6 @@
         android:layout_height="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/main_image_img" />
+        app:srcCompat="@drawable/add_image_img" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
