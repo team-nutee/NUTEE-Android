@@ -7,13 +7,14 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.main_activity.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.ui.extend.loadFragment
 import kr.nutee.nutee_android.ui.main.fragment.add.AddActivity
-import kr.nutee.nutee_android.ui.main.fragment.home.HomeFlagement
-import kr.nutee.nutee_android.ui.main.fragment.notice.NoticeFlagment
+import kr.nutee.nutee_android.ui.main.fragment.home.HomeFragement
+import kr.nutee.nutee_android.ui.main.fragment.notice.NoticeFragment
 import kr.nutee.nutee_android.ui.main.fragment.profile.ProfileFragment
 import kr.nutee.nutee_android.ui.main.fragment.search.SearchFragment
 import kr.nutee.nutee_android.ui.setting.SettingActivity
@@ -21,7 +22,6 @@ import kr.nutee.nutee_android.ui.setting.SettingActivity
 class MainActivity : AppCompatActivity() {
 
 	private var pressTime:Long = 0 //onBackPressedEvent 처리 변수
-	private val REQUEST_CODE_ADD = 101
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
 	private fun init() {
 		//초기 fragment 설정
-		supportFragmentManager.beginTransaction().replace(R.id.frame_layout, HomeFlagement()).commitAllowingStateLoss()
+		supportFragmentManager.beginTransaction().replace(R.id.frame_layout, HomeFragement()).commitAllowingStateLoss()
 
 		text_setting.setOnClickListener {
 			val intent = Intent(this, SettingActivity::class.java)
@@ -57,41 +57,54 @@ class MainActivity : AppCompatActivity() {
 		}
     }
 
+	private fun setFlagment(title: CharSequence, fragment: Fragment, visibility: Int) {
+		main_title.text = title
+		loadFragment(fragment)
+		text_setting.visibility = visibility
+	}
+
     // NavigationBottomView 화면전환
     private fun mainNavigationBottomView(bottomNavigationView: BottomNavigationView){
         bottomNavigationView.setOnNavigationItemSelectedListener {
             when(it.itemId){
                 R.id.menu_home-> {
-                    main_title.text = resources.getText(R.string.fragment_home)
-                    loadFragment(HomeFlagement())
-                    text_setting.visibility = View.INVISIBLE
+					setFlagment(
+						resources.getText(R.string.fragment_home),
+						HomeFragement(),
+						View.INVISIBLE
+					)
 					return@setOnNavigationItemSelectedListener true
                 }
 
                 R.id.menu_search-> {
-                    main_title.text = resources.getString(R.string.fragment_search)
-                    loadFragment(SearchFragment())
-                    text_setting.visibility = View.INVISIBLE
+					setFlagment(
+						resources.getText(R.string.fragment_search),
+						SearchFragment(),
+						View.INVISIBLE
+					)
 					return@setOnNavigationItemSelectedListener true
                 }
 
                 R.id.menu_add-> {
                     val intent = Intent(this, AddActivity::class.java)
-                    startActivityForResult(intent,REQUEST_CODE_ADD)
-					return@setOnNavigationItemSelectedListener true
+					startActivity(intent)
                 }
 
                 R.id.menu_pin-> {
-                    main_title.text = resources.getString(R.string.fragment_notice)
-                    loadFragment(NoticeFlagment())
-                    text_setting.visibility = View.INVISIBLE
+					setFlagment(
+						resources.getString(R.string.fragment_notice),
+						NoticeFragment(),
+						View.INVISIBLE
+					)
 					return@setOnNavigationItemSelectedListener true
                 }
 
                 R.id.menu_profile-> {
-                    main_title.text = resources.getString(R.string.fragment_profile)
-                    loadFragment(ProfileFragment())
-                    text_setting.visibility = View.VISIBLE
+					setFlagment(
+						resources.getString(R.string.fragment_profile),
+						ProfileFragment(),
+						View.VISIBLE
+					)
 					return@setOnNavigationItemSelectedListener true
                 }
 
@@ -99,16 +112,6 @@ class MainActivity : AppCompatActivity() {
             false
         }
     }
-
-	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-		super.onActivityResult(requestCode, resultCode, data)
-		if (resultCode == REQUEST_CODE_ADD && resultCode == Activity.RESULT_OK) {
-			Log.d("ADD","리프레시 성공")
-			main_title.text = resources.getText(R.string.fragment_home)
-			loadFragment(HomeFlagement())
-			text_setting.visibility = View.INVISIBLE
-		}
-	}
 
 }
 

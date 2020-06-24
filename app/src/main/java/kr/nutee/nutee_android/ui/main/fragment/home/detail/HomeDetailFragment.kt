@@ -23,7 +23,7 @@ import kr.nutee.nutee_android.ui.extend.dialog.cumstomReportDialog
 import kr.nutee.nutee_android.ui.extend.dialog.customSelectDialog
 import kr.nutee.nutee_android.ui.extend.imageSetting.imageSetting
 import kr.nutee.nutee_android.ui.main.MainActivity
-import kr.nutee.nutee_android.ui.main.fragment.home.HomeFlagement
+import kr.nutee.nutee_android.ui.main.fragment.home.HomeFragement
 
 /**
  * A simple [Fragment] subclass.
@@ -179,7 +179,7 @@ class HomeDetailFragment(private var lastId: Int) : Fragment(),View.OnClickListe
 						res.id
 					).customEnqueue {
 						if (it.isSuccessful) {
-							HomeFlagement()
+							HomeFragement()
 						}
 					}
 				})

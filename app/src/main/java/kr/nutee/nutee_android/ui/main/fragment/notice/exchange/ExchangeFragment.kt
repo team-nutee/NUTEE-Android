@@ -1,4 +1,4 @@
-package kr.nutee.nutee_android.ui.main.fragment.notice
+package kr.nutee.nutee_android.ui.main.fragment.notice.exchange
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,14 +8,17 @@ import android.view.ViewGroup
 
 import kr.nutee.nutee_android.R
 
-
-class NoticeFlagment : Fragment() {
+/**
+ * A simple [Fragment] subclass.
+ */
+class ExchangeFragment : Fragment() {
 
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View? {
 		// Inflate the layout for this fragment
-		return inflater.inflate(R.layout.main_fragment_notice, container, false)
+		return inflater.inflate(R.layout.notice_fragment_exchange, container, false)
 	}
+
 }

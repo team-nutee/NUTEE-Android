@@ -120,7 +120,7 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 						customData.id
 					).customEnqueue {
 						if (it.isSuccessful) {
-							HomeFlagement()
+							HomeFragement()
 						}
 					}
 				})

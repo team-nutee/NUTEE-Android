@@ -18,7 +18,7 @@ import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.InfiniteScrollListener
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 
-class HomeFlagement() : Fragment() {
+class HomeFragement() : Fragment() {
 
 	private lateinit var homeAdapter: HomeAdapter
 	val requestToServer = RequestToServer

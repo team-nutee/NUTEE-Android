@@ -5,7 +5,6 @@ import android.app.Service
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -89,7 +88,6 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	override fun onBackPressed() {
 		//뒤로가기 버튼을 클릭한경우 custom dialog를 띄우고 이벤트 처리
 		customDialog("작성을 취소하시겠습니까??") {
-			setResult(Activity.RESULT_CANCELED)
 			finish()
 		}
 	}

@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import kr.nutee.nutee_android.R
 
 
-class ClassFlagment : Fragment() {
+class ClassFragment : Fragment() {
 
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?,
