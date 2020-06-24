@@ -16,7 +16,7 @@ import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.member.register.*
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.changeLayoutDown
-import kr.nutee.nutee_android.ui.extend.customDialog
+import kr.nutee.nutee_android.ui.extend.dialog.customDialog
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.extend.textChangedListener
 

@@ -1,4 +1,4 @@
-package kr.nutee.nutee_android.ui.extend
+package kr.nutee.nutee_android.ui.extend.dialog
 
 import android.app.Dialog
 import android.content.Context

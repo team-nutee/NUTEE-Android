@@ -2,7 +2,6 @@ package kr.nutee.nutee_android.ui.main.fragment.home.detail
 
 import android.os.Bundle
 import android.util.Log
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +19,9 @@ import kr.nutee.nutee_android.data.main.home.ResponseMainItem
 import kr.nutee.nutee_android.data.main.home.detail.RequestComment
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.*
+import kr.nutee.nutee_android.ui.extend.dialog.cumstomReportDialog
+import kr.nutee.nutee_android.ui.extend.dialog.customSelectDialog
+import kr.nutee.nutee_android.ui.extend.imageSetting.imageSetting
 import kr.nutee.nutee_android.ui.main.MainActivity
 import kr.nutee.nutee_android.ui.main.fragment.home.HomeFlagement
 
@@ -56,7 +58,10 @@ class HomeDetailFragment(private var lastId: Int) : Fragment(),View.OnClickListe
 		//postId 저장
 		postId = responseMainItem.id!!
 		//유저 이미지 매핑
-		val userImageLoad = imageSetting(responseMainItem.User.Image?.src)
+		val userImageLoad =
+			imageSetting(
+				responseMainItem.User.Image?.src
+			)
 		context?.let { Glide.with(it).load(userImageLoad).into(img_detail_profile) }
 		//유저 정보 매핑
 		text_detail_nick.text = responseMainItem.User.nickname
@@ -116,7 +121,11 @@ class HomeDetailFragment(private var lastId: Int) : Fragment(),View.OnClickListe
 					val imageList = listOf<ImageView>(img_detail_image2_1, img_detail_image2_2)
 					for (i in 0 until 2) {
 						context?.let {
-							Glide.with(it).load(imageSetting(response.Images[i].src))
+							Glide.with(it).load(
+								imageSetting(
+									response.Images[i].src
+								)
+							)
 								.into(imageList[i])
 						}
 					}
@@ -131,7 +140,11 @@ class HomeDetailFragment(private var lastId: Int) : Fragment(),View.OnClickListe
 						)
 					for (i in 0 until 3) {
 						context?.let {
-							Glide.with(it).load(imageSetting(response.Images[i].src))
+							Glide.with(it).load(
+								imageSetting(
+									response.Images[i].src
+								)
+							)
 								.into(imageList[i])
 						}
 					}
@@ -139,7 +152,11 @@ class HomeDetailFragment(private var lastId: Int) : Fragment(),View.OnClickListe
 				else -> {
 					cl_detail_image_more.visibility = View.VISIBLE
 					context?.let {
-						Glide.with(it).load(imageSetting(response.Images[0].src))
+						Glide.with(it).load(
+							imageSetting(
+								response.Images[0].src
+							)
+						)
 							.into(img_detail_image_more_top)
 					}
 				}

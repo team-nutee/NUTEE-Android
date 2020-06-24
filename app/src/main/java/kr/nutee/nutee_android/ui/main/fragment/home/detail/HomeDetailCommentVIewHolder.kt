@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.DateParser
 import kr.nutee.nutee_android.data.main.home.Comment
-import kr.nutee.nutee_android.ui.extend.imageSetting
+import kr.nutee.nutee_android.ui.extend.imageSetting.imageSetting
 
 class HomeDetailCommentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -17,10 +17,21 @@ class HomeDetailCommentViewHolder(itemView: View) : RecyclerView.ViewHolder(item
 	val text_comment_content = itemView.findViewById<TextView>(R.id.text_comment_content)
 	val text_comment_updateAt = itemView.findViewById<TextView>(R.id.text_comment_updateAt)
 
+	val more_button = itemView.findViewById<ImageView>(R.id.img_comment_more)
+
     fun bind(customData: Comment) {
-		Glide.with(itemView).load(imageSetting(customData.User?.Image?.src)).into(img_comment_profile)
+		Glide.with(itemView).load(
+			imageSetting(
+				customData.User?.Image?.src
+			)
+		).into(img_comment_profile)
 		text_commnet_nick.text = customData.User?.nickname
 		text_comment_content.text = customData.content
 		text_comment_updateAt.text = DateParser(customData.updatedAt).calculateDiffDate()
+		more_button.setOnClickListener {  }
     }
+
+	private fun more(){
+
+	}
 }

@@ -13,7 +13,7 @@ import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.member.login.ResponseLogin
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
-import kr.nutee.nutee_android.ui.extend.imageSetting
+import kr.nutee.nutee_android.ui.extend.imageSetting.imageSetting
 
 class ProfileFragment : Fragment() {
 
@@ -41,7 +41,8 @@ class ProfileFragment : Fragment() {
 
 	private fun bindUserProfile(res: ResponseLogin) {
 		text_user_name.text = res.nickname
-		val userImageLoad = imageSetting(res.Image)
+		val userImageLoad =
+			imageSetting(res.Image)
 		context?.let { Glide.with(it).load(userImageLoad).into(img_profile_image) }
 		text_profile_content_num.text = res.Posts.size.toString()
 	}

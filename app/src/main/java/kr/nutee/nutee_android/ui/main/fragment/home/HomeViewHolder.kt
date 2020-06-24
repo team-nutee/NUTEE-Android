@@ -14,10 +14,10 @@ import kr.nutee.nutee_android.data.DateParser
 import kr.nutee.nutee_android.data.main.RequestReport
 import kr.nutee.nutee_android.data.main.home.ResponseMainItem
 import kr.nutee.nutee_android.network.RequestToServer
-import kr.nutee.nutee_android.ui.extend.cumstomReportDialog
+import kr.nutee.nutee_android.ui.extend.dialog.cumstomReportDialog
 import kr.nutee.nutee_android.ui.extend.customEnqueue
-import kr.nutee.nutee_android.ui.extend.customSelectDialog
-import kr.nutee.nutee_android.ui.extend.imageSetting
+import kr.nutee.nutee_android.ui.extend.dialog.customSelectDialog
+import kr.nutee.nutee_android.ui.extend.imageSetting.imageSetting
 import kr.nutee.nutee_android.ui.main.MainActivity
 import kr.nutee.nutee_android.ui.main.fragment.add.AddActivity
 import kr.nutee.nutee_android.ui.main.fragment.home.detail.HomeDetailFragment
@@ -43,7 +43,8 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 		position: Int,
 		homeAdapter: HomeAdapter
 	) {
-		val userImageLoad = imageSetting(customData.User.Image?.src)
+		val userImageLoad =
+			imageSetting(customData.User.Image?.src)
 		Glide.with(itemView).load(userImageLoad).into(profileImg)
 		profileName.text = customData.User.nickname
 		text_main_updateat.text = customData.updatedAt?.let { DateParser(it).calculateDiffDate() }

@@ -11,7 +11,6 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentActivity
 import kotlinx.android.synthetic.main.add_activity.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
@@ -19,8 +18,9 @@ import kr.nutee.nutee_android.data.main.add.RequestFixPost
 import kr.nutee.nutee_android.data.main.add.RequestPost
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.*
+import kr.nutee.nutee_android.ui.extend.dialog.customDialog
+import kr.nutee.nutee_android.ui.extend.imageSetting.createImageMultipart
 import kr.nutee.nutee_android.ui.main.MainActivity
-import kr.nutee.nutee_android.ui.main.fragment.home.HomeFlagement
 
 
 /*
@@ -73,7 +73,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 					"안드로이드 버전에서는 이미지 업로드시\n 이미지 불러오기가 불안정하여 추후 업데이트 예정입니다.",
 					Toast.LENGTH_SHORT
 				).show()
-				//openImageChooser()
+				openImageChooser()
 			}
 			R.id.text_create_button -> {
 				if (intent.hasExtra("content")) {
@@ -96,7 +96,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 
 	private fun openImageChooser() {
 		Intent(Intent.ACTION_PICK).also {
-			it.type = MediaStore.Images.Media.CONTENT_TYPE
+			it.type = "image/*"
 			it.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
 			val mimeTypes = arrayOf("image/jpeg", "image/png")
 			it.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)

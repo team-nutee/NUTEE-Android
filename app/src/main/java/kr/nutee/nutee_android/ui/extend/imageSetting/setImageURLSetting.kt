@@ -1,4 +1,4 @@
-package kr.nutee.nutee_android.ui.extend
+package kr.nutee.nutee_android.ui.extend.imageSetting
 
 import kr.nutee.nutee_android.network.RequestToServer
 

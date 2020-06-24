@@ -55,7 +55,7 @@ interface RequestInterface {
 	//Like post
 	@POST("/api/post/{id}/like")
 	fun requestLike(@Header("Cookie") cookie: String, @Path("id") id: Int?): Call<Unit>
-
+	//UnLike post
 	@DELETE("/api/post/{id}/like")
 	fun requestDelLike(@Header("Cookie") cookie: String, @Path("id") id: Int?): Call<Unit>
 
@@ -64,6 +64,11 @@ interface RequestInterface {
 		@Header("Cookie") cookie: String,
 		@Body content: RequestFixPost
 	): Call<ResponseMainItem>
+
+	/*comment*/
+	//comment Del
+	@DELETE("/api/post/{postId}/comment/{id}")
+	fun requestDelComment(@Path("postId")postId:Int?,@Path("id")id:Int?):Call<Unit>
 
 	/*User Profile*/
 	// load user
