@@ -5,7 +5,7 @@ import android.text.TextWatcher
 import android.widget.EditText
 
 fun EditText.textChangedListener(
-	textChanged : (CharSequence?) -> Unit
+	textChanged : (Editable?) -> Unit
 )
 {
 	this.addTextChangedListener(object : TextWatcher {
