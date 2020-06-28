@@ -2,9 +2,7 @@ package kr.nutee.nutee_android.ui.extend.imageSetting
 
 import android.content.ContentResolver
 import android.net.Uri
-import android.provider.MediaStore
 import android.provider.OpenableColumns
-import java.io.File
 
 fun ContentResolver.getFileName(fileUri: Uri): String {
 	var name = ""
@@ -16,5 +14,4 @@ fun ContentResolver.getFileName(fileUri: Uri): String {
 		returnCursor.close()
 	}
 	return name
-
 }

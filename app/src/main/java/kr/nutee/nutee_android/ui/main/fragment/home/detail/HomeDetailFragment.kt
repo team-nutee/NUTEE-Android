@@ -21,7 +21,7 @@ import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.*
 import kr.nutee.nutee_android.ui.extend.dialog.cumstomReportDialog
 import kr.nutee.nutee_android.ui.extend.dialog.customSelectDialog
-import kr.nutee.nutee_android.ui.extend.imageSetting.imageSetting
+import kr.nutee.nutee_android.ui.extend.imageSetting.setImageURLSetting
 import kr.nutee.nutee_android.ui.main.MainActivity
 import kr.nutee.nutee_android.ui.main.fragment.home.HomeFragement
 
@@ -59,12 +59,12 @@ class HomeDetailFragment(private var lastId: Int) : Fragment(),View.OnClickListe
 		postId = responseMainItem.id!!
 		//유저 이미지 매핑
 		val userImageLoad =
-			imageSetting(
-				responseMainItem.User.Image?.src
+			setImageURLSetting(
+				responseMainItem.User?.Image?.src
 			)
 		context?.let { Glide.with(it).load(userImageLoad).into(img_detail_profile) }
 		//유저 정보 매핑
-		text_detail_nick.text = responseMainItem.User.nickname
+		text_detail_nick.text = responseMainItem.User?.nickname
 		text_detail_time.text =
 			responseMainItem.createdAt?.let { DateParser(it).calculateDiffDate() }
 		text_detail_content.text = responseMainItem.content
@@ -122,7 +122,7 @@ class HomeDetailFragment(private var lastId: Int) : Fragment(),View.OnClickListe
 					for (i in 0 until 2) {
 						context?.let {
 							Glide.with(it).load(
-								imageSetting(
+								setImageURLSetting(
 									response.Images[i].src
 								)
 							)
@@ -141,7 +141,7 @@ class HomeDetailFragment(private var lastId: Int) : Fragment(),View.OnClickListe
 					for (i in 0 until 3) {
 						context?.let {
 							Glide.with(it).load(
-								imageSetting(
+								setImageURLSetting(
 									response.Images[i].src
 								)
 							)
@@ -153,7 +153,7 @@ class HomeDetailFragment(private var lastId: Int) : Fragment(),View.OnClickListe
 					cl_detail_image_more.visibility = View.VISIBLE
 					context?.let {
 						Glide.with(it).load(
-							imageSetting(
+							setImageURLSetting(
 								response.Images[0].src
 							)
 						)
@@ -166,7 +166,7 @@ class HomeDetailFragment(private var lastId: Int) : Fragment(),View.OnClickListe
 	}
 
 	private fun detailMore(res: ResponseMainItem) {
-		if (res.User.id.toString() == App.prefs.local_user_id) {
+		if (res.User?.id.toString() == App.prefs.local_user_id) {
 			context?.customSelectDialog(View.GONE, View.VISIBLE, View.VISIBLE,
 				{},
 				{

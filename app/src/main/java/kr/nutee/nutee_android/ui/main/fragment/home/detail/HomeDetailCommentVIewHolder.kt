@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.DateParser
 import kr.nutee.nutee_android.data.main.home.Comment
-import kr.nutee.nutee_android.ui.extend.imageSetting.imageSetting
+import kr.nutee.nutee_android.ui.extend.imageSetting.setImageURLSetting
 
 class HomeDetailCommentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -21,7 +21,7 @@ class HomeDetailCommentViewHolder(itemView: View) : RecyclerView.ViewHolder(item
 
     fun bind(customData: Comment) {
 		Glide.with(itemView).load(
-			imageSetting(
+			setImageURLSetting(
 				customData.User?.Image?.src
 			)
 		).into(img_comment_profile)

@@ -7,13 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.main_fragment_proflie.*
-
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.member.login.ResponseLogin
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
-import kr.nutee.nutee_android.ui.extend.imageSetting.imageSetting
+import kr.nutee.nutee_android.ui.extend.imageSetting.setImageURLSetting
 
 class ProfileFragment : Fragment() {
 
@@ -42,7 +41,7 @@ class ProfileFragment : Fragment() {
 	private fun bindUserProfile(res: ResponseLogin) {
 		text_user_name.text = res.nickname
 		val userImageLoad =
-			imageSetting(res.Image)
+			setImageURLSetting(res.Image)
 		context?.let { Glide.with(it).load(userImageLoad).into(img_profile_image) }
 		text_profile_content_num.text = res.Posts.size.toString()
 	}

@@ -17,7 +17,7 @@ import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.dialog.cumstomReportDialog
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.extend.dialog.customSelectDialog
-import kr.nutee.nutee_android.ui.extend.imageSetting.imageSetting
+import kr.nutee.nutee_android.ui.extend.imageSetting.setImageURLSetting
 import kr.nutee.nutee_android.ui.main.MainActivity
 import kr.nutee.nutee_android.ui.main.fragment.add.AddActivity
 import kr.nutee.nutee_android.ui.main.fragment.home.detail.HomeDetailFragment
@@ -44,9 +44,9 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 		homeAdapter: HomeAdapter
 	) {
 		val userImageLoad =
-			imageSetting(customData.User.Image?.src)
+			setImageURLSetting(customData.User?.Image?.src)
 		Glide.with(itemView).load(userImageLoad).into(profileImg)
-		profileName.text = customData.User.nickname
+		profileName.text = customData.User?.nickname
 		text_main_updateat.text = customData.updatedAt?.let { DateParser(it).calculateDiffDate() }
 		content.text = customData.content
 		setLikeEvent(btn_favorite,customData)
@@ -106,7 +106,7 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 	}
 
 	private fun moreEvent(it:View, customData: ResponseMainItem) {
-		if (customData.User.id.toString() == App.prefs.local_user_id) {
+		if (customData.User?.id.toString() == App.prefs.local_user_id) {
 			itemView.context.customSelectDialog(View.GONE, View.VISIBLE, View.VISIBLE,
 				{},
 				{
