@@ -6,7 +6,7 @@ data class ResponseMainItem(
     val Likers: List<Liker>,
     /*val Retweet: Any,
     val RetweetId: Any,*/
-    val User: User,
+    val User: User?,
     val UserId: Int?,
     val content: String?,
     val createdAt: String?,

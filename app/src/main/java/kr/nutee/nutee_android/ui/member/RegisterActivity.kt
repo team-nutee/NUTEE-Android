@@ -243,7 +243,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 	private fun requestNicknameCheck(next_btn:TextView) {
 		requestToServer.service.requestNickCheck(
 			RequestNickCheck(
-				userId = user_id
+				nickname = et_register_nick.text.toString()
 			)
 		).customEnqueue {
 			when (it.code()) {
