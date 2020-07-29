@@ -12,9 +12,7 @@ import kr.nutee.nutee_android.ui.member.LoginActivity
 */
 class SplashActivity : AppCompatActivity() {
 
-
     private var mDelayHandler: Handler? = null
-    private val SPLASH_DELAY: Long = 1000 //1 seconds
 
     private val mRunnable: Runnable = Runnable {
         // 아직 끝나지 않은 경우
@@ -47,5 +45,9 @@ class SplashActivity : AppCompatActivity() {
         }
 
         super.onDestroy()
+    }
+
+    companion object{
+        private const val SPLASH_DELAY: Long = 1000 //1 seconds
     }
 }

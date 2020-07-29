@@ -31,7 +31,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	private val REQUEST_CODE_PICK_IMAGE = 1001
 	var selectedImage = arrayListOf<Uri>()
 	private lateinit var imageAdapter: ImageAdapter
-	var postId = 0
+	var postId:Int = 0
 
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +44,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 
 	private fun fixDataMapping() {
 		val content = intent.getStringExtra("content")
-		postId = intent.getIntExtra("postId",0)
+		postId = intent.getIntExtra("postId", 0)
 		et_add_content.setText(content)
 	}
 
@@ -68,7 +68,8 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 		when (v!!.id) {
 			R.id.text_back_button -> onBackPressed()
 			R.id.img_upload_image_btn -> {
-				Toast.makeText(this,
+				Toast.makeText(
+					this,
 					"안드로이드 버전에서는 이미지 업로드시\n 이미지 불러오기가 불안정하여 추후 업데이트 예정입니다.",
 					Toast.LENGTH_SHORT
 				).show()
@@ -109,6 +110,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 			uploadNonImage()
 		}
 	}
+
 	private fun fixPostUpload() {
 		requestToServer.service.requestFixPost(
 			App.prefs.local_login_token,
@@ -143,26 +145,31 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 				}
 			}
 	}
-	private fun uploadNonImage() {
-		requestToServer.service.requestPost(
-			App.prefs.local_login_token,
-			RequestPost(
-				et_add_content.text.toString(),
-				null
-			)
-		).customEnqueue { postRes ->
-			if (postRes.isSuccessful) {
-				gotoMain()
-			}
-		}
-	}
 
+	private fun uploadNonImage() {
+		requestToServer.service
+			.requestPost(
+				App.prefs.local_login_token,
+				RequestPost(
+					et_add_content.text.toString(),
+					null
+				)
+			).customEnqueue { postRes ->
+				if (postRes.isSuccessful) {
+					gotoMain()
+				}
+			}
+	}
 
 
 	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 		super.onActivityResult(requestCode, resultCode, data)
 
-		if (requestCode == REQUEST_CODE_PICK_IMAGE && resultCode == Activity.RESULT_OK && data != null) {
+		if (
+			requestCode == REQUEST_CODE_PICK_IMAGE &&
+			resultCode == Activity.RESULT_OK &&
+			data != null
+		) {
 			if (data.data != null) {
 				val selectedImageArrayList = arrayListOf<Uri>()
 				if (data.clipData != null) {
@@ -182,7 +189,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 
 						}
 					}
-				}else{//멀티 선택 미지원 기기에서 clipData가 없음.
+				} else {//멀티 선택 미지원 기기에서 clipData가 없음.
 					selectedImageArrayList.add(data.data!!)
 					selectedImage = selectedImageArrayList
 					setImageAndAdpater()

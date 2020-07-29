@@ -3,7 +3,7 @@ package kr.nutee.nutee_android.data
 import android.content.Context
 import android.content.SharedPreferences
 import com.securepreferences.SecurePreferences
-import kr.nutee.nutee_android.data.member.login.ResponseLogin
+
 
 /*
 * NUTEE 사용자 정보를 로컬에 저장하는 class
@@ -35,6 +35,5 @@ class NuteeSharedPreferences(context: Context){
 	var local_user_id: String
 		get() = prefs.getString(PREFS_LOCAL_USER_ID, "")!!
 		set(value) = editor.putString(PREFS_LOCAL_USER_ID,value).apply()
-
 
 }

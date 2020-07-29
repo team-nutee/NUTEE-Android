@@ -75,6 +75,4 @@ dependencies {
 
     //사진을 보내거나 retrofit으로 오가는 로그를 기록하기 위한 라이브러리
     implementation 'com.squareup.okhttp3:okhttp:4.7.2'
-
-
 }
