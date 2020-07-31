@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.member.register.fragment.EmailAuthFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_register_email_auth_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_register_email_auth_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="인증을 위해 학교 이메일이 필요해요!😄"
+            android:textColor="@android:color/black"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_register_email_auth_email_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/emailText"
+            android:textColor="@android:color/black"
+            android:textSize="17dp"
+            app:layout_constraintStart_toStartOf="@id/tv_register_email_auth_title_text"
+            app:layout_constraintTop_toBottomOf="@id/tv_register_email_auth_title_text" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_input_register_email_auth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            app:layout_constraintStart_toStartOf="@+id/tv_register_email_auth_email_text"
+            app:layout_constraintTop_toBottomOf="@+id/tv_register_email_auth_email_text">
+
+            <EditText
+                android:id="@+id/et_email_auth"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="7dp"
+                android:hint="@string/skhuEmail"
+                android:inputType="textEmailAddress"
+                android:textSize="14dp"
+                app:layout_constraintEnd_toStartOf="@+id/tv_email_auth_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_email_auth_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="인증하기"
+                android:textColor="@color/text_selector"
+                app:layout_constraintBottom_toBottomOf="@+id/et_email_auth"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/et_email_auth" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="11dp"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="@+id/et_email_auth"
+                app:layout_constraintStart_toStartOf="@+id/et_email_auth"
+                app:layout_constraintTop_toBottomOf="@+id/et_email_auth"
+                tools:text="emailOTP" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_input_register_email_otp_auth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="@+id/cl_input_register_email_auth"
+            app:layout_constraintTop_toBottomOf="@+id/cl_input_register_email_auth">
+
+            <EditText
+                android:id="@+id/et_email_otp_auth"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="7dp"
+                android:hint="@string/skhuEmail"
+                android:inputType="textEmailAddress"
+                android:textSize="14dp"
+                app:layout_constraintEnd_toStartOf="@+id/tv_email_auth_otp_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_email_auth_otp_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="인증하기"
+                android:textColor="@color/text_selector"
+                app:layout_constraintBottom_toBottomOf="@+id/et_email_otp_auth"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/et_email_otp_auth" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="11dp"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="@+id/et_email_otp_auth"
+                app:layout_constraintStart_toStartOf="@+id/et_email_otp_auth"
+                app:layout_constraintTop_toBottomOf="@+id/et_email_otp_auth"
+                tools:text="emailOTP" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_register_email_auth_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/tv_email_auth_next"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/next"
+            android:textColor="@color/text_selector"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_eamil_auth_previous"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/tv_eamil_auth_previous"
+            app:layout_constraintTop_toTopOf="@+id/tv_eamil_auth_previous" />
+
+        <TextView
+            android:id="@+id/tv_eamil_auth_previous"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/preivious"
+            android:textColor="@color/text_selector"
+            android:textSize="20dp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_email_auth_next"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

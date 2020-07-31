@@ -128,4 +128,9 @@ NUTEE(이하 누티) 서비스 이용약관은 S&amp;N(이하 소울)이 서비�
     </string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="skhuEmail">email@office.skhu.ac.kr</string>
+    <string name="emailText">이메일</string>
+    <string name="closeText">닫기</string>
+    <string name="preivious">이전</string>
+    <string name="next">다음</string>
 </resources>
