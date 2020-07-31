@@ -47,7 +47,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_register_email_auth_email_text">
 
             <EditText
-                android:id="@+id/et_email_auth"
+                android:id="@+id/et_register_email_input"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="7dp"
@@ -65,18 +65,17 @@
                 android:enabled="false"
                 android:text="인증하기"
                 android:textColor="@color/text_selector"
-                app:layout_constraintBottom_toBottomOf="@+id/et_email_auth"
+                app:layout_constraintBottom_toBottomOf="@+id/et_register_email_input"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/et_email_auth" />
+                app:layout_constraintTop_toTopOf="@+id/et_register_email_input" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="11dp"
-                android:visibility="invisible"
-                app:layout_constraintEnd_toEndOf="@+id/et_email_auth"
-                app:layout_constraintStart_toStartOf="@+id/et_email_auth"
-                app:layout_constraintTop_toBottomOf="@+id/et_email_auth"
+                app:layout_constraintEnd_toEndOf="@+id/et_register_email_input"
+                app:layout_constraintStart_toStartOf="@+id/et_register_email_input"
+                app:layout_constraintTop_toBottomOf="@+id/et_register_email_input"
                 tools:text="emailOTP" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -115,7 +114,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="11dp"
-                android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="@+id/et_email_otp_auth"
                 app:layout_constraintStart_toStartOf="@+id/et_email_otp_auth"
                 app:layout_constraintTop_toBottomOf="@+id/et_email_otp_auth"
