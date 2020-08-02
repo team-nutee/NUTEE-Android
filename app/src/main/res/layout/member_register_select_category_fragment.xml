@@ -7,7 +7,7 @@
     tools:context=".ui.member.register.fragment.EmailAuthFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_register_email_auth_content"
+        android:id="@+id/cl_register_nick_name_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="20dp"
@@ -45,7 +45,9 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:textIsSelectable="true"
+                />
 
             <ImageView
                 android:id="@+id/et_register_select_category_add_btn"
