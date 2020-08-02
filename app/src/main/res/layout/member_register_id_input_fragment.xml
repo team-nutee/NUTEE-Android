@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.member.register.fragment.EmailAuthFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_register_id_input_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_register_id_input_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="아이디를 입력해주세요!!"
+            android:textColor="@android:color/black"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_register_id_input_id_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/idText"
+            android:textColor="@android:color/black"
+            android:textSize="17dp"
+            app:layout_constraintStart_toStartOf="@id/tv_register_id_input_title_text"
+            app:layout_constraintTop_toBottomOf="@id/tv_register_id_input_title_text" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_input_register_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            app:layout_constraintStart_toStartOf="@+id/tv_register_id_input_id_text"
+            app:layout_constraintTop_toBottomOf="@+id/tv_register_id_input_id_text">
+
+            <EditText
+                android:id="@+id/et_register_id_input"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/idText"
+                android:inputType="textEmailAddress"
+                android:textSize="14dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/tv_register_id_input_result_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="11dp"
+                app:layout_constraintEnd_toEndOf="@+id/et_register_id_input"
+                app:layout_constraintStart_toStartOf="@+id/et_register_id_input"
+                app:layout_constraintTop_toBottomOf="@+id/et_register_id_input"
+                tools:text="id" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_register_id_input_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/tv_id_input_next"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/next"
+            android:textColor="@color/text_selector"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_id_input_previous"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/tv_id_input_previous"
+            app:layout_constraintTop_toTopOf="@+id/tv_id_input_previous" />
+
+        <TextView
+            android:id="@+id/tv_id_input_previous"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/preivious"
+            android:textColor="@color/text_selector"
+            android:textSize="20dp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_id_input_next"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
