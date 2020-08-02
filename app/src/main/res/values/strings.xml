@@ -137,4 +137,5 @@ NUTEE(이하 누티) 서비스 이용약관은 S&amp;N(이하 소울)이 서비�
     <string name="nickNameText">닉네임</string>
     <string name="categoryText">카테고리</string>
     <string name="departmentText">전공</string>
+    <string name="passwordText">비밀번호</string>
 </resources>
