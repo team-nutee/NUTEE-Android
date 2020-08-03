@@ -81,6 +81,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:visibility="gone"
             android:id="@+id/cl_input_register_email_otp_auth"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

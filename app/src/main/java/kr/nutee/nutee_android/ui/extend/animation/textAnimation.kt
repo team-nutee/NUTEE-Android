@@ -14,5 +14,4 @@ fun Context.showTextShake(myTextView: TextView, msg: String, color:Int) {
 	val animation: Animation =
 		AnimationUtils.loadAnimation(this, R.anim.shake)
 	myTextView.startAnimation(animation)
-	myTextView.visibility = View.VISIBLE
 }
