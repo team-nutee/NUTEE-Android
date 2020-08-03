@@ -101,9 +101,7 @@ class EmailAuthFragment : Fragment(), View.OnClickListener {
 				registerEmailPrevious?.invoke()
 			}
 			R.id.tv_email_auth_next -> {
-				onRegisterDataSetListener?.onRegisterEmailDataSetListener(
-					et_register_email_input.text.toString()
-				)
+				email?.let { onRegisterDataSetListener?.onRegisterEmailDataSetListener(it) }
 				registerEmailNext?.invoke()
 			}
 		}

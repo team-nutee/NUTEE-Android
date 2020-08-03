@@ -7,6 +7,7 @@ import kotlinx.android.synthetic.main.register_activity.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.dialog.customDialog
+import kr.nutee.nutee_android.ui.extend.loadFragment
 import kr.nutee.nutee_android.ui.extend.loadFragmentAddtoBackStack
 import kr.nutee.nutee_android.ui.member.register.fragment.EmailAuthFragment
 
@@ -48,10 +49,9 @@ class RegisterActivity : AppCompatActivity(),OnRegisterDataSetListener {
 		emailAuthFragment.setEmailAuthEventListener {email->
 			Log.d("EmailTest",email.text.toString())
 		}
-		loadFragmentAddtoBackStack(
+		loadFragment(
 			emailAuthFragment,
-			R.id.fl_register_frame_layout,
-			"emailAuth"
+			R.id.fl_register_frame_layout
 		)
 	}
 

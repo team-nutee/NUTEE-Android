@@ -14,6 +14,16 @@ fun Context.loadMainPageFragment(fragment: Fragment) {
 	transaction.commit()
 }
 
+fun Context.loadFragment(
+	fragment: Fragment,
+	view: Int
+){
+	val transaction
+			= (this as FragmentActivity).supportFragmentManager.beginTransaction()
+	transaction.replace(view, fragment)
+	transaction.commit()
+}
+
 fun Context.loadFragmentAddtoBackStack(
 	fragment: Fragment,
 	view:Int,
