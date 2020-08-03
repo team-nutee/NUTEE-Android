@@ -1,9 +1,7 @@
 package kr.nutee.nutee_android.ui.main
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -11,7 +9,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.main_activity.*
 import kr.nutee.nutee_android.R
-import kr.nutee.nutee_android.ui.extend.loadFragment
+import kr.nutee.nutee_android.ui.extend.loadMainPageFragment
 import kr.nutee.nutee_android.ui.main.fragment.add.AddActivity
 import kr.nutee.nutee_android.ui.main.fragment.home.HomeFragement
 import kr.nutee.nutee_android.ui.main.fragment.notice.NoticeFragment
@@ -59,7 +57,7 @@ class MainActivity : AppCompatActivity() {
 
 	private fun setFlagment(title: CharSequence, fragment: Fragment, visibility: Int) {
 		main_title.text = title
-		loadFragment(fragment)
+		loadMainPageFragment(fragment)
 		text_setting.visibility = visibility
 	}
 

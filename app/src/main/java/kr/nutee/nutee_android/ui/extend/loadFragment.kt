@@ -7,9 +7,22 @@ import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.ui.main.MainActivity
 
 //fragment load 함수
-fun Context.loadFragment(fragment: Fragment) {
-	val transaction = (this as FragmentActivity).supportFragmentManager.beginTransaction()
+fun Context.loadMainPageFragment(fragment: Fragment) {
+	val transaction =
+		(this as FragmentActivity).supportFragmentManager.beginTransaction()
 	transaction.replace(R.id.frame_layout, fragment)
+	transaction.commit()
+}
+
+fun Context.loadFragmentAddtoBackStack(
+	fragment: Fragment,
+	view:Int,
+	backStackName:String
+) {
+	val transaction =
+		(this as FragmentActivity).supportFragmentManager.beginTransaction()
+	transaction.replace(view, fragment)
+	transaction.addToBackStack(backStackName)
 	transaction.commit()
 }
 
