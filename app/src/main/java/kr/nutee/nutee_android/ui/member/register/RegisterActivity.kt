@@ -46,7 +46,6 @@ class RegisterActivity : AppCompatActivity(),OnRegisterDataSetListener {
 
 	private fun emailAuthFragmentMapping() {
 		emailAuthFragment.setEmailAuthEventListener {email->
-
 			Log.d("EmailTest",email.text.toString())
 		}
 		loadFragmentAddtoBackStack(

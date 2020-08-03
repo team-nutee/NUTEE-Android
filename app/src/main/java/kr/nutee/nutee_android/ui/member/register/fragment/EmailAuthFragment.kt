@@ -14,6 +14,7 @@ import android.widget.TextView
 import kotlinx.android.synthetic.main.member_register_email_auth_fragment.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.ValidData
+import kr.nutee.nutee_android.ui.extend.animation.showTextShake
 import kr.nutee.nutee_android.ui.extend.textChangedListener
 import kr.nutee.nutee_android.ui.member.register.OnRegisterDataSetListener
 import java.lang.RuntimeException
@@ -63,6 +64,9 @@ class EmailAuthFragment : Fragment(), View.OnClickListener {
 		et_register_email_input.textChangedListener { email->
 			emailInputButtonEnable(email)
 		}
+		et_email_otp_auth.textChangedListener { otpNum->
+			tv_email_auth_otp_button.isEnabled = !otpNum.isNullOrBlank()
+		}
 	}
 
 	private fun emailInputButtonEnable(email: Editable?) {
@@ -72,27 +76,14 @@ class EmailAuthFragment : Fragment(), View.OnClickListener {
 			return
 		}
 		tv_email_auth_button.isEnabled = false
-		showTextShake(
+		requireContext().showTextShake(
 			tv_register_email_auth_result,
 			"올바르지 못한 이메일 입니다",
 			R.color.colorRed
 		)
 	}
 
-	private fun otpButtonEnable(otpNum: Editable?) {
-
-	}
-
-	/* 애니메이션 설정 */
-	private fun showTextShake(myTextView: TextView, msg: String, color:Int) {
-		myTextView.text = msg
-		myTextView.setTextColor(requireContext().getColor(color))
-		val animation: Animation =
-			AnimationUtils.loadAnimation(requireContext(), R.anim.shake)
-		myTextView.startAnimation(animation)
-		myTextView.visibility = View.VISIBLE
-	}
-
+	//fragment 종료시 내용 초기화.
 	override fun onDetach() {
 		onRegisterDataSetListener = null
 		email = null
@@ -120,7 +111,7 @@ class EmailAuthFragment : Fragment(), View.OnClickListener {
 
 	private fun emailAuthClickEvent() {
 		if (email == et_register_email_input.text.toString()) {
-			showTextShake(
+			requireContext().showTextShake(
 				tv_register_email_auth_result,
 				"전송된 이메일을 확인해주세요!!",
 				R.color.nuteeBase
@@ -128,7 +119,7 @@ class EmailAuthFragment : Fragment(), View.OnClickListener {
 			return
 		}
 		emailAuthEventListener?.invoke(et_register_email_input)
-		showTextShake(
+		requireContext().showTextShake(
 			tv_register_email_auth_result,
 			"이메일을 전송했습니다. 확인해주세요!!",
 			R.color.nuteeBase
