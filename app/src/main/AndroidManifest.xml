@@ -25,7 +25,10 @@
         <activity android:name=".ui.member.register.RegisterActivity" />
         <activity android:name=".ui.member.LoginActivity" />
         <activity android:name=".ui.main.MainActivity" /> <!-- Splash 화면 -->
-        <activity android:name=".ui.SplashActivity">
+        <activity android:name=".ui.SplashActivity"/>
+
+        <activity android:name=".data.main.home.detail.ShowDetailImageView"
+            android:theme="@style/Transparent">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
