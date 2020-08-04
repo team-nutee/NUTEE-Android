@@ -23,11 +23,13 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="34dp"
             android:layout_marginRight="34dp"
+            android:padding="10dp"
             android:text="닫기"
             android:textSize="20dp"
             android:textColor="@color/nuteeBase"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             tools:layout_editor_absoluteY="15dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -76,6 +78,7 @@
             android:layout_marginStart="73dp"
             android:layout_marginEnd="146dp"
             android:layout_marginBottom="22dp"
+            android:padding="10dp"
             android:text="이전"
             android:textColor="@color/nuteeBase"
             android:textSize="20dp"
@@ -91,6 +94,7 @@
             android:layout_marginBottom="22dp"
             android:layout_marginEnd="73dp"
             android:layout_marginRight="73dp"
+            android:padding="10dp"
             android:text="다음"
             android:textColor="@color/nuteeBase"
             android:textSize="20dp"
