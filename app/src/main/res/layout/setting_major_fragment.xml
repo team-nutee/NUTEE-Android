@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingRight="20dp"
+    android:paddingLeft="20dp">
+
+    <TextView
+        android:id="@+id/tv_setting_major_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:textSize="18dp"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:text="전공을 설정해주세요!!"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_setting_first_major_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tv_setting_major_text"
+        app:layout_constraintTop_toBottomOf="@+id/tv_setting_major_text">
+
+        <TextView
+            android:id="@+id/tv_setting_first_major_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="3sp"
+            android:text="전공"
+            android:textColor="#000000"
+            android:textSize="17dp"
+            app:layout_constraintStart_toStartOf="@id/cl_setting_first_major_input"
+            app:layout_constraintTop_toTopOf="@+id/cl_setting_first_major_input" />
+
+        <EditText
+            android:id="@+id/et_setting_first_major"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="9dp"
+            android:hint="첫 번째 전공"
+            app:layout_constraintEnd_toEndOf="@id/cl_setting_first_major_input"
+            app:layout_constraintStart_toStartOf="@id/tv_setting_first_major_text"
+            app:layout_constraintTop_toBottomOf="@id/tv_setting_first_major_text" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_setting_seconod_major_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="31dp"
+        app:layout_constraintEnd_toEndOf="@+id/cl_setting_first_major_input"
+        app:layout_constraintStart_toStartOf="@+id/cl_setting_first_major_input"
+        app:layout_constraintTop_toBottomOf="@id/cl_setting_first_major_input">
+
+        <TextView
+            android:id="@+id/tv_setting_second_major_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="3sp"
+            android:text="두 번째 전공이 있다면!!"
+            android:textColor="#000000"
+            android:textSize="17dp"
+            app:layout_constraintStart_toStartOf="@id/cl_setting_seconod_major_input"
+            app:layout_constraintTop_toTopOf="@+id/cl_setting_seconod_major_input" />
+
+        <EditText
+            android:id="@+id/et_setting_second_major"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="9dp"
+            android:hint="두 번째 전공"
+            app:layout_constraintEnd_toEndOf="@id/cl_setting_seconod_major_input"
+            app:layout_constraintStart_toStartOf="@id/tv_setting_second_major_text"
+            app:layout_constraintTop_toBottomOf="@id/tv_setting_second_major_text" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
