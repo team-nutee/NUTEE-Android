@@ -34,7 +34,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".data.main.home.detail.ShowDetailImageView"
+        <activity android:name=".ui.main.fragment.home.detail.ShowDetailImageView"
             android:theme="@style/Transparent"/>
     </application>
 

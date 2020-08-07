@@ -1,16 +1,20 @@
-package kr.nutee.nutee_android.data.main.home.detail
+package kr.nutee.nutee_android.ui.main.fragment.home.detail
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.layout_detail_image_view_item.view.*
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.ui.main.fragment.home.detail.DetailImageViewHolder
+import kr.nutee.nutee_android.ui.main.fragment.home.detail.ImageItem
 
 class DetailImageViewAdapter(private var imageList:ArrayList<ImageItem>)
 	:RecyclerView.Adapter<DetailImageViewHolder>(){
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailImageViewHolder {
-		return DetailImageViewHolder(LayoutInflater.from(parent.context).inflate(
-										R.layout.layout_detail_image_view_item,parent,false))
+		return DetailImageViewHolder(
+			LayoutInflater.from(parent.context).inflate(
+				R.layout.layout_detail_image_view_item, parent, false
+			)
+		)
 	}
 
 	override fun getItemCount(): Int {

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/transparent"
-    tools:context=".data.main.home.detail.ShowDetailImageView">
+    tools:context=".ui.main.fragment.home.detail.ShowDetailImageView">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_top_bar"
