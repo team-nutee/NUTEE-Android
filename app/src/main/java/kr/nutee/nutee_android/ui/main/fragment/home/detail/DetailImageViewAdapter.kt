@@ -4,10 +4,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kr.nutee.nutee_android.R
-import kr.nutee.nutee_android.ui.main.fragment.home.detail.DetailImageViewHolder
-import kr.nutee.nutee_android.ui.main.fragment.home.detail.ImageItem
 
-class DetailImageViewAdapter(private var imageList:ArrayList<ImageItem>)
+/*
+ * Created by 88yhtsero
+ * DESC: 디테일 뷰: 사진 자세히 보기
+ *
+ */
+
+class DetailImageViewAdapter(private var detailViewImageList:ArrayList<Int>)
 	:RecyclerView.Adapter<DetailImageViewHolder>(){
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailImageViewHolder {
 		return DetailImageViewHolder(
@@ -18,11 +22,11 @@ class DetailImageViewAdapter(private var imageList:ArrayList<ImageItem>)
 	}
 
 	override fun getItemCount(): Int {
-		return imageList.size
+		return detailViewImageList.size
 	}
 
 	override fun onBindViewHolder(holder: DetailImageViewHolder, position: Int) {
 		//데이터와 뷰를 묶기
-		holder.bindWithView(imageList[position])
+		holder.bindWithView(detailViewImageList[position])
 	}
 }

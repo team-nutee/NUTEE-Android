@@ -14,41 +14,35 @@ import kr.nutee.nutee_android.R
 class ShowDetailImageView : AppCompatActivity() {
 
     companion object {
-    const val TAG = "ShowDetailImageView"
+		const val TAG = "ShowDetailImageView"
     }
 
     //데이터 배열 선언
-    private var imageItemList=ArrayList<ImageItem>()
+    private var detailViewImageList=ArrayList<Int>()
     private lateinit var detailImageViewAdapter: DetailImageViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_show_detail_image_view)
 
-		//'닫기' 버튼 기능
-		tv_top_back_btn.setOnClickListener {
-			finish()
-		}
-
-
         //데이터 배열 준비
-        imageItemList.add(
-			ImageItem(R.drawable.image_test)
+		detailViewImageList.add(
+		R.drawable.image_test
 		)
-        imageItemList.add(
-			ImageItem(R.drawable.image_test)
+
+		detailViewImageList.add(
+			R.drawable.image_test
 		)
-        imageItemList.add(
-			ImageItem(R.drawable.image_test)
+
+		detailViewImageList.add(
+			R.drawable.image_test
 		)
-        imageItemList.add(
-			ImageItem(R.drawable.image_test)
-		)
+
 
         //어댑터 인스턴스 생성
         detailImageViewAdapter=
 			DetailImageViewAdapter(
-				imageItemList
+				detailViewImageList
 			)
 
         vp_detail_image.apply {
@@ -57,5 +51,37 @@ class ShowDetailImageView : AppCompatActivity() {
             //viewPager와 indicator 연결
             indicator_dots.setViewPager2(this)
         }
+
+		//'닫기' 버튼 기능
+		tv_top_back_btn.setOnClickListener {
+			finish()
+		}
+
+		//'이전' 버튼 기능
+		tv_bottom_previous_btn.setOnClickListener {
+			var current=vp_detail_image.currentItem
+			if(current == 0){
+				//첫 번째 페이지일 시, 마지막 페이지로 이동
+				vp_detail_image.setCurrentItem(detailViewImageList.size-1, true)
+			}
+			if(current != 0){
+				//이전 사진으로 이동
+				vp_detail_image.setCurrentItem(current-1, true)
+			}
+		}
+
+		//'다음' 버튼 기능
+		tv_bottom_next_btn.setOnClickListener {
+			var current=vp_detail_image.currentItem
+			if(current == detailViewImageList.size-1){
+				//마지막 페이지일 시, 첫 번째 페이지로 이동
+				vp_detail_image.setCurrentItem(0, true)
+			}
+			if(current != detailViewImageList.size-1){
+				//다음 사진으로 이동
+				vp_detail_image.setCurrentItem(current+1, true)
+			}
+		}
+
     }
 }

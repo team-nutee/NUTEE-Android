@@ -27,6 +27,15 @@
         <activity android:name=".ui.main.MainActivity" />
         <!-- Splash 화면 -->
         <activity android:name=".ui.SplashActivity">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
+
+        <activity android:name=".ui.main.fragment.home.detail.ShowDetailImageView"
+            android:theme="@style/Transparent">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,8 +43,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.main.fragment.home.detail.ShowDetailImageView"
-            android:theme="@style/Transparent"/>
     </application>
 
 </manifest>
