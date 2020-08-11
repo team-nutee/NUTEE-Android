@@ -7,8 +7,8 @@ import kotlinx.android.synthetic.main.activity_show_detail_image_view.*
 import kr.nutee.nutee_android.R
 
 /*
- * Created by 88yhtsero
- * DESC: 디테일 뷰: 사진 자세히 보기 viewPager
+ * Created by 88yhtserof
+ * DESC: 디테일 뷰: 사진 자세히 보기
  */
 
 class ShowDetailImageView : AppCompatActivity() {
@@ -18,7 +18,7 @@ class ShowDetailImageView : AppCompatActivity() {
     }
 
     //데이터 배열 선언
-    private var detailViewImageList=ArrayList<Int>()
+    private var detailViewImageList=ArrayList<String>()
     private lateinit var detailImageViewAdapter: DetailImageViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,27 +26,18 @@ class ShowDetailImageView : AppCompatActivity() {
         setContentView(R.layout.activity_show_detail_image_view)
 
         //데이터 배열 준비
-		detailViewImageList.add(
-		R.drawable.image_test
-		)
-
-		detailViewImageList.add(
-			R.drawable.image_test
-		)
-
-		detailViewImageList.add(
-			R.drawable.image_test
-		)
-
+		detailViewImageList= intent.getStringArrayListExtra("detail_view_image_list") as ArrayList<String>
 
         //어댑터 인스턴스 생성
         detailImageViewAdapter=
-			DetailImageViewAdapter(
+			DetailImageViewAdapter(this,
 				detailViewImageList
 			)
 
         vp_detail_image.apply {
+			//뷰페이저와 어댑터 연결
             adapter=detailImageViewAdapter
+			//뷰페이저 방향
             orientation=ViewPager2.ORIENTATION_HORIZONTAL
             //viewPager와 indicator 연결
             indicator_dots.setViewPager2(this)
@@ -59,7 +50,7 @@ class ShowDetailImageView : AppCompatActivity() {
 
 		//'이전' 버튼 기능
 		tv_bottom_previous_btn.setOnClickListener {
-			var current=vp_detail_image.currentItem
+			val current=vp_detail_image.currentItem
 			if(current == 0){
 				//첫 번째 페이지일 시, 마지막 페이지로 이동
 				vp_detail_image.setCurrentItem(detailViewImageList.size-1, true)
@@ -72,7 +63,7 @@ class ShowDetailImageView : AppCompatActivity() {
 
 		//'다음' 버튼 기능
 		tv_bottom_next_btn.setOnClickListener {
-			var current=vp_detail_image.currentItem
+			val current=vp_detail_image.currentItem
 			if(current == detailViewImageList.size-1){
 				//마지막 페이지일 시, 첫 번째 페이지로 이동
 				vp_detail_image.setCurrentItem(0, true)
