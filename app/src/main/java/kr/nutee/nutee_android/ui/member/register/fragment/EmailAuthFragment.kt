@@ -3,21 +3,17 @@ package kr.nutee.nutee_android.ui.member.register.fragment
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.widget.EditText
-import android.widget.TextView
+import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.member_register_email_auth_fragment.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.ValidData
 import kr.nutee.nutee_android.ui.extend.animation.showTextShake
 import kr.nutee.nutee_android.ui.extend.textChangedListener
 import kr.nutee.nutee_android.ui.member.register.OnRegisterDataSetListener
-import java.lang.RuntimeException
 
 class EmailAuthFragment : Fragment(), View.OnClickListener {
 
