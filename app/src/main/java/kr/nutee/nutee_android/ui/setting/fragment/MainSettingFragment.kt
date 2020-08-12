@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.setting_main_fragment.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.ui.extend.loadFragment
+import kr.nutee.nutee_android.ui.extend.loadFragmentAddtoBackStack
 
 class MainSettingFragment : Fragment() {
 
@@ -23,23 +24,28 @@ class MainSettingFragment : Fragment() {
 		super.onViewCreated(view, savedInstanceState)
 
 		tv_setting_profile_image_btn.setOnClickListener {
-			requireContext().loadFragment(ProfileImageSettingFragment(),R.id.frame_layout_setting)
+			requireContext().loadFragmentAddtoBackStack(ProfileImageSettingFragment()
+				,R.id.frame_layout_setting,null)
 		}
 
 		tv_setting_nickname_btn.setOnClickListener {
-			requireContext().loadFragment(NickNameSettingFragment(),R.id.frame_layout_setting)
+			requireContext().loadFragmentAddtoBackStack(NickNameSettingFragment()
+				,R.id.frame_layout_setting,null)
 		}
 
 		tv_setting_password_btn.setOnClickListener {
-			requireContext().loadFragment(PasswordSettingFragment(),R.id.frame_layout_setting)
+			requireContext().loadFragmentAddtoBackStack(PasswordSettingFragment()
+				,R.id.frame_layout_setting,null)
 		}
 
 		tv_setting_category_btn.setOnClickListener {
-			requireContext().loadFragment(CategorySettingFragment(),R.id.frame_layout_setting)
+			requireContext().loadFragmentAddtoBackStack(CategorySettingFragment()
+				,R.id.frame_layout_setting,null)
 		}
 
 		tv_setting_major_btn.setOnClickListener {
-			requireContext().loadFragment(MajorSettingFragment(),R.id.frame_layout_setting)
+			requireContext().loadFragmentAddtoBackStack(MajorSettingFragment()
+				,R.id.frame_layout_setting,null)
 		}
 
 	}
