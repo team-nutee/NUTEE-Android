@@ -19,7 +19,6 @@ import kr.nutee.nutee_android.data.main.home.Comment
 import kr.nutee.nutee_android.data.main.home.Image
 import kr.nutee.nutee_android.data.main.home.ResponseMainItem
 import kr.nutee.nutee_android.data.main.home.detail.RequestComment
-import kr.nutee.nutee_android.data.main.home.detail.ShowDetailImageView
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.*
 import kr.nutee.nutee_android.ui.extend.dialog.cumstomReportDialog
