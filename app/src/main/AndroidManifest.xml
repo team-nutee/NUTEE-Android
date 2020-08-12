@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.member.UserFindActivity"></activity>
+        <activity android:name=".ui.member.UserFindActivity"/>
         <activity android:name=".ui.setting.TermOfUseActivity" />
         <activity android:name=".ui.setting.SettingActivity" />
         <activity
