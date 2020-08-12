@@ -50,12 +50,18 @@ class RegisterActivity : AppCompatActivity(),OnRegisterDataSetListener {
 		}
 	}
 
+	private fun loadExitRegisterDialog(okClickListener:()->Unit){
+		customDialog("회원가입을 종료하시겠습니까?😥",okClickListener)
+	}
+
 	override fun onBackPressed() {
-		customDialog(
-			"회원가입을 종료하시겠습니까?😥"
-		) {
-			super.onBackPressed()
+		val fragment =
+			supportFragmentManager.findFragmentById(R.id.fl_register_frame_layout)
+		if (fragment == emailAuthFragment) {
+			loadExitRegisterDialog { super.onBackPressed() }
+			return
 		}
+		super.onBackPressed()
 	}
 
 	private fun loadEmailAuthFragment() {
