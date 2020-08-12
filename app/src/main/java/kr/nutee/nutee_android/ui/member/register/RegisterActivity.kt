@@ -82,11 +82,15 @@ class RegisterActivity : AppCompatActivity(),OnRegisterDataSetListener {
 	}
 
 	private fun setEmailAuthFragmentNextEventMapping(){
-		loadIdInputFragment()
+		emailAuthFragment.setRegisterEmailNext {
+			loadIdInputFragment()
+		}
 	}
 
 	private fun setEmailAuthFragmentPreviousEventMapping(){
-		onBackPressed()
+		emailAuthFragment.setRegisterEmailPrevious {
+			onBackPressed()
+		}
 	}
 
 	private fun loadIdInputFragment() {
