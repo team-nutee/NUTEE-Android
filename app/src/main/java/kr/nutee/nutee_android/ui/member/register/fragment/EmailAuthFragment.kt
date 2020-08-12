@@ -11,9 +11,15 @@ import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.member_register_email_auth_fragment.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.ValidData
+import kr.nutee.nutee_android.ui.extend.animation.constraintDownInAnimation
 import kr.nutee.nutee_android.ui.extend.animation.showTextShake
 import kr.nutee.nutee_android.ui.extend.textChangedListener
 import kr.nutee.nutee_android.ui.member.register.OnRegisterDataSetListener
+
+/*
+* Created by jinsu4755
+* DESC: 이메일 인증과 관련된 회원가입 Fragment
+*/
 
 class EmailAuthFragment : Fragment(), View.OnClickListener {
 
@@ -40,7 +46,11 @@ class EmailAuthFragment : Fragment(), View.OnClickListener {
 		inflater: LayoutInflater, container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View? {
-		return inflater.inflate(R.layout.member_register_email_auth_fragment, container, false)
+		return inflater.inflate(
+			R.layout.member_register_email_auth_fragment,
+			container,
+			false
+		)
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -113,12 +123,18 @@ class EmailAuthFragment : Fragment(), View.OnClickListener {
 			return
 		}
 		emailAuthEventListener?.invoke(et_register_email_input)
+		enableOTPInputLayout()
 		requireContext().showTextShake(
 			tv_register_email_auth_result,
 			"이메일을 전송했습니다. 확인해주세요!!",
 			R.color.nuteeBase
 		)
 		email = et_register_email_input.text.toString()
+	}
+
+	private fun enableOTPInputLayout(){
+		requireContext().constraintDownInAnimation(cl_input_register_email_otp_auth)
+		cl_input_register_email_auth.visibility = View.VISIBLE
 	}
 
 	fun setEmailAuthEventListener(listener: (email: EditText) -> Unit) {
