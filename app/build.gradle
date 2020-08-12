@@ -75,4 +75,9 @@ dependencies {
 
     //사진을 보내거나 retrofit으로 오가는 로그를 기록하기 위한 라이브러리
     implementation 'com.squareup.okhttp3:okhttp:4.7.2'
+
+    //view pager 사용하기 위한 라이브러리
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
+    //indicator를 사용하기 위한 라이브러리
+    implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:4.1.2'
 }

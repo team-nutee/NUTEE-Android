@@ -1,5 +1,6 @@
 package kr.nutee.nutee_android.ui.main.fragment.home.detail
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,8 +16,10 @@ import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.DateParser
 import kr.nutee.nutee_android.data.main.RequestReport
 import kr.nutee.nutee_android.data.main.home.Comment
+import kr.nutee.nutee_android.data.main.home.Image
 import kr.nutee.nutee_android.data.main.home.ResponseMainItem
 import kr.nutee.nutee_android.data.main.home.detail.RequestComment
+import kr.nutee.nutee_android.data.main.home.detail.ShowDetailImageView
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.*
 import kr.nutee.nutee_android.ui.extend.dialog.cumstomReportDialog
@@ -32,6 +35,8 @@ class HomeDetailFragment(private var lastId: Int) : Fragment(),View.OnClickListe
 
 	private lateinit var homeDetailCommentAdapter: HomeDetailCommentAdpater
 	private var postId:Int = 0
+
+	private lateinit var detailImageViewIntent: Intent
 
 	private val requestToServer = RequestToServer
 
@@ -69,7 +74,9 @@ class HomeDetailFragment(private var lastId: Int) : Fragment(),View.OnClickListe
 			responseMainItem.createdAt?.let { DateParser(it).calculateDiffDate() }
 		text_detail_content.text = responseMainItem.content
 		// 컨텐츠 이미지 매핑
-		imageLoadAndSet(responseMainItem)
+		if (responseMainItem.Images.isNotEmpty()) {
+			imageFrameLoad(responseMainItem.Images)
+		}
 		//댓글 관련 매핑
 		et_detail_comment.textChangedListener {
 			if (!it.isNullOrBlank()) {
@@ -102,12 +109,26 @@ class HomeDetailFragment(private var lastId: Int) : Fragment(),View.OnClickListe
 					}
 				}
 			}
+			R.id.cl_detail_image3 -> {
+				Log.d("DetailTag","DetailImageView")
+			}
 		}
 	}
 
-	private fun imageLoadAndSet(response: ResponseMainItem) {
-		if (response.Images.isNotEmpty()) {
-			when (response.Images.size) {
+	private fun imageFrameLoad(images: List<Image>) {
+		val imageList = listOf<ImageView>(
+			img_detail_image3_1,
+			img_detail_image3_2,
+			img_detail_image3_3
+		)
+		cl_detail_image3.visibility = View.VISIBLE
+		detailImageViewIntent = Intent(requireContext(),ShowDetailImageView::class.java)
+		cl_detail_image3.setOnClickListener(this)
+		if (images.isNotEmpty()) {
+			cl_detail_image3.visibility = View.VISIBLE
+			cl_detail_image3.setOnClickListener(this)
+
+			/*when (response.Images.size) {
 				1 -> {
 					cl_detail_image1.visibility = View.VISIBLE
 					context?.let {
@@ -160,8 +181,12 @@ class HomeDetailFragment(private var lastId: Int) : Fragment(),View.OnClickListe
 							.into(img_detail_image_more_top)
 					}
 				}
-			}
+			}*/
 		}
+
+	}
+
+	private fun setDetailImage(){
 
 	}
 
