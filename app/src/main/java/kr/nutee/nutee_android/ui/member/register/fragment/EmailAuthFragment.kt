@@ -3,26 +3,31 @@ package kr.nutee.nutee_android.ui.member.register.fragment
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.widget.EditText
-import android.widget.TextView
+import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.member_register_email_auth_fragment.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.ValidData
+import kr.nutee.nutee_android.ui.extend.animation.constraintDownInAnimation
 import kr.nutee.nutee_android.ui.extend.animation.showTextShake
 import kr.nutee.nutee_android.ui.extend.textChangedListener
 import kr.nutee.nutee_android.ui.member.register.OnRegisterDataSetListener
-import java.lang.RuntimeException
+
+/*
+* Created by jinsu4755
+* DESC: 이메일 인증과 관련된 회원가입 Fragment
+*/
 
 class EmailAuthFragment : Fragment(), View.OnClickListener {
 
 	private var email: String? = null
 	private var otpNum: String? = null
+	private var isEmailAuthSuccess = false
+	private var isEmailOTPAuthSuccess = false
 
 	private var onRegisterDataSetListener: OnRegisterDataSetListener? = null
 	private val validData = ValidData()
@@ -44,13 +49,20 @@ class EmailAuthFragment : Fragment(), View.OnClickListener {
 		inflater: LayoutInflater, container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View? {
-		return inflater.inflate(R.layout.member_register_email_auth_fragment, container, false)
+		return inflater.inflate(
+			R.layout.member_register_email_auth_fragment,
+			container,
+			false
+		)
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		emailAuthButtonEventMapping()
 		buttonEnableEventMapping()
+		if (isEmailAuthSuccess) {
+			enableOTPInputLayout()
+		}
 	}
 
 	private fun emailAuthButtonEventMapping() {
@@ -93,10 +105,8 @@ class EmailAuthFragment : Fragment(), View.OnClickListener {
 
 	override fun onClick(emailFragmentView: View?) {
 		when (emailFragmentView!!.id) {
-			R.id.tv_email_auth_button -> emailAuthClickEvent()
-			R.id.tv_email_auth_otp_button -> {
-				emailAuthOTPEventListener?.invoke(et_email_otp_auth)
-			}
+			R.id.tv_email_auth_button -> emailAuthButtonClickEvent()
+			R.id.tv_email_auth_otp_button -> emailOTPAuthButtonClickEvnet()
 			R.id.tv_email_auth_previous -> {
 				registerEmailPrevious?.invoke()
 			}
@@ -107,8 +117,8 @@ class EmailAuthFragment : Fragment(), View.OnClickListener {
 		}
 	}
 
-	private fun emailAuthClickEvent() {
-		if (email == et_register_email_input.text.toString()) {
+	private fun emailAuthButtonClickEvent() {
+		if (isEmailAuthSuccess) {
 			requireContext().showTextShake(
 				tv_register_email_auth_result,
 				"전송된 이메일을 확인해주세요!!",
@@ -116,13 +126,47 @@ class EmailAuthFragment : Fragment(), View.OnClickListener {
 			)
 			return
 		}
+		emailAuthEvent()
+	}
+
+	private fun emailAuthEvent(){
 		emailAuthEventListener?.invoke(et_register_email_input)
+		enableOTPInputLayout()
 		requireContext().showTextShake(
 			tv_register_email_auth_result,
 			"이메일을 전송했습니다. 확인해주세요!!",
 			R.color.nuteeBase
 		)
 		email = et_register_email_input.text.toString()
+		isEmailAuthSuccess = (email == et_register_email_input.text.toString())
+	}
+
+	private fun enableOTPInputLayout(){
+		requireContext().constraintDownInAnimation(cl_input_register_email_otp_auth)
+		cl_input_register_email_auth.visibility = View.VISIBLE
+	}
+
+	private fun emailOTPAuthButtonClickEvnet(){
+		if (isEmailOTPAuthSuccess) {
+			requireContext().showTextShake(
+				tv_register_email_otp_result,
+				"이미 OTP 인증이 완료되었습니다!",
+				R.color.nuteeBase
+			)
+			return
+		}
+		emailOTPAuthEvent()
+	}
+
+	private fun emailOTPAuthEvent(){
+		emailAuthOTPEventListener?.invoke(et_email_otp_auth)
+		requireContext().showTextShake(
+			tv_register_email_otp_result,
+			"OTP 인증이 완료되었습니다!",
+			R.color.nuteeBase
+		)
+		otpNum = et_email_otp_auth.text.toString()
+		isEmailOTPAuthSuccess = (otpNum == et_email_otp_auth.text.toString())
 	}
 
 	fun setEmailAuthEventListener(listener: (email: EditText) -> Unit) {

@@ -4,7 +4,11 @@ import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import kr.nutee.nutee_android.R
-import kr.nutee.nutee_android.ui.main.MainActivity
+
+/*
+* Created by jinsu4755
+* DESC: 중복되는 Fragment 호출 부분을 함수로 처리하기 위해서 제작한 확장함수들
+*/
 
 //fragment load 함수
 fun Context.loadMainPageFragment(fragment: Fragment) {
@@ -27,7 +31,7 @@ fun Context.loadFragment(
 fun Context.loadFragmentAddtoBackStack(
 	fragment: Fragment,
 	view:Int,
-	backStackName:String?
+	backStackName: String?
 ) {
 	val transaction =
 		(this as FragmentActivity).supportFragmentManager.beginTransaction()

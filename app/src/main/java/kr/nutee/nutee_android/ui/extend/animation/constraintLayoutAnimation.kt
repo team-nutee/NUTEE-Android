@@ -8,6 +8,11 @@ import android.view.animation.AnimationUtils
 import androidx.constraintlayout.widget.ConstraintLayout
 import kr.nutee.nutee_android.R
 
+/*
+* Created by jinsu4755
+* DESC: constaintLayout과 관련된 에니메이션 처리
+*/
+
 fun Context.constraintDownInAnimation(layout: ConstraintLayout){
 	val inAnimation = AnimationUtils.loadAnimation(this,R.anim.down_in)
 	layout.startAnimation(inAnimation)
