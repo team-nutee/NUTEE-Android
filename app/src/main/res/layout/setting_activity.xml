@@ -19,6 +19,7 @@
             android:id="@+id/img_setting_back_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="10dp"
             android:src="@drawable/ic_chevron_left_seaweed_24dp"
             android:clickable="true"
             app:layout_constraintTop_toTopOf="@id/cl_setting_top_bar"

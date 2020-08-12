@@ -17,7 +17,7 @@
             android:id="@+id/img_setting_profile_image_btn"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:src="@mipmap/nutee_logo"
+            android:src="@mipmap/nutee_logo_round"
             android:clickable="true"
             app:layout_constraintTop_toTopOf="@id/cl_setting_profile_image"
             app:layout_constraintStart_toStartOf="@id/cl_setting_profile_image"
