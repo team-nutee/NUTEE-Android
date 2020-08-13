@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.setting_main_fragment.*
 import kr.nutee.nutee_android.R
-import kr.nutee.nutee_android.ui.extend.loadFragment
 import kr.nutee.nutee_android.ui.extend.loadFragmentAddtoBackStack
 
 class MainSettingFragment : Fragment() {
