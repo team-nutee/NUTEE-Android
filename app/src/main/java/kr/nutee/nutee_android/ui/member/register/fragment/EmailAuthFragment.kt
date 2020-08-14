@@ -188,15 +188,15 @@ class EmailAuthFragment : Fragment(), View.OnClickListener {
 	}
 
 	private fun emailOTPAuthEvent() {
-		emailAuthOTPEventListener.let { emailAuthOTPEventListener ->
-			emailAuthOTPEventListener!!.invoke(et_email_otp_auth)
-			requireContext().showTextShake(
-				tv_register_email_otp_result,
-				"OTP 인증이 완료되었습니다!",
-				R.color.nuteeBase
-			)
-			emailOTPSuccessEvent()
-		}
+		emailAuthOTPEventListener?.invoke(et_email_otp_auth)
+			.let {
+				requireContext().showTextShake(
+					tv_register_email_otp_result,
+					"OTP 인증이 완료되었습니다!",
+					R.color.nuteeBase
+				)
+				emailOTPSuccessEvent()
+			}
 	}
 
 	private fun emailOTPSuccessEvent() {
