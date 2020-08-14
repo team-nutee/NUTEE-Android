@@ -20,6 +20,7 @@ import kr.nutee.nutee_android.ui.member.register.fragment.*
 class RegisterActivity : AppCompatActivity(),OnRegisterDataSetListener {
 
 	private var registerEmail:String? = null
+	private var registerId:String? = null
 
 	val requestToServer = RequestToServer
 
@@ -31,6 +32,10 @@ class RegisterActivity : AppCompatActivity(),OnRegisterDataSetListener {
 
 	override fun onRegisterEmailDataSetListener(email: String) {
 		this.registerEmail = email
+	}
+
+	override fun onRegisterIdDataSetListener(id: String) {
+		this.registerId = id
 	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,13 +82,21 @@ class RegisterActivity : AppCompatActivity(),OnRegisterDataSetListener {
 
 	private fun setEmailAuthFragmentEmailAuthEvnetMapping() {
 		emailAuthFragment.setEmailAuthEventListener {email->
-			Log.d("EmailTest",email.text.toString())
+			/*
+			* TODO
+			*  이메일 인증 서버통신
+			*  실패시 null 리턴
+			*/
 		}
 	}
 
 	private fun setEmailAuthFragmentOTPAuthEventMapping(){
 		emailAuthFragment.setEmailAuthOTPEventListener { otpNum ->
-			//opt 확인하기 누르면 실행될 이벤트 작성.
+			/*
+			* TODO
+			*  OTP확인 시 서버통신
+			*  실패시 null 리턴
+			*/
 		}
 	}
 
@@ -100,8 +113,57 @@ class RegisterActivity : AppCompatActivity(),OnRegisterDataSetListener {
 	}
 
 	private fun loadIdInputFragment() {
+		setIdInputFragmenIdInputEvnetMapping()
+		setIdInputFragmentNextEvnetMapping()
+		setIdInputFragmentPreviousEvnetMapping()
 		loadFragmentAddtoBackStack(
 			idInputFragment,
+			R.id.fl_register_frame_layout,
+			null
+		)
+	}
+
+	private fun setIdInputFragmenIdInputEvnetMapping(){
+		idInputFragment.setIdInputEventListener { id, resultText ->
+			/*
+			* TODO
+			*  id 입력 후 다음 버튼 눌렀을 때 서버통신
+			*  실패시 null 리턴
+			*/
+		}
+	}
+
+	private fun setIdInputFragmentNextEvnetMapping(){
+		idInputFragment.setRegisterIdNextEvnetListener {
+			loadNickNameFragment()
+		}
+	}
+
+	private fun setIdInputFragmentPreviousEvnetMapping(){
+		idInputFragment.setRegisterIdPreviousEventListener {
+			onBackPressed()
+		}
+	}
+
+	private fun loadNickNameFragment(){
+		loadFragmentAddtoBackStack(
+			nickNameInputFragment,
+			R.id.fl_register_frame_layout,
+			null
+		)
+	}
+
+	private fun loadSelectCategoryFragment(){
+		loadFragmentAddtoBackStack(
+			selectCategoryFragment,
+			R.id.fl_register_frame_layout,
+			null
+		)
+	}
+
+	private fun loadSelectDepartmentFragment(){
+		loadFragmentAddtoBackStack(
+			selectDepartmentFragment,
 			R.id.fl_register_frame_layout,
 			null
 		)
