@@ -10,4 +10,5 @@
     <color name="colorRed">#C81313</color>
     <color name="Transparent">#b3000000</color>
     <color name="colorBlack">#000000</color>
+    <color name="colorLightGray">#a8a8a8</color>
 </resources>

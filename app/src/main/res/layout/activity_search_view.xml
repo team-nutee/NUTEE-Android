@@ -23,6 +23,7 @@
             android:gravity="center"
             android:text="검색"
             android:textColor="@color/colorBlack"
+            android:lineSpacingExtra="3sp"
             android:textSize="18dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -35,13 +36,54 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:padding="10dp"
+            android:paddingRight="10dp"
+            android:paddingVertical="10dp"
             android:src="@drawable/ic_chevron_left_seaweed_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="tv_search"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <EditText
+        android:id="@+id/et_search_box"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="검색어를 입력해 주세요"
+        android:textSize="11dp"
+        android:paddingRight="10dp"
+        android:paddingVertical="10dp"
+        android:lineSpacingExtra="2sp"
+        app:layout_constraintEnd_toEndOf="@+id/cl_search_top_bar"
+        app:layout_constraintStart_toStartOf="@+id/cl_search_top_bar"
+        app:layout_constraintTop_toBottomOf="@+id/cl_search_top_bar" />
+
+    <TextView
+        android:id="@+id/tv_search_previous_search_results"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="236dp"
+        android:padding="10dp"
+        android:lineSpacingExtra="2sp"
+        android:text="이전 검색"
+        android:textSize="11dp"
+        android:textColor="@color/colorLightGray"
+        app:layout_constraintEnd_toStartOf="@+id/tv_search_all_history_delete"
+        app:layout_constraintStart_toStartOf="@+id/et_search_box"
+        app:layout_constraintTop_toBottomOf="@+id/et_search_box" />
+
+    <TextView
+        android:id="@+id/tv_search_all_history_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="2sp"
+        android:text="전체 삭제"
+        android:textSize="11dp"
+        android:padding="10dp"
+        android:textColor="@color/colorLightGray"
+        app:layout_constraintEnd_toEndOf="@+id/et_search_box"
+        app:layout_constraintTop_toBottomOf="@+id/et_search_box"
+        app:layout_constraintStart_toEndOf="@+id/tv_search_previous_search_results"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
