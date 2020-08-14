@@ -134,6 +134,7 @@
 
         <TextView
             android:id="@+id/tv_email_auth_next"
+            android:enabled="false"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center"
