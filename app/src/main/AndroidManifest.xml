@@ -16,7 +16,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.member.UserFindActivity"/>
+        <activity android:name=".ui.notification.NotificationActivity"/>
+        <activity android:name=".ui.member.UserFindActivity" />
         <activity android:name=".ui.setting.TermOfUseActivity" />
         <activity android:name=".ui.setting.SettingActivity" />
         <activity
@@ -24,8 +25,7 @@
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ui.member.register.RegisterActivity" />
         <activity android:name=".ui.member.LoginActivity" />
-        <activity android:name=".ui.main.MainActivity" />
-        <!-- Splash 화면 -->
+        <activity android:name=".ui.main.MainActivity" /> <!-- Splash 화면 -->
         <activity android:name=".ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,10 +33,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".ui.main.fragment.home.detail.ShowDetailImageView"
-            android:theme="@style/Transparent"/>
-
+        <activity
+            android:name=".ui.main.fragment.home.detail.ShowDetailImageView"
+            android:theme="@style/Transparent" />
     </application>
 
 </manifest>
