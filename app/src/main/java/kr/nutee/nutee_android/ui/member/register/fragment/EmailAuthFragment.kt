@@ -28,6 +28,7 @@ class EmailAuthFragment : Fragment(), View.OnClickListener {
 	private var otpNum: String? = null
 	private var isEmailAuthSuccess = false
 	private var isEmailOTPAuthSuccess = false
+	var isNextButtonEnabled = false
 
 	private var onRegisterDataSetListener: OnRegisterDataSetListener? = null
 	private val validData = ValidData()
@@ -36,6 +37,22 @@ class EmailAuthFragment : Fragment(), View.OnClickListener {
 	private var emailAuthOTPEventListener: ((OTPNum: EditText) -> Unit)? = null
 	private var registerEmailPrevious: (() -> Unit)? = null
 	private var registerEmailNext: (() -> Unit)? = null
+
+	fun setEmailAuthEventListener(listener: (email: EditText) -> Unit) {
+		this.emailAuthEventListener = listener
+	}
+
+	fun setEmailAuthOTPEventListener(listener: (OTPNum: EditText) -> Unit) {
+		this.emailAuthOTPEventListener = listener
+	}
+
+	fun setRegisterEmailPrevious(listener: () -> Unit) {
+		this.registerEmailPrevious = listener
+	}
+
+	fun setRegisterEmailNext(listener: () -> Unit) {
+		this.registerEmailNext = listener
+	}
 
 	override fun onAttach(context: Context) {
 		super.onAttach(context)
@@ -60,9 +77,16 @@ class EmailAuthFragment : Fragment(), View.OnClickListener {
 		super.onViewCreated(view, savedInstanceState)
 		emailAuthButtonEventMapping()
 		buttonEnableEventMapping()
+
+		loadBackStackSettingStatus()
+	}
+
+	private fun loadBackStackSettingStatus() {
 		if (isEmailAuthSuccess) {
 			enableOTPInputLayout()
 		}
+		tv_email_auth_next.isEnabled = isNextButtonEnabled
+
 	}
 
 	private fun emailAuthButtonEventMapping() {
@@ -72,11 +96,11 @@ class EmailAuthFragment : Fragment(), View.OnClickListener {
 		tv_email_auth_next.setOnClickListener(this)
 	}
 
-	private fun buttonEnableEventMapping(){
-		et_register_email_input.textChangedListener { email->
+	private fun buttonEnableEventMapping() {
+		et_register_email_input.textChangedListener { email ->
 			emailInputButtonEnable(email)
 		}
-		et_email_otp_auth.textChangedListener { otpNum->
+		et_email_otp_auth.textChangedListener { otpNum ->
 			tv_email_auth_otp_button.isEnabled = !otpNum.isNullOrBlank()
 		}
 	}
@@ -111,6 +135,7 @@ class EmailAuthFragment : Fragment(), View.OnClickListener {
 				registerEmailPrevious?.invoke()
 			}
 			R.id.tv_email_auth_next -> {
+				//TODO 이메일 미 입력시 어떻게 할지는 이부분에
 				email?.let { onRegisterDataSetListener?.onRegisterEmailDataSetListener(it) }
 				registerEmailNext?.invoke()
 			}
@@ -129,7 +154,7 @@ class EmailAuthFragment : Fragment(), View.OnClickListener {
 		emailAuthEvent()
 	}
 
-	private fun emailAuthEvent(){
+	private fun emailAuthEvent() {
 		emailAuthEventListener?.invoke(et_register_email_input)
 		enableOTPInputLayout()
 		requireContext().showTextShake(
@@ -137,16 +162,20 @@ class EmailAuthFragment : Fragment(), View.OnClickListener {
 			"이메일을 전송했습니다. 확인해주세요!!",
 			R.color.nuteeBase
 		)
+		emailAuthSuccessEvent()
+	}
+
+	private fun emailAuthSuccessEvent() {
 		email = et_register_email_input.text.toString()
 		isEmailAuthSuccess = (email == et_register_email_input.text.toString())
 	}
 
-	private fun enableOTPInputLayout(){
+	private fun enableOTPInputLayout() {
 		requireContext().constraintDownInAnimation(cl_input_register_email_otp_auth)
 		cl_input_register_email_auth.visibility = View.VISIBLE
 	}
 
-	private fun emailOTPAuthButtonClickEvnet(){
+	private fun emailOTPAuthButtonClickEvnet() {
 		if (isEmailOTPAuthSuccess) {
 			requireContext().showTextShake(
 				tv_register_email_otp_result,
@@ -158,30 +187,23 @@ class EmailAuthFragment : Fragment(), View.OnClickListener {
 		emailOTPAuthEvent()
 	}
 
-	private fun emailOTPAuthEvent(){
-		emailAuthOTPEventListener?.invoke(et_email_otp_auth)
-		requireContext().showTextShake(
-			tv_register_email_otp_result,
-			"OTP 인증이 완료되었습니다!",
-			R.color.nuteeBase
-		)
+	private fun emailOTPAuthEvent() {
+		emailAuthOTPEventListener.let { emailAuthOTPEventListener ->
+			emailAuthOTPEventListener!!.invoke(et_email_otp_auth)
+			requireContext().showTextShake(
+				tv_register_email_otp_result,
+				"OTP 인증이 완료되었습니다!",
+				R.color.nuteeBase
+			)
+			emailOTPSuccessEvent()
+		}
+	}
+
+	private fun emailOTPSuccessEvent() {
 		otpNum = et_email_otp_auth.text.toString()
 		isEmailOTPAuthSuccess = (otpNum == et_email_otp_auth.text.toString())
+		isNextButtonEnabled = true
+		tv_email_auth_next.isEnabled = isNextButtonEnabled
 	}
 
-	fun setEmailAuthEventListener(listener: (email: EditText) -> Unit) {
-		this.emailAuthEventListener = listener
-	}
-
-	fun setEmailAuthOTPEventListener(listener: (OTPNum: EditText) -> Unit) {
-		this.emailAuthOTPEventListener = listener
-	}
-
-	fun setRegisterEmailPrevious(listener: () -> Unit) {
-		this.registerEmailPrevious = listener
-	}
-
-	fun setRegisterEmailNext(listener: () -> Unit) {
-		this.registerEmailNext = listener
-	}
 }
