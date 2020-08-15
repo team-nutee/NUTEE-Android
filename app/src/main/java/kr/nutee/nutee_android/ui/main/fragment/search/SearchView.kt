@@ -8,5 +8,12 @@ class SearchView : AppCompatActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_search_view)
+
+		var testList=ArrayList<String>()
+
+		for(i in 0..9){
+			testList.add("test")
+		}
+
 	}
 }
