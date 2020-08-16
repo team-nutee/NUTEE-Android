@@ -1,9 +1,12 @@
 package kr.nutee.nutee_android.ui.main.fragment.search
 
+import android.content.Intent
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_recyclerview_previous_search_results.view.*
 
