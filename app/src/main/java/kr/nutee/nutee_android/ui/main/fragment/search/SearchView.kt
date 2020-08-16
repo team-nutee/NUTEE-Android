@@ -31,6 +31,17 @@ class SearchView : AppCompatActivity() {
 		val editor = sharedPreferences.edit()
 
 
+		/*
+		*
+		* 질문: sharedPreferences 를 적용해서 Recycler와 연결된 리스트에 추가하는데,
+		* 		sharedPreferences에도 리스트에도 검색 기록이 두 번씩 추가가 된다.
+		* 		그래서 화면에 똑같은 이전 검색어가 두 번씩 목록에 뜨는데 뭘 수정해야 할지 모르겠다. 
+		*
+		* */
+
+
+
+
 		//검색어 입력
 		et_search_box.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
 			if (keyCode == KeyEvent.KEYCODE_ENTER) {
@@ -56,6 +67,7 @@ class SearchView : AppCompatActivity() {
 
 				}
 
+				//sharedPreferences 목록 확인을 위한 Log
 				Log.d("확인",sharedPreferences.all.toString())
 				return@OnKeyListener true
 			}
