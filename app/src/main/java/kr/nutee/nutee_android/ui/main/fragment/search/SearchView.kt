@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.widget.Toast
@@ -55,6 +56,7 @@ class SearchView : AppCompatActivity() {
 
 				}
 
+				Log.d("확인",sharedPreferences.all.toString())
 				return@OnKeyListener true
 			}
 			false
