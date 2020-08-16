@@ -30,6 +30,5 @@ class DetailImageViewAdapter(private val context: Context, private var detailVie
 	override fun onBindViewHolder(holder: DetailImageViewHolder, position: Int) {
 		//데이터와 뷰를 묶기
 		Glide.with(context).load(detailViewImageList[position]).into(holder.itemImage)
-//		holder.bindWithView(detailViewImageList[position])
 	}
 }
