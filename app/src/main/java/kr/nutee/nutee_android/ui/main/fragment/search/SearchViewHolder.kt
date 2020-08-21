@@ -1,6 +1,7 @@
 package kr.nutee.nutee_android.ui.main.fragment.search
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -19,5 +20,6 @@ class SearchViewHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
 	fun bindWithView(item:String){
 		itemContent.text=item
 	}
+
 
 }
