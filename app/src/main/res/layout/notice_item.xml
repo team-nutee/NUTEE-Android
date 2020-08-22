@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/tv_notice_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="25dp"
+        android:textSize="17dp"
+        android:textColor="#000000"
+        android:text="공지사항공지사항"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_notice_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="11dp"
+        android:textColor="#9a9a9a"
+        android:text="2020:02:02"
+        app:layout_constraintTop_toBottomOf="@+id/tv_notice_text"
+        app:layout_constraintStart_toStartOf="@+id/tv_notice_text" />
+
+    <TextView
+        android:id="@+id/tv_notice_school_department_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textSize="11dp"
+        android:textColor="#9a9a9a"
+        android:text="교무처"
+        app:layout_constraintTop_toTopOf="@+id/tv_notice_time"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_notice_time"
+        app:layout_constraintStart_toEndOf="@+id/tv_notice_time"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
