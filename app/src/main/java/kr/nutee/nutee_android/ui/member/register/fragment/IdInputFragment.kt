@@ -98,6 +98,7 @@ class IdInputFragment : Fragment(),View.OnClickListener {
 	private fun idInputNextButtonClickEvnet(){
 		idInputEventListener?.invoke(et_register_id_input, tv_register_id_input_result_text)
 			.let {
+				id = et_register_id_input.text.toString()
 				onRegisterDataSetListener?.onRegisterIdDataSetListener(id!!)
 				registerIdNextEventListener?.invoke()
 			}

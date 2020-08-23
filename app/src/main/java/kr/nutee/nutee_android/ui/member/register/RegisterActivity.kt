@@ -17,10 +17,12 @@ import kr.nutee.nutee_android.ui.member.register.fragment.*
 */
 
 
-class RegisterActivity : AppCompatActivity(),OnRegisterDataSetListener {
+class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
 
-	private var registerEmail:String? = null
-	private var registerId:String? = null
+	private var registerEmail: String? = null
+	private var registerId: String? = null
+	private var nickName: String? = null
+	private var password: String? = null
 
 	val requestToServer = RequestToServer
 
@@ -36,6 +38,14 @@ class RegisterActivity : AppCompatActivity(),OnRegisterDataSetListener {
 
 	override fun onRegisterIdDataSetListener(id: String) {
 		this.registerId = id
+	}
+
+	override fun onRegisterNickNameDataSetListerner(nickName: String) {
+		this.nickName = nickName
+	}
+
+	override fun onRegisterPasswordDataSetListener(password: String) {
+		this.password = password
 	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,8 +65,8 @@ class RegisterActivity : AppCompatActivity(),OnRegisterDataSetListener {
 		}
 	}
 
-	private fun loadExitRegisterDialog(okClickListener:()->Unit){
-		customDialog("회원가입을 종료하시겠습니까?😥",okClickListener)
+	private fun loadExitRegisterDialog(okClickListener: () -> Unit) {
+		customDialog("회원가입을 종료하시겠습니까?😥", okClickListener)
 	}
 
 	override fun onBackPressed() {
@@ -81,7 +91,7 @@ class RegisterActivity : AppCompatActivity(),OnRegisterDataSetListener {
 	}
 
 	private fun setEmailAuthFragmentEmailAuthEvnetMapping() {
-		emailAuthFragment.setEmailAuthEventListener {email->
+		emailAuthFragment.setEmailAuthEventListener { email ->
 			/*
 			* TODO
 			*  이메일 인증 서버통신
@@ -90,7 +100,7 @@ class RegisterActivity : AppCompatActivity(),OnRegisterDataSetListener {
 		}
 	}
 
-	private fun setEmailAuthFragmentOTPAuthEventMapping(){
+	private fun setEmailAuthFragmentOTPAuthEventMapping() {
 		emailAuthFragment.setEmailAuthOTPEventListener { otpNum ->
 			/*
 			* TODO
@@ -100,13 +110,13 @@ class RegisterActivity : AppCompatActivity(),OnRegisterDataSetListener {
 		}
 	}
 
-	private fun setEmailAuthFragmentNextEventMapping(){
+	private fun setEmailAuthFragmentNextEventMapping() {
 		emailAuthFragment.setRegisterEmailNext {
 			loadIdInputFragment()
 		}
 	}
 
-	private fun setEmailAuthFragmentPreviousEventMapping(){
+	private fun setEmailAuthFragmentPreviousEventMapping() {
 		emailAuthFragment.setRegisterEmailPrevious {
 			onBackPressed()
 		}
@@ -123,7 +133,7 @@ class RegisterActivity : AppCompatActivity(),OnRegisterDataSetListener {
 		)
 	}
 
-	private fun setIdInputFragmenIdInputEvnetMapping(){
+	private fun setIdInputFragmenIdInputEvnetMapping() {
 		idInputFragment.setIdInputEventListener { id, resultText ->
 			/*
 			* TODO
@@ -133,19 +143,19 @@ class RegisterActivity : AppCompatActivity(),OnRegisterDataSetListener {
 		}
 	}
 
-	private fun setIdInputFragmentNextEvnetMapping(){
+	private fun setIdInputFragmentNextEvnetMapping() {
 		idInputFragment.setRegisterIdNextEvnetListener {
 			loadNickNameFragment()
 		}
 	}
 
-	private fun setIdInputFragmentPreviousEvnetMapping(){
+	private fun setIdInputFragmentPreviousEvnetMapping() {
 		idInputFragment.setRegisterIdPreviousEventListener {
 			onBackPressed()
 		}
 	}
 
-	private fun loadNickNameFragment(){
+	private fun loadNickNameFragment() {
 		loadFragmentAddtoBackStack(
 			nickNameInputFragment,
 			R.id.fl_register_frame_layout,
@@ -153,7 +163,7 @@ class RegisterActivity : AppCompatActivity(),OnRegisterDataSetListener {
 		)
 	}
 
-	private fun loadSelectCategoryFragment(){
+	private fun loadSelectCategoryFragment() {
 		loadFragmentAddtoBackStack(
 			selectCategoryFragment,
 			R.id.fl_register_frame_layout,
@@ -161,7 +171,7 @@ class RegisterActivity : AppCompatActivity(),OnRegisterDataSetListener {
 		)
 	}
 
-	private fun loadSelectDepartmentFragment(){
+	private fun loadSelectDepartmentFragment() {
 		loadFragmentAddtoBackStack(
 			selectDepartmentFragment,
 			R.id.fl_register_frame_layout,
