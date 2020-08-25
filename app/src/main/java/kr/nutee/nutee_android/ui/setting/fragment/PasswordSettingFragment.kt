@@ -9,6 +9,11 @@ import kotlinx.android.synthetic.main.setting_password_fragment.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.ui.extend.textChangedListener
 
+/*
+ * Created by eunseo5355
+ * DESC: 비밀번호 설정 Fragment
+ */
+
 class PasswordSettingFragment: Fragment() {
 
 	override fun onCreateView(

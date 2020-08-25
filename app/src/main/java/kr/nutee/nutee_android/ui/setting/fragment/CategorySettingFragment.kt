@@ -7,6 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import kr.nutee.nutee_android.R
 
+/*
+ * Created by eunseo5355
+ * DESC: 카테고리 설정 Fragment
+ */
+
 class CategorySettingFragment: Fragment() {
 
 	override fun onCreateView(

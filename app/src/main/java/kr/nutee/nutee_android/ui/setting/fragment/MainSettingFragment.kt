@@ -9,6 +9,11 @@ import kotlinx.android.synthetic.main.setting_main_fragment.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.ui.extend.loadFragmentAddtoBackStack
 
+/*
+ * Created by eunseo5355
+ * DESC: 설정 메인화면 Fragment
+ */
+
 class MainSettingFragment : Fragment() {
 
 	override fun onCreateView(
