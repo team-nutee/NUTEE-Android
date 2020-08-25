@@ -5,9 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.setting_activity.*
 import kr.nutee.nutee_android.R
-import kr.nutee.nutee_android.ui.extend.loadFragment
 
 
 class ProfileImageSettingFragment:Fragment() {

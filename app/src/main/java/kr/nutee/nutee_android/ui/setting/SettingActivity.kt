@@ -1,14 +1,10 @@
 package kr.nutee.nutee_android.ui.setting
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import kotlinx.android.synthetic.main.setting_activity.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.ui.extend.loadFragment
-import kr.nutee.nutee_android.ui.extend.loadFragmentAddtoBackStack
 import kr.nutee.nutee_android.ui.setting.fragment.MainSettingFragment
 
 class SettingActivity : AppCompatActivity() {
