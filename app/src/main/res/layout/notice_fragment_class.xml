@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.fragment.notice.classnotice.ClassFragment">
+    tools:context=".ui.main.fragment.notice.fragment.ClassFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_notice_class"
