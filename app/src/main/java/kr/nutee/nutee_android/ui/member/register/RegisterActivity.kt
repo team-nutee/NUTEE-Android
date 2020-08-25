@@ -29,8 +29,10 @@ class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
 	private val emailAuthFragment = EmailAuthFragment()
 	private val idInputFragment = IdInputFragment()
 	private val nickNameInputFragment = NickNameInputFragment()
-	private val selectCategoryFragment = SelectCategoryFragment()
-	private val selectDepartmentFragment = SelectDepartmentFragment()
+
+	/*private val selectCategoryFragment = SelectCategoryFragment()
+	private val selectDepartmentFragment = SelectDepartmentFragment()*/
+	private val passwordInputFragment = PasswordInputFragment()
 
 	override fun onRegisterEmailDataSetListener(email: String) {
 		this.registerEmail = email
@@ -156,6 +158,9 @@ class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
 	}
 
 	private fun loadNickNameFragment() {
+		setNickNameFragmentNickNameInputEventMapping()
+		setNickNameFragmentPreviousEventMapping()
+		setNickNameFragmentNextEventMapping()
 		loadFragmentAddtoBackStack(
 			nickNameInputFragment,
 			R.id.fl_register_frame_layout,
@@ -163,7 +168,37 @@ class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
 		)
 	}
 
-	private fun loadSelectCategoryFragment() {
+	private fun setNickNameFragmentNickNameInputEventMapping() {
+		nickNameInputFragment.setNickNameInputEventListener { nickName, resultText ->
+			/*
+			* TODO
+			*  nickName 입력 후 다음 버튼 눌렀을 때 서버통신
+			*  실패시 null 리턴
+			*/
+		}
+	}
+
+	private fun setNickNameFragmentPreviousEventMapping(){
+		nickNameInputFragment.setRegisterNickNamePreviousEvnetListener {
+			onBackPressed()
+		}
+	}
+
+	private fun setNickNameFragmentNextEventMapping(){
+		nickNameInputFragment.setRegisterNickNameNextEvnetListerer {
+			loadPasswordInputFragment()
+		}
+	}
+
+	private fun loadPasswordInputFragment() {
+		loadFragmentAddtoBackStack(
+			passwordInputFragment,
+			R.id.fl_register_frame_layout,
+			null
+		)
+	}
+
+	/*private fun loadSelectCategoryFragment() {
 		loadFragmentAddtoBackStack(
 			selectCategoryFragment,
 			R.id.fl_register_frame_layout,
@@ -177,6 +212,6 @@ class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
 			R.id.fl_register_frame_layout,
 			null
 		)
-	}
+	}*/
 }
 
