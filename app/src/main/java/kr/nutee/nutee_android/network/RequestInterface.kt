@@ -8,6 +8,8 @@ import kr.nutee.nutee_android.data.main.home.Comment
 import kr.nutee.nutee_android.data.main.home.ResponseMain
 import kr.nutee.nutee_android.data.main.home.ResponseMainItem
 import kr.nutee.nutee_android.data.main.home.detail.RequestComment
+import kr.nutee.nutee_android.data.main.search.RequestSearch
+import kr.nutee.nutee_android.data.main.search.ResponseSearch
 import kr.nutee.nutee_android.data.member.login.RequestLogin
 import kr.nutee.nutee_android.data.member.login.ResponseLogin
 import kr.nutee.nutee_android.data.member.logout.ResponseLogout
@@ -127,5 +129,8 @@ interface RequestInterface {
 	@POST("/api/user/reissuance")
 	fun requestFindPw(@Field("userId")userId:String,@Field("schoolEmail")schoolEmail: String):Call<Unit>
 
-
+	/*Search*/
+	//search
+	@POST("/api/search/:text")
+	fun requestSearch(@Body body: RequestSearch):Call<ResponseSearch>
 }

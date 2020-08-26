@@ -1,7 +1,9 @@
 package kr.nutee.nutee_android.ui.main.fragment.search
 
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.KeyEvent.ACTION_DOWN
 import android.view.View
@@ -9,8 +11,14 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_search_view.*
+import kotlinx.android.synthetic.main.login_activity.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
+import kr.nutee.nutee_android.data.main.search.RequestSearch
+import kr.nutee.nutee_android.data.member.login.RequestLogin
+import kr.nutee.nutee_android.network.RequestToServer
+import kr.nutee.nutee_android.ui.extend.customEnqueue
+import kr.nutee.nutee_android.ui.main.MainActivity
 
 class SearchView : AppCompatActivity() {
 
@@ -19,6 +27,8 @@ class SearchView : AppCompatActivity() {
 	private lateinit var searchViewRecyclerAdapter:SearchViewRecyclerAdapter
 	//검색어 문자열 선언
 	lateinit var searchBoxText:String
+	//서버연결
+	private val requestToServer = RequestToServer
 
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,5 +101,24 @@ class SearchView : AppCompatActivity() {
 			//SharesPreferece 목록에서 전체 삭제
 			prefsSearch.AllDelete()
 		}
+	}
+
+	private fun requestSearch(lastId: Int, limit: Int) {
+		requestToServer.service
+			.requestSearch(
+				RequestSearch(
+					lastId = lastId,
+					limit = limit
+				)
+			).customEnqueue(
+				onSuccess = {
+					if (it.isSuccessful) {
+						Log.d("serverSearch", "성공")
+						val intent = Intent(this, MainActivity::class.java)
+						startActivity(intent)
+						finish()
+					}
+				}
+			)
 	}
 }
