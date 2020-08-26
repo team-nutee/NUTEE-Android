@@ -7,6 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import kr.nutee.nutee_android.R
 
+/*
+ * Created by eunseo5355
+ * DESC: 전공 설정 Fragment
+ */
+
 class MajorSettingFragment: Fragment() {
 
 	override fun onCreateView(

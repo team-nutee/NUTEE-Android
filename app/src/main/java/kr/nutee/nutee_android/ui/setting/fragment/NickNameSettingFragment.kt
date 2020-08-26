@@ -9,6 +9,11 @@ import kotlinx.android.synthetic.main.setting_nickname_fragment.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.ui.extend.textChangedListener
 
+/*
+ * Created by eunseo5355
+ * DESC: 닉네임 설정 Fragment
+ */
+
 class NickNameSettingFragment:Fragment() {
 
 	override fun onCreateView(

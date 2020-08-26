@@ -7,6 +7,11 @@ import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.ui.extend.loadFragment
 import kr.nutee.nutee_android.ui.setting.fragment.MainSettingFragment
 
+/*
+ * Created by eunseo5355
+ * DESC: 설정 Activity
+ */
+
 class SettingActivity : AppCompatActivity() {
 
 	val manager = supportFragmentManager
