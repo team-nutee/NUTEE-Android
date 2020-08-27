@@ -42,10 +42,7 @@ class ScholarshipFragment : Fragment() {
 		rv_notice_scholarship.setHasFixedSize(true)
 
 		loadScholarship {
-			noticedatas = it
-			noticeRecyclerAdapter.noticedatas = noticedatas as Notice
 			setAdapter(it)
-			noticeRecyclerAdapter.notifyDataSetChanged()
 		}
 
 
@@ -62,7 +59,7 @@ class ScholarshipFragment : Fragment() {
 
 	private fun setAdapter(noticeItem: Notice){
 		noticeRecyclerAdapter = NoticeRecyclerAdapter(this.context!!, noticeItem)
-		rv_notice_scholarship.adapter = noticeRecyclerAdapter
+		rv_notice_scholarship.adapter = this.noticeRecyclerAdapter
 	}
 
 }

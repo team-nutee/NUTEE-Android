@@ -42,9 +42,6 @@ class GeneralFragment : Fragment() {
 		rv_notice_general.setHasFixedSize(true)
 
 		loadGeneral{
-			noticedatas = it
-			noticeRecyclerAdapter.noticedatas = noticedatas as Notice
-			noticeRecyclerAdapter.notifyDataSetChanged()
 			setAdapter(it)
 		}
 
@@ -62,7 +59,7 @@ class GeneralFragment : Fragment() {
 
 	private fun setAdapter(noticeItem: Notice){
 		noticeRecyclerAdapter = NoticeRecyclerAdapter(this.context!!, noticeItem)
-		rv_notice_general.adapter = noticeRecyclerAdapter
+		rv_notice_general.adapter = this.noticeRecyclerAdapter
 	}
 
 }

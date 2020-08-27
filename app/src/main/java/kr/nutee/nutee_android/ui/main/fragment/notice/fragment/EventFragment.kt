@@ -42,9 +42,6 @@ class EventFragment : Fragment() {
 		rv_notice_event.setHasFixedSize(true)
 
 		loadEvent {
-			noticedatas = it
-			noticeRecyclerAdapter.noticedatas = noticedatas as Notice
-			noticeRecyclerAdapter.notifyDataSetChanged()
 			setAdapter(it)
 		}
 

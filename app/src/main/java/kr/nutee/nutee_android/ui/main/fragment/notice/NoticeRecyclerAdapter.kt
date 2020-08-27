@@ -18,8 +18,6 @@ import kr.nutee.nutee_android.network.RequestToServer
 
 class NoticeRecyclerAdapter(private val context: Context, var noticedatas: Notice): RecyclerView.Adapter<NoticeViewHolder>() {
 
-	val requestToServer = RequestToServer
-
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoticeViewHolder {
 		val view = LayoutInflater.from(context).inflate(R.layout.notice_item, parent, false)
 		return NoticeViewHolder(view)

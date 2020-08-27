@@ -42,9 +42,6 @@ class ExchangeFragment : Fragment() {
 		rv_notice_exchange.setHasFixedSize(true)
 
 		loadExchange {
-			noticedatas = it
-			noticeRecyclerAdapter.noticedatas = noticedatas as Notice
-			noticeRecyclerAdapter.notifyDataSetChanged()
 			setAdapter(it)
 		}
 
