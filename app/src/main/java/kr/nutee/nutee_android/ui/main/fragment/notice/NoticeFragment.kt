@@ -5,10 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.main_fragment_notice.*
-import kotlinx.android.synthetic.main.notice_fragment_bachelor.*
 
 import kr.nutee.nutee_android.R
 

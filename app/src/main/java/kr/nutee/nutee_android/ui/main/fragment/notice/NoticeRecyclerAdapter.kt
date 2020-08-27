@@ -9,15 +9,16 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.main.home.Notice
+import kr.nutee.nutee_android.network.RequestToServer
 
 /*
  * Created by eunseo5355
  * DESC: 공지사항의 RecyclerView Adapter
  */
 
-class NoticeRecyclerAdapter(private val context: Context) : RecyclerView.Adapter<NoticeViewHolder>() {
+class NoticeRecyclerAdapter(private val context: Context, var noticedatas: Notice): RecyclerView.Adapter<NoticeViewHolder>() {
 
-	var noticedatas = mutableListOf<Notice>()
+	val requestToServer = RequestToServer
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoticeViewHolder {
 		val view = LayoutInflater.from(context).inflate(R.layout.notice_item, parent, false)

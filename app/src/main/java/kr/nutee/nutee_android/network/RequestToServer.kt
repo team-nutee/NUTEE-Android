@@ -17,5 +17,12 @@ object RequestToServer {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
+    var noticeRetrofit: Retrofit = Retrofit.Builder()
+        .baseUrl("http://nutee.kr:9709/crawl/")
+        .client(client)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
     var service: RequestInterface = retrofit.create(RequestInterface::class.java)
+    var noticeService: NoticeRequestInterface = noticeRetrofit.create(NoticeRequestInterface::class.java)
 }

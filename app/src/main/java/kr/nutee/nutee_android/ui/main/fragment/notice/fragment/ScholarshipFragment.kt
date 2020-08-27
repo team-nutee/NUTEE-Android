@@ -10,6 +10,9 @@ import kotlinx.android.synthetic.main.notice_fragment_scholarship.*
 
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.main.home.Notice
+import kr.nutee.nutee_android.data.main.home.NoticeItem
+import kr.nutee.nutee_android.network.RequestToServer
+import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.main.fragment.notice.NoticeRecyclerAdapter
 
 /*
@@ -19,8 +22,9 @@ import kr.nutee.nutee_android.ui.main.fragment.notice.NoticeRecyclerAdapter
 
 class ScholarshipFragment : Fragment() {
 
-	private val noticedatas = mutableListOf<Notice>()
+	private var noticedatas = arrayListOf<NoticeItem>()
 	lateinit var noticeRecyclerAdapter: NoticeRecyclerAdapter
+	val requestToServer = RequestToServer
 
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?,
@@ -37,13 +41,28 @@ class ScholarshipFragment : Fragment() {
 			LinearLayoutManager.VERTICAL, false)
 		rv_notice_scholarship.setHasFixedSize(true)
 
-		noticeRecyclerAdapter = NoticeRecyclerAdapter(view.context)
+		loadScholarship {
+			noticedatas = it
+			noticeRecyclerAdapter.noticedatas = noticedatas as Notice
+			setAdapter(it)
+			noticeRecyclerAdapter.notifyDataSetChanged()
+		}
 
-		noticeRecyclerAdapter.noticedatas = noticedatas
-		noticeRecyclerAdapter.notifyDataSetChanged()
 
+	}
+
+	private fun loadScholarship(loadfun:(resBachelor: Notice)->Unit) {
+		requestToServer.noticeService.requestScholarship(
+		).customEnqueue { response ->
+			response.body()?.let {
+				loadfun(it)
+			}
+		}
+	}
+
+	private fun setAdapter(noticeItem: Notice){
+		noticeRecyclerAdapter = NoticeRecyclerAdapter(this.context!!, noticeItem)
 		rv_notice_scholarship.adapter = noticeRecyclerAdapter
-
 	}
 
 }
