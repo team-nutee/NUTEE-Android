@@ -11,11 +11,7 @@ interface NoticeRequestInterface {
 
 	@GET("haksa")
 	fun requestBachelor(
-<<<<<<< HEAD
-		@Header("Contnet-Type") contentType: String = "application/x-www-form-urlencoded"
-=======
 		@Header("Content-Type") contentType: String = "application/x-www-form-urlencoded"
->>>>>>> 3f19a983bf72abd2896286355eb126cc6c2292a8
 	) : Call<Notice>
 
 	@GET("sooup")
