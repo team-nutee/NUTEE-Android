@@ -63,6 +63,7 @@ class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
 
 	private fun registerButtonEventMapping() {
 		tv_register_top_back_btn.setOnClickListener {
+			//FIXME 완벽한 방법은 아닌듯
 			super.onBackPressed()
 		}
 	}
