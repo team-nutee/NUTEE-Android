@@ -63,7 +63,7 @@ class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
 
 	private fun registerButtonEventMapping() {
 		tv_register_top_back_btn.setOnClickListener {
-			onBackPressed()
+			super.onBackPressed()
 		}
 	}
 
