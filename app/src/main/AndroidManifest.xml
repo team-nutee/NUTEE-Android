@@ -25,14 +25,16 @@
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ui.member.register.RegisterActivity" />
         <activity android:name=".ui.member.LoginActivity" />
-        <activity android:name=".ui.main.MainActivity" />
-        <!-- Splash 화면 -->
-        <activity android:name=".ui.SplashActivity">
+        <activity android:name=".ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <!-- Splash 화면 -->
+        <activity android:name=".ui.SplashActivity">
+
         </activity>
         <activity
             android:name=".ui.main.fragment.home.detail.ShowDetailImageView"

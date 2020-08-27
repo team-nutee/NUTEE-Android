@@ -3,12 +3,15 @@ package kr.nutee.nutee_android.network
 import kr.nutee.nutee_android.data.main.home.Notice
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Header
 
 
 interface NoticeRequestInterface {
 
 	@GET("haksa")
-	fun requestBachelor() : Call<Notice>
+	fun requestBachelor(
+		@Header("Content-Type") contentType: String = "application/x-www-form-urlencoded"
+	) : Call<Notice>
 
 	@GET("sooup")
 	fun requestClass() : Call<Notice>
