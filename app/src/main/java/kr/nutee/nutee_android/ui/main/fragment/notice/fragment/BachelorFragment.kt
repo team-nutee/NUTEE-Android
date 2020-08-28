@@ -7,8 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.notice_fragment_bachelor.*
+
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.main.home.Notice
+import kr.nutee.nutee_android.network.RequestToServer
+import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.main.fragment.notice.NoticeRecyclerAdapter
 
 /*
@@ -18,8 +21,7 @@ import kr.nutee.nutee_android.ui.main.fragment.notice.NoticeRecyclerAdapter
 
 class BachelorFragment : Fragment() {
 
-	private val noticedatas = mutableListOf<Notice>()
-	lateinit var noticeRecyclerAdapter: NoticeRecyclerAdapter
+	val requestToServer = RequestToServer
 
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?,
@@ -36,13 +38,17 @@ class BachelorFragment : Fragment() {
 			LinearLayoutManager.VERTICAL, false)
 		rv_notice_bachelor.setHasFixedSize(true)
 
-		noticeRecyclerAdapter = NoticeRecyclerAdapter(view.context)
+		loadBachelor{}
 
-		noticeRecyclerAdapter.noticedatas = noticedatas
-		noticeRecyclerAdapter.notifyDataSetChanged()
+	}
 
-		rv_notice_bachelor.adapter = noticeRecyclerAdapter
-
+	private fun loadBachelor(function: (resBachelor:Notice) -> Unit) {
+		requestToServer.noticeService.requestBachelor(
+		).customEnqueue { response ->
+			response.body()?.let {
+				rv_notice_bachelor.adapter = NoticeRecyclerAdapter(this.context!!, it)
+			}
+		}
 	}
 
 }
