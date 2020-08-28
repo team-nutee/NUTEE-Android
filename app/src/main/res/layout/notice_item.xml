@@ -5,6 +5,17 @@
     android:clickable="false"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+        <ImageView
+            android:id="@+id/img_notice_priority_high"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_priority_high_red_15dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_notice_title"
+            app:layout_constraintEnd_toStartOf="@+id/tv_notice_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_notice_title" />
+
         <TextView
             android:id="@+id/tv_notice_title"
             android:layout_width="0dp"
