@@ -10,8 +10,7 @@ import kr.nutee.nutee_android.ui.main.fragment.notice.fragment.*
  */
 
 /*6개의 fragment를 달아줄 adapter 클래스*/
-class NoticePagerAdapter(fragmentActivity: NoticeFragment)
-	: FragmentStateAdapter(fragmentActivity) {
+class NoticePagerAdapter(fragmentActivity: NoticeFragment) : FragmentStateAdapter(fragmentActivity) {
 
 	override fun getItemCount(): Int {
 		return 6

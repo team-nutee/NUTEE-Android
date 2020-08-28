@@ -9,14 +9,13 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.main.home.Notice
-import kr.nutee.nutee_android.network.RequestToServer
 
 /*
  * Created by eunseo5355
  * DESC: 공지사항의 RecyclerView Adapter
  */
 
-class NoticeRecyclerAdapter(private val context: Context, var noticedatas: Notice): RecyclerView.Adapter<NoticeViewHolder>() {
+class NoticeRecyclerAdapter(private val context: Context, private var noticedatas: Notice): RecyclerView.Adapter<NoticeViewHolder>() {
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoticeViewHolder {
 		val view = LayoutInflater.from(context).inflate(R.layout.notice_item, parent, false)
@@ -31,7 +30,7 @@ class NoticeRecyclerAdapter(private val context: Context, var noticedatas: Notic
 		holder.itemView.setOnClickListener {
 			//안드로이드 웹브라우저앱을 이용하여 링크 열기
 			val openURL = Intent(Intent.ACTION_VIEW)
-			openURL.data = Uri.parse(noticedatas.get(position).href)
+			openURL.data = Uri.parse(noticedatas[position].href)
 			startActivity(context, openURL, null)
 		}
 

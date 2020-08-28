@@ -10,7 +10,6 @@ import kotlinx.android.synthetic.main.notice_fragment_class.*
 
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.main.home.Notice
-import kr.nutee.nutee_android.data.main.home.NoticeItem
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.main.fragment.notice.NoticeRecyclerAdapter
@@ -22,8 +21,6 @@ import kr.nutee.nutee_android.ui.main.fragment.notice.NoticeRecyclerAdapter
 
 class ClassFragment : Fragment() {
 
-	private var noticedatas = arrayListOf<NoticeItem>()
-	lateinit var noticeRecyclerAdapter: NoticeRecyclerAdapter
 	val requestToServer = RequestToServer
 
 	override fun onCreateView(
@@ -41,24 +38,17 @@ class ClassFragment : Fragment() {
 			LinearLayoutManager.VERTICAL, false)
 		rv_notice_class.setHasFixedSize(true)
 
-		loadClass {
-			setAdapter(it)
-		}
+		loadClass{}
 
 	}
 
-	private fun loadClass(loadfun:(resBachelor:Notice)->Unit) {
+	private fun loadClass(function: (resBachelor:Notice) -> Unit) {
 		requestToServer.noticeService.requestClass(
 		).customEnqueue { response ->
 			response.body()?.let {
-				loadfun(it)
+				rv_notice_class.adapter = NoticeRecyclerAdapter(this.context!!, it)
 			}
 		}
-	}
-
-	private fun setAdapter(noticeItem: Notice){
-		noticeRecyclerAdapter = NoticeRecyclerAdapter(this.context!!, noticeItem)
-		rv_notice_class.adapter = this.noticeRecyclerAdapter
 	}
 
 }
