@@ -2,6 +2,7 @@ package kr.nutee.nutee_android.ui.member.register.fragment
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +11,9 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.member_register_id_input_fragment.*
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.ui.extend.animation.showTextShake
 import kr.nutee.nutee_android.ui.extend.textChangedListener
+import kr.nutee.nutee_android.ui.member.DataValid
 import kr.nutee.nutee_android.ui.member.register.OnRegisterDataSetListener
 
 /*
@@ -22,9 +25,8 @@ class IdInputFragment : Fragment(),View.OnClickListener {
 
 	private var id:String? = null
 
-	private var isIdInputSuccess:Boolean = false
-
 	private var onRegisterDataSetListener: OnRegisterDataSetListener? = null
+	private val dataValid = DataValid()
 
 	private var idInputEventListener:((id: EditText,resultText:TextView)->Unit)? = null
 	private var registerIdPreviousEventListener: (() -> Unit)? = null
@@ -74,8 +76,23 @@ class IdInputFragment : Fragment(),View.OnClickListener {
 
 	private fun buttonEnableEventMapping(){
 		et_register_id_input.textChangedListener {id ->
-			tv_id_input_next.isEnabled = !id.isNullOrBlank()
+			tv_id_input_next.isEnabled = !(id.isNullOrBlank()&&isVaildId(id))
 		}
+	}
+
+	private fun isVaildId(id:Editable?):Boolean{
+		if (dataValid.isValidId(id.toString())) {
+			this.id = et_register_id_input.text.toString()
+			tv_register_id_input_result_text.text = ""
+			return true
+		}
+		this.id = null
+		requireContext().showTextShake(
+			tv_register_id_input_result_text,
+			"영문, 숫자만 이용하실 수 있습니다.",
+			R.color.colorRed
+		)
+		return false
 	}
 
 	override fun onDetach() {
@@ -98,7 +115,6 @@ class IdInputFragment : Fragment(),View.OnClickListener {
 	private fun idInputNextButtonClickEvnet(){
 		idInputEventListener?.invoke(et_register_id_input, tv_register_id_input_result_text)
 			.let {
-				id = et_register_id_input.text.toString()
 				onRegisterDataSetListener?.onRegisterIdDataSetListener(id!!)
 				registerIdNextEventListener?.invoke()
 			}

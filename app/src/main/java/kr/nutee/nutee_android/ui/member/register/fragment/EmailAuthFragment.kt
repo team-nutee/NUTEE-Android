@@ -135,7 +135,6 @@ class EmailAuthFragment : Fragment(), View.OnClickListener {
 				registerEmailPrevious?.invoke()
 			}
 			R.id.tv_email_auth_next -> {
-				//TODO 이메일 미 입력시 어떻게 할지는 이부분에
 				email?.let { onRegisterDataSetListener?.onRegisterEmailDataSetListener(it) }
 				registerEmailNext?.invoke()
 			}
