@@ -72,6 +72,11 @@ class SearchView : AppCompatActivity() {
 					//데이터 배열 준비: 이전 검색어 리스트에 추가
 					previousSearchResultsList.add(inputText)
 
+					/*
+					질문: 화면이 넘어가는 부분
+					 */
+
+
 					//검색창 뷰 로 데이터 전달
 					putSearchBoxText(searchBoxText)
 				}

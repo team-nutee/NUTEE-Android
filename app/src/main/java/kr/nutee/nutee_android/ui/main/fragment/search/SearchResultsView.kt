@@ -45,6 +45,13 @@ class SearchResultsView : AppCompatActivity() {
 		}
 	}
 
+	/*
+	* 질문: 검색어를 입력하고 화면이 넘어가면 오류가 나서 앱이 중단된다.
+	* 		어디 부분이 잘못된 건지 잘 모르겠다.
+	* 		이 부분 이외에도 이상한 부분이 있으면 알려줬으면 좋겠다.
+	* */
+
+
 	private fun requestSearch(txt: String?, id: Int, limt: Int
 							  ,loadfun:(resMain:ResponseSearchMain)->Unit) {
 		Log.d("testCall", "호출성공")
