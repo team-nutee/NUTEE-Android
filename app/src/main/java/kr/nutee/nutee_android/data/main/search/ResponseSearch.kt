@@ -6,17 +6,17 @@ import kr.nutee.nutee_android.data.main.home.Liker
 import kr.nutee.nutee_android.data.main.home.User
 
 data class ResponseSearch(
-	val id:Int,
-	val content:String,
-	val isDeleted:Boolean,
-	val isBlocked:Boolean,
-	val createdAt:String,
-	val updatedAt:String,
-	val UserId:Int,
-	val RetweetId:Any?,
-	val User:User,
 	val Comments: List<Comment>,
 	val Images: List<Image>,
 	val Likers: List<Liker>,
-	val Retweet:Any?
+	val Retweet: Any,
+	val RetweetId: Any,
+	val User: User?,
+	val UserId: Int?,
+	val content: String?,
+	val createdAt: String?,
+	val id: Int?,
+	val isBlocked: Boolean,
+	val isDeleted: Boolean,
+	val updatedAt: String?
 )

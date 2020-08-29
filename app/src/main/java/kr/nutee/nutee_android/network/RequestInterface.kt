@@ -10,6 +10,7 @@ import kr.nutee.nutee_android.data.main.home.ResponseMainItem
 import kr.nutee.nutee_android.data.main.home.detail.RequestComment
 import kr.nutee.nutee_android.data.main.search.RequestSearch
 import kr.nutee.nutee_android.data.main.search.ResponseSearch
+import kr.nutee.nutee_android.data.main.search.ResponseSearchMain
 import kr.nutee.nutee_android.data.member.login.RequestLogin
 import kr.nutee.nutee_android.data.member.login.ResponseLogin
 import kr.nutee.nutee_android.data.member.logout.ResponseLogout
@@ -131,6 +132,10 @@ interface RequestInterface {
 
 	/*Search*/
 	//search
-	@POST("/api/search/:text")
-	fun requestSearch(@Body body: RequestSearch):Call<ResponseSearch>
+	@GET("/api/search/{text}")
+	fun requestSearch(@Path("text") text: String?,
+					  @Query("lastId") lastId:Int,
+					  @Query("limit") limit: Int
+	):Call<ResponseSearchMain>
+
 }

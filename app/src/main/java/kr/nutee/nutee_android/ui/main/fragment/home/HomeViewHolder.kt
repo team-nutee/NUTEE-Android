@@ -32,7 +32,7 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 	val profileName = itemView.findViewById<TextView>(R.id.text_main_username)
 	val content = itemView.findViewById<TextView>(R.id.text_main_content)
 	val btn_favorite = itemView.findViewById<ImageView>(R.id.img_main_count_like)
-	val text_main_count_image = itemView.findViewById<TextView>(R.id.text_main_count_image)
+	val text_main_count_image = itemView.findViewById<TextView>(R.id.ext_main_count_imaget)
 	val text_main_count_comment = itemView.findViewById<TextView>(R.id.text_main_count_comment)
 	val text_main_count_like = itemView.findViewById<TextView>(R.id.text_main_count_like)
 	val text_main_updateat = itemView.findViewById<TextView>(R.id.text_main_updateat)

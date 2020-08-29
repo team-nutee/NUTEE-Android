@@ -11,14 +11,15 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_search_view.*
-import kotlinx.android.synthetic.main.login_activity.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.main.search.RequestSearch
-import kr.nutee.nutee_android.data.member.login.RequestLogin
+import kr.nutee.nutee_android.data.main.search.ResponseSearch
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
-import kr.nutee.nutee_android.ui.main.MainActivity
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class SearchView : AppCompatActivity() {
 
@@ -54,7 +55,7 @@ class SearchView : AppCompatActivity() {
 		et_search_box.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
 			if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == ACTION_DOWN) {
 				//검색어
-				searchBoxText=et_search_box.text.toString()
+				val searchBoxText=et_search_box.text.toString()
 
 				//검색어가 없는 경우
 				if (searchBoxText.length == 0) {
@@ -69,7 +70,10 @@ class SearchView : AppCompatActivity() {
 					val inputText=prefsSearch.getString(prefsSearch.KeyList.size+1)
 
 					//데이터 배열 준비: 이전 검색어 리스트에 추가
-					previousSearchResultsList.add(inputText.toString())
+					previousSearchResultsList.add(inputText)
+
+					//검색창 뷰 로 데이터 전달
+					putSearchBoxText(searchBoxText)
 				}
 				return@OnKeyListener true
 			}
@@ -103,22 +107,9 @@ class SearchView : AppCompatActivity() {
 		}
 	}
 
-	private fun requestSearch(lastId: Int, limit: Int) {
-		requestToServer.service
-			.requestSearch(
-				RequestSearch(
-					lastId = lastId,
-					limit = limit
-				)
-			).customEnqueue(
-				onSuccess = {
-					if (it.isSuccessful) {
-						Log.d("serverSearch", "성공")
-						val intent = Intent(this, MainActivity::class.java)
-						startActivity(intent)
-						finish()
-					}
-				}
-			)
+	fun putSearchBoxText(searchBoxText:String){
+		val intent=Intent(this@SearchView,SearchResultsView::class.java)
+		intent.putExtra("searchBoxText",searchBoxText)
+		startActivity(intent)
 	}
 }
