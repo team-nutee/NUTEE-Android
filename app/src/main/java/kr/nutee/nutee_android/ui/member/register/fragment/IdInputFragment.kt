@@ -104,7 +104,7 @@ class IdInputFragment : Fragment(),View.OnClickListener {
 	override fun onClick(idFragmentButton: View?) {
 		when (idFragmentButton!!.id) {
 			R.id.tv_id_input_next ->{
-				idInputNextButtonClickEvnet()
+				idInputEventListener?.invoke(et_register_id_input, tv_register_id_input_result_text)
 			}
 			R.id.tv_id_input_previous->{
 				registerIdPreviousEventListener?.invoke()
@@ -112,11 +112,9 @@ class IdInputFragment : Fragment(),View.OnClickListener {
 		}
 	}
 
-	private fun idInputNextButtonClickEvnet(){
-		idInputEventListener?.invoke(et_register_id_input, tv_register_id_input_result_text)
-			.let {
-				onRegisterDataSetListener?.onRegisterIdDataSetListener(id!!)
-				registerIdNextEventListener?.invoke()
-			}
+	fun idInputCheckSuccessEvnet(){
+		id = et_register_id_input.text.toString()
+		onRegisterDataSetListener?.onRegisterIdDataSetListener(id!!)
+		registerIdNextEventListener?.invoke()
 	}
 }

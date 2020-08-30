@@ -1,15 +1,21 @@
 package kr.nutee.nutee_android.ui.member.register
 
 import android.os.Bundle
-import android.util.Log
+import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.register_activity.*
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.data.member.register.*
 import kr.nutee.nutee_android.network.RequestToServer
+import kr.nutee.nutee_android.ui.extend.animation.showTextShake
+import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.extend.dialog.customDialog
+import kr.nutee.nutee_android.ui.extend.dialog.customDialogSingleButton
 import kr.nutee.nutee_android.ui.extend.loadFragment
 import kr.nutee.nutee_android.ui.extend.loadFragmentAddtoBackStack
 import kr.nutee.nutee_android.ui.member.register.fragment.*
+import retrofit2.Response
 
 /*
 * Created by jinsu4755
@@ -94,23 +100,68 @@ class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
 	}
 
 	private fun setEmailAuthFragmentEmailAuthEvnetMapping() {
-		emailAuthFragment.setEmailAuthEventListener { email ->
-			/*
-			* TODO
-			*  이메일 인증 서버통신
-			*  실패시 null 리턴
-			*/
+		emailAuthFragment.setEmailAuthEventListener { email, result ->
+			requestToEmailAuth(email, result)
 		}
 	}
 
+	private fun requestToEmailAuth(email: EditText, result: TextView) {
+		RequestToServer.service
+			.requestEmailOTP(body = RequestEmailOTP(email.text.toString()))
+			.customEnqueue(
+				onSuccess = { emailAuthSuccessEvent(result) },
+				onError = { emailAuthErrorEvent(result) }
+			)
+	}
+
+	private fun emailAuthSuccessEvent(result: TextView) {
+		emailAuthFragment.enableOTPInputLayout()
+		showTextShake(
+			result,
+			"입력하신 이메일로 OTP 인증번호가 발송되었습니다.",
+			R.color.nuteeBase
+		)
+		emailAuthFragment.emailAuthSuccessEvent()
+	}
+
+	private fun emailAuthErrorEvent(result: TextView) {
+		showTextShake(
+			result,
+			"이미 가입된 이메일입니다.",
+			R.color.colorRed
+		)
+	}
+
 	private fun setEmailAuthFragmentOTPAuthEventMapping() {
-		emailAuthFragment.setEmailAuthOTPEventListener { otpNum ->
-			/*
-			* TODO
-			*  OTP확인 시 서버통신
-			*  실패시 null 리턴
-			*/
+		emailAuthFragment.setEmailAuthOTPEventListener { otpNum, result ->
+			requestToEmailAuthOTP(otpNum, result)
 		}
+	}
+
+	private fun requestToEmailAuthOTP(otpNum: EditText, result: TextView) {
+		RequestToServer.service
+			.requestOTPCheck(body = RequestOTPCheck(otpNum.text.toString()))
+			.customEnqueue(
+				onSuccess = { emailAuthOTPSuccessEvent(result) },
+				onError = { emailAuthOTPErrorEvent(result) }
+			)
+	}
+
+	private fun emailAuthOTPSuccessEvent(result: TextView) {
+		showTextShake(
+			result,
+			"OTP 인증이 완료되었습니다!",
+			R.color.nuteeBase
+		)
+		emailAuthFragment.emailOTPSuccessEvent()
+	}
+
+	private fun emailAuthOTPErrorEvent(result: TextView) {
+		showTextShake(
+			result,
+			"잘못된 인증번호입니다.",
+			R.color.colorRed
+		)
 	}
 
 	private fun setEmailAuthFragmentNextEventMapping() {
@@ -138,11 +189,47 @@ class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
 
 	private fun setIdInputFragmenIdInputEvnetMapping() {
 		idInputFragment.setIdInputEventListener { id, resultText ->
-			/*
-			* TODO
-			*  id 입력 후 다음 버튼 눌렀을 때 서버통신
-			*  실패시 null 리턴
-			*/
+			requestToIdInput(id, resultText)
+		}
+	}
+
+	private fun requestToIdInput(id: EditText, resultText: TextView) {
+		RequestToServer.service
+			.requestIdCheck(body = RequestIdCheck(id.text.toString()))
+			.customEnqueue(
+				onSuccess = { idInputCheckSuccessEvent(resultText) },
+				onError = { response -> idInputCheckErrorEvnet(response, resultText) }
+			)
+	}
+
+	private fun idInputCheckSuccessEvent(resultText: TextView) {
+		showTextShake(
+			resultText,
+			"아이디 중복 검사 성공",
+			R.color.nuteeBase
+		)
+		idInputFragment.idInputCheckSuccessEvnet()
+	}
+
+	private fun idInputCheckErrorEvnet(
+		response: Response<Unit>,
+		resultText: TextView
+	) {
+		when (response.code()) {
+			401 -> {
+				showTextShake(
+					resultText,
+					"현재 로그인 중입니다.",
+					R.color.colorRed
+				)
+			}
+			409 -> {
+				showTextShake(
+					resultText,
+					"이미 사용중인 아이디입니다.",
+					R.color.colorRed
+				)
+			}
 		}
 	}
 
@@ -171,33 +258,119 @@ class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
 
 	private fun setNickNameFragmentNickNameInputEventMapping() {
 		nickNameInputFragment.setNickNameInputEventListener { nickName, resultText ->
-			/*
-			* TODO
-			*  nickName 입력 후 다음 버튼 눌렀을 때 서버통신
-			*  실패시 null 리턴
-			*/
+			requestToNickName(nickName, resultText)
 		}
 	}
 
-	private fun setNickNameFragmentPreviousEventMapping(){
+	private fun requestToNickName(
+		nickName: EditText,
+		resultText: TextView
+	) {
+		RequestToServer.service
+			.requestNickCheck(RequestNickCheck(nickName.text.toString()))
+			.customEnqueue(
+				onSuccess = { nickNameCheckSuccessEvent(resultText) },
+				onError = { nickNameCheckErrorEvent(resultText) }
+			)
+	}
+
+	private fun nickNameCheckSuccessEvent(resultText: TextView) {
+		showTextShake(
+			resultText,
+			"사용 불가능한 닉네임 입니다",
+			R.color.nuteeBase
+		)
+		nickNameInputFragment.nickNameInputSuccessEvent()
+	}
+
+	private fun nickNameCheckErrorEvent(resultText: TextView) {
+		showTextShake(
+			resultText,
+			"사용 불가능한 닉네임 입니다",
+			R.color.colorRed
+		)
+	}
+
+	private fun setNickNameFragmentPreviousEventMapping() {
 		nickNameInputFragment.setRegisterNickNamePreviousEvnetListener {
 			onBackPressed()
 		}
 	}
 
-	private fun setNickNameFragmentNextEventMapping(){
+	private fun setNickNameFragmentNextEventMapping() {
 		nickNameInputFragment.setRegisterNickNameNextEvnetListerer {
 			loadPasswordInputFragment()
 		}
 	}
 
 	private fun loadPasswordInputFragment() {
+		setPasswordInputFragmentPreviousEvent()
+		setPasswordInputFragmentNextEvent()
 		loadFragmentAddtoBackStack(
 			passwordInputFragment,
 			R.id.fl_register_frame_layout,
 			null
 		)
 	}
+
+	private fun setPasswordInputFragmentPreviousEvent() {
+		passwordInputFragment.setRegisterPasswordPreviousEventListener {
+			onBackPressed()
+		}
+	}
+
+	private fun setPasswordInputFragmentNextEvent() {
+		passwordInputFragment.setReigsterPasswordNextEventListener {
+			requestToRegister()
+		}
+	}
+
+	private fun requestToRegister() {
+		if ( isNotHaveAllData()) {
+			showRegisterDialog()
+			return
+		}
+		RequestToServer.service
+			.requestRegister(body = createRegisterBody())
+			.customEnqueue(
+				onSuccess = {response -> registerSuccessEvnet(response)}
+			)
+	}
+
+	private fun isNotHaveAllData(): Boolean {
+		return nickName.isNullOrBlank() ||
+				password.isNullOrBlank() ||
+				registerEmail.isNullOrBlank() ||
+				registerId.isNullOrBlank()
+	}
+
+	private fun showRegisterDialog(){
+		var registerErrorMessage = ""
+		val registerErrorText: ArrayList<String> = arrayListOf("","","","")
+		when {
+			registerEmail.isNullOrBlank() -> registerErrorText[0] = "이메일 인증이 필요합니다.\n"
+			registerId.isNullOrBlank() -> registerErrorText[1] = "아이디 중복 확인이 필요합니다.\n"
+			nickName.isNullOrBlank() -> registerErrorText[2] = "닉네임 중복 확인이 필요합니다.\n"
+			password.isNullOrBlank() -> registerErrorText[3] = "비밀번호 입력이 필요합니다."
+		}
+		registerErrorText.forEach { registerErrorMessage+=it }
+		customDialogSingleButton(registerErrorMessage)
+	}
+
+	private fun createRegisterBody(): RequestRegister {
+		return RequestRegister(
+			nickName!!,
+			password!!,
+			registerEmail!!,
+			registerId!!
+		)
+	}
+
+	private fun registerSuccessEvnet(response: Response<ResponseRegister>) {
+		intent.putExtra("id", response.body()?.userId)
+		finish()
+	}
+
 
 	/*private fun loadSelectCategoryFragment() {
 		loadFragmentAddtoBackStack(

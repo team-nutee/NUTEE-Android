@@ -142,7 +142,6 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 		if (requestCode == REQUEST_CODE) {
 			if (resultCode == Activity.RESULT_OK) {
 				et_login_id.setText(data?.getStringExtra("id"))
-				et_login_pw.setText(data?.getStringExtra("pw"))
 			}
 		}
 	}

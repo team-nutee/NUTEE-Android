@@ -78,7 +78,10 @@ class NickNameInputFragment : Fragment(),View.OnClickListener{
 	override fun onClick(nicknameFragmentButton: View?) {
 		when (nicknameFragmentButton!!.id) {
 			R.id.tv_nick_name_next -> {
-				nickNameInputNextButtonEvent()
+				nickNameInputEventListener?.invoke(
+					et_register_nick_name_input,
+					tv_register_nick_name_input_result_text
+				)
 			}
 			R.id.tv_nick_name_previous ->{
 				registerNickNamePreviousEventListener?.invoke()
@@ -86,15 +89,10 @@ class NickNameInputFragment : Fragment(),View.OnClickListener{
 		}
 	}
 
-	private fun nickNameInputNextButtonEvent(){
-		nickNameInputEventListener?.invoke(
-			et_register_nick_name_input,
-			tv_register_nick_name_input_result_text
-		).let {
-			nickname = et_register_nick_name_input.text.toString()
-			onRegisterDataSetListener?.onRegisterNickNameDataSetListerner(nickname!!)
-			registerNickNameNextEventListener?.invoke()
-		}
+	fun nickNameInputSuccessEvent(){
+		nickname = et_register_nick_name_input.text.toString()
+		onRegisterDataSetListener?.onRegisterNickNameDataSetListerner(nickname!!)
+		registerNickNameNextEventListener?.invoke()
 	}
 
 	override fun onDetach() {

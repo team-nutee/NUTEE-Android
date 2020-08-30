@@ -72,14 +72,12 @@ class PasswordInputFragment : Fragment(), View.OnClickListener {
 		tv_check_agree_to_personal_info.setOnClickListener(this)
 		tv_password_previous.setOnClickListener(this)
 		tv_password_next.setOnClickListener(this)
+		cb_agree_to_personal_info.setOnClickListener(this)
 	}
 
 	private fun passwordInputButtonEnableEvent() {
 		passwordTextChangedListener()
-		et_register_password_check.textChangedListener {
-			tv_password_next.isEnabled =
-				!(it.isNullOrBlank() && password.isNullOrBlank() && passwordCheckInputEvent(it))
-		}
+		passwordCheckTextChangedListener()
 	}
 
 	private fun passwordTextChangedListener() {
@@ -92,20 +90,28 @@ class PasswordInputFragment : Fragment(), View.OnClickListener {
 		if (dataValid.isValidPassword(pw.toString())) {
 			password = pw?.toString()
 			tv_register_password_result.text = ""
+			passwordNextButtonEnable()
 			return
 		}
 		password = null
 		requireContext().showTextShake(
 			tv_register_password_result,
-			"8자 이상의 영어 대문자, 소문자, 숫자가 포함된 비밀번호를 입력해주세요",
+			"8자 이상의 !@#\$%^&*_+- 가 포함된\n 영어 대문자, 소문자, 특수문자, 숫자가 포함된 비밀번호를 입력해주세요",
 			R.color.colorRed
 		)
+	}
+
+	private fun passwordCheckTextChangedListener() {
+		et_register_password_check.textChangedListener {
+			passwordCheckInputEvent(it)
+		}
 	}
 
 	private fun passwordCheckInputEvent(pw: Editable?): Boolean {
 		if (pw?.toString() == password) {
 			passwordCheck = pw.toString()
 			tv_register_password_check_result.text = ""
+			passwordNextButtonEnable()
 			return true
 		}
 		passwordCheck = null
@@ -117,6 +123,14 @@ class PasswordInputFragment : Fragment(), View.OnClickListener {
 		return false
 	}
 
+	private fun passwordNextButtonEnable() {
+		tv_password_next.isEnabled =
+					cb_agree_to_personal_info.isChecked &&
+					et_register_password.text.toString()==password&&
+					et_register_password_check.text.toString()==passwordCheck
+
+	}
+
 	override fun onClick(passwordInputFragmentButton: View?) {
 		when (passwordInputFragmentButton!!.id) {
 			R.id.tv_check_agree_to_personal_info -> gotoPersonalInfoEvent()
@@ -124,6 +138,9 @@ class PasswordInputFragment : Fragment(), View.OnClickListener {
 			R.id.tv_password_next -> {
 				onRegisterDataSetListener?.onRegisterPasswordDataSetListener(password!!)
 				registerPasswordNextEventListener?.invoke()
+			}
+			R.id.cb_agree_to_personal_info -> {
+				passwordNextButtonEnable()
 			}
 		}
 	}
