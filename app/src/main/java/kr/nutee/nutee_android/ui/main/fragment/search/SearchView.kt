@@ -10,12 +10,14 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.activity_search_results_find.*
 import kotlinx.android.synthetic.main.activity_search_view.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.main.search.ResponseSearch
 import kr.nutee.nutee_android.data.main.search.ResponseSearchMain
 import kr.nutee.nutee_android.network.RequestToServer
+import kr.nutee.nutee_android.ui.extend.customEnqueue
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -27,11 +29,10 @@ class SearchView : AppCompatActivity() {
 	private lateinit var searchViewRecyclerAdapter: SearchViewRecyclerAdapter
 
 	//검색어 문자열 선언
-	lateinit var searchBoxText: String
+	var searchBoxText: String=""
 
 	//서버연결
 	private val requestToServer = RequestToServer
-	var responseSearchResultsList=ResponseSearch()
 
 	var lastId = 0
 	var limit = 10
@@ -76,8 +77,10 @@ class SearchView : AppCompatActivity() {
 					//데이터 배열 준비: 이전 검색어 리스트에 추가
 					previousSearchResultsList.add(inputText)
 
+					val intentSearchBoxText=Intent(this@SearchView,SearchResultsFind::class.java)
+					intentSearchBoxText.putExtra("searchBoxText",searchBoxText)
 					//검색
-					requestSearch(searchBoxText, lastId, limit)
+					requestSearch(searchBoxText, lastId, limit,intentSearchBoxText)
 				}
 				return@OnKeyListener true
 			}
@@ -111,31 +114,23 @@ class SearchView : AppCompatActivity() {
 		}
 	}
 
-	fun requestSearch(txt: String?, id: Int, limt: Int) {
+	fun requestSearch(txt: String, id: Int, limt: Int, intentSearchBoxText:Intent) {
 		requestToServer.service.requestSearch(
-			txt, id, limt
-		).enqueue(object : Callback<ResponseSearch> {
-			override fun onFailure(call: Call<ResponseSearch>, t: Throwable) {
-				Log.d("fagTest", "없음")
-				val intent=Intent(this@SearchView,SearchResultsNotFind::class.java)
+			text = txt,
+			lastId = id,
+			limit = limt
+		).customEnqueue { response ->
+			if(response.body().isNullOrEmpty()){
+				Log.d("testCheck", "확인emty")
+				val intent= Intent(this,SearchResultsNotFind::class.java)
 				startActivity(intent)
 			}
-
-			override fun onResponse(
-				call: Call<ResponseSearch>, response: Response<ResponseSearch>
-			) {
-				if (response.isSuccessful) {
-					Log.d("fagTest", "있음")
-
-					response.body()?.let{
-						responseSearchResultsList=it
-					}
-					val intent=Intent(this@SearchView,SearchResultsFind::class.java)
-					intent.putExtra("responseSearchResultsList",responseSearchResultsList)
-					startActivity(intent)
+			else{
+				response.body()?.let {
+				startActivity(intentSearchBoxText)
+				Log.d("testCheck", "확인1")
 				}
-
 			}
-		})
+		}
 	}
 }

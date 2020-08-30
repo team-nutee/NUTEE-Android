@@ -30,7 +30,7 @@
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowAnimationStyle">@android:style/Animation</item>
-        <!--Dim 처리 여부 지정true - 반투명 검정 /  false - 완전 투명-->
+        <!--Dim 처리 여부 지정-->
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 </resources>

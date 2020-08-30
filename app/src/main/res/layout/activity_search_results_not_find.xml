@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -43,12 +44,30 @@
             android:textColor="@color/nuteeBase"
             android:textSize="14dp" />
     </LinearLayout>
+
     <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="142dp"
+        android:layout_height="148dp"
+        android:layout_marginTop="212dp"
+        android:background="@mipmap/nutee_logo"
+        app:layout_constraintBottom_toTopOf="tv_search_results_not_find"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cl_search_results_top_bar" />
+
+    <TextView
+        android:id="@+id/tv_search_results_not_find"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/image_search_results_not_find"
+        android:text="검색 결과가 없습니다."
+        android:textColor="@color/nuteeBase"
+        android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

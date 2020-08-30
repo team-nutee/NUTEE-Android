@@ -1,5 +1,6 @@
 package kr.nutee.nutee_android.ui.main.fragment.search
 
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -21,6 +22,7 @@ class SearchResultsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 	val itemCountLike:TextView=itemView.text_main_count_like
 
 	fun bindWithView(item: ResponseSearch){
+		Log.d("testCheck","확인6")
 		val user=item.User
 
 		val userImageLoad =
@@ -32,5 +34,6 @@ class SearchResultsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 		itemCountImage.text= item.Images.size.toString()
 		itemCountComment.text= item.Comments.toString()
 		itemCountLike.text= item.Likers.toString()
+		Log.d("testCheck","확인7")
 	}
 }
