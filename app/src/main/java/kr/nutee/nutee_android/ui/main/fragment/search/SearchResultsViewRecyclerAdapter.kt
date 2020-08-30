@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.main.search.ResponseSearch
-import kr.nutee.nutee_android.data.main.search.ResponseSearchMain
 
 class SearchResultsViewRecyclerAdapter(private var contentArrayList: ArrayList<ResponseSearch>)
 	: RecyclerView.Adapter<SearchResultsViewHolder>() {

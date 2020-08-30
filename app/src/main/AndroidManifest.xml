@@ -16,9 +16,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.main.fragment.search.SearchResultsView"/>
+        <activity android:name=".ui.main.fragment.search.SearchResultsNotFind"></activity>
+        <activity android:name=".ui.main.fragment.search.SearchResultsFind" />
+        <activity android:name=".ui.main.fragment.search.SearchResultsView" /> <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.MAIN" /> -->
+        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+        <!-- </intent-filter> -->
+        <!-- </activity> -->
         <activity android:name=".ui.notification.NotificationActivity" />
-        <activity android:name=".ui.main.fragment.search.SearchView" >
+        <activity android:name=".ui.main.fragment.search.SearchView">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,11 +41,13 @@
         <activity android:name=".ui.member.LoginActivity" />
         <activity android:name=".ui.main.MainActivity" /> <!-- Splash 화면 -->
         <activity android:name=".ui.SplashActivity">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".ui.main.fragment.home.detail.ShowDetailImageView"

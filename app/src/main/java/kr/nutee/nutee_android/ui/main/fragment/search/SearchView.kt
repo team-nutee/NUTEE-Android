@@ -13,10 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_search_view.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
-import kr.nutee.nutee_android.data.main.search.RequestSearch
 import kr.nutee.nutee_android.data.main.search.ResponseSearch
+import kr.nutee.nutee_android.data.main.search.ResponseSearchMain
 import kr.nutee.nutee_android.network.RequestToServer
-import kr.nutee.nutee_android.ui.extend.customEnqueue
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -24,12 +23,18 @@ import retrofit2.Response
 class SearchView : AppCompatActivity() {
 
 	//데이터 배열 선언
-	private var previousSearchResultsList=ArrayList<String>()
-	private lateinit var searchViewRecyclerAdapter:SearchViewRecyclerAdapter
+	private var previousSearchResultsList = ArrayList<String>()
+	private lateinit var searchViewRecyclerAdapter: SearchViewRecyclerAdapter
+
 	//검색어 문자열 선언
-	lateinit var searchBoxText:String
+	lateinit var searchBoxText: String
+
 	//서버연결
 	private val requestToServer = RequestToServer
+	var responseSearchResultsList=ResponseSearch()
+
+	var lastId = 0
+	var limit = 10
 
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,12 +42,12 @@ class SearchView : AppCompatActivity() {
 		setContentView(R.layout.activity_search_view)
 
 		//전역 SharedPreference
-		val prefsSearch=App.prefsSearch
+		val prefsSearch = App.prefsSearch
 
 
 		//이전 검색어 기록, 리스트에 저장(검색한 순서대로 저장되도록 key 값 확인)
-		for(key in 1..prefsSearch.KeyList.size){
-			if(prefsSearch.contains(key)) {
+		for (key in 1..prefsSearch.KeyList.size) {
+			if (prefsSearch.contains(key)) {
 				previousSearchResultsList.add(prefsSearch.getString(key))
 			}
 		}
@@ -50,12 +55,11 @@ class SearchView : AppCompatActivity() {
 		previousSearchResultsList.reverse()
 
 
-
 		//검색어 입력
 		et_search_box.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
 			if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == ACTION_DOWN) {
 				//검색어
-				val searchBoxText=et_search_box.text.toString()
+				val searchBoxText = et_search_box.text.toString()
 
 				//검색어가 없는 경우
 				if (searchBoxText.length == 0) {
@@ -64,21 +68,16 @@ class SearchView : AppCompatActivity() {
 				//검색어가 있는 경우
 				if (searchBoxText.length != 0) {
 					//SharedPreferences에 검색어 저장
-					prefsSearch.setString(prefsSearch.KeyList.size+1, searchBoxText)
+					prefsSearch.setString(prefsSearch.KeyList.size + 1, searchBoxText)
 
 					//저장된 이전 검색어 받기
-					val inputText=prefsSearch.getString(prefsSearch.KeyList.size+1)
+					val inputText = prefsSearch.getString(prefsSearch.KeyList.size + 1)
 
 					//데이터 배열 준비: 이전 검색어 리스트에 추가
 					previousSearchResultsList.add(inputText)
 
-					/*
-					질문: 화면이 넘어가는 부분
-					 */
-
-
-					//검색창 뷰 로 데이터 전달
-					putSearchBoxText(searchBoxText)
+					//검색
+					requestSearch(searchBoxText, lastId, limit)
 				}
 				return@OnKeyListener true
 			}
@@ -87,13 +86,13 @@ class SearchView : AppCompatActivity() {
 
 
 		//어댑터 인스턴스 생성
-		searchViewRecyclerAdapter=SearchViewRecyclerAdapter(previousSearchResultsList)
-		rv_search_previous_search_results.apply{
+		searchViewRecyclerAdapter = SearchViewRecyclerAdapter(previousSearchResultsList)
+		rv_search_previous_search_results.apply {
 			//RecyclerView 설정
-			layoutManager=LinearLayoutManager(this@SearchView,LinearLayoutManager.VERTICAL,false)
-			adapter=searchViewRecyclerAdapter
+			layoutManager =
+				LinearLayoutManager(this@SearchView, LinearLayoutManager.VERTICAL, false)
+			adapter = searchViewRecyclerAdapter
 		}
-
 
 
 		//'<' 뒤로 가기 버튼 기능
@@ -112,9 +111,31 @@ class SearchView : AppCompatActivity() {
 		}
 	}
 
-	fun putSearchBoxText(searchBoxText:String){
-		val intent=Intent(this@SearchView,SearchResultsView::class.java)
-		intent.putExtra("searchBoxText",searchBoxText)
-		startActivity(intent)
+	fun requestSearch(txt: String?, id: Int, limt: Int) {
+		requestToServer.service.requestSearch(
+			txt, id, limt
+		).enqueue(object : Callback<ResponseSearch> {
+			override fun onFailure(call: Call<ResponseSearch>, t: Throwable) {
+				Log.d("fagTest", "없음")
+				val intent=Intent(this@SearchView,SearchResultsNotFind::class.java)
+				startActivity(intent)
+			}
+
+			override fun onResponse(
+				call: Call<ResponseSearch>, response: Response<ResponseSearch>
+			) {
+				if (response.isSuccessful) {
+					Log.d("fagTest", "있음")
+
+					response.body()?.let{
+						responseSearchResultsList=it
+					}
+					val intent=Intent(this@SearchView,SearchResultsFind::class.java)
+					intent.putExtra("responseSearchResultsList",responseSearchResultsList)
+					startActivity(intent)
+				}
+
+			}
+		})
 	}
 }
