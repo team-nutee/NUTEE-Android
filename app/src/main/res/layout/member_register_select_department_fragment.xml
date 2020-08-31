@@ -108,10 +108,11 @@
 
         <TextView
             android:id="@+id/tv_select_department_next"
+            android:enabled="false"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="@string/next"
+            android:text="완료하기"
             android:textColor="@color/text_selector"
             android:textSize="20dp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_select_department_previous"
