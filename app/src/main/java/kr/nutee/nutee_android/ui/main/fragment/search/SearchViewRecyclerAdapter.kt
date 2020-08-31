@@ -1,16 +1,15 @@
 package kr.nutee.nutee_android.ui.main.fragment.search
 
-import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.widget.SearchView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
+
+/*
+ * Created by 88yhtesrof
+ * DESC: 검색 창 RecyclerView Adapter
+ */
 
 class SearchViewRecyclerAdapter(var previousSearchResultsList:ArrayList<String>)
 	:RecyclerView.Adapter<SearchViewHolder>(){
@@ -43,7 +42,6 @@ class SearchViewRecyclerAdapter(var previousSearchResultsList:ArrayList<String>)
 	fun removeItemView(position: Int) {
 		//전역 SharedPreference
 		val prefsSearch=App.prefsSearch
-		Log.d("ture","position${position.toString()}")
 
 		//제거될 아이템 위치부터 다시 SharedPreference 저장
 		for(n in position downTo 0 ) {

@@ -3,24 +3,22 @@ package kr.nutee.nutee_android.ui.main.fragment.search
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.KeyEvent.ACTION_DOWN
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.activity_search_results_find.*
 import kotlinx.android.synthetic.main.activity_search_view.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
-import kr.nutee.nutee_android.data.main.search.ResponseSearch
-import kr.nutee.nutee_android.data.main.search.ResponseSearchMain
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+
+/*
+ * Created by 88yhtesrof
+ * DESC: 검색 창 Activity
+ */
 
 class SearchView : AppCompatActivity() {
 
@@ -112,8 +110,11 @@ class SearchView : AppCompatActivity() {
 			//SharesPreferece 목록에서 전체 삭제
 			prefsSearch.AllDelete()
 		}
+
 	}
 
+
+	// TODO: 2020-09.01 같은 과정이 SeaechResultsFind에서도 일어나기 때문에 추후에 수정할 필요가 있음
 	fun requestSearch(txt: String, id: Int, limt: Int, intentSearchBoxText:Intent) {
 		requestToServer.service.requestSearch(
 			text = txt,
@@ -121,14 +122,12 @@ class SearchView : AppCompatActivity() {
 			limit = limt
 		).customEnqueue { response ->
 			if(response.body().isNullOrEmpty()){
-				Log.d("testCheck", "확인emty")
 				val intent= Intent(this,SearchResultsNotFind::class.java)
 				startActivity(intent)
 			}
 			else{
 				response.body()?.let {
 				startActivity(intentSearchBoxText)
-				Log.d("testCheck", "확인1")
 				}
 			}
 		}

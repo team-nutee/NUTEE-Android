@@ -1,15 +1,18 @@
 package kr.nutee.nutee_android.ui.main.fragment.search
 
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.main_list_item.view.*
+import kr.nutee.nutee_android.data.DateParser
 import kr.nutee.nutee_android.data.main.search.ResponseSearch
 import kr.nutee.nutee_android.ui.extend.imageSetting.setImageURLSetting
-
+/*
+ * Created by 88yhtesrof
+ * DESC: 검색 결과 창 : 검색 결과가 있는 경우 RecyclerView Holder
+ */
 
 class SearchResultsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)  {
 
@@ -22,18 +25,16 @@ class SearchResultsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 	val itemCountLike:TextView=itemView.text_main_count_like
 
 	fun bindWithView(item: ResponseSearch){
-		Log.d("testCheck","확인6")
 		val user=item.User
 
 		val userImageLoad =
 			setImageURLSetting(user?.Image?.src)
 		Glide.with(itemView).load(userImageLoad).into(itemImgeProfile)
 		itemUserName.text= user?.nickname
-		itemUpdateAt.text=item.updatedAt
+		itemUpdateAt.text=item.updatedAt?.let { DateParser(it).calculateDiffDate() }
 		itemContent.text=item.content
 		itemCountImage.text= item.Images.size.toString()
-		itemCountComment.text= item.Comments.toString()
-		itemCountLike.text= item.Likers.toString()
-		Log.d("testCheck","확인7")
+		itemCountComment.text= item.Comments.size.toString()
+		itemCountLike.text= item.Likers.size.toString()
 	}
 }
