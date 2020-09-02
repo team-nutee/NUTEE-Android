@@ -5,10 +5,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.setting_main_fragment.*
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.data.App
+import kr.nutee.nutee_android.network.RequestToServer
+import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.extend.loadFragmentAddtoBackStack
+import kr.nutee.nutee_android.ui.member.LoginActivity
 import kr.nutee.nutee_android.ui.setting.DeveloperInformationActivity
 
 /*
@@ -59,6 +64,25 @@ class MainSettingFragment : Fragment() {
 			startActivity(intent)
 		}
 
+		tv_setting_logout.setOnClickListener {
+			requestlogout()
+		}
+
+	}
+
+	private fun requestlogout(){
+		RequestToServer.service
+			.reqeustLogout(App.prefs.local_login_token).customEnqueue{
+				if(it.isSuccessful){
+					App.prefs.local_login_id = ""
+					App.prefs.local_login_pw = ""
+					App.prefs.local_login_token = ""
+
+					Toast.makeText(view?.context,"성공적으로 로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
+					val intent = Intent(view?.context, LoginActivity::class.java)
+					startActivity(intent)
+				}
+		}
 	}
 
 }
