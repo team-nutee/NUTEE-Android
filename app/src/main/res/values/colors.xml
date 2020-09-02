@@ -11,4 +11,13 @@
     <color name="Transparent">#b3000000</color>
     <color name="colorBlack">#000000</color>
     <color name="colorLightGray">#a8a8a8</color>
+    <color name="PM">#e1d3f8</color>
+    <color name="PL">#ffccd1</color>
+    <color name="Android">#cce7e1</color>
+    <color name="iOS">#fddecc</color>
+    <color name="Design">#cce4f9</color>
+    <color name="Web">#e8d5cc</color>
+    <color name="Server">#f8cce6</color>
+    <color name="QA">#e6e6e4</color>
+    <color name="TI">#d7d7d5</color>
 </resources>

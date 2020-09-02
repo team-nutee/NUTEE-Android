@@ -16,8 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.notification.NotificationActivity"/>
-        <activity android:name=".ui.main.fragment.search.SearchView"/>
+        <activity android:name=".ui.setting.DeveloperInformationActivity" />
+        <activity android:name=".ui.notification.NotificationActivity" />
+        <activity android:name=".ui.main.fragment.search.SearchView" />
         <activity android:name=".ui.member.UserFindActivity" />
         <activity android:name=".ui.setting.TermOfUseActivity" />
         <activity android:name=".ui.setting.SettingActivity" />

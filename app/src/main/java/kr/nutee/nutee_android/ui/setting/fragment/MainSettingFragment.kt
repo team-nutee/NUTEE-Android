@@ -1,5 +1,6 @@
 package kr.nutee.nutee_android.ui.setting.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.setting_main_fragment.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.ui.extend.loadFragmentAddtoBackStack
+import kr.nutee.nutee_android.ui.setting.DeveloperInformationActivity
 
 /*
  * Created by eunseo5355
@@ -52,10 +54,11 @@ class MainSettingFragment : Fragment() {
 				,R.id.frame_layout_setting,null)
 		}
 
+		tv_setting_developer_information_btn.setOnClickListener {
+			val intent = Intent(context, DeveloperInformationActivity::class.java)
+			startActivity(intent)
+		}
+
 	}
-
-
-
-
 
 }

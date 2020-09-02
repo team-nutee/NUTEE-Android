@@ -32,7 +32,5 @@ class SettingActivity : AppCompatActivity() {
 		super.onBackPressed()
 	}
 
-
-
 }
 
