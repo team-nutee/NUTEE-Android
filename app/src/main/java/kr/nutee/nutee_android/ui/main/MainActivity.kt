@@ -55,18 +55,12 @@ class MainActivity : AppCompatActivity() {
 		}
     }
 
-	private fun setFlagment(title: CharSequence, fragment: Fragment, visibility: Int) {
-		main_title.text = title
-		loadMainPageFragment(fragment)
-		text_setting.visibility = visibility
-	}
-
     // NavigationBottomView 화면전환
     private fun mainNavigationBottomView(bottomNavigationView: BottomNavigationView){
         bottomNavigationView.setOnNavigationItemSelectedListener {
             when(it.itemId){
                 R.id.menu_home-> {
-					setFlagment(
+					loadMainPageFragment(
 						resources.getText(R.string.fragment_home),
 						HomeFragement(),
 						View.INVISIBLE
@@ -75,7 +69,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.menu_search-> {
-					setFlagment(
+					loadMainPageFragment(
 						resources.getText(R.string.fragment_search),
 						SearchFragment(),
 						View.INVISIBLE
@@ -89,7 +83,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.menu_pin-> {
-					setFlagment(
+					loadMainPageFragment(
 						resources.getString(R.string.fragment_notice),
 						NoticeFragment(),
 						View.INVISIBLE
@@ -98,7 +92,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.menu_profile-> {
-					setFlagment(
+					loadMainPageFragment(
 						resources.getString(R.string.fragment_profile),
 						ProfileFragment(),
 						View.VISIBLE
