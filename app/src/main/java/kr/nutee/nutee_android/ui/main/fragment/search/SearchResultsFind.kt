@@ -1,12 +1,17 @@
 package kr.nutee.nutee_android.ui.main.fragment.search
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_search_results_find.*
+import kotlinx.android.synthetic.main.activity_search_results_not_find.*
+import kotlinx.android.synthetic.main.activity_search_view.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
+import kr.nutee.nutee_android.ui.main.MainActivity
 
 
 /*
@@ -30,7 +35,13 @@ class SearchResultsFind : AppCompatActivity() {
 		rv_search_results.layoutManager= LinearLayoutManager(
 			this, LinearLayoutManager.VERTICAL, false
 		)
+
+		//검색어 창 기능
+		tv_search_results_find.setOnClickListener{
+			finish()
+		}
 	}
+
 	private fun loadSesrch(
 		searchBoxText: String, lastId: Int, limit: Int
 	) {

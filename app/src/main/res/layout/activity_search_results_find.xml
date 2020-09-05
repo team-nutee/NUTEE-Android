@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.main.fragment.search.SearchResultsFind"
-    android:paddingHorizontal="20dp"
+    android:paddingHorizontal="10dp"
     android:paddingBottom="10dp"
     android:orientation="vertical">
 
@@ -16,25 +16,14 @@
         android:layout_height="70dp"
         android:orientation="horizontal"
         android:paddingTop="10dp"
+        android:paddingHorizontal="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
 
-        <ImageView
-            android:id="@+id/img_search_results_back_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:paddingRight="10dp"
-            android:paddingVertical="10dp"
-            android:src="@drawable/ic_chevron_left_seaweed_24dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-
         <TextView
-            android:id="@+id/tv_search_results"
+            android:id="@+id/tv_search_results_find"
             android:layout_width="match_parent"
             android:layout_height="38dp"
             android:background="@drawable/search_results_box"
@@ -53,8 +42,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_search_results"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
-</LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>
