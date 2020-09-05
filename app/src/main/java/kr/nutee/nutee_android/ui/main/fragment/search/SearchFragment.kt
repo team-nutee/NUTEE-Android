@@ -10,26 +10,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.activity_search_view.*
 import kotlinx.android.synthetic.main.main_fragment_search.*
-
-
 import kr.nutee.nutee_android.R
-import kr.nutee.nutee_android.data.App
-import kr.nutee.nutee_android.network.RequestToServer
-import kr.nutee.nutee_android.ui.extend.customEnqueue
 
 
 class SearchFragment : Fragment() {
 	//검색어 문자열 선언
 	var searchBoxText: String=""
-
-	//서버연결
-	private val requestToServer = RequestToServer
-
-	var lastId = 0
-	var limit = 10
 
 	override fun onResume() {
 		//검색창 강제 선택
@@ -56,7 +43,7 @@ class SearchFragment : Fragment() {
 		et_search_bar.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
 			if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
 				//검색어
-				val searchBoxText = et_search_bar.text.toString()
+				searchBoxText = et_search_bar.text.toString()
 
 				//검색어가 없는 경우
 				if (searchBoxText.length == 0) {
@@ -65,33 +52,13 @@ class SearchFragment : Fragment() {
 				//검색어가 있는 경우
 				if (searchBoxText.length != 0) {
 
-					val intentSearchBoxText= Intent(getActivity(),SearchResultsFind::class.java)
-					intentSearchBoxText.putExtra("searchBoxText",searchBoxText)
-					//검색
-					requestSearch(searchBoxText, lastId, limit,intentSearchBoxText)
+					val intentSearchResults= Intent(getActivity(),SearchResultsView::class.java)
+					intentSearchResults.putExtra("searchBoxText",searchBoxText)
+					startActivity(intentSearchResults)
 				}
 				return@OnKeyListener true
 			}
 			false
 		})
-	}
-
-	// TODO: 2020-09.01 같은 과정이 SeaechResultsFind에서도 일어나기 때문에 추후에 수정할 필요가 있음
-	fun requestSearch(txt: String, id: Int, limt: Int, intentSearchBoxText:Intent) {
-		requestToServer.service.requestSearch(
-			text = txt,
-			lastId = id,
-			limit = limt
-		).customEnqueue { response ->
-			if(response.body().isNullOrEmpty()){
-				val intent= Intent(getActivity(),SearchResultsNotFind::class.java)
-				startActivity(intent)
-			}
-			else{
-				response.body()?.let {
-					startActivity(intentSearchBoxText)
-				}
-			}
-		}
 	}
 }

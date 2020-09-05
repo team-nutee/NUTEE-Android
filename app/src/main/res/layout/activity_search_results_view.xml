@@ -5,22 +5,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.fragment.search.SearchResultsFind"
     android:paddingHorizontal="10dp"
     android:paddingBottom="10dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".ui.main.fragment.search.SearchResultsView">
 
     <LinearLayout
-        android:id="@+id/cl_search_results_top_bar"
+        android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:orientation="horizontal"
-        android:paddingTop="10dp"
         android:paddingHorizontal="20dp"
+        android:paddingTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
 
         <TextView
             android:id="@+id/tv_search_results_find"
@@ -35,15 +33,10 @@
             android:textColor="@color/nuteeBase"
             android:textSize="14dp" />
     </LinearLayout>
-    <LinearLayout
+
+    <FrameLayout
+        android:id="@+id/fl_search_results_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_search_results"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
-
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 </LinearLayout>

@@ -13,7 +13,6 @@ import kotlinx.android.synthetic.main.activity_search_view.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.network.RequestToServer
-import kr.nutee.nutee_android.ui.extend.customEnqueue
 
 /*
  * Created by 88yhtesrof
@@ -25,15 +24,6 @@ class SearchView : AppCompatActivity() {
 	//데이터 배열 선언
 	private var previousSearchResultsList = ArrayList<String>()
 	private lateinit var searchViewRecyclerAdapter: SearchViewRecyclerAdapter
-
-	//검색어 문자열 선언
-	var searchBoxText: String=""
-
-	//서버연결
-	private val requestToServer = RequestToServer
-
-	var lastId = 0
-	var limit = 10
 
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,10 +65,8 @@ class SearchView : AppCompatActivity() {
 					//데이터 배열 준비: 이전 검색어 리스트에 추가
 					previousSearchResultsList.add(inputText)
 
-					val intentSearchBoxText=Intent(this@SearchView,SearchResultsFind::class.java)
-					intentSearchBoxText.putExtra("searchBoxText",searchBoxText)
-					//검색
-					requestSearch(searchBoxText, lastId, limit,intentSearchBoxText)
+					val intentSearchResults=Intent(this@SearchView,SearchResultsView::class.java)
+					startActivity(intentSearchResults)
 				}
 				return@OnKeyListener true
 			}
@@ -113,23 +101,4 @@ class SearchView : AppCompatActivity() {
 
 	}
 
-
-	// TODO: 2020-09.01 같은 과정이 SeaechResultsFind에서도 일어나기 때문에 추후에 수정할 필요가 있음
-	fun requestSearch(txt: String, id: Int, limt: Int, intentSearchBoxText:Intent) {
-		requestToServer.service.requestSearch(
-			text = txt,
-			lastId = id,
-			limit = limt
-		).customEnqueue { response ->
-			if(response.body().isNullOrEmpty()){
-				val intent= Intent(this,SearchResultsNotFind::class.java)
-				startActivity(intent)
-			}
-			else{
-				response.body()?.let {
-				startActivity(intentSearchBoxText)
-				}
-			}
-		}
-	}
 }
