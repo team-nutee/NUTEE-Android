@@ -20,6 +20,7 @@ class SearchViewHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
 
 	fun bindWithView(item:String){
 		itemContent.text=item
+
 	}
 
 

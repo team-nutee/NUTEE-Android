@@ -30,7 +30,6 @@ class SearchResultsFindFragment : Fragment() {
 		//검색어
 		searchBoxText=(activity as SearchResultsView).searchBoxText
 
-		loadSesrch(searchBoxText, lastId, limit)
 
 	}
 
@@ -43,6 +42,7 @@ class SearchResultsFindFragment : Fragment() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
+		loadSesrch(searchBoxText, lastId, limit)
 		rv_search_results.layoutManager= LinearLayoutManager(
 			getActivity(), LinearLayoutManager.VERTICAL, false
 		)

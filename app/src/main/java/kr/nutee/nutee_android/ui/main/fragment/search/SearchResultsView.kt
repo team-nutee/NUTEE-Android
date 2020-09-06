@@ -2,11 +2,8 @@ package kr.nutee.nutee_android.ui.main.fragment.search
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import kotlinx.android.synthetic.main.activity_search_results_view.*
-import kotlinx.android.synthetic.main.main_fragment_search.*
 import kr.nutee.nutee_android.R
 
 /*
@@ -24,7 +21,6 @@ class SearchResultsView : AppCompatActivity() {
 		//검색어
 		searchBoxText=intent.getStringExtra("searchBoxText")
 
-		Log.d("checktime",searchBoxText)
 		setFrage(SearchResultsFindFragment())
 
 		//검색어 창 기능
@@ -38,7 +34,18 @@ class SearchResultsView : AppCompatActivity() {
 
 	fun setFrage(name:Fragment){
 		val fragmentManager=supportFragmentManager.beginTransaction()
-		fragmentManager.replace(R.id.fl_search_results_view,name)
-			.commit()
+		fragmentManager.apply {
+			replace(R.id.fl_search_results_view,name)
+			commit()
+		}
+	}
+
+	override fun onBackPressed() {
+		if(supportFragmentManager.backStackEntryCount > 0)
+			supportFragmentManager.popBackStack()
+		else
+			super.onBackPressed()
+
+
 	}
 }

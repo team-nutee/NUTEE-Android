@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_search_view.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
-import kr.nutee.nutee_android.network.RequestToServer
 
 /*
  * Created by 88yhtesrof
