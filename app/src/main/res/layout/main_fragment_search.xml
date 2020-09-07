@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.main.fragment.search.SearchFragment">
+    tools:context=".ui.main.fragment.search.SearchFragment"
+    android:paddingTop="20dp">
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -18,6 +19,8 @@
             android:id="@+id/et_search_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="검색어를 입력해주세요" />
+            android:hint="검색어를 입력해주세요"
+            android:imeOptions="actionSearch"
+            android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 </FrameLayout>

@@ -17,6 +17,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".ui.setting.DeveloperInformationActivity" />
+        <activity android:name=".ui.main.fragment.search.SearchResultsView"/>
         <activity android:name=".ui.notification.NotificationActivity" />
         <activity android:name=".ui.main.fragment.search.SearchView" />
         <activity android:name=".ui.member.UserFindActivity" />

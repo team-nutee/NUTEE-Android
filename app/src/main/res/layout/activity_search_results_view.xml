@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="10dp"
+    android:paddingBottom="10dp"
+    android:orientation="vertical"
+    tools:context=".ui.main.fragment.search.SearchResultsView">
+
+    <LinearLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_search_results_find"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:background="@drawable/search_results_box"
+            android:lineSpacingExtra="3sp"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="10dp"
+            android:text="검색어가 있을 예정입니다."
+            android:textAlignment="viewStart"
+            android:textColor="@color/nuteeBase"
+            android:textSize="14dp" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_search_results_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+</LinearLayout>

@@ -1,15 +1,16 @@
 package kr.nutee.nutee_android.ui.main.fragment.search
 
-import android.content.Intent
-import android.content.SharedPreferences
+
 import android.view.View
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_recyclerview_previous_search_results.view.*
+
+/*
+ * Created by 88yhtesrof
+ * DESC: 검색 창 RecyclerView Holder
+ */
 
 class SearchViewHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
 	//item_recyclerview_previous_search_result.xml 뷰를 받는 Holder
@@ -19,6 +20,7 @@ class SearchViewHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
 
 	fun bindWithView(item:String){
 		itemContent.text=item
+
 	}
 
 
