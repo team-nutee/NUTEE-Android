@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "371817494043",
+    "firebase_url": "https://nutee-f038e.firebaseio.com",
+    "project_id": "nutee-f038e",
+    "storage_bucket": "nutee-f038e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:371817494043:android:ae9e71969eecc17d7a2abe",
+        "android_client_info": {
+          "package_name": "kr.nutee.nutee_android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "371817494043-07ulc5l5vtuol42bth3bov0b1fb9b69u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9OjjCW6Nh1VHbA2fS1LU-eo_9xEQ3P3w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "371817494043-07ulc5l5vtuol42bth3bov0b1fb9b69u.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "371817494043-j4jbm5eamho7o9eofbigj4pmv7037gm8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "kr.nutee",
+                "app_store_id": "1499790660"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

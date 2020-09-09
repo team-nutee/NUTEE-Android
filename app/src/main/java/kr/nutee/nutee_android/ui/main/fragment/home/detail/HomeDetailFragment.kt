@@ -1,3 +1,4 @@
+/*
 package kr.nutee.nutee_android.ui.main.fragment.home.detail
 
 import android.content.Intent
@@ -27,9 +28,11 @@ import kr.nutee.nutee_android.ui.extend.imageSetting.setImageURLSetting
 import kr.nutee.nutee_android.ui.main.MainActivity
 import kr.nutee.nutee_android.ui.main.fragment.home.HomeFragement
 
+*/
 /**
  * A simple [Fragment] subclass.
- */
+ *//*
+
 class HomeDetailFragment(private var lastId: Int) : Fragment(),View.OnClickListener {
 
 	private lateinit var homeDetailCommentAdapter: HomeDetailCommentAdpater
@@ -127,7 +130,8 @@ class HomeDetailFragment(private var lastId: Int) : Fragment(),View.OnClickListe
 			cl_detail_image3.visibility = View.VISIBLE
 			cl_detail_image3.setOnClickListener(this)
 
-			/*when (response.Images.size) {
+			*/
+/*when (response.Images.size) {
 				1 -> {
 					cl_detail_image1.visibility = View.VISIBLE
 					context?.let {
@@ -180,7 +184,8 @@ class HomeDetailFragment(private var lastId: Int) : Fragment(),View.OnClickListe
 							.into(img_detail_image_more_top)
 					}
 				}
-			}*/
+			}*//*
+
 		}
 
 	}
@@ -228,3 +233,4 @@ class HomeDetailFragment(private var lastId: Int) : Fragment(),View.OnClickListe
 	}
 }
 
+*/

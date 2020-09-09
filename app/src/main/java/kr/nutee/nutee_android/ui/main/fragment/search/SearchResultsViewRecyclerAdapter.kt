@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.main.search.ResponseSearchMain
-import kr.nutee.nutee_android.ui.main.fragment.home.detail.HomeDetailFragment
+/*import kr.nutee.nutee_android.ui.main.fragment.home.detail.HomeDetailFragment*/
 
 /*
  * Created by 88yhtesrof
@@ -37,9 +37,9 @@ class SearchResultsViewRecyclerAdapter(private var data: ResponseSearchMain)
 				.beginTransaction()
 
 			fragmentManager.apply {
-				replace(R.id.fl_search_results_view,HomeDetailFragment(data[position].id!! + 1))
+				/*replace(R.id.fl_search_results_view,HomeDetailFragment(data[position].id!! + 1))
 				addToBackStack(null)
-				commit()
+				commit()*/
 			}
 
 		}

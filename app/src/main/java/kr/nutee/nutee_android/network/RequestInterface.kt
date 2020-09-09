@@ -27,6 +27,11 @@ interface RequestInterface {
 		@Query("limit") limit: Int
 	): Call<ResponseMain>
 
+	@GET("/api/post/{id}")
+	fun requestDetail(
+		@Path("id") id:Int
+	): Call<ResponseMainItem?>
+
 	//comment
 	@POST("/api/post/{id}/comment")
 	fun requestComment(

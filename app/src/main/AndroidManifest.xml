@@ -16,8 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".ui.main.fragment.home.detail.HomeDetailActivity"></activity>
         <activity android:name=".ui.setting.DeveloperInformationActivity" />
-        <activity android:name=".ui.main.fragment.search.SearchResultsView"/>
+        <activity android:name=".ui.main.fragment.search.SearchResultsView" />
         <activity android:name=".ui.notification.NotificationActivity" />
         <activity android:name=".ui.main.fragment.search.SearchView" />
         <activity android:name=".ui.member.UserFindActivity" />
@@ -28,8 +29,7 @@
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ui.member.register.RegisterActivity" />
         <activity android:name=".ui.member.LoginActivity" />
-        <activity android:name=".ui.main.MainActivity" />
-        <!-- Splash 화면 -->
+        <activity android:name=".ui.main.MainActivity" /> <!-- Splash 화면 -->
         <activity android:name=".ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

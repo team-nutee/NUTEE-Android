@@ -14,13 +14,12 @@ import kr.nutee.nutee_android.data.DateParser
 import kr.nutee.nutee_android.data.main.RequestReport
 import kr.nutee.nutee_android.data.main.home.ResponseMainItem
 import kr.nutee.nutee_android.network.RequestToServer
-import kr.nutee.nutee_android.ui.extend.dialog.cumstomReportDialog
 import kr.nutee.nutee_android.ui.extend.customEnqueue
+import kr.nutee.nutee_android.ui.extend.dialog.cumstomReportDialog
 import kr.nutee.nutee_android.ui.extend.dialog.customSelectDialog
 import kr.nutee.nutee_android.ui.extend.imageSetting.setImageURLSetting
-import kr.nutee.nutee_android.ui.main.MainActivity
 import kr.nutee.nutee_android.ui.main.fragment.add.AddActivity
-import kr.nutee.nutee_android.ui.main.fragment.home.detail.HomeDetailFragment
+import kr.nutee.nutee_android.ui.main.fragment.home.detail.HomeDetailActivity
 
 
 /*home fragment RecyclerView 내부 하나의 뷰의 정보를 지정하는 클래스 */
@@ -56,11 +55,10 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
 		itemView.setOnClickListener{
 			Log.d("DetailClick",customData.id.toString())
-			val transaction = (itemView.context as MainActivity).supportFragmentManager.beginTransaction()
-			transaction
-				.replace(R.id.frame_layout, HomeDetailFragment(customData.id!! + 1))
-				.addToBackStack(null)
-				.commit()
+			//FIXME 아이디가 없는경우 존재하지 않는 글입니다 띄워주기! 그리고 자체적으로 리스트에서 삭제하고 적용하기.
+			val gotoDetailPageIntent = Intent(itemView.context, HomeDetailActivity::class.java)
+			gotoDetailPageIntent.putExtra("Detail_id", customData.id!!)
+			itemView.context.startActivity(gotoDetailPageIntent)
 		}
 		img_main_more.setOnClickListener{
 			moreEvent(it,customData)
@@ -144,7 +142,7 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 	}
 
 	private fun fixPost(customData: ResponseMainItem) {
-		val intent = Intent(itemView.context,AddActivity::class.java)
+		val intent = Intent(itemView.context, AddActivity::class.java)
 		intent.putExtra("postId",customData.id)
 		intent.putExtra("content",customData.content)
 		val imageArrayList = arrayListOf<String>()

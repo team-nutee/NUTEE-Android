@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.data.main.home.Image
+import kr.nutee.nutee_android.ui.extend.imageSetting.setImageURLSetting
 
 /*
  * Created by 88yhtsero
@@ -13,7 +15,7 @@ import kr.nutee.nutee_android.R
  *
  */
 
-class DetailImageViewAdapter(private val context: Context, private var detailViewImageList:ArrayList<String>)
+class DetailImageViewAdapter(private val context: Context, private var detailViewImageList: ArrayList<Image>)
 	:RecyclerView.Adapter<DetailImageViewHolder>(){
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailImageViewHolder {
 		return DetailImageViewHolder(
@@ -29,6 +31,8 @@ class DetailImageViewAdapter(private val context: Context, private var detailVie
 
 	override fun onBindViewHolder(holder: DetailImageViewHolder, position: Int) {
 		//데이터와 뷰를 묶기
-		Glide.with(context).load(detailViewImageList[position]).into(holder.itemImage)
+		Glide.with(context)
+			.load(setImageURLSetting(detailViewImageList[position].src))
+			.into(holder.itemImage)
 	}
 }
