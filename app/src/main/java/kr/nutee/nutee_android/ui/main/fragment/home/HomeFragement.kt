@@ -84,6 +84,7 @@ class HomeFragement() : Fragment() {
 			loadMain(loadId){
 				contentArrayList.addAll(it)
 				rv_home.adapter?.notifyDataSetChanged()
+				loadId = it.last()!!.id!!
 			}
 		},
 			rv_home.layoutManager as LinearLayoutManager

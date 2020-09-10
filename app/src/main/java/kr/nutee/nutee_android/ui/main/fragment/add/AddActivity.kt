@@ -201,9 +201,8 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	}
 
 	private fun gotoMain() {
-		val intent = Intent(this, MainActivity::class.java)
-		startActivity(intent)
 		finish()
+		startActivity(intent)
 	}
 
 }
