@@ -10,6 +10,7 @@ import kr.nutee.nutee_android.data.member.register.*
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.animation.showTextShake
 import kr.nutee.nutee_android.ui.extend.customEnqueue
+import kr.nutee.nutee_android.ui.extend.dialog.CustomLodingDialog
 import kr.nutee.nutee_android.ui.extend.dialog.customDialog
 import kr.nutee.nutee_android.ui.extend.dialog.customDialogSingleButton
 import kr.nutee.nutee_android.ui.extend.loadFragment
@@ -29,6 +30,8 @@ class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
 	private var registerId: String? = null
 	private var nickName: String? = null
 	private var password: String? = null
+
+	lateinit var customLodingDialog: CustomLodingDialog
 
 	val requestToServer = RequestToServer
 
@@ -59,6 +62,7 @@ class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.register_activity)
+		customLodingDialog = CustomLodingDialog(this)
 		init()
 	}
 
@@ -330,6 +334,7 @@ class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
 			showRegisterDialog()
 			return
 		}
+		customLodingDialog.startLoadingDialog()
 		RequestToServer.service
 			.requestRegister(body = createRegisterBody())
 			.customEnqueue(
@@ -367,6 +372,7 @@ class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
 	}
 
 	private fun registerSuccessEvnet(response: Response<ResponseRegister>) {
+		customLodingDialog.dismissDialog()
 		intent.putExtra("id", response.body()?.userId)
 		finish()
 	}

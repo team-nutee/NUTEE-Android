@@ -17,6 +17,7 @@ import kr.nutee.nutee_android.data.main.add.RequestFixPost
 import kr.nutee.nutee_android.data.main.add.RequestPost
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.*
+import kr.nutee.nutee_android.ui.extend.dialog.CustomLodingDialog
 import kr.nutee.nutee_android.ui.extend.dialog.customDialog
 import kr.nutee.nutee_android.ui.extend.imageSetting.createImageMultipart
 import kr.nutee.nutee_android.ui.main.MainActivity
@@ -32,12 +33,14 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	var selectedImage = arrayListOf<Uri>()
 	private lateinit var imageAdapter: ImageAdapter
 	var postId:Int = 0
+	lateinit var loadingDialog:CustomLodingDialog
 
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.add_activity)
 		fixDataMapping()
+		loadingDialog = CustomLodingDialog(this)
 		init()
 
 	}
@@ -99,6 +102,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	}
 
 	private fun uploadContent() {
+		loadingDialog.startLoadingDialog()
 		if (selectedImage.size > 0) {
 			uploadHasImage()
 		} else {
@@ -201,6 +205,8 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	}
 
 	private fun gotoMain() {
+		loadingDialog.dismissDialog()
+		val intent = Intent(applicationContext,MainActivity::class.java)
 		finish()
 		startActivity(intent)
 	}

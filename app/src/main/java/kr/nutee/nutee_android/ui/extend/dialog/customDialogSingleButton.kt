@@ -8,7 +8,10 @@ import android.widget.TextView
 import kr.nutee.nutee_android.R
 
 
-fun Context.customDialogSingleButton(msg: String) {
+fun Context.customDialogSingleButton(
+	msg: String,
+	onOKButtonEvent:()->Unit={}
+) {
 	val dialog = Dialog(this)
 	dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
 	dialog.setCancelable(false)
@@ -22,5 +25,6 @@ fun Context.customDialogSingleButton(msg: String) {
 
 	okButton.setOnClickListener {
 		dialog.dismiss()
+		onOKButtonEvent.invoke()
 	}
 }
