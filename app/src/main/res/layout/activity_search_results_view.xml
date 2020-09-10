@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="38dp"
             android:background="@drawable/search_results_box"
-            android:lineSpacingExtra="3sp"
+            android:lineSpacingExtra="3dp"
             android:paddingHorizontal="20dp"
             android:paddingVertical="10dp"
             android:text="검색어가 있을 예정입니다."

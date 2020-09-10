@@ -29,7 +29,9 @@
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ui.member.register.RegisterActivity" />
         <activity android:name=".ui.member.LoginActivity" />
-        <activity android:name=".ui.main.MainActivity" /> <!-- Splash 화면 -->
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:windowSoftInputMode="adjustResize"/> <!-- Splash 화면 -->
         <activity android:name=".ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

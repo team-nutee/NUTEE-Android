@@ -68,11 +68,6 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 		when (v!!.id) {
 			R.id.text_back_button -> onBackPressed()
 			R.id.img_upload_image_btn -> {
-				Toast.makeText(
-					this,
-					"안드로이드 버전에서는 이미지 업로드시\n 이미지 불러오기가 불안정하여 추후 업데이트 예정입니다.",
-					Toast.LENGTH_SHORT
-				).show()
 				openImageChooser()
 			}
 			R.id.text_create_button -> {

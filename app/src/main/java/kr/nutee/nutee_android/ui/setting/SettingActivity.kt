@@ -6,6 +6,7 @@ import kotlinx.android.synthetic.main.setting_activity.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.ui.extend.loadFragment
 import kr.nutee.nutee_android.ui.setting.fragment.MainSettingFragment
+import kr.nutee.nutee_android.ui.setting.fragment.ProfileImageSettingFragment
 
 /*
  * Created by eunseo5355
@@ -13,8 +14,6 @@ import kr.nutee.nutee_android.ui.setting.fragment.MainSettingFragment
  */
 
 class SettingActivity : AppCompatActivity() {
-
-	val manager = supportFragmentManager
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)

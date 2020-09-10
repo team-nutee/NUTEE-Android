@@ -1,13 +1,16 @@
 package kr.nutee.nutee_android.ui.main.fragment.home.detail
 
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.main_fragment_home.*
 import kotlinx.android.synthetic.main.main_home_detail_activtiy.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
@@ -57,9 +60,21 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener {
 			img_detail_image3_2,
 			img_detail_image3_3
 		)
+		detailRefreshEvnet()
 		loadDetailPage()
 		detailViewClickEvnet()
 		detailViewButtonEnableEvent()
+	}
+
+	private fun detailRefreshEvnet() {
+		swipe_refresh_detail_view.setProgressBackgroundColorSchemeColor(
+			ContextCompat.getColor(applicationContext, R.color.nuteeBase)
+		)
+		swipe_refresh_detail_view.setColorSchemeColors(Color.WHITE)
+		swipe_refresh_detail_view.setOnRefreshListener {
+			onRestart()
+			swipe_refresh_detail_view.isRefreshing = false
+		}
 	}
 
 	private fun loadDetailPage() {
@@ -185,6 +200,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener {
 		cl_detail_image_more.setOnClickListener(this)
 		img_comment_upload_btn.setOnClickListener(this)
 		img_detail_more.setOnClickListener(this)
+		img_detail_top_back_btn.setOnClickListener(this)
 	}
 
 	private fun detailViewButtonEnableEvent(){
@@ -199,6 +215,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener {
 			R.id.cl_detail_image3 -> sendDataToShowDetailImageView?.invoke()
 			R.id.cl_detail_image_more -> sendDataToShowDetailImageView?.invoke()
 			R.id.img_detail_more -> clickDetailMoreEvent?.invoke()
+			R.id.img_detail_top_back_btn -> onBackPressed()
 			R.id.img_comment_upload_btn ->{
 				RequestToServer.service.requestComment(
 					App.prefs.local_login_token,
@@ -207,7 +224,8 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener {
 				).customEnqueue(
 					onSuccess = {
 						et_detail_comment.text = null
-						onRestart()
+						finish()
+						startActivity(intent)
 					}
 				)
 			}

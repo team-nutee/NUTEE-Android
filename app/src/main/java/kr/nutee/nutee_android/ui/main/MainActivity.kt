@@ -1,16 +1,20 @@
 package kr.nutee.nutee_android.ui.main
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.main_activity.*
+import kotlinx.android.synthetic.main.main_fragment_search.*
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.ui.extend.loadMainPageFragment
 import kr.nutee.nutee_android.ui.main.fragment.add.AddActivity
 import kr.nutee.nutee_android.ui.main.fragment.home.HomeFragement
@@ -27,17 +31,11 @@ class MainActivity : AppCompatActivity() {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.main_activity)
 		init()
-		Log.d("appToken",FirebaseInstanceId.getInstance().getToken().toString())
 	}
 
 	private fun init() {
 		//초기 fragment 설정
 		supportFragmentManager.beginTransaction().replace(R.id.frame_layout, HomeFragement()).commitAllowingStateLoss()
-
-		text_setting.setOnClickListener {
-			val intent = Intent(this, SettingActivity::class.java)
-			startActivity(intent)
-		}
 
 		//navigationBottomView 등록
 		mainNavigationBottomView(main_bottom_nav)
@@ -60,6 +58,8 @@ class MainActivity : AppCompatActivity() {
 
     // NavigationBottomView 화면전환
     private fun mainNavigationBottomView(bottomNavigationView: BottomNavigationView){
+		//검색창 강제 선택시 키보드가 자동으로 보이게 함
+		val inputMethodManager : InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         bottomNavigationView.setOnNavigationItemSelectedListener {
             when(it.itemId){
                 R.id.menu_home-> {
@@ -67,6 +67,10 @@ class MainActivity : AppCompatActivity() {
 						resources.getText(R.string.fragment_home),
 						HomeFragement(),
 						View.INVISIBLE
+					)
+					inputMethodManager.hideSoftInputFromWindow(
+						currentFocus?.windowToken,
+						InputMethodManager.HIDE_NOT_ALWAYS
 					)
 					return@setOnNavigationItemSelectedListener true
                 }
@@ -77,6 +81,7 @@ class MainActivity : AppCompatActivity() {
 						SearchFragment(),
 						View.INVISIBLE
 					)
+					inputMethodManager.showSoftInput(et_search_bar,0)
 					return@setOnNavigationItemSelectedListener true
                 }
 
@@ -91,6 +96,10 @@ class MainActivity : AppCompatActivity() {
 						NoticeFragment(),
 						View.INVISIBLE
 					)
+					inputMethodManager.hideSoftInputFromWindow(
+						currentFocus?.windowToken,
+						InputMethodManager.HIDE_NOT_ALWAYS
+					)
 					return@setOnNavigationItemSelectedListener true
                 }
 
@@ -100,6 +109,15 @@ class MainActivity : AppCompatActivity() {
 						ProfileFragment(),
 						View.VISIBLE
 					)
+					inputMethodManager.hideSoftInputFromWindow(
+						currentFocus?.windowToken,
+						InputMethodManager.HIDE_NOT_ALWAYS
+					)
+					text_setting.setOnClickListener {
+						val gotoSettingIntent = Intent(applicationContext, SettingActivity::class.java)
+						gotoSettingIntent.putExtra("profile", App.prefs.url)
+						startActivity(gotoSettingIntent)
+					}
 					return@setOnNavigationItemSelectedListener true
                 }
 

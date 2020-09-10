@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_setting_profile_image"
@@ -17,7 +18,7 @@
             android:id="@+id/img_setting_profile_image_btn"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:src="@mipmap/nutee_logo_round"
+            tool:src="@mipmap/nutee_logo_round"
             android:clickable="true"
             app:layout_constraintTop_toTopOf="@id/cl_setting_profile_image"
             app:layout_constraintStart_toStartOf="@id/cl_setting_profile_image"

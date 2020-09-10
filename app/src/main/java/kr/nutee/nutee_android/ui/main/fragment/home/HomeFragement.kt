@@ -28,7 +28,7 @@ class HomeFragement() : Fragment() {
 	var loadId = 0
 	var limit = 10
 
-	private var contentArrayList = arrayListOf<ResponseMainItem>()
+	private lateinit var contentArrayList:ResponseMain
 
 	override fun onCreateView(
 		inflater: LayoutInflater,
@@ -44,7 +44,7 @@ class HomeFragement() : Fragment() {
 		loadMain(lastId){
 			contentArrayList = it
 			setAdapter(it)
-			loadId = it.last().id!!
+			loadId = it.last()!!.id!!
 		}
 
 		refreshEvent()
@@ -72,7 +72,7 @@ class HomeFragement() : Fragment() {
 			loadMain(lastId){
 				contentArrayList = it
 				setAdapter(it)
-				loadId = it.last().id!!
+				loadId = it.last()!!.id!!
 			}
 			rv_home_refresh.isRefreshing = false
 		}

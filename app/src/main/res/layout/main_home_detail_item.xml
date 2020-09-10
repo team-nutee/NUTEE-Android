@@ -21,12 +21,12 @@
         android:id="@+id/text_commnet_nick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
         android:lineSpacingExtra="3sp"
         android:textColor="#000000"
-        android:textSize="14sp"
+        android:textSize="14dp"
         android:textStyle="bold"
-        android:layout_marginTop="5dp"
-        android:layout_marginStart="10dp"
         app:layout_constraintStart_toEndOf="@+id/img_comment_profile"
         app:layout_constraintTop_toTopOf="@+id/img_comment_profile"
         tools:text="닉네임" />
@@ -38,11 +38,11 @@
         android:layout_marginTop="5dp"
         android:lineSpacingExtra="3sp"
         android:textColor="#000000"
-        android:textSize="14sp"
+        android:textSize="14dp"
         app:layout_constraintEnd_toStartOf="@+id/img_comment_more"
         app:layout_constraintStart_toStartOf="@+id/text_commnet_nick"
         app:layout_constraintTop_toBottomOf="@+id/text_commnet_nick"
-        tools:text="대대대댇글"/>
+        tools:text="대대대댇글" />
 
     <TextView
         android:id="@+id/text_comment_updateAt"
@@ -50,7 +50,7 @@
         android:layout_height="wrap_content"
         android:lineSpacingExtra="2sp"
         android:textColor="#707070"
-        android:textSize="11sp"
+        android:textSize="11dp"
         app:layout_constraintBottom_toBottomOf="@+id/text_commnet_nick"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/text_commnet_nick"

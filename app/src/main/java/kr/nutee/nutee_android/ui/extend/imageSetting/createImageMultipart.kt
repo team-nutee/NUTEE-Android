@@ -30,4 +30,22 @@ fun Context.createImageMultipart(fileUri: ArrayList<Uri>): ArrayList<MultipartBo
 	return body
 }
 
+fun Context.createProfileMultipart(fileUri: Uri): MultipartBody.Part? {
+	var body:MultipartBody.Part? = null
+	val parcelFileDescriptor
+			= contentResolver.openFileDescriptor(fileUri, "r", null)
+
+	parcelFileDescriptor?.let {
+		val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
+		val file = File(cacheDir, contentResolver.getFileName(fileUri))
+		val outputStream = FileOutputStream(file)
+		inputStream.copyTo(outputStream)
+		Log.d("UriFilePath", file.path)
+		val requestFile = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+		body = MultipartBody.Part.createFormData("image", file.path, requestFile)
+	}
+
+	return body
+}
+
 

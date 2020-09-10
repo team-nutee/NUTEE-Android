@@ -1,10 +1,13 @@
 package kr.nutee.nutee_android.ui.main.fragment.search
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.main.search.ResponseSearchMain
+import kr.nutee.nutee_android.ui.main.fragment.home.detail.HomeDetailActivity
+
 /*import kr.nutee.nutee_android.ui.main.fragment.home.detail.HomeDetailFragment*/
 
 /*
@@ -31,17 +34,9 @@ class SearchResultsViewRecyclerAdapter(private var data: ResponseSearchMain)
 
 		val holderItemView = holder.itemView
 		holderItemView.setOnClickListener() {
-
-			val fragmentManager=(holderItemView.context as SearchResultsView)
-				.supportFragmentManager
-				.beginTransaction()
-
-			fragmentManager.apply {
-				/*replace(R.id.fl_search_results_view,HomeDetailFragment(data[position].id!! + 1))
-				addToBackStack(null)
-				commit()*/
-			}
-
+			val gotoDetailIntent = Intent(holderItemView.context, HomeDetailActivity::class.java)
+			gotoDetailIntent.putExtra("Detail_id", data[position].id)
+			holderItemView.context.startActivity(gotoDetailIntent)
 		}
 	}
 

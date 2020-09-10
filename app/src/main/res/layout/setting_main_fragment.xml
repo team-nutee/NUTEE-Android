@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -8,12 +9,12 @@
         android:id="@+id/cl_setting_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="68dp"
         android:paddingLeft="30dp"
         android:paddingRight="85dp"
-        android:layout_marginTop="300dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintBottom_toTopOf="@+id/tv_setting_logout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <TextView
             android:id="@+id/tv_setting_profile_image_btn"
@@ -70,6 +71,7 @@
             android:textColor="#000000"
             android:textSize="14dp"
             android:textStyle="bold"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="@+id/tv_setting_password_btn"
             app:layout_constraintStart_toStartOf="@+id/tv_setting_password_btn"
             app:layout_constraintTop_toBottomOf="@+id/tv_setting_password_btn" />
@@ -85,26 +87,28 @@
             android:textColor="#000000"
             android:textSize="14dp"
             android:textStyle="bold"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="@+id/tv_setting_category_btn"
             app:layout_constraintStart_toStartOf="@+id/tv_setting_category_btn"
             app:layout_constraintTop_toBottomOf="@+id/tv_setting_category_btn" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-    
+
     <TextView
         android:id="@+id/tv_setting_logout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_marginBottom="8dp"
+        android:layout_height="42dp"
+        android:layout_marginBottom="4dp"
         android:clickable="true"
+        android:padding="10dp"
         android:text="로그아웃"
         android:textColor="@color/nuteeBase"
         android:textSize="16dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/tv_setting_developer_information_btn"
-        app:layout_constraintStart_toStartOf="@id/cl_setting_main"
-        app:layout_constraintEnd_toEndOf="@id/cl_setting_main"/>
+        app:layout_constraintEnd_toEndOf="@id/cl_setting_main"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="@id/cl_setting_main" />
 
     <TextView
         android:id="@+id/tv_setting_developer_information_btn"

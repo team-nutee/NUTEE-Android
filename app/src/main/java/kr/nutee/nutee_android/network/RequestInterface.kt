@@ -8,8 +8,10 @@ import kr.nutee.nutee_android.data.main.home.Comment
 import kr.nutee.nutee_android.data.main.home.ResponseMain
 import kr.nutee.nutee_android.data.main.home.ResponseMainItem
 import kr.nutee.nutee_android.data.main.home.detail.RequestComment
+import kr.nutee.nutee_android.data.main.profile.ResponseProfile
 import kr.nutee.nutee_android.data.main.search.ResponseSearch
 import kr.nutee.nutee_android.data.main.search.ResponseSearchMain
+import kr.nutee.nutee_android.data.main.setting.ResponseUploadProfile
 import kr.nutee.nutee_android.data.member.login.RequestLogin
 import kr.nutee.nutee_android.data.member.login.ResponseLogin
 import kr.nutee.nutee_android.data.member.logout.ResponseLogout
@@ -29,7 +31,7 @@ interface RequestInterface {
 
 	@GET("/api/post/{id}")
 	fun requestDetail(
-		@Path("id") id:Int
+		@Path("id") id: Int
 	): Call<ResponseMainItem?>
 
 	//comment
@@ -62,6 +64,7 @@ interface RequestInterface {
 	//Like post
 	@POST("/api/post/{id}/like")
 	fun requestLike(@Header("Cookie") cookie: String, @Path("id") id: Int?): Call<Unit>
+
 	//UnLike post
 	@DELETE("/api/post/{id}/like")
 	fun requestDelLike(@Header("Cookie") cookie: String, @Path("id") id: Int?): Call<Unit>
@@ -75,12 +78,16 @@ interface RequestInterface {
 	/*comment*/
 	//comment Del
 	@DELETE("/api/post/{postId}/comment/{id}")
-	fun requestDelComment(@Path("postId")postId:Int?,@Path("id")id:Int?):Call<Unit>
+	fun requestDelComment(@Path("postId") postId: Int?, @Path("id") id: Int?): Call<Unit>
 
 	/*User Profile*/
 	// load user
 	@GET("/api/user")
-	fun requestUserData(@Header("Cookie") cookie: String): Call<ResponseLogin>
+	fun requestUserData(@Header("Cookie") cookie: String): Call<ResponseProfile>
+
+	//load user posts
+	@GET("/api/user/{id}/posts")
+	fun requestUserPosts(@Path("id") id: Int): Call<ResponseMain>
 
 	/*Login*/
 	// Login
@@ -113,13 +120,8 @@ interface RequestInterface {
 	@POST("/api/user/passwordcheck")
 	fun requestPasswordCheck(
 		@Header("Cookie") cookie: String,
-		@Field("password") password:String
+		@Field("password") password: String
 	): Call<Unit>
-
-	//password change
-	@FormUrlEncoded
-	@POST("/api/user/passwordchange")
-	fun requestChagePassword(@Header("Cookie") cookie: String,@Field("newpassword")newpassword:String):Call<Unit>
 
 	//logout
 	@POST("/api/user/logout")
@@ -128,18 +130,47 @@ interface RequestInterface {
 	/*Find user Data*/
 	@FormUrlEncoded
 	@POST("/api/user/findid")
-	fun requestFindId(@Field("schoolEmail")schoolEmail:String):Call<Unit>
+	fun requestFindId(@Field("schoolEmail") schoolEmail: String): Call<Unit>
 
 	@FormUrlEncoded
 	@POST("/api/user/reissuance")
-	fun requestFindPw(@Field("userId")userId:String,@Field("schoolEmail")schoolEmail: String):Call<Unit>
+	fun requestFindPw(
+		@Field("userId") userId: String,
+		@Field("schoolEmail") schoolEmail: String
+	): Call<Unit>
 
 	/*Search*/
 	//search
 	@GET("/api/search/{text}")
-	fun requestSearch(@Path("text") text: String?,
-					  @Query("lastId") lastId:Int,
-					  @Query("limit") limit: Int
-	):Call<ResponseSearchMain>
+	fun requestSearch(
+		@Path("text") text: String?,
+		@Query("lastId") lastId: Int,
+		@Query("limit") limit: Int
+	): Call<ResponseSearchMain>
 
+	/*Setting*/
+	//profile setting
+	@Multipart
+	@POST("/api/user/profile")
+	fun requestToUploadProfile(
+		@Header("Cookie") token: String,
+		@Part src:MultipartBody.Part
+	):Call<ResponseUploadProfile>
+
+	//nickName change
+	@FormUrlEncoded
+	@PATCH("/api/user/nickname")
+	fun requestToNickNameChange(
+		@Header("Cookie") token: String,
+		@Field("nickname") nickname:String
+	):Call<Unit>
+
+
+	//password change
+	@FormUrlEncoded
+	@POST("/api/user/passwordchange")
+	fun requestChagePassword(
+		@Header("Cookie") cookie: String,
+		@Field("newpassword") newpassword: String
+	): Call<Unit>
 }
