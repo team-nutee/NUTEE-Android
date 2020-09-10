@@ -16,6 +16,9 @@ import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.member.login.RequestLogin
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
+import kr.nutee.nutee_android.ui.extend.dialog.customDialogDevInfo
+import kr.nutee.nutee_android.ui.extend.dialog.customDialogSingleButton
+import kr.nutee.nutee_android.ui.extend.dialog.customSelectDialog
 import kr.nutee.nutee_android.ui.extend.textChangedListener
 import kr.nutee.nutee_android.ui.main.MainActivity
 import kr.nutee.nutee_android.ui.member.register.RegisterActivity
@@ -32,12 +35,11 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.login_activity)
 
-		//prefs에 저장된 정보가있다면 ID&PW창을 채워주고 자동로그인
-		if (!App.prefs.local_login_id.isBlank() && !App.prefs.local_login_pw.isBlank()) {
-			et_login_id.setText(App.prefs.local_login_id)
-			et_login_pw.setText(App.prefs.local_login_pw)
-			requestlogin(App.prefs.local_login_id, App.prefs.local_login_pw)
-		}
+		autoLogin()
+
+		customDialogSingleButton(
+				getString(R.string.version_info)
+				)
 
 		//ID&PW 입력 이벤트 처리
 		et_login_id.textChangedListener {
@@ -52,6 +54,19 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 		text_forget_id_or_pw_button.setOnClickListener(this)
 		btn_login.setOnClickListener(this)
 		text_register_button.setOnClickListener(this)
+	}
+
+	private fun autoLogin(){
+		//prefs에 저장된 정보가있다면 ID&PW창을 채워주고 자동로그인
+		if (!App.prefs.local_login_id.isBlank() && !App.prefs.local_login_pw.isBlank()) {
+			et_login_id.setText(App.prefs.local_login_id)
+			et_login_pw.setText(App.prefs.local_login_pw)
+			requestlogin(App.prefs.local_login_id, App.prefs.local_login_pw)
+			return
+		}
+		customDialogDevInfo(
+			getString(R.string.version_info)
+		)
 	}
 
 

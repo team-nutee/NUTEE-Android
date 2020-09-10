@@ -1,4 +1,14 @@
 <resources>
+    <string name="version_info">
+        iOS와 다르게 Android에선 아직 아래 기능을 지원하지 않습니다.\n
+        \n
+        - 글 수정, 댓글 수정\n
+        - 타인의 프로필 조회\n
+        \n
+        추후 업데이트에서 추가될 예정입니다!! 감사합니다. 😊\n
+        \n
+        해당 창은 로그인 화면에서만 보이며 자동 로그인을 하면 보이지 않습니다.\n
+    </string>
     <string name="app_name">NUTEE</string>
     <string name="title_activity_login">Sign in</string>
     <string name="prompt_email">Email</string>
