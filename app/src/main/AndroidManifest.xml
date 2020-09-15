@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.main.fragment.home.detail.HomeProfileDetailActivity"></activity>
+        <activity android:name=".ui.main.fragment.home.detail.HomeDetaiProfilelActivity"></activity>
         <activity android:name=".ui.main.fragment.home.detail.HomeDetailActivity" />
         <activity android:name=".ui.setting.DeveloperInformationActivity" />
         <activity android:name=".ui.main.fragment.search.SearchResultsView" />
