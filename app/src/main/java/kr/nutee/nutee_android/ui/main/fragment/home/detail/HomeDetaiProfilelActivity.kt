@@ -11,14 +11,12 @@ import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.main.RequestReport
 import kr.nutee.nutee_android.data.main.home.ResponseMain
-import kr.nutee.nutee_android.data.main.home.ResponseMainItem
 import kr.nutee.nutee_android.data.main.profile.ResponseProfile
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.extend.dialog.cumstomReportDialog
 import kr.nutee.nutee_android.ui.extend.dialog.customSelectDialog
 import kr.nutee.nutee_android.ui.extend.imageSetting.setImageURLSetting
-import kr.nutee.nutee_android.ui.main.fragment.home.HomeFragement
 
 class HomeDetaiProfilelActivity : AppCompatActivity() {
 
@@ -41,14 +39,34 @@ class HomeDetaiProfilelActivity : AppCompatActivity() {
 
 	private fun init(){
 		userID = intent.getIntExtra("Detail_Profile_id",0)
+		loadUserProfile(userID)
+
+		loadUserPost(userID){
+			contentArrayList = it
+			setAdapter(it)
+		}
 
 		img_profile_detail_back_btn.setOnClickListener {
 			onBackPressed()
 		}
 
-		img_profile_detail_more.setOnClickListener {
+	}
 
-		}
+	private fun loadUserProfile(id: Int) {
+		requestToServer.service
+			.requestUserProfile(id)
+			.customEnqueue{response ->
+				response.body()?.let { bindUserProfile(it) } }
+	}
+
+	private fun loadUserPost(id: Int, loadfun:(resMain:ResponseMain)->Unit) {
+		requestToServer.service
+			.requestUserPosts(id)
+			.customEnqueue { response ->
+				response.body()?.let { it ->
+					loadfun(it)
+				}
+			}
 	}
 
 	private fun setAdapter(profilePostItem: ResponseMain) {
@@ -62,14 +80,18 @@ class HomeDetaiProfilelActivity : AppCompatActivity() {
 		Glide.with(applicationContext).load(userImageLoad).into(img_profile)
 		tv_profile_detail_content_num.text = res.Posts?.size.toString()
 		App.prefs.url = res.Image?.src
+
+		img_profile_detail_more.setOnClickListener {
+			profileMore(res)
+		}
 	}
 
-	private fun moreEvent(it: View, customData: ResponseMainItem) {
-		img_profile_detail_more.context.customSelectDialog(
+	private fun profileMore(customData: ResponseProfile) {
+		customSelectDialog(
 			View.VISIBLE, View.GONE, View.GONE,
 			{
 				Log.d("글신고", "누름")
-				it.context.cumstomReportDialog{
+				cumstomReportDialog{
 					requestToServer.service.requestReport(
 						RequestReport(it), customData.id)
 						.customEnqueue{ res->
