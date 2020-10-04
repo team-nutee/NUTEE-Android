@@ -249,6 +249,11 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener {
 		}
 	}
 
+	/*
+	* 질문 : textStr 이 제대로 안 되서 285번째 줄 match.find() 결과로 false가 나오는 것 같은데,
+	*       어디가 문제인지 못찾겠어.. Log 로 textStr 확인해보려고 했는데 값이 아예 안 뜨더라고.
+	*       이외에도 이상한 부분있으면 알려줘
+	*/
 	fun setHashtag(textView: TextView) {
 		val textStr= textView.text.toString()
 		Log.d("hashtagText", textStr)
