@@ -57,7 +57,6 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.main_home_detail_activtiy)
 		init()
-		Log.d("hashtagText", text_detail_content.toString())
 		setHashtag(text_detail_content)
 	}
 
@@ -250,59 +249,34 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener {
 		}
 	}
 
-	fun setHashtag(text: TextView) {
-		val textStr = text.toString()
-		var tag = ""
-
+	fun setHashtag(textView: TextView) {
+		val textStr= textView.text.toString()
 		Log.d("hashtagText", textStr)
-//		val textArray=textStr.split(" ")
-//		for(i in textArray.indices){
-//			val str=textArray[i]
-//			if(str[0].toString() == "#")
-//				tag+=textArray[i]+" " //해시태그만 저장
-//		}
-		//val tagArray=tag.split("#")
-
-		val hashtagSpans = getSpans(textStr, "#")  //tag는 문자열
+		val hashTag = Hashtag() //clikable 클래스
+		val hashtagSpans = getSpans(textStr)
 		val tagsContent = SpannableString(textStr)
 
 		for (i in hashtagSpans.indices) {
 			val span = hashtagSpans[i] // 해시태그 시작과 끝부분이 저장된 배열(hashtagSpans의 각 원소가 배열)
 			val hashTagStart = span[0]
 			val hashTagEnd = span[1]
-
-			val hashTag = Hashtag(this)
-			Log.d("hashtagText", "확인")
-
-//			val interfaceObject=object: Hashtag.HashtagClickEventListener{
-//				override fun onClickEvent (data:String) {
-//					val intentSearchResults= Intent(this@HomeDetailActivity, SearchResultsView::class.java)
-//					intentSearchResults.putExtra("searchBoxText",data)
-//					startActivity(intentSearchResults)
-//					Log.d("hashtagText","클릭이벤트" )
-//				}
-//			}
-//			hashTag.setOnClickEventListener(interfaceObject)
+			Log.d("hashtagText", "확인1")
 
 			tagsContent.setSpan(
 				hashTag, hashTagStart, hashTagEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
 			)
-			//text.isClickable
-			//text.movementMethod = LinkMovementMethod.getInstance()
-			//text.text = tagsContent
 		}
 
-		text.text = tagsContent
-		text.isClickable
-		text.movementMethod = LinkMovementMethod.getInstance()
+		textView.movementMethod = LinkMovementMethod.getInstance()
+		textView.text = tagsContent
 	}
 
-	fun getSpans(body:String , prefix:String):ArrayList<Array<Int>>{
+	fun getSpans(body:String ):ArrayList<Array<Int>>{
 		val spans=ArrayList<Array<Int>>()
 
-		val pattern= Pattern.compile("$prefix\\w+")
+		val pattern= Pattern.compile("(#\\w+)")
 		val matcher= pattern.matcher(body)//대상 문자열이 패턴과 일치할 경우 true를 반환합니다.
-
+		Log.d("hashtagText", body)
 		while (matcher.find()) {
 			val currentSpanArray = Array(2){0}
 			currentSpanArray[0] = matcher.start()
