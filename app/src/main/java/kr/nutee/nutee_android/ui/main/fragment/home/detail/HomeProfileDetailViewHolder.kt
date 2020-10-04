@@ -51,6 +51,13 @@ class HomeProfileDetailViewHolder(itemView: View) : RecyclerView.ViewHolder(item
 		text_main_count_comment.text = customData.Comments.size.toString()
 		text_main_count_like.text = customData.Likers.size.toString()
 
+		itemView.setOnClickListener {
+			Log.d("DetailClick",customData.id.toString())
+			//FIXME 아이디가 없는경우 존재하지 않는 글입니다 띄워주기! 그리고 자체적으로 리스트에서 삭제하고 적용하기.
+			val gotoDetailPageIntent = Intent(itemView.context, HomeDetailActivity::class.java)
+			gotoDetailPageIntent.putExtra("Detail_id", customData.id!!)
+			itemView.context.startActivity(gotoDetailPageIntent)
+		}
 		img_main_more.setOnClickListener{
 			moreEvent(it,customData)
 		}
