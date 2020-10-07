@@ -1,4 +1,4 @@
-package kr.nutee.nutee_android.ui.main.fragment.home
+package kr.nutee.nutee_android.ui.main.fragment.home.detail
 
 import android.content.Intent
 import android.util.Log
@@ -8,7 +8,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.main_list_item.view.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.DateParser
@@ -20,12 +19,9 @@ import kr.nutee.nutee_android.ui.extend.dialog.cumstomReportDialog
 import kr.nutee.nutee_android.ui.extend.dialog.customSelectDialog
 import kr.nutee.nutee_android.ui.extend.imageSetting.setImageURLSetting
 import kr.nutee.nutee_android.ui.main.fragment.add.AddActivity
-import kr.nutee.nutee_android.ui.main.fragment.home.detail.HomeDetailActivity
-import kr.nutee.nutee_android.ui.main.fragment.home.detail.HomeDetaiProfilelActivity
+import kr.nutee.nutee_android.ui.main.fragment.home.HomeFragement
 
-
-/*home fragment RecyclerView 내부 하나의 뷰의 정보를 지정하는 클래스 */
-class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class HomeProfileDetailViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
 	val requestToServer = RequestToServer
 
@@ -42,7 +38,7 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 	fun bind(
 		customData: ResponseMainItem,
 		position: Int,
-		homeAdapter: HomeAdapter
+		homeDetailProfileAdapter: HomeDetailProfileAdapter
 	) {
 		val userImageLoad =
 			setImageURLSetting(customData.User?.Image?.src)
@@ -50,33 +46,23 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 		profileName.text = customData.User?.nickname
 		text_main_updateat.text = customData.updatedAt?.let { DateParser(it).calculateDiffDate() }
 		content.text = customData.content
-		setLikeEvent(btn_favorite,customData)
+		setLikeEvent(btn_favorite, customData)
 		text_main_count_image.text = customData.Images.size.toString()
 		text_main_count_comment.text = customData.Comments.size.toString()
 		text_main_count_like.text = customData.Likers.size.toString()
 
-		itemView.setOnClickListener{
+		itemView.setOnClickListener {
 			Log.d("DetailClick",customData.id.toString())
 			//FIXME 아이디가 없는경우 존재하지 않는 글입니다 띄워주기! 그리고 자체적으로 리스트에서 삭제하고 적용하기.
 			val gotoDetailPageIntent = Intent(itemView.context, HomeDetailActivity::class.java)
 			gotoDetailPageIntent.putExtra("Detail_id", customData.id!!)
 			itemView.context.startActivity(gotoDetailPageIntent)
 		}
-		itemView.img_list_profile.setOnClickListener {
-			val gotoDetailProfileIntent = Intent(itemView.context, HomeDetaiProfilelActivity::class.java)
-			gotoDetailProfileIntent.putExtra("Detail_Profile_id", customData.UserId!!)
-			itemView.context.startActivity(gotoDetailProfileIntent)
-		}
-		itemView.text_main_username.setOnClickListener {
-			val gotoDetailProfileIntent = Intent(itemView.context, HomeDetaiProfilelActivity::class.java)
-			gotoDetailProfileIntent.putExtra("Detail_Profile_id", customData.UserId!!)
-			itemView.context.startActivity(gotoDetailProfileIntent)
-		}
 		img_main_more.setOnClickListener{
 			moreEvent(it,customData)
 		}
 		btn_favorite.setOnClickListener {
-			likeClickEvent(it, customData ,position, homeAdapter)
+			likeClickEvent(it, customData ,position, homeDetailProfileAdapter)
 		}
 	}
 
@@ -91,7 +77,7 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 		it: View,
 		customData: ResponseMainItem,
 		position: Int,
-		homeAdapter: HomeAdapter
+		homeDetailProfileAdapter: HomeDetailProfileAdapter
 	) {
 		if (it.isActivated) {
 			//좋아요 버튼 눌림
@@ -144,7 +130,7 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 							.customEnqueue{ res->
 								if (res.isSuccessful) {
 									Toast
-										.makeText(itemView.context,"신고가 성공적으로 접수되었습니다.",Toast.LENGTH_SHORT)
+										.makeText(itemView.context,"신고가 성공적으로 접수되었습니다.", Toast.LENGTH_SHORT)
 										.show()
 								}
 							}
@@ -166,4 +152,3 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 	}
 
 }
-
