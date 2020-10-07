@@ -173,4 +173,13 @@ interface RequestInterface {
 		@Header("Cookie") cookie: String,
 		@Field("newpassword") newpassword: String
 	): Call<Unit>
+
+	/*other User Profile*/
+	// load user
+	@GET("/api/user/{id}")
+	fun requestUserProfile(
+		@Path("id") id: Int
+	): Call<ResponseProfile>
+
+
 }
