@@ -4,9 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.main.home.Image
+import kr.nutee.nutee_android.ui.extend.animation.glideProgressDrawable
 import kr.nutee.nutee_android.ui.extend.imageSetting.setImageURLSetting
 
 /*
@@ -33,6 +35,7 @@ class DetailImageViewAdapter(private val context: Context, private var detailVie
 		//데이터와 뷰를 묶기
 		Glide.with(context)
 			.load(setImageURLSetting(detailViewImageList[position].src))
+			.placeholder(context.glideProgressDrawable())
 			.into(holder.itemImage)
 	}
 }

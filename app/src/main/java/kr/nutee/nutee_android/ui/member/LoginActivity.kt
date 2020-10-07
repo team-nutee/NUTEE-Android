@@ -16,6 +16,7 @@ import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.member.login.RequestLogin
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
+import kr.nutee.nutee_android.ui.extend.dialog.CustomLodingDialog
 import kr.nutee.nutee_android.ui.extend.dialog.customDialogDevInfo
 import kr.nutee.nutee_android.ui.extend.dialog.customDialogSingleButton
 import kr.nutee.nutee_android.ui.extend.dialog.customSelectDialog
@@ -27,19 +28,15 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
 	private val REQUEST_CODE = 1
 	private val requestToServer = RequestToServer
-
+	lateinit var loadingDialog: CustomLodingDialog
 	val logTag = "LoginActivityButtonEv"
 
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.login_activity)
-
+		loadingDialog = CustomLodingDialog(this)
 		autoLogin()
-
-		customDialogSingleButton(
-			getString(R.string.version_info)
-		)
 
 		//ID&PW 입력 이벤트 처리
 		et_login_id.textChangedListener {
@@ -116,6 +113,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 	}
 
 	private fun requestlogin(id: String, pw: String) {
+		loadingDialog.startLoadingDialog()
 		requestToServer.service
 			.requestLogin(
 				RequestLogin(
@@ -136,12 +134,16 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 					App.prefs.local_user_id = it.body()!!.id.toString()
 					Log.d(logTag, App.prefs.local_login_token)
 					Log.d(logTag, App.prefs.local_user_id)
+
+					loadingDialog.dismissDialog()
+
 					val intent = Intent(this, MainActivity::class.java)
 					startActivity(intent)
 					finish()
 
 				},
 				onError = {
+					loadingDialog.dismissDialog()
 					Log.d(logTag, "로그인 실패")
 					showTextShake(text_login_id_check, "아이디 혹은 비밀번호가 확실하지 않습니다")
 					showTextShake(text_login_pw_check, "아이디 혹은 비밀번호가 확실하지 않습니다")

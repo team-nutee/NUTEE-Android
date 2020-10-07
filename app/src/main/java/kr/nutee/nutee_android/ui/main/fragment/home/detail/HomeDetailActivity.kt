@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.main_fragment_home.*
 import kotlinx.android.synthetic.main.main_home_detail_activtiy.*
@@ -21,7 +22,9 @@ import kr.nutee.nutee_android.data.main.home.Image
 import kr.nutee.nutee_android.data.main.home.ResponseMainItem
 import kr.nutee.nutee_android.data.main.home.detail.RequestComment
 import kr.nutee.nutee_android.network.RequestToServer
+import kr.nutee.nutee_android.ui.extend.animation.glideProgressDrawable
 import kr.nutee.nutee_android.ui.extend.customEnqueue
+import kr.nutee.nutee_android.ui.extend.dialog.CustomLodingDialog
 import kr.nutee.nutee_android.ui.extend.dialog.cumstomReportDialog
 import kr.nutee.nutee_android.ui.extend.dialog.customDialogSingleButton
 import kr.nutee.nutee_android.ui.extend.dialog.customSelectDialog
@@ -87,7 +90,9 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener {
 	}
 
 	private fun onErrorDetailPage() {
-		customDialogSingleButton("네트워크 오류")
+		customDialogSingleButton("네트워크 오류"){
+			finish()
+		}
 	}
 
 	private fun onSucessLoadDetailView(response: Response<ResponseMainItem?>) {
@@ -99,13 +104,14 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener {
 	}
 
 	private fun nullPostEvnet() {
-		customDialogSingleButton("해당 글은 존재하지 않습니다.\n 지속적으로 해당 글이 보일 경우 문의 바랍니다.")
-		finish()
+		customDialogSingleButton("해당 글은 존재하지 않습니다.\n 지속적으로 해당 글이 보일 경우 문의 바랍니다."){
+			finish()
+		}
 	}
 
 	private fun bindDetailPostEvent(responseMainItem: ResponseMainItem) {
 		val userImageLoad = setImageURLSetting(responseMainItem.User?.Image?.src)
-		Glide.with(applicationContext).load(userImageLoad).into(img_detail_profile)
+		Glide.with(applicationContext).load(userImageLoad).placeholder(glideProgressDrawable()).into(img_detail_profile)
 		text_detail_nick.text = responseMainItem.User?.nickname
 		text_detail_time.text =
 			responseMainItem.createdAt?.let { DateParser(it).calculateDiffDate() }

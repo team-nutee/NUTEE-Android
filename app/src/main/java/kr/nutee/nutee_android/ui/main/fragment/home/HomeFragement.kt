@@ -17,6 +17,7 @@ import kr.nutee.nutee_android.data.main.home.ResponseMainItem
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.InfiniteScrollListener
 import kr.nutee.nutee_android.ui.extend.customEnqueue
+import kr.nutee.nutee_android.ui.extend.dialog.CustomLodingDialog
 
 class HomeFragement() : Fragment() {
 
