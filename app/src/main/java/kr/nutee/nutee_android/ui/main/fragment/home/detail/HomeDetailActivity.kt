@@ -2,18 +2,16 @@ package kr.nutee.nutee_android.ui.main.fragment.home.detail
 
 import android.content.Intent
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import com.volokh.danylo.hashtaghelper.HashTagHelper
 import kotlinx.android.synthetic.main.main_home_detail_activtiy.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
@@ -23,7 +21,6 @@ import kr.nutee.nutee_android.data.main.home.Comment
 import kr.nutee.nutee_android.data.main.home.Image
 import kr.nutee.nutee_android.data.main.home.ResponseMainItem
 import kr.nutee.nutee_android.data.main.home.detail.RequestComment
-import kr.nutee.nutee_android.data.main.search.Hashtag
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.animation.glideProgressDrawable
 import kr.nutee.nutee_android.ui.extend.customEnqueue
@@ -32,17 +29,22 @@ import kr.nutee.nutee_android.ui.extend.dialog.customDialogSingleButton
 import kr.nutee.nutee_android.ui.extend.dialog.customSelectDialog
 import kr.nutee.nutee_android.ui.extend.imageSetting.setImageURLSetting
 import kr.nutee.nutee_android.ui.extend.textChangedListener
+import kr.nutee.nutee_android.ui.main.fragment.search.SearchResultsView
 import retrofit2.Response
-import java.util.ArrayList
-import java.util.regex.Pattern
+import java.util.*
+
 
 /*
 * created by jinsu47555
 * DESC: 디테일 페이지를 표시하는 엑티비티
 * //FIXME 증말 급하게 만들어서 나중에 리펙함 하자...하.. 이게 모니...
+*
+* created by 88yhtserofG
+* DESC: 해시태그 기능. Hashtag Helper 라이브러리 사용
 * */
 
-class HomeDetailActivity : AppCompatActivity(),View.OnClickListener {
+class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
+	HashTagHelper.OnHashTagClickListener {
 
 	private var postId: Int? = 0
 
@@ -53,11 +55,22 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener {
 
 	private lateinit var homeDetailCommentAdpater: HomeDetailCommentAdpater
 
+	private lateinit var mTextHashTagHelper: HashTagHelper
+	private lateinit var mHashTagText: TextView
+
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.main_home_detail_activtiy)
 		init()
-		setHashtag(text_detail_content)
+
+		//해시태그 기능
+		val additionalSymbols = '#'
+
+		mHashTagText = text_detail_content
+		mTextHashTagHelper = HashTagHelper.Creator.create(
+			ContextCompat.getColor(this, R.color.nuteeBase), this, additionalSymbols
+		)
+		mTextHashTagHelper.handle(mHashTagText)
 	}
 
 	private fun init() {
@@ -249,48 +262,9 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener {
 		}
 	}
 
-	/*
-	* 질문 : textStr 이 제대로 안 되서 285번째 줄 match.find() 결과로 false가 나오는 것 같은데,
-	*       어디가 문제인지 못찾겠어.. Log 로 textStr 확인해보려고 했는데 값이 아예 안 뜨더라고.
-	*       이외에도 이상한 부분있으면 알려줘
-	*/
-	fun setHashtag(textView: TextView) {
-		val textStr= textView.text.toString()
-		Log.d("hashtagText", textStr)
-		val hashTag = Hashtag() //clikable 클래스
-		val hashtagSpans = getSpans(textStr)
-		val tagsContent = SpannableString(textStr)
-
-		for (i in hashtagSpans.indices) {
-			val span = hashtagSpans[i] // 해시태그 시작과 끝부분이 저장된 배열(hashtagSpans의 각 원소가 배열)
-			val hashTagStart = span[0]
-			val hashTagEnd = span[1]
-			Log.d("hashtagText", "확인1")
-
-			tagsContent.setSpan(
-				hashTag, hashTagStart, hashTagEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-			)
-		}
-
-		textView.movementMethod = LinkMovementMethod.getInstance()
-		textView.text = tagsContent
+	override fun onHashTagClicked(hashTag: String) {
+		val intentSearchResults= Intent(this, SearchResultsView::class.java)
+		intentSearchResults.putExtra("searchBoxText", "#$hashTag")
+		startActivity(intentSearchResults)
 	}
-
-	fun getSpans(body:String ):ArrayList<Array<Int>>{
-		val spans=ArrayList<Array<Int>>()
-
-		val pattern= Pattern.compile("(#\\w+)")
-		val matcher= pattern.matcher(body)//대상 문자열이 패턴과 일치할 경우 true를 반환합니다.
-		Log.d("hashtagText", body)
-		while (matcher.find()) {
-			val currentSpanArray = Array(2){0}
-			currentSpanArray[0] = matcher.start()
-			Log.d("hashtagText", "${currentSpanArray[0]} 시작위치 파악")
-			currentSpanArray[1] = matcher.end()
-			Log.d("hashtagText", "${currentSpanArray[1]} 끝위치 파악")
-			spans.add(currentSpanArray)
-		}
-		return spans
-	}
-
 }
