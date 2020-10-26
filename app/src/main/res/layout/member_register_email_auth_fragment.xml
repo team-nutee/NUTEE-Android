@@ -86,7 +86,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="@+id/cl_input_register_email_auth"
             app:layout_constraintTop_toBottomOf="@+id/cl_input_register_email_auth">
 

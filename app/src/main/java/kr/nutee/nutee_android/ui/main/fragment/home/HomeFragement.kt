@@ -81,15 +81,18 @@ class HomeFragement() : Fragment() {
 
 	private fun addScrollerListener() {
 		rv_home.addOnScrollListener(
-			InfiniteScrollListener({
-			loadMain(loadId){
-				contentArrayList.addAll(it)
-				rv_home.adapter?.notifyDataSetChanged()
-				loadId = it.last()!!.id!!
-			}
-		},
-			rv_home.layoutManager as LinearLayoutManager
-		)
+			InfiniteScrollListener(
+				{
+					loadMain(loadId) {
+						if (it.size > 0) {
+							contentArrayList.addAll(it)
+							rv_home.adapter?.notifyDataSetChanged()
+							loadId = it.last()?.id!!
+						}
+					}
+				},
+				rv_home.layoutManager as LinearLayoutManager
+			)
 		)
 	}
 
