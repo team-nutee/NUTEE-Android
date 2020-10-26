@@ -29,20 +29,20 @@ class HomeFragement() : Fragment() {
 	var loadId = 0
 	var limit = 10
 
-	private lateinit var contentArrayList:ResponseMain
+	private lateinit var contentArrayList: ResponseMain
 
 	override fun onCreateView(
 		inflater: LayoutInflater,
 		container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View? {
-		return inflater.inflate(R.layout.main_fragment_home,container,false)
+		return inflater.inflate(R.layout.main_fragment_home, container, false)
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		rv_home.addItemDecoration(DividerItemDecoration(this.context, LinearLayout.VERTICAL))
-		loadMain(lastId){
+		loadMain(lastId) {
 			contentArrayList = it
 			setAdapter(it)
 			loadId = it.last()!!.id!!
@@ -51,7 +51,8 @@ class HomeFragement() : Fragment() {
 		refreshEvent()
 		addScrollerListener()
 	}
-	private fun loadMain(loadingId:Int,loadfun:(resMain:ResponseMain)->Unit) {
+
+	private fun loadMain(loadingId: Int, loadfun: (resMain: ResponseMain) -> Unit) {
 		requestToServer.service.requestMain(
 			loadingId, limit
 		).customEnqueue { response ->
@@ -67,10 +68,15 @@ class HomeFragement() : Fragment() {
 	}
 
 	private fun refreshEvent() {
-		rv_home_refresh.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(this.context!!, R.color.nuteeBase))
+		rv_home_refresh.setProgressBackgroundColorSchemeColor(
+			ContextCompat.getColor(
+				this.context!!,
+				R.color.nuteeBase
+			)
+		)
 		rv_home_refresh.setColorSchemeColors(Color.WHITE)
 		rv_home_refresh.setOnRefreshListener {
-			loadMain(lastId){
+			loadMain(lastId) {
 				contentArrayList = it
 				setAdapter(it)
 				loadId = it.last()!!.id!!
@@ -84,11 +90,11 @@ class HomeFragement() : Fragment() {
 			InfiniteScrollListener(
 				{
 					loadMain(loadId) {
-						if (it.size > 0) {
-							contentArrayList.addAll(it)
-							rv_home.adapter?.notifyDataSetChanged()
-							loadId = it.last()?.id!!
-						}
+
+						contentArrayList.addAll(it)
+						rv_home.adapter?.notifyDataSetChanged()
+						loadId = it.last()?.id!!
+
 					}
 				},
 				rv_home.layoutManager as LinearLayoutManager

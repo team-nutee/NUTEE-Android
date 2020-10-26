@@ -24,7 +24,7 @@ class InfiniteScrollListener(
 			firstVisibleItem = layoutManager.findFirstVisibleItemPosition()
 
 			if (loading) {
-				if (totalItemCount > previousTotal) {
+				if (totalItemCount >= previousTotal) {
 					loading = false
 					previousTotal = totalItemCount
 				}
