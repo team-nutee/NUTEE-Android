@@ -2,6 +2,7 @@ package kr.nutee.nutee_android.ui.main.fragment.search
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.activity_search_results_view.*
 import kr.nutee.nutee_android.R
