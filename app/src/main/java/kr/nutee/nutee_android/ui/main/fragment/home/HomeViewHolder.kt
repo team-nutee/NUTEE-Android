@@ -8,7 +8,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.main_list_item.view.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.DateParser
@@ -21,7 +20,6 @@ import kr.nutee.nutee_android.ui.extend.dialog.customSelectDialog
 import kr.nutee.nutee_android.ui.extend.imageSetting.setImageURLSetting
 import kr.nutee.nutee_android.ui.main.fragment.add.AddActivity
 import kr.nutee.nutee_android.ui.main.fragment.home.detail.HomeDetailActivity
-import kr.nutee.nutee_android.ui.main.fragment.home.detail.HomeDetaiProfilelActivity
 
 
 /*home fragment RecyclerView 내부 하나의 뷰의 정보를 지정하는 클래스 */
@@ -61,16 +59,6 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 			val gotoDetailPageIntent = Intent(itemView.context, HomeDetailActivity::class.java)
 			gotoDetailPageIntent.putExtra("Detail_id", customData.id!!)
 			itemView.context.startActivity(gotoDetailPageIntent)
-		}
-		itemView.img_list_profile.setOnClickListener {
-			val gotoDetailProfileIntent = Intent(itemView.context, HomeDetaiProfilelActivity::class.java)
-			gotoDetailProfileIntent.putExtra("Detail_Profile_id", customData.UserId!!)
-			itemView.context.startActivity(gotoDetailProfileIntent)
-		}
-		itemView.text_main_username.setOnClickListener {
-			val gotoDetailProfileIntent = Intent(itemView.context, HomeDetaiProfilelActivity::class.java)
-			gotoDetailProfileIntent.putExtra("Detail_Profile_id", customData.UserId!!)
-			itemView.context.startActivity(gotoDetailProfileIntent)
 		}
 		img_main_more.setOnClickListener{
 			moreEvent(it,customData)
