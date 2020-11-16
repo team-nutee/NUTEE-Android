@@ -41,8 +41,6 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
 	fun bind(
 		customData: ResponseMainItem,
-		position: Int,
-		homeAdapter: HomeAdapter
 	) {
 		val userImageLoad =
 			setImageURLSetting(customData.User?.Image?.src)
@@ -76,7 +74,7 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 			moreEvent(it,customData)
 		}
 		btn_favorite.setOnClickListener {
-			likeClickEvent(it, customData ,position, homeAdapter)
+			likeClickEvent(it, customData )
 		}
 	}
 
@@ -90,8 +88,6 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 	private fun likeClickEvent(
 		it: View,
 		customData: ResponseMainItem,
-		position: Int,
-		homeAdapter: HomeAdapter
 	) {
 		if (it.isActivated) {
 			//좋아요 버튼 눌림

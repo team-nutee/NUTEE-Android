@@ -30,7 +30,7 @@ class HomeAdapter(var data: ResponseMain, val context: Context) : RecyclerView.A
 
 	//뷰 홀더와 데이터를 매칭
 	override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
-		holder.bind(data[position]!!,position, this)
+		holder.bind(data[position]!!)
 
 	}
 
