@@ -5,12 +5,15 @@ import android.app.Service
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.add_activity.*
+import kotlinx.android.synthetic.main.main_home_detail_activtiy.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.main.add.RequestFixPost
@@ -34,6 +37,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	private lateinit var imageAdapter: ImageAdapter
 	var postId:Int = 0
 	lateinit var loadingDialog:CustomLodingDialog
+	lateinit var addContent:EditText
 
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +46,9 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 		fixDataMapping()
 		loadingDialog = CustomLodingDialog(this)
 		init()
+
+		addContent=findViewById(R.id.et_add_content)
+		addContent.movementMethod = ScrollingMovementMethod()
 
 	}
 

@@ -27,7 +27,7 @@
         <activity android:name=".ui.setting.SettingActivity" />
         <activity
             android:name=".ui.main.fragment.add.AddActivity"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".ui.member.register.RegisterActivity" />
         <activity android:name=".ui.member.LoginActivity" />
         <activity
