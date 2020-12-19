@@ -20,9 +20,9 @@
             app:layout_constraintTop_toTopOf="parent"
             app:tabGravity="fill"
             app:tabMode="scrollable"
-            app:tabTextColor="#000000"
             app:tabSelectedTextColor="@color/nuteeBase"
-            app:tabTextAppearance="@style/TabLayoutTextStyle">
+            app:tabTextAppearance="@style/TabLayoutTextStyle"
+            app:tabTextColor="#000000">
 
 
         </com.google.android.material.tabs.TabLayout>

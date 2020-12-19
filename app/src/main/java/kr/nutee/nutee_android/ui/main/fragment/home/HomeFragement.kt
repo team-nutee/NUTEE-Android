@@ -10,6 +10,9 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.main_fragment_home.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.main.home.ResponseMain
@@ -29,6 +32,10 @@ class HomeFragement() : Fragment() {
 	var loadId = 0
 	var limit = 10
 
+	private lateinit var homeTabLayout: TabLayout
+	private lateinit var homeViewpager:ViewPager2
+	private lateinit var homeTapTextList :ArrayList<String>
+
 	private lateinit var contentArrayList: ResponseMain
 
 	override fun onCreateView(
@@ -47,6 +54,14 @@ class HomeFragement() : Fragment() {
 			setAdapter(it)
 			loadId = it.last()!!.id!!
 		}
+
+		homeTabLayout = view.findViewById(R.id.tab_main_home)
+		homeViewpager=view.findViewById(R.id.vp_main_home)
+		homeTapTextList= arrayListOf("추천 게시글", "내 전공", "전체 게시글")
+
+		TabLayoutMediator(homeTabLayout, homeViewpager) { tab, position ->
+			tab.text =homeTapTextList[position]
+		}.attach()
 
 		refreshEvent()
 		addScrollerListener()
