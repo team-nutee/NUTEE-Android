@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -26,11 +27,13 @@ import kr.nutee.nutee_android.ui.setting.SettingActivity
 class MainActivity : AppCompatActivity() {
 
 	private var pressTime:Long = 0 //onBackPressedEvent 처리 변수
+	private lateinit var icSearch:ImageButton
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.main_activity)
 		init()
+		icSearchEvent()
 	}
 
 	private fun init() {
@@ -66,7 +69,7 @@ class MainActivity : AppCompatActivity() {
 					loadMainPageFragment(
 						resources.getText(R.string.fragment_home),
 						HomeFragement(),
-						View.INVISIBLE
+						View.VISIBLE
 					)
 					inputMethodManager.hideSoftInputFromWindow(
 						currentFocus?.windowToken,
@@ -113,11 +116,7 @@ class MainActivity : AppCompatActivity() {
 						currentFocus?.windowToken,
 						InputMethodManager.HIDE_NOT_ALWAYS
 					)
-					text_setting.setOnClickListener {
-						val gotoSettingIntent = Intent(applicationContext, SettingActivity::class.java)
-						gotoSettingIntent.putExtra("profile", App.prefs.url)
-						startActivity(gotoSettingIntent)
-					}
+
 					return@setOnNavigationItemSelectedListener true
                 }
 
@@ -125,6 +124,18 @@ class MainActivity : AppCompatActivity() {
             false
         }
     }
+
+	//상단바 검색 위젯 이벤트
+	private fun icSearchEvent(){
+		icSearch=findViewById(R.id.img_main_top_search)
+		icSearch.setOnClickListener {
+			loadMainPageFragment(
+				resources.getText(R.string.fragment_search),
+				SearchFragment(),
+				View.INVISIBLE
+			)
+		}
+	}
 
 }
 

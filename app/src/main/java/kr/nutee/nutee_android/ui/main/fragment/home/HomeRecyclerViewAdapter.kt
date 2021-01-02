@@ -6,6 +6,11 @@ import androidx.recyclerview.widget.RecyclerView
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.main.home.ResponseMain
 
+/*
+ * Created by 88yhtserof
+ * DESC: 메인뷰 홈 게시글 RecyclerViewAdapter
+ */
+
 class HomeRecyclerViewAdapter(private var homeDataList: ResponseMain)
 	: RecyclerView.Adapter<HomeViewHolder>() {
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {

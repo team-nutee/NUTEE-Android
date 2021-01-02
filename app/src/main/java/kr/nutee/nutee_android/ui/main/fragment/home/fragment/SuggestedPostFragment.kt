@@ -12,6 +12,11 @@ import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.ui.main.fragment.home.HomeRecyclerViewAdapter
 import kr.nutee.nutee_android.ui.main.fragment.home.HomeViewHolder
 
+/*
+ * Created by 88yhtserof
+ * DESC: 메인뷰 홈 추천 게시글 Fragment
+ */
+
 class SuggestedPostFragment : Fragment() {
 
 	private lateinit var recyclerView:RecyclerView

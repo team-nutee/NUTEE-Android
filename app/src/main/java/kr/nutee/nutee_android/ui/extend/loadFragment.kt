@@ -18,7 +18,7 @@ fun Context.loadMainPageFragment(title: CharSequence, fragment: Fragment, visibi
 	main_title.text = title
 	transaction.replace(R.id.frame_layout, fragment)
 	transaction.commit()
-	text_setting.visibility = visibility
+	img_main_top_search.visibility = visibility
 }
 
 fun Context.loadFragment(

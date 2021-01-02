@@ -6,6 +6,10 @@ import kr.nutee.nutee_android.ui.main.fragment.home.fragment.FullPostFragment
 import kr.nutee.nutee_android.ui.main.fragment.home.fragment.MyMajorPostFragment
 import kr.nutee.nutee_android.ui.main.fragment.home.fragment.SuggestedPostFragment
 
+/*
+ * Created by 88yhtserof
+ * DESC: 메인뷰 ViewPager의 Fragment Adapter
+ */
 
 class HomeAdapter(fragement: HomeFragement) : FragmentStateAdapter(fragement) {
 
