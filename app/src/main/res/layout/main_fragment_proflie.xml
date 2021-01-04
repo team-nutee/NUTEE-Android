@@ -16,63 +16,133 @@
             android:id="@+id/cl_profile_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="32dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toTopOf = "parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintEnd_toEndOf="parent">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/img_profile_image"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@mipmap/nutee_logo_foreground"
+                android:id="@+id/img_profile"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="15dp"
+                android:src="@mipmap/nutee_logo"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
-                android:id="@+id/text_user_name"
+                android:id="@+id/tv_profile_nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
-                android:textColor="#000000"
-                android:textSize="15dp"
+                android:layout_marginStart="8dp"
+                android:text="닉네임"
+                android:textSize="16dp"
+                android:textColor="#707070"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/img_profile_image"
-                app:layout_constraintTop_toTopOf="@+id/img_profile_image"
-                tools:text="유저 이름" />
+                app:layout_constraintTop_toTopOf="@id/img_profile"
+                app:layout_constraintBottom_toBottomOf="@id/img_profile"
+                app:layout_constraintStart_toEndOf="@id/img_profile"/>
 
-            <LinearLayout
-                android:id="@+id/linearLayout2"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_profile"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginStart="70dp"
+                android:layout_marginEnd="31dp"
+                android:gravity="center"
                 android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="@+id/img_profile_image"
-                app:layout_constraintStart_toEndOf="@+id/img_profile_image">
+                app:layout_constraintBottom_toBottomOf="@id/cl_profile_layout"
+                app:layout_constraintEnd_toEndOf="@id/cl_profile_layout"
+                app:layout_constraintStart_toEndOf="@id/tv_profile_nickname"
+                app:layout_constraintTop_toTopOf="@id/cl_profile_layout">
 
-                <TextView
+                <LinearLayout
+                    android:id="@+id/linearLayout_profile_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="내가 쓴 게시글 : "
-                    android:textColor="#000000"
-                    android:textSize="12dp"
-                    android:textStyle="bold" />
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="@id/cl_profile"
+                    app:layout_constraintStart_toStartOf="@id/cl_profile"
+                    app:layout_constraintTop_toTopOf="@id/cl_profile">
 
-                <TextView
-                    android:id="@+id/text_profile_content_num"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="글"
+                        android:textColor="#8D8D8D"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:id="@+id/tv_profile_content_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="100"
+                        android:textColor="#8D8D8D"
+                        android:textSize="15dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayout_profile_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textColor="#000000"
-                    android:textSize="12dp"
-                    android:textStyle="bold"
-                    tools:text="0" />
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@id/cl_profile"
+                    app:layout_constraintEnd_toStartOf="@id/linearLayout_profile_3"
+                    app:layout_constraintStart_toEndOf="@+id/linearLayout_profile_1"
+                    app:layout_constraintTop_toTopOf="@id/cl_profile">
 
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="댓글"
+                        android:textColor="#8D8D8D"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="200"
+                        android:textColor="#8D8D8D"
+                        android:textSize="15dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayout_profile_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@id/cl_profile"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/cl_profile">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="추천"
+                        android:textColor="#8D8D8D"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="300"
+                        android:textColor="#8D8D8D"
+                        android:textSize="15dp" />
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -129,8 +199,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:listitem="@layout/main_list_item" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

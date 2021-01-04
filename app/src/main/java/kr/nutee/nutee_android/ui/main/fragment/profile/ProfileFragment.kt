@@ -51,10 +51,10 @@ class ProfileFragment : Fragment() {
 	}
 
 	private fun bindUserProfile(res: ResponseProfile) {
-		text_user_name.text = res.nickname
+		tv_profile_nickname.text = res.nickname
 		val userImageLoad = setImageURLSetting(res.Image?.src)
-		Glide.with(requireContext()).load(userImageLoad).into(img_profile_image)
-		text_profile_content_num.text = res.Posts?.size.toString()
+		Glide.with(requireContext()).load(userImageLoad).into(img_profile)
+		tv_profile_content_num.text = res.Posts?.size.toString()
 		loadUserProfileList(res.id)
 		App.prefs.url = res.Image?.src
 	}
