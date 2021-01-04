@@ -87,4 +87,6 @@ dependencies {
 
     //해시태그 라이브러리
     implementation 'com.github.danylovolokh:hashtag-helper:1.1.0'
+
+    implementation "androidx.coordinatorlayout:coordinatorlayout:1.1.0"
 }
