@@ -78,22 +78,13 @@ class MainActivity : AppCompatActivity() {
 					return@setOnNavigationItemSelectedListener true
                 }
 
-                R.id.menu_search-> {
-					loadMainPageFragment(
-						resources.getText(R.string.fragment_search),
-						SearchFragment(),
-						View.INVISIBLE
-					)
-					inputMethodManager.showSoftInput(et_search_bar,0)
-					return@setOnNavigationItemSelectedListener true
-                }
 
                 R.id.menu_add-> {
                     val intent = Intent(this, AddActivity::class.java)
 					startActivity(intent)
                 }
 
-                R.id.menu_pin-> {
+                R.id.menu_notice-> {
 					loadMainPageFragment(
 						resources.getString(R.string.fragment_notice),
 						NoticeFragment(),
