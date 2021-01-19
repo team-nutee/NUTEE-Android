@@ -14,6 +14,7 @@ import kr.nutee.nutee_android.data.main.home.ResponseMain
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 
+//메인뷰버그해결 코드 따로 저장해놓음-88yhtserof
 class HomeFragement() : Fragment() {
 
 	val requestToServer = RequestToServer

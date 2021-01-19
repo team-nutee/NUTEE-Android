@@ -6,6 +6,7 @@ import kr.nutee.nutee_android.ui.main.fragment.home.fragment.FullPostFragment
 import kr.nutee.nutee_android.ui.main.fragment.home.fragment.MyMajorPostFragment
 import kr.nutee.nutee_android.ui.main.fragment.home.fragment.SuggestedPostFragment
 
+//메인뷰버그해결 코드 따로 저장해놓음-88yhtserof
 /*
  * Created by 88yhtserof
  * DESC: 메인뷰 ViewPager의 Fragment Adapter
