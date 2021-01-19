@@ -1,37 +1,25 @@
 package kr.nutee.nutee_android.ui.main.fragment.home
 
-import android.content.Context
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
-import kr.nutee.nutee_android.R
-import kr.nutee.nutee_android.data.App
-import kr.nutee.nutee_android.data.main.home.ResponseMain
-import kr.nutee.nutee_android.data.main.home.ResponseMainItem
-import kr.nutee.nutee_android.network.RequestToServer
-import kr.nutee.nutee_android.ui.extend.customEnqueue
+import androidx.fragment.app.Fragment
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import kr.nutee.nutee_android.ui.main.fragment.home.fragment.FullPostFragment
+import kr.nutee.nutee_android.ui.main.fragment.home.fragment.MyMajorPostFragment
+import kr.nutee.nutee_android.ui.main.fragment.home.fragment.SuggestedPostFragment
 
+/*
+ * Created by 88yhtserof
+ * DESC: 메인뷰 ViewPager의 Fragment Adapter
+ */
 
-/*data를 각각 list item View들 과 연결시켜줄 클래스 */
-class HomeAdapter(var data: ResponseMain, val context: Context) : RecyclerView.Adapter<HomeViewHolder>() {
+class HomeAdapter(fragement: HomeFragement) : FragmentStateAdapter(fragement) {
 
-	val requestToServer = RequestToServer
+	override fun getItemCount(): Int = 3
 
-	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
-		val view = LayoutInflater.from(context).inflate(R.layout.main_list_item, parent, false)
-		return HomeViewHolder(view)
+	override fun createFragment(position: Int): Fragment {
+		return when(position){
+			0 -> SuggestedPostFragment()
+			1-> MyMajorPostFragment()
+			else -> FullPostFragment()
+		}
 	}
-
-	override fun getItemCount(): Int {
-		return data.size
-	}
-
-	//뷰 홀더와 데이터를 매칭
-	override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
-		holder.bind(data[position]!!)
-
-	}
-
 }

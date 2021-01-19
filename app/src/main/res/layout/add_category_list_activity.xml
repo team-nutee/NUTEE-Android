@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    tools:context=".ui.main.fragment.add.CategoryListActivity">
+
+    <TextView
+        android:id="@+id/text_add_category_list_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="카테고리를 선택해주세요."
+        android:background="@color/colorWhite"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="18dp"
+        android:padding="15dp"
+        android:textColor="@color/colorBlack"
+        app:layout_constraintBottom_toTopOf="@+id/rv_add_category_list"
+        app:layout_constraintEnd_toEndOf="@+id/rv_add_category_list"
+        app:layout_constraintStart_toStartOf="@+id/rv_add_category_list" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_add_category_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:paddingVertical="5dp"
+        android:paddingHorizontal="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

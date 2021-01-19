@@ -6,21 +6,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.main.fragment.home.HomeFragement">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/rv_home_refresh"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_main_home"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tabGravity="fill"
+        app:tabTextColor="#000000"
+        app:tabSelectedTextColor="@color/nuteeBase"
+        app:tabTextAppearance="@style/TabLayoutTextStyle"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_home"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:overScrollMode="never"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/main_list_item"/>
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vp_main_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 
 </FrameLayout>

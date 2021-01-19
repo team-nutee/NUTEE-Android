@@ -69,15 +69,15 @@ class ProfileFragment : Fragment() {
 						return@customEnqueue
 					}
 					cl_profile_my_post_list.visibility = View.VISIBLE
-					setAdapter(response.body()!!)
+					//setAdapter(response.body()!!)
 				}
 			)
 	}
 
-	private fun setAdapter(mainItem: ResponseMain) {
-		homeAdapter = HomeAdapter(mainItem, this.context!!)
-		rv_profile_post_list.adapter = homeAdapter
-	}
+	//private fun setAdapter(mainItem: ResponseMain) {
+	//	homeAdapter = HomeAdapter(mainItem, this.context!!)
+	//	rv_profile_post_list.adapter = homeAdapter
+	//}
 
 
 }
