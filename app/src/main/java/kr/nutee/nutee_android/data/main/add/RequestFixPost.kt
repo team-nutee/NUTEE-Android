@@ -4,7 +4,7 @@ import android.net.Uri
 import okhttp3.MultipartBody
 
 data class RequestFixPost(
-	val postId: Int,
+	val title:String,
 	val content:String,
 	val image: ArrayList<String>?
 )

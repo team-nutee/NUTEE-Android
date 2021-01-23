@@ -4,12 +4,9 @@ import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.main.RequestReport
 import kr.nutee.nutee_android.data.main.add.RequestFixPost
 import kr.nutee.nutee_android.data.main.add.RequestPost
-import kr.nutee.nutee_android.data.main.home.Comment
-import kr.nutee.nutee_android.data.main.home.ResponseMain
-import kr.nutee.nutee_android.data.main.home.ResponseMainItem
+import kr.nutee.nutee_android.data.main.home.*
 import kr.nutee.nutee_android.data.main.home.detail.RequestComment
 import kr.nutee.nutee_android.data.main.profile.ResponseProfile
-import kr.nutee.nutee_android.data.main.search.ResponseSearch
 import kr.nutee.nutee_android.data.main.search.ResponseSearchMain
 import kr.nutee.nutee_android.data.main.setting.ResponseUploadProfile
 import kr.nutee.nutee_android.data.member.login.RequestLogin
@@ -19,22 +16,69 @@ import kr.nutee.nutee_android.data.member.register.*
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.*
+import retrofit2.http.Body
 
 interface RequestInterface {
 
-	//Main loading
-	@GET("/api/posts")
+	/*list*/
+	//LookUp category list
+	@GET("/sns/post/category/{INTER2}")
 	fun requestMain(
 		@Query("lastId") lastId: Int,
-		@Query("limit") limit: Int
-	): Call<ResponseMain>
+		@Query("limit") limit: Int,
+		@Path("INTER2") INTER2:String
+	): Call<LookUpList>
 
-	@GET("/api/post/{id}")
+	//LookUp favorite list
+	@GET("/sns/post/favorite")
+	fun requestFavoriteList(
+		@Query("lastId") lastId: Int,
+		@Query("limit") limit: Int
+	):Call<LookUpList>
+
+	/*post*/
+	//LookUp post detail
+	@GET("/sns/post/{id}")
 	fun requestDetail(
 		@Path("id") id: Int
-	): Call<ResponseMainItem?>
+	): Call<LookUpDetail?>
 
-	//comment
+	//Posting
+	@POST("/sns/post")
+	fun requestPost(
+		@Header("Cookie") cookie: String,
+		@Body content: String
+	): Call<LookUpDetail>
+
+	//rewrite post
+	@PATCH("/sns/post")
+	fun requestFixPost(
+		@Header("Cookie") cookie: String,
+		@Body content: RequestFixPost
+	): Call<LookUpDetail>
+
+	// delete post
+	@DELETE("/sns/post/{id}")
+	fun requestDelete(
+		@Header("Cookie") cookie: String,
+		@Path("id") id: Int?
+	): Call<LookUpDetail>
+
+	// report post
+	@POST("/sns/post/{id}/report")
+	fun requestReport(
+		@Body content: RequestReport,
+		@Path("id") id: Int?
+	): Call<LookUpDetail>
+
+	/*comment*/
+	//LookUp comments list
+	@GET("/sns/post/{id}/comments")
+	fun requestCommentList(
+		@Path("id") id:Int
+	):Call<Comment>
+
+	//post comment
 	@POST("/api/post/{id}/comment")
 	fun requestComment(
 		@Header("Cookie") cookie: String,
@@ -42,24 +86,10 @@ interface RequestInterface {
 		@Body content: RequestComment
 	): Call<Comment>
 
-	//Post
-	@POST("/api/post")
-	fun requestPost(
-		@Header("Cookie") cookie: String,
-		@Body content: RequestPost
-	): Call<ResponseMainItem>
 
 	@Multipart
 	@POST("/api/post/images")
 	fun requestImage(@Part image: ArrayList<MultipartBody.Part>): Call<ArrayList<String>>
-
-	// delete post
-	@DELETE("/api/post/{id}")
-	fun requestDelete(@Header("Cookie") cookie: String, @Path("id") id: Int?): Call<Unit>
-
-	// report post
-	@POST("/api/post/{id}/report")
-	fun requestReport(@Body content: RequestReport, @Path("id") id: Int?): Call<Unit>
 
 	//Like post
 	@POST("/api/post/{id}/like")
@@ -69,11 +99,6 @@ interface RequestInterface {
 	@DELETE("/api/post/{id}/like")
 	fun requestDelLike(@Header("Cookie") cookie: String, @Path("id") id: Int?): Call<Unit>
 
-	@PATCH("/api/post")
-	fun requestFixPost(
-		@Header("Cookie") cookie: String,
-		@Body content: RequestFixPost
-	): Call<ResponseMainItem>
 
 	/*comment*/
 	//comment Del
