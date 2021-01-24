@@ -1,35 +1,35 @@
 package kr.nutee.nutee_android.ui.main.fragment.home
 
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import kotlinx.android.synthetic.main.main_fragment_home.*
-import kotlinx.coroutines.*
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.android.synthetic.main.activity_show_detail_image_view.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.main.home.ResponseMain
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
-import java.lang.Runnable
 
-class HomeFragement() : Fragment(), SwipeRefreshLayout.OnRefreshListener, ONLoadMoreListener {
+//메인뷰버그해결 코드 따로 저장해놓음-88yhtserof
+class HomeFragement() : Fragment() {
 
-	private lateinit var homeRecyclerViewAdapter: HomeRecyclerViewAdapter
-	private var contentArrayList: ResponseMain = ResponseMain()
 	val requestToServer = RequestToServer
+	val isLoading = false
 
-	private val loadMoreScope = CoroutineScope(Job() + Dispatchers.IO)
+	var lastId = 0
+	var loadId = 0
+	var limit = 10
 
-	private val mRunnable: Runnable = Runnable {
-		rv_home_refresh.isRefreshing = false
-		loadData(INITIAL_LOAD_ID) { onSuccessLoadMain(it) }
-	}
+	private lateinit var homeTabLayout: TabLayout
+	private lateinit var homeViewpager:ViewPager2
+	private lateinit var homeAdapter: HomeAdapter
+	private lateinit var homeTapTextList :ArrayList<String>
+
+	private lateinit var contentArrayList: ResponseMain
 
 	override fun onCreateView(
 		inflater: LayoutInflater,
@@ -41,108 +41,25 @@ class HomeFragement() : Fragment(), SwipeRefreshLayout.OnRefreshListener, ONLoad
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		homeRecyclerViewAdapter = HomeRecyclerViewAdapter(this)
-		rv_home_refresh.setOnRefreshListener(this)
-		rv_home.adapter = homeRecyclerViewAdapter
-		rv_home.addOnScrollListener(object : RecyclerView.OnScrollListener(){
-			override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-				super.onScrolled(recyclerView, dx, dy)
-				val layoutManager = rv_home.layoutManager as LinearLayoutManager
-				val lastVisibleItemPostion = layoutManager.findLastCompletelyVisibleItemPosition()
-				val currnentListSize = homeRecyclerViewAdapter.itemCount
-				if (
-					dy > 0
-					&& lastVisibleItemPostion == (currnentListSize - 1)
-				){
-					homeRecyclerViewAdapter.showLoading()
-				}
-			}
-		}
-		)
-	}
-
-	override fun onStart() {
-		super.onStart()
-		loadData(INITIAL_LOAD_ID) { onSuccessLoadMain(it) }
-	}
-
-	override fun onRefresh() {
-		Handler().postDelayed(mRunnable, REfRASH_TIME)
-	}
-
-	override fun onLoadMore() {
-		runBlocking { loadMoreContent() }
-	}
-
-	private suspend fun loadMoreContent() =
-		withContext(Dispatchers.Default) {
-			loadData(lastId = homeRecyclerViewAdapter.getLastItemId()) { onSuccessLoadMore(it) }
-		}
-
-	private fun loadData(
-		lastId: Int,
-		onSuccessListener: ((response: ResponseMain?) -> Unit)? = null
-	) {
-		RequestToServer.service
-			.requestMain(
-				lastId = lastId,
-				limit = LIMIT
-			)
-			.customEnqueue(
-				onSuccess = { onSuccessListener?.invoke(it.body()) },
-				onFail = { onFailLoadMainMessage() },
-				onError = { onFailLoadMainMessage() },
-			)
-	}
-
-	private fun onSuccessLoadMain(response: ResponseMain?) {
-		response?.let { contentArrayList.addAll(it) }
-		homeRecyclerViewAdapter.addAll(contentArrayList)
-	}
-
-	private fun onSuccessLoadMore(response: ResponseMain?) {
-		response?.let {
-			if (it.isEmpty()) {
-				Toast.makeText(
-					requireActivity(),
-					"가장 마지막 글입니다.",
-					Toast.LENGTH_SHORT
-				)
-					.show()
-			}
-			contentArrayList.addAll(it)
-			homeRecyclerViewAdapter.apply {
-				addItemMore(it)
-				setMore(true)
-			}
-		}
-	}
-
-	private fun onFailLoadMainMessage() {
-		Toast.makeText(
-			requireContext(),
-			"서버 에러가 있습니다. 잠시후 다시 이용해주세요!!",
-			Toast.LENGTH_SHORT
-		)
-			.show()
-	}
-
-	override fun onDestroyView() {
-		super.onDestroyView()
-		loadMoreScope.cancel()
-	}
-
-	/*override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
-		rv_home.addItemDecoration(DividerItemDecoration(this.context, LinearLayout.VERTICAL))
 		loadMain(lastId) {
 			contentArrayList = it
-			setAdapter(it)
 			loadId = it.last()!!.id!!
 		}
 
-		refreshEvent()
-		addScrollerListener()
+		//게시글 탭 기능
+		homeTapTextList= arrayListOf("추천 게시글", "내 전공", "전체 게시글")
+		homeTabLayout = view.findViewById(R.id.tab_main_home)
+		homeViewpager=view.findViewById(R.id.vp_main_home)
+		homeAdapter=HomeAdapter(this)
+
+		homeViewpager.apply {
+			adapter = homeAdapter
+			orientation = ViewPager2.ORIENTATION_HORIZONTAL
+		}
+
+		TabLayoutMediator(homeTabLayout, homeViewpager) { tab, position ->
+			tab.text =homeTapTextList[position]
+		}.attach()
 	}
 
 	private fun loadMain(loadingId: Int, loadfun: (resMain: ResponseMain) -> Unit) {
@@ -153,52 +70,6 @@ class HomeFragement() : Fragment(), SwipeRefreshLayout.OnRefreshListener, ONLoad
 				loadfun(it)
 			}
 		}
-	}
-
-	private fun setAdapter(mainItem: ResponseMain) {
-		homeAdapter = HomeAdapter(mainItem, this.context!!)
-		rv_home.adapter = homeAdapter
-	}
-
-	private fun refreshEvent() {
-		rv_home_refresh.setProgressBackgroundColorSchemeColor(
-			ContextCompat.getColor(
-				this.context!!,
-				R.color.nuteeBase
-			)
-		)
-		rv_home_refresh.setColorSchemeColors(Color.WHITE)
-		rv_home_refresh.setOnRefreshListener {
-			loadMain(lastId) {
-				contentArrayList = it
-				setAdapter(it)
-				loadId = it.last()!!.id!!
-			}
-			rv_home_refresh.isRefreshing = false
-		}
-	}
-
-	private fun addScrollerListener() {
-		rv_home.addOnScrollListener(
-			InfiniteScrollListener(
-				{
-					loadMain(loadId) {
-
-						contentArrayList.addAll(it)
-						rv_home.adapter?.notifyDataSetChanged()
-						loadId = it.last()?.id!!
-
-					}
-				},
-				rv_home.layoutManager as LinearLayoutManager
-			)
-		)
-	}
-*/
-	companion object {
-		private const val LIMIT = 10
-		private const val INITIAL_LOAD_ID = 0
-		private const val REfRASH_TIME: Long = 1000
 	}
 
 }

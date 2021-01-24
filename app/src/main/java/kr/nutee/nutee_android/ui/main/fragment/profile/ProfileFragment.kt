@@ -69,5 +69,25 @@ class ProfileFragment : Fragment() {
 		App.prefs.url = res.Image?.src
 	}
 
+	private fun loadUserProfileList(id: Int) {
+		RequestToServer.service
+			.requestUserPosts(id)
+			.customEnqueue(
+				onSuccess = { response ->
+					if (response.body().isNullOrEmpty()) {
+						cl_profile_my_post_is_empty.visibility = View.VISIBLE
+						return@customEnqueue
+					}
+					cl_profile_my_post_list.visibility = View.VISIBLE
+					//setAdapter(response.body()!!)
+				}
+			)
+	}
+
+	//private fun setAdapter(mainItem: ResponseMain) {
+	//	homeAdapter = HomeAdapter(mainItem, this.context!!)
+	//	rv_profile_post_list.adapter = homeAdapter
+	//}
+
 
 }

@@ -15,10 +15,10 @@ import kr.nutee.nutee_android.R
 fun Context.loadMainPageFragment(title: CharSequence, fragment: Fragment, visibility: Int) {
 	val transaction =
 		(this as FragmentActivity).supportFragmentManager.beginTransaction()
-	main_title.text = title
+	main_title.text= title
 	transaction.replace(R.id.frame_layout, fragment)
 	transaction.commit()
-	text_setting.visibility = visibility
+	img_main_top_search.visibility = visibility
 }
 
 fun Context.loadFragment(

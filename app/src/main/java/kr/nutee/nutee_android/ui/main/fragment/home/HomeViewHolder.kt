@@ -20,38 +20,40 @@ import kr.nutee.nutee_android.ui.extend.dialog.cumstomReportDialog
 import kr.nutee.nutee_android.ui.extend.dialog.customSelectDialog
 import kr.nutee.nutee_android.ui.extend.imageSetting.setImageURLSetting
 import kr.nutee.nutee_android.ui.main.fragment.add.AddActivity
+import kr.nutee.nutee_android.ui.main.fragment.home.detail.DetailImageViewAdapter
 import kr.nutee.nutee_android.ui.main.fragment.home.detail.HomeDetailActivity
 import kr.nutee.nutee_android.ui.main.fragment.home.detail.HomeDetaiProfilelActivity
 
-
+//메인뷰버그해결 코드 따로 저장해놓음-88yhtserof
 /*home fragment RecyclerView 내부 하나의 뷰의 정보를 지정하는 클래스 */
 class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
 	val requestToServer = RequestToServer
 
-	val profileImg = itemView.findViewById<ImageView>(R.id.img_list_profile)
-	val profileName = itemView.findViewById<TextView>(R.id.text_main_username)
-	val content = itemView.findViewById<TextView>(R.id.text_main_content)
-	val btn_favorite = itemView.findViewById<ImageView>(R.id.img_main_count_like)
-	val text_main_count_image = itemView.findViewById<TextView>(R.id.ext_main_count_imaget)
-	val text_main_count_comment = itemView.findViewById<TextView>(R.id.text_main_count_comment)
-	val text_main_count_like = itemView.findViewById<TextView>(R.id.text_main_count_like)
-	val text_main_updateat = itemView.findViewById<TextView>(R.id.text_main_updateat)
-	val img_main_more = itemView.findViewById<ImageView>(R.id.img_main_more)
+	val category = itemView.findViewById<TextView>(R.id.text_main_home_recyclerview_item_category)
+	val title = itemView.findViewById<TextView>(R.id.text_main_home_recyclerview_item_title)
+	val content = itemView.findViewById<TextView>(R.id.text_main_home_recyclerview_item_content)
+	val text_main_home_count_image = itemView.findViewById<TextView>(R.id.text_main_home_recyclerview_item_img)
+	val text_main_home_count_comment = itemView.findViewById<TextView>(R.id.text_main_home_recyclerview_item_comment)
+	val text_main_home_count_like = itemView.findViewById<TextView>(R.id.text_main_home_recyclerview_item_likes)
+	val text_main_home_updateat = itemView.findViewById<TextView>(R.id.text_main_home_recyclerview_item_date)
+	val text_main_home_hits = itemView.findViewById<ImageView>(R.id.text_main_home_recyclerview_item_hits)
+	val img_main_home_img = itemView.findViewById<ImageView>(R.id.img_main_home_recyclerview_item_img)
+	val img_main_home_likes = itemView.findViewById<ImageView>(R.id.img_main_home_recyclerview_item_likes)
+	val img_main_home_hits = itemView.findViewById<ImageView>(R.id.img_main_home_recyclerview_item_hits)
+	val img_main_home_comment = itemView.findViewById<TextView>(R.id.img_main_home_recyclerview_item_comment)
 
 	fun bind(
-		customData: ResponseMainItem,
+		customData: ResponseMainItem
 	) {
-		val userImageLoad =
-			setImageURLSetting(customData.User?.Image?.src)
-		Glide.with(itemView).load(userImageLoad).into(profileImg)
-		profileName.text = customData.User?.nickname
-		text_main_updateat.text = customData.updatedAt?.let { DateParser(it).calculateDiffDate() }
+		category.text = customData.User?.nickname
+		text_main_home_updateat.text = customData.updatedAt?.let { DateParser(it).calculateDiffDate() }
+		title.text=customData.title
 		content.text = customData.content
-		setLikeEvent(btn_favorite,customData)
-		text_main_count_image.text = customData.Images.size.toString()
-		text_main_count_comment.text = customData.Comments.size.toString()
-		text_main_count_like.text = customData.Likers.size.toString()
+		setLikeEvent(img_main_home_likes,customData)
+		text_main_home_count_image.text = customData.Images.size.toString()
+		text_main_home_count_comment.text = customData.Comments.size.toString()
+		text_main_home_count_like.text = customData.Likers.size.toString()
 
 		itemView.setOnClickListener{
 			Log.d("DetailClick",customData.id.toString())
@@ -70,11 +72,11 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 			gotoDetailProfileIntent.putExtra("Detail_Profile_id", customData.UserId!!)
 			itemView.context.startActivity(gotoDetailProfileIntent)
 		}
-		img_main_more.setOnClickListener{
+		img_main_home_img.setOnClickListener{
 			moreEvent(it,customData)
 		}
-		btn_favorite.setOnClickListener {
-			likeClickEvent(it, customData )
+		img_main_home_likes.setOnClickListener {
+			likeClickEvent(it, customData)
 		}
 	}
 
@@ -87,7 +89,7 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
 	private fun likeClickEvent(
 		it: View,
-		customData: ResponseMainItem,
+		customData: ResponseMainItem
 	) {
 		if (it.isActivated) {
 			//좋아요 버튼 눌림
@@ -95,7 +97,7 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 				.customEnqueue { res->
 					if (res.isSuccessful) {
 						it.isActivated = false
-						text_main_count_like.text = (text_main_count_like.text.toString().toInt() - 1).toString()
+						text_main_home_count_like.text = (text_main_home_count_like.text.toString().toInt() - 1).toString()
 					}
 				}
 
@@ -105,7 +107,7 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 				.customEnqueue { res->
 					if (res.isSuccessful) {
 						it.isActivated = true
-						text_main_count_like.text = (text_main_count_like.text.toString().toInt() + 1).toString()
+						text_main_home_count_like.text = (text_main_home_count_like.text.toString().toInt() + 1).toString()
 					}
 				}
 		}
