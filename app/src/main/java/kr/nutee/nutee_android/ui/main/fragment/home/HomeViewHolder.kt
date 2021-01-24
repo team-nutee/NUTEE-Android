@@ -19,7 +19,7 @@ import kr.nutee.nutee_android.ui.extend.dialog.customSelectDialog
 import kr.nutee.nutee_android.ui.main.fragment.add.AddActivity
 import kr.nutee.nutee_android.ui.main.fragment.home.detail.HomeDetailActivity
 
-//메인뷰버그해결 코드 따로 저장해놓음-88yhtserof
+
 /*home fragment RecyclerView 내부 하나의 뷰의 정보를 지정하는 클래스 */
 class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 

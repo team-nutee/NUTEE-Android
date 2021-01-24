@@ -8,8 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.main_fragment_home.*
-import kotlinx.android.synthetic.main.main_fragment_proflie.*
+import kotlinx.android.synthetic.main.main_fragment_notice.*
+import kotlinx.android.synthetic.main.main_fragment_profile.*
+import kotlinx.android.synthetic.main.main_fragment_profile_recommended_post.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.main.home.ResponseMain
@@ -24,6 +27,7 @@ import kr.nutee.nutee_android.ui.setting.SettingActivity
 class ProfileFragment : Fragment() {
 
 	private lateinit var homeAdapter:HomeAdapter
+	private val tabTextList = arrayListOf("내가 쓴 글", "내가 쓴 댓글", "내가 추천한 글")
 
 	override fun onCreateView(
 		inflater: LayoutInflater,
@@ -31,11 +35,19 @@ class ProfileFragment : Fragment() {
 		savedInstanceState: Bundle?
 	): View? {
 		// Inflate the layout for this fragment
-		return inflater.inflate(R.layout.main_fragment_proflie, container, false)
+		return inflater.inflate(R.layout.main_fragment_profile, container, false)
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
+
+		vp_profile.adapter = ProfilePagerAdapter(this)
+
+		// viewpager와 tablayout 연결
+		TabLayoutMediator(tab_profile, vp_profile) { tab, position ->
+			tab.text = tabTextList[position]
+		}.attach()
+
 		requestUserData()
 	}
 
@@ -54,8 +66,7 @@ class ProfileFragment : Fragment() {
 		text_user_name.text = res.nickname
 		val userImageLoad = setImageURLSetting(res.Image?.src)
 		Glide.with(requireContext()).load(userImageLoad).into(img_profile_image)
-		text_profile_content_num.text = res.Posts?.size.toString()
-		loadUserProfileList(res.id)
+		//tv_profile_content_num.text = res.Posts?.size.toString()
 		App.prefs.url = res.Image?.src
 	}
 

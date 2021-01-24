@@ -10,7 +10,6 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kr.nutee.nutee_android.R
 
-//메인뷰버그해결 코드 따로 저장해놓음-88yhtserof
 class HomeFragement() : Fragment() {
 
 	private lateinit var homeTabLayout: TabLayout
