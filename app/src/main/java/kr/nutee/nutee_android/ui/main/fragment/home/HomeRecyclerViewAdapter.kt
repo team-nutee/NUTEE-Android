@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.main.home.ResponseMain
 
-//메인뷰버그해결 코드 따로 저장해놓음-88yhtserof
 /*
  * Created by 88yhtserof
  * DESC: 메인뷰 홈 게시글 RecyclerViewAdapter

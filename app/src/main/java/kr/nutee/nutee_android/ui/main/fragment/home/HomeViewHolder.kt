@@ -24,7 +24,7 @@ import kr.nutee.nutee_android.ui.main.fragment.home.detail.DetailImageViewAdapte
 import kr.nutee.nutee_android.ui.main.fragment.home.detail.HomeDetailActivity
 import kr.nutee.nutee_android.ui.main.fragment.home.detail.HomeDetaiProfilelActivity
 
-//메인뷰버그해결 코드 따로 저장해놓음-88yhtserof
+
 /*home fragment RecyclerView 내부 하나의 뷰의 정보를 지정하는 클래스 */
 class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
