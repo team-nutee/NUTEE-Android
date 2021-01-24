@@ -105,7 +105,7 @@ class PasswordSettingFragment : Fragment() {
 	}
 
 	private fun requestToChangePassword(){
-		RequestToServer.service
+		RequestToServer.authService
 			.requestChagePassword(
 				cookie = App.prefs.local_login_token,
 				newpassword = validPassword!!

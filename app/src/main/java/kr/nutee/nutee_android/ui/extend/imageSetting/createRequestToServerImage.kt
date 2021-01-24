@@ -11,7 +11,7 @@ import java.util.*
 class createRequestToServerImage(){
 
 	fun setImageTurePath(url: String?) : String {
-		val baseUrl = RequestToServer.retrofit.baseUrl().toString()
+		val baseUrl = RequestToServer.authRetrofit.baseUrl().toString()
 
 		return "${baseUrl}${url?:"settings/nutee_profile.png"}"
 	}

@@ -7,20 +7,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.*
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.network.RequestToServer
+import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.main.fragment.home.HomeRecyclerViewAdapter
-import kr.nutee.nutee_android.ui.main.fragment.home.HomeViewHolder
 
 /*
  * Created by 88yhtserof
  * DESC: 메인뷰 홈 추천 게시글 Fragment
  */
 
-class SuggestedPostFragment : Fragment() {
+class favoritePostFragment : Fragment() {
 
 	private lateinit var recyclerView:RecyclerView
-	private lateinit var homeRecyclerViewAdapter: HomeRecyclerViewAdapter
+	val requestToServer = RequestToServer
+	var lastId = 0
+	var limit = 10
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -37,11 +39,22 @@ class SuggestedPostFragment : Fragment() {
 		super.onViewCreated(view, savedInstanceState)
 
 		recyclerView= view.findViewById(R.id.rv_main_home_suggested_post)
+		loadFavoriteList()
 		recyclerView.apply {
 			layoutManager=LinearLayoutManager(this.context,
 				LinearLayoutManager.VERTICAL, false)
 			setHasFixedSize(true)
 		}
 
+	}
+
+	private fun loadFavoriteList(){
+		requestToServer.backService.requestFavoriteList(
+			lastId, limit
+		).customEnqueue (
+			onSuccess = {
+				recyclerView.adapter=HomeRecyclerViewAdapter(it.body()?.bodyList!!)},
+			onError = {}
+		)
 	}
 }

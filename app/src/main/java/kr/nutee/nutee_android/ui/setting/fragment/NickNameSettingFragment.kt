@@ -68,7 +68,7 @@ class NickNameSettingFragment:Fragment() {
 	}
 
 	private fun requestToNickNameChange(){
-		RequestToServer.service
+		RequestToServer.authService
 			.requestToNickNameChange(
 				token = App.prefs.local_login_token,
 				nickname = et_setting_nickname.text.toString()

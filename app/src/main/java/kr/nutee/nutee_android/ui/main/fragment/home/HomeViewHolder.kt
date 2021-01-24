@@ -7,22 +7,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.main_list_item.view.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.DateParser
 import kr.nutee.nutee_android.data.main.RequestReport
-import kr.nutee.nutee_android.data.main.home.ResponseMainItem
+import kr.nutee.nutee_android.data.main.home.Body
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.extend.dialog.cumstomReportDialog
 import kr.nutee.nutee_android.ui.extend.dialog.customSelectDialog
-import kr.nutee.nutee_android.ui.extend.imageSetting.setImageURLSetting
 import kr.nutee.nutee_android.ui.main.fragment.add.AddActivity
-import kr.nutee.nutee_android.ui.main.fragment.home.detail.DetailImageViewAdapter
 import kr.nutee.nutee_android.ui.main.fragment.home.detail.HomeDetailActivity
-import kr.nutee.nutee_android.ui.main.fragment.home.detail.HomeDetaiProfilelActivity
 
 //메인뷰버그해결 코드 따로 저장해놓음-88yhtserof
 /*home fragment RecyclerView 내부 하나의 뷰의 정보를 지정하는 클래스 */
@@ -42,18 +37,19 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 	val img_main_home_likes = itemView.findViewById<ImageView>(R.id.img_main_home_recyclerview_item_likes)
 	val img_main_home_hits = itemView.findViewById<ImageView>(R.id.img_main_home_recyclerview_item_hits)
 	val img_main_home_comment = itemView.findViewById<TextView>(R.id.img_main_home_recyclerview_item_comment)
+	val img_main_home_more=itemView.findViewById<TextView>(R.id.img_main_home_recyclerview_item_more)
 
 	fun bind(
-		customData: ResponseMainItem
+		customData: Body
 	) {
-		category.text = customData.User?.nickname
-		text_main_home_updateat.text = customData.updatedAt?.let { DateParser(it).calculateDiffDate() }
+		category.text = customData.category
+		text_main_home_updateat.text = customData.UpdatedAt
 		title.text=customData.title
 		content.text = customData.content
 		setLikeEvent(img_main_home_likes,customData)
-		text_main_home_count_image.text = customData.Images.size.toString()
-		text_main_home_count_comment.text = customData.Comments.size.toString()
-		text_main_home_count_like.text = customData.Likers.size.toString()
+		text_main_home_count_image.text = customData.images?.size.toString()
+		text_main_home_count_comment.text = customData.commentNum.toString()
+		text_main_home_count_like.text = customData.likers?.size.toString()
 
 		itemView.setOnClickListener{
 			Log.d("DetailClick",customData.id.toString())
@@ -62,17 +58,7 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 			gotoDetailPageIntent.putExtra("Detail_id", customData.id!!)
 			itemView.context.startActivity(gotoDetailPageIntent)
 		}
-		itemView.img_list_profile.setOnClickListener {
-			val gotoDetailProfileIntent = Intent(itemView.context, HomeDetaiProfilelActivity::class.java)
-			gotoDetailProfileIntent.putExtra("Detail_Profile_id", customData.UserId!!)
-			itemView.context.startActivity(gotoDetailProfileIntent)
-		}
-		itemView.text_main_username.setOnClickListener {
-			val gotoDetailProfileIntent = Intent(itemView.context, HomeDetaiProfilelActivity::class.java)
-			gotoDetailProfileIntent.putExtra("Detail_Profile_id", customData.UserId!!)
-			itemView.context.startActivity(gotoDetailProfileIntent)
-		}
-		img_main_home_img.setOnClickListener{
+		img_main_home_more.setOnClickListener{
 			moreEvent(it,customData)
 		}
 		img_main_home_likes.setOnClickListener {
@@ -80,40 +66,56 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 		}
 	}
 
-	private fun setLikeEvent(it: View, customData: ResponseMainItem) {
-		val boolLike = customData.Likers.any{ liker ->
-			liker.Like.UserId == App.prefs.local_user_id.toInt()
+	private fun setLikeEvent(it: View, customData: Body) {
+		val boolLike = customData.likers?.any{ liker ->
+			liker.id == App.prefs.local_user_id.toInt()
 		}
-		it.isActivated = boolLike
+		if (boolLike != null) {
+			it.isActivated = boolLike
+		}
 	}
 
 	private fun likeClickEvent(
-		it: View,
-		customData: ResponseMainItem
+		view: View,
+		customData: Body
 	) {
-		if (it.isActivated) {
+		if (view.isActivated) {
 			//좋아요 버튼 눌림
-			requestToServer.service.requestDelLike(App.prefs.local_login_token, customData.id)
-				.customEnqueue { res->
-					if (res.isSuccessful) {
-						it.isActivated = false
+			requestToServer.backService.requestDelLike(App.prefs.local_login_token, customData.id)
+				.customEnqueue(
+					onSuccess = {
+						view.isActivated = false
 						text_main_home_count_like.text = (text_main_home_count_like.text.toString().toInt() - 1).toString()
-					}
-				}
+					},
+					onError = {}
+				)
+//				.customEnqueue { res->
+//					if (res.isSuccessful) {
+//						it.isActivated = false
+//						text_main_home_count_like.text = (text_main_home_count_like.text.toString().toInt() - 1).toString()
+//					}
+//				}
 
 		} else {
 			//좋아요 안눌림
-			requestToServer.service.requestLike(App.prefs.local_login_token, customData.id)
-				.customEnqueue { res->
-					if (res.isSuccessful) {
-						it.isActivated = true
+			requestToServer.backService.requestLike(App.prefs.local_login_token, customData.id)
+				.customEnqueue(
+					onSuccess = {
+						view.isActivated = true
 						text_main_home_count_like.text = (text_main_home_count_like.text.toString().toInt() + 1).toString()
-					}
-				}
+					},
+					onError = {}
+				)
+//				.customEnqueue { res->
+//					if (res.isSuccessful) {
+//						it.isActivated = true
+//						text_main_home_count_like.text = (text_main_home_count_like.text.toString().toInt() + 1).toString()
+//					}
+//				}
 		}
 	}
 
-	private fun moreEvent(it:View, customData: ResponseMainItem) {
+	private fun moreEvent(it:View, customData: Body) {
 		if (customData.User?.id.toString() == App.prefs.local_user_id) {
 			itemView.context.customSelectDialog(View.GONE, View.VISIBLE, View.VISIBLE,
 				{},
@@ -123,40 +125,49 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 				},
 				{
 					Log.d("글삭제 버튼", "누름")
-					requestToServer.service.requestDelete(
+					requestToServer.backService.requestDelete(
 						App.prefs.local_login_token,
-						customData.id
-					).customEnqueue {
-						if (it.isSuccessful) {
-							HomeFragement()
-						}
-					}
+						customData.id)
+						.customEnqueue(
+							onSuccess = {HomeFragement()},
+							onError = {}
+						)
 				})
 		} else {
 			itemView.context.customSelectDialog(View.VISIBLE, View.GONE, View.GONE,
 				{
 					Log.d("글신고", "누름")
 					it.context.cumstomReportDialog{
-						requestToServer.service.requestReport(
+						requestToServer.backService.requestReport(
 							RequestReport(it), customData.id)
-							.customEnqueue{ res->
-								if (res.isSuccessful) {
+							.customEnqueue(
+								onSuccess = {
 									Toast
 										.makeText(itemView.context,"신고가 성공적으로 접수되었습니다.",Toast.LENGTH_SHORT)
 										.show()
-								}
-							}
+								},
+								onError = {}
+							)
+//							.customEnqueue{ res->
+//								if (res.isSuccessful) {
+//									Toast
+//										.makeText(itemView.context,"신고가 성공적으로 접수되었습니다.",Toast.LENGTH_SHORT)
+//										.show()
+//								}
+//							}
 					}
 				})
 		}
 	}
 
-	private fun fixPost(customData: ResponseMainItem) {
+	private fun fixPost(customData: Body) {
 		val intent = Intent(itemView.context, AddActivity::class.java)
-		intent.putExtra("postId",customData.id)
+		intent.putExtra("title",customData.title)
 		intent.putExtra("content",customData.content)
+		intent.putExtra("category",customData.category)
+		intent.putExtra("postId",customData.id)
 		val imageArrayList = arrayListOf<String>()
-		customData.Images.forEach{
+		customData.images?.forEach{
 			imageArrayList.add(it.src)
 		}
 		intent.putStringArrayListExtra("image", imageArrayList)

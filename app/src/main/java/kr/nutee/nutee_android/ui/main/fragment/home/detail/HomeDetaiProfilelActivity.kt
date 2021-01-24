@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.main_home_profile_detail_activity.*
+import kotlinx.android.synthetic.main.user_find_activity.view.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.main.RequestReport
@@ -23,7 +24,7 @@ class HomeDetaiProfilelActivity : AppCompatActivity() {
 	val requestToServer = RequestToServer
 	private var userID:Int = 0
 
-	private lateinit var homeDetailProfileAdapter: HomeDetailProfileAdapter
+	//private lateinit var homeDetailProfileAdapter: HomeDetailProfileAdapter
 	private lateinit var contentArrayList:ResponseMain
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,25 +54,29 @@ class HomeDetaiProfilelActivity : AppCompatActivity() {
 	}
 
 	private fun loadUserProfile(id: Int) {
-		requestToServer.service
+		requestToServer.authService
 			.requestUserProfile(id)
-			.customEnqueue{response ->
-				response.body()?.let { bindUserProfile(id, it) } }
+			.customEnqueue(
+				onSuccess ={
+					bindUserProfile(id, it.body()!!)
+				},
+				onError = {}
+			)
 	}
 
 	private fun loadUserPost(id: Int, loadfun:(resMain:ResponseMain)->Unit) {
-		requestToServer.service
+		requestToServer.authService
 			.requestUserPosts(id)
-			.customEnqueue { response ->
-				response.body()?.let { it ->
-					loadfun(it)
-				}
-			}
+			.customEnqueue(
+				onSuccess = {
+					loadfun(it.body()!!)},
+				onError = {}
+			)
 	}
 
 	private fun setAdapter(profilePostItem: ResponseMain) {
-		homeDetailProfileAdapter = HomeDetailProfileAdapter(profilePostItem, this)
-		rv_detail_profile.adapter = homeDetailProfileAdapter
+		//homeDetailProfileAdapter = HomeDetailProfileAdapter(profilePostItem, this)
+		//rv_detail_profile.adapter = homeDetailProfileAdapter
 	}
 
 	private fun bindUserProfile(userID: Int, res: ResponseProfile) {
@@ -95,29 +100,29 @@ class HomeDetaiProfilelActivity : AppCompatActivity() {
 				},
 				{
 					Log.d("글삭제 버튼", "누름")
-					RequestToServer.service.requestDelete(
+					RequestToServer.backService.requestDelete(
 						App.prefs.local_login_token,
-						customData.id
-					).customEnqueue {
-						if (it.isSuccessful) {
-							finish()
-						}
-					}
+						customData.id)
+						.customEnqueue(
+							onSuccess = {finish()},
+							onError = {}
+						)
 				})
 		} else {
 			customSelectDialog(View.VISIBLE, View.GONE, View.GONE,
 				{
 					Log.d("글신고", "누름")
 					cumstomReportDialog{
-						RequestToServer.service.requestReport(
+						RequestToServer.backService.requestReport(
 							RequestReport(it), customData.id)
-							.customEnqueue{ res->
-								if (res.isSuccessful) {
+							.customEnqueue(
+								onSuccess = {
 									Toast
 										.makeText(applicationContext,"신고가 성공적으로 접수되었습니다.", Toast.LENGTH_SHORT)
 										.show()
-								}
-							}
+								},
+								onError = {}
+							)
 					}
 				}
 			)

@@ -114,7 +114,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
 	private fun requestlogin(id: String, pw: String) {
 		loadingDialog.startLoadingDialog()
-		requestToServer.service
+		requestToServer.authService
 			.requestLogin(
 				RequestLogin(
 					userId = id,

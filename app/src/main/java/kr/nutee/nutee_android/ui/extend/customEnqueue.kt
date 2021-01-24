@@ -9,11 +9,10 @@ import retrofit2.Response
 
 fun <ResponseType> Call<ResponseType>.customEnqueue(
 	onFail:()->Unit = {},
-	onError:(Response<ResponseType>) -> Unit = {},
-	onSuccess: (Response<ResponseType>) -> Unit
+	onSuccess: (Response<ResponseType>) -> Unit,
+	onError:(Response<ResponseType>) -> Unit
 )
 {
-	val networkLog = "Network"
 	this.enqueue(object : Callback<ResponseType> {
 		override fun onFailure(call: Call<ResponseType>, t: Throwable) {
 			Log.d("Network", "통신에 실패했습니다.")
@@ -22,11 +21,9 @@ fun <ResponseType> Call<ResponseType>.customEnqueue(
 		}
 
 		override fun onResponse(call: Call<ResponseType>, response: Response<ResponseType>) {
-			if (response.isSuccessful) {
+			response.body()?.let {
 				onSuccess(response)
-				return
-			}
-			onError(response)
+			}?:onError(response)
 		}
 	})
 }

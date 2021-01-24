@@ -108,44 +108,45 @@ class UserFindActivity : AppCompatActivity(), View.OnClickListener {
 	}
 
 	private fun findUserId() {
-		requestToServer.service.requestFindId(et_find_id_email.text.toString())
-			.customEnqueue {
-				if (it.isSuccessful) {
+		requestToServer.authService.requestFindId(et_find_id_email.text.toString())
+			.customEnqueue(
+				onSuccess = {
 					settingResultText(
 						text_find_id_result,
 						"입력하신 이메일로 아이디가 발송되었습니다.",
 						getColor(R.color.nuteeBase)
 					)
-
-				} else {
+				},
+				onError = {
 					settingResultText(
 						text_find_id_result,
 						"존재하지 않는 이메일입니다.",
 						getColor(R.color.colorRed)
 					)
 				}
-			}
+			)
 	}
 
 	private fun findUserPw() {
-		requestToServer.service.requestFindPw(
+		requestToServer.authService.requestFindPw(
 			et_find_pw_id.text.toString(),
-			et_find_pw_email.text.toString()
-		).customEnqueue {
-			if (it.isSuccessful) {
-				settingResultText(
-					text_find_pw_result,
-					"이메일 발송이 완료되었습니다.",
-					getColor(R.color.nuteeBase)
-				)
-			} else {
-				settingResultText(
+			et_find_pw_email.text.toString())
+			.customEnqueue(
+				onSuccess = {
+					settingResultText(
+						text_find_pw_result,
+						"이메일 발송이 완료되었습니다.",
+						getColor(R.color.nuteeBase)
+					)
+				},
+				onError = {
+					settingResultText(
 					text_find_pw_result,
 					"아이디/이메일이 일치하지 않습니다.",
 					getColor(R.color.colorRed)
 				)
-			}
-		}
+				}
+			)
 	}
 
 	// 텍스트뷰 나타나면서 흔들리는 에니메이션 적용

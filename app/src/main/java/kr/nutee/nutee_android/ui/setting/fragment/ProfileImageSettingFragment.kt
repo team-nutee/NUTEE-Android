@@ -95,7 +95,7 @@ class ProfileImageSettingFragment : Fragment(), View.OnClickListener {
 	}
 
 	private fun profileImageRequestToServer(data: Uri) {
-		RequestToServer.service
+		RequestToServer.authService
 			.requestToUploadProfile(
 				token = App.prefs.local_login_token,
 				src = requireContext().createProfileMultipart(data)!!

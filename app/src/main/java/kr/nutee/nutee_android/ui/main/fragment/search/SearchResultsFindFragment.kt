@@ -42,28 +42,28 @@ class SearchResultsFindFragment : Fragment() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		loadSesrch(searchBoxText, lastId, limit)
+		//loadSesrch(searchBoxText, lastId, limit)
 		rv_search_results.layoutManager= LinearLayoutManager(
 			getActivity(), LinearLayoutManager.VERTICAL, false
 		)
 	}
 
-	private fun loadSesrch(
-		searchBoxText: String, lastId: Int, limit: Int
-	) {
-		requestToServer.service.requestSearch(
-			text = searchBoxText,
-			lastId = lastId,
-			limit = limit
-		).customEnqueue { response ->
-			if(response.body().isNullOrEmpty()){
-				(activity as SearchResultsView).setFrage(SearchResultsNotFindFragment())
-			}
-			else {
-				response.body()?.let {
-					rv_search_results.adapter = SearchResultsViewRecyclerAdapter(it)
-				}
-			}
-		}
-	}
+//	private fun loadSesrch(
+//		searchBoxText: String, lastId: Int, limit: Int
+//	) {
+//		requestToServer.backService.requestSearch(
+//			text = searchBoxText,
+//			lastId = lastId,
+//			limit = limit
+//		).customEnqueue { response ->
+//			if(response.body().isNullOrEmpty()){
+//				(activity as SearchResultsView).setFrage(SearchResultsNotFindFragment())
+//			}
+//			else {
+//				response.body()?.let {
+//					rv_search_results.adapter = SearchResultsViewRecyclerAdapter(it)
+//				}
+//			}
+//		}
+//	}
 }

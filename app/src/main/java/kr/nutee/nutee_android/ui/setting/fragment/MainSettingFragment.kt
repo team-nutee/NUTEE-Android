@@ -71,9 +71,10 @@ class MainSettingFragment : Fragment() {
 	}
 
 	private fun requestlogout(){
-		RequestToServer.service
-			.reqeustLogout(App.prefs.local_login_token).customEnqueue{
-				if(it.isSuccessful){
+		RequestToServer.authService
+			.reqeustLogout(App.prefs.local_login_token)
+			.customEnqueue(
+				onSuccess = {
 					App.prefs.local_login_id = ""
 					App.prefs.local_login_pw = ""
 					App.prefs.local_login_token = ""
@@ -81,8 +82,9 @@ class MainSettingFragment : Fragment() {
 					Toast.makeText(view?.context,"성공적으로 로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
 					val intent = Intent(view?.context, LoginActivity::class.java)
 					startActivity(intent)
-				}
-		}
+				},
+				onError = {}
+			)
 	}
 
 }

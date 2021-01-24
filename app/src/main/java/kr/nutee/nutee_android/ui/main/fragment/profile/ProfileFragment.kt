@@ -40,14 +40,14 @@ class ProfileFragment : Fragment() {
 	}
 
 	private fun requestUserData() {
-		RequestToServer.service
-			.requestUserData(App.prefs.local_login_token)
-			.customEnqueue(
-				onSuccess = {response -> bindUserProfile(response.body()!!) },
-				onError = {
-					requireContext().customDialogSingleButton("로그인이 필요합니다!!")
-				}
-			)
+//		RequestToServer.service
+//			.requestUserData(App.prefs.local_login_token)
+//			.customEnqueue(
+//				onSuccess = {response -> bindUserProfile(response.body()!!) },
+//				onError = {
+//					requireContext().customDialogSingleButton("로그인이 필요합니다!!")
+//				}
+//			)
 	}
 
 	private fun bindUserProfile(res: ResponseProfile) {
@@ -60,18 +60,18 @@ class ProfileFragment : Fragment() {
 	}
 
 	private fun loadUserProfileList(id: Int) {
-		RequestToServer.service
-			.requestUserPosts(id)
-			.customEnqueue(
-				onSuccess = { response ->
-					if (response.body().isNullOrEmpty()) {
-						cl_profile_my_post_is_empty.visibility = View.VISIBLE
-						return@customEnqueue
-					}
-					cl_profile_my_post_list.visibility = View.VISIBLE
-					//setAdapter(response.body()!!)
-				}
-			)
+//		RequestToServer.service
+//			.requestUserPosts(id)
+//			.customEnqueue(
+//				onSuccess = { response ->
+//					if (response.body().isNullOrEmpty()) {
+//						cl_profile_my_post_is_empty.visibility = View.VISIBLE
+//						return@customEnqueue
+//					}
+//					cl_profile_my_post_list.visibility = View.VISIBLE
+//					//setAdapter(response.body()!!)
+//				}
+//			)
 	}
 
 	//private fun setAdapter(mainItem: ResponseMain) {

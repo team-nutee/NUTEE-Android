@@ -38,17 +38,17 @@ class EventFragment : Fragment() {
 			LinearLayoutManager.VERTICAL, false)
 		rv_notice_event.setHasFixedSize(true)
 
-		loadEvent{}
+		//loadEvent{}
 
 	}
 
-	private fun loadEvent(function: (resBachelor:Notice) -> Unit) {
-		requestToServer.noticeService.requestEvent(
-		).customEnqueue { response ->
-			response.body()?.let {
-				rv_notice_event.adapter =  NoticeRecyclerAdapter(this.context!!, it)
-			}
-		}
-	}
+//	private fun loadEvent(function: (resBachelor:Notice) -> Unit) {
+//		requestToServer.noticeService.requestEvent(
+//		).customEnqueue { response ->
+//			response.body()?.let {
+//				rv_notice_event.adapter =  NoticeRecyclerAdapter(this.context!!, it)
+//			}
+//		}
+//	}
 
 }

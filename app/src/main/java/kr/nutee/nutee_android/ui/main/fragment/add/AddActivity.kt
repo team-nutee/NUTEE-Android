@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.add_activity.*
@@ -24,6 +25,7 @@ import kr.nutee.nutee_android.ui.extend.dialog.CustomLodingDialog
 import kr.nutee.nutee_android.ui.extend.dialog.customDialog
 import kr.nutee.nutee_android.ui.extend.imageSetting.createImageMultipart
 import kr.nutee.nutee_android.ui.main.MainActivity
+import org.w3c.dom.Text
 
 
 /*
@@ -35,14 +37,20 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	private val REQUEST_CODE_PICK_IMAGE = 1001
 	var selectedImage = arrayListOf<Uri>()
 	private lateinit var imageAdapter: ImageAdapter
-	var postId:Int = 0
 	lateinit var loadingDialog:CustomLodingDialog
 	lateinit var addContent:EditText
+	//val viewTitle=view.findViewById<EditText>(R.id.et_add_title)
+	//var viewCategory=view.findViewById<TextView>(R.id.text_add_category)
+	lateinit var viewTitle:EditText
+	lateinit var viewCategory:TextView
+	var postId:Int = 0
 
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.add_activity)
+		viewTitle=findViewById(R.id.et_add_title)
+		viewCategory=findViewById(R.id.text_add_category)
 		fixDataMapping()
 		loadingDialog = CustomLodingDialog(this)
 		init()
@@ -54,8 +62,12 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 
 	private fun fixDataMapping() {
 		val content = intent.getStringExtra("content")
+		val title = intent.getStringExtra("title")
+		//val category=intent.getStringExtra("category")
 		postId = intent.getIntExtra("postId", 0)
 		et_add_content.setText(content)
+		viewTitle.setText(title)
+
 	}
 
 	private fun init() {
@@ -118,53 +130,62 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	}
 
 	private fun fixPostUpload() {
-		requestToServer.service.requestFixPost(
+		requestToServer.backService.requestFixPost(
 			App.prefs.local_login_token,
+			postId,
 			RequestFixPost(
-				postId,
+				viewTitle.toString(),
 				et_add_content.text.toString(),
 				null
+			))
+			.customEnqueue(
+				onSuccess = {
+					gotoMain()
+				},
+				onError = {}
 			)
-		).customEnqueue {
-			if (it.isSuccessful) {
-				gotoMain()
-			}
-		}
 	}
 
 	private fun uploadHasImage() {
-		requestToServer.service.requestImage(createImageMultipart(selectedImage))
-			.customEnqueue { response ->
-				if (response.isSuccessful) {
-					Log.d("imageUplod", "업로드 완료>${response.body().toString()}")
-					requestToServer.service.requestPost(
+		requestToServer.backService.requestImage(createImageMultipart(selectedImage))
+			.customEnqueue(
+				onSuccess = {
+					Log.d("imageUplod", "업로드 완료>${it.toString()}")
+					requestToServer.backService.requestPost(
 						App.prefs.local_login_token,
 						RequestPost(
+							viewTitle.toString(),
 							et_add_content.text.toString(),
-							response.body()
+							it.body(),
+							viewCategory.toString()
+						))
+						.customEnqueue(
+							onSuccess = {
+								gotoMain()
+							},
+							onError = {}
 						)
-					).customEnqueue { postRes ->
-						if (postRes.isSuccessful) {
-							gotoMain()
-						}
-					}
-				}
-			}
+				},
+				onError = {}
+			)
 	}
 
 	private fun uploadNonImage() {
-		requestToServer.service
+		requestToServer.backService
 			.requestPost(
 				App.prefs.local_login_token,
 				RequestPost(
+					viewTitle.toString(),
 					et_add_content.text.toString(),
-					null
-				)
-			).customEnqueue { postRes ->
-				if (postRes.isSuccessful) {
+					null,
+					viewCategory.toString()
+				))
+			.customEnqueue(
+				onSuccess = {
 					gotoMain()
-				}
-			}
+				},
+				onError = {}
+			)
 	}
 
 

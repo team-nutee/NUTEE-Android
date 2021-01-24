@@ -110,7 +110,7 @@ class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
 	}
 
 	private fun requestToEmailAuth(email: EditText, result: TextView) {
-		RequestToServer.service
+		RequestToServer.authService
 			.requestEmailOTP(body = RequestEmailOTP(email.text.toString()))
 			.customEnqueue(
 				onSuccess = { emailAuthSuccessEvent(result) },
@@ -143,7 +143,7 @@ class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
 	}
 
 	private fun requestToEmailAuthOTP(otpNum: EditText, result: TextView) {
-		RequestToServer.service
+		RequestToServer.authService
 			.requestOTPCheck(body = RequestOTPCheck(otpNum.text.toString()))
 			.customEnqueue(
 				onSuccess = { emailAuthOTPSuccessEvent(result) },
@@ -198,7 +198,7 @@ class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
 	}
 
 	private fun requestToIdInput(id: EditText, resultText: TextView) {
-		RequestToServer.service
+		RequestToServer.authService
 			.requestIdCheck(body = RequestIdCheck(id.text.toString()))
 			.customEnqueue(
 				onSuccess = { idInputCheckSuccessEvent(resultText) },
@@ -270,7 +270,7 @@ class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
 		nickName: EditText,
 		resultText: TextView
 	) {
-		RequestToServer.service
+		RequestToServer.authService
 			.requestNickCheck(RequestNickCheck(nickName.text.toString()))
 			.customEnqueue(
 				onSuccess = { nickNameCheckSuccessEvent(resultText) },
@@ -335,10 +335,11 @@ class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
 			return
 		}
 		customLodingDialog.startLoadingDialog()
-		RequestToServer.service
+		RequestToServer.authService
 			.requestRegister(body = createRegisterBody())
 			.customEnqueue(
-				onSuccess = {response -> registerSuccessEvnet(response)}
+				onSuccess = {registerSuccessEvnet(it.body()!!)},
+				onError = {}
 			)
 	}
 
@@ -371,9 +372,9 @@ class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
 		)
 	}
 
-	private fun registerSuccessEvnet(response: Response<ResponseRegister>) {
+	private fun registerSuccessEvnet(response: ResponseRegister) {
 		customLodingDialog.dismissDialog()
-		intent.putExtra("id", response.body()?.userId)
+		intent.putExtra("id", response.userId)
 		finish()
 	}
 

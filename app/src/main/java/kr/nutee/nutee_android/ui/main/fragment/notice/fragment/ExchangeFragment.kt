@@ -38,17 +38,17 @@ class ExchangeFragment : Fragment() {
 			LinearLayoutManager.VERTICAL, false)
 		rv_notice_exchange.setHasFixedSize(true)
 
-		loadExchange{}
+		//loadExchange{}
 
 	}
 
-	private fun loadExchange(loadfun:(resBachelor: Notice)->Unit) {
-		requestToServer.noticeService.requestExchange(
-		).customEnqueue { response ->
-			response.body()?.let {
-				rv_notice_exchange.adapter = NoticeRecyclerAdapter(this.context!!, it)
-			}
-		}
-	}
+//	private fun loadExchange(loadfun:(resBachelor: Notice)->Unit) {
+//		requestToServer.noticeService.requestExchange(
+//		).customEnqueue { response ->
+//			response.body()?.let {
+//				rv_notice_exchange.adapter = NoticeRecyclerAdapter(this.context!!, it)
+//			}
+//		}
+//	}
 
 }

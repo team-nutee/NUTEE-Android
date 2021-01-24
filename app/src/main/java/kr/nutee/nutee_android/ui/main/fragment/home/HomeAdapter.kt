@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import kr.nutee.nutee_android.ui.main.fragment.home.fragment.FullPostFragment
 import kr.nutee.nutee_android.ui.main.fragment.home.fragment.MyMajorPostFragment
-import kr.nutee.nutee_android.ui.main.fragment.home.fragment.SuggestedPostFragment
+import kr.nutee.nutee_android.ui.main.fragment.home.fragment.favoritePostFragment
 
 //메인뷰버그해결 코드 따로 저장해놓음-88yhtserof
 /*
@@ -18,7 +18,7 @@ class HomeAdapter(fragement: HomeFragement) : FragmentStateAdapter(fragement) {
 
 	override fun createFragment(position: Int): Fragment {
 		return when(position){
-			0 -> SuggestedPostFragment()
+			0 -> favoritePostFragment()
 			1-> MyMajorPostFragment()
 			else -> FullPostFragment()
 		}

@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.DateParser
 import kr.nutee.nutee_android.data.main.home.Comment
+import kr.nutee.nutee_android.data.main.home.CommentBody
 import kr.nutee.nutee_android.ui.extend.imageSetting.setImageURLSetting
 
 class HomeDetailCommentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -19,19 +20,15 @@ class HomeDetailCommentViewHolder(itemView: View) : RecyclerView.ViewHolder(item
 
 	val more_button = itemView.findViewById<ImageView>(R.id.img_comment_more)
 
-    fun bind(customData: Comment) {
+    fun bind(customData: CommentBody) {
 		Glide.with(itemView).load(
 			setImageURLSetting(
-				customData.User?.Image?.src
+				customData.user?.Image?.src
 			)
 		).into(img_comment_profile)
-		text_commnet_nick.text = customData.User?.nickname
+		text_commnet_nick.text = customData.user?.nickname
 		text_comment_content.text = customData.content
-		text_comment_updateAt.text = DateParser(customData.updatedAt).calculateDiffDate()
+		text_comment_updateAt.text = customData.UpdatedAt?.let { DateParser(it).calculateDiffDate() }
 		more_button.setOnClickListener {  }
     }
-
-	private fun more(){
-
-	}
 }

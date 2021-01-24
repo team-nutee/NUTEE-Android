@@ -44,11 +44,10 @@ class BachelorFragment : Fragment() {
 
 	private fun loadBachelor(function: (resBachelor:Notice) -> Unit) {
 		requestToServer.noticeService.requestBachelor(
-		).customEnqueue { response ->
-			response.body()?.let {
-				rv_notice_bachelor.adapter = NoticeRecyclerAdapter(this.context!!, it)
-			}
-		}
-	}
-
+		).customEnqueue(
+			onSuccess = {
+				rv_notice_bachelor.adapter = NoticeRecyclerAdapter(this.context!!, it.body()!!)
+			},
+			onError = {}
+		)}
 }

@@ -17,9 +17,7 @@ import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.DateParser
 import kr.nutee.nutee_android.data.main.RequestReport
-import kr.nutee.nutee_android.data.main.home.Comment
-import kr.nutee.nutee_android.data.main.home.Image
-import kr.nutee.nutee_android.data.main.home.ResponseMainItem
+import kr.nutee.nutee_android.data.main.home.*
 import kr.nutee.nutee_android.data.main.home.detail.RequestComment
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.animation.glideProgressDrawable
@@ -30,7 +28,6 @@ import kr.nutee.nutee_android.ui.extend.dialog.customSelectDialog
 import kr.nutee.nutee_android.ui.extend.imageSetting.setImageURLSetting
 import kr.nutee.nutee_android.ui.extend.textChangedListener
 import kr.nutee.nutee_android.ui.main.fragment.search.SearchResultsView
-import retrofit2.Response
 import java.util.*
 
 
@@ -98,10 +95,11 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 	}
 
 	private fun loadDetailPage() {
-		RequestToServer.service
+		RequestToServer.backService
 			.requestDetail(postId!!)
 			.customEnqueue(
-				onSuccess = { response -> onSucessLoadDetailView(response) },
+				onSuccess = {
+					onSucessLoadDetailView(it.body()) },
 				onError = { onErrorDetailPage() }
 			)
 	}
@@ -112,12 +110,14 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		}
 	}
 
-	private fun onSucessLoadDetailView(response: Response<ResponseMainItem?>) {
-		if (response.body() == null) {
-			nullPostEvnet()
-			return
+	private fun onSucessLoadDetailView(response: LookUpDetail?) {
+		if (response != null) {
+			if (response.body == null) {
+				nullPostEvnet()
+				return
+			}
+			bindDetailPostEvent(response.body!!)
 		}
-		bindDetailPostEvent(response.body()!!)
 	}
 
 	private fun nullPostEvnet() {
@@ -126,18 +126,19 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		}
 	}
 
-	private fun bindDetailPostEvent(responseMainItem: ResponseMainItem) {
+	private fun bindDetailPostEvent(responseMainItem: Body) {
 		val userImageLoad = setImageURLSetting(responseMainItem.User?.Image?.src)
 		Glide.with(applicationContext).load(userImageLoad).placeholder(glideProgressDrawable())
 			.into(img_detail_profile)
 		text_detail_nick.text = responseMainItem.User?.nickname
 		text_detail_time.text =
-			responseMainItem.createdAt?.let { DateParser(it).calculateDiffDate() }
+			responseMainItem.CreatedAt?.let { DateParser(it).calculateDiffDate() }
 		text_detail_content.text = responseMainItem.content
-		setCommentAdpater(responseMainItem.Comments)
+		//추후수정-댓글
+		//setCommentAdpater(responseMainItem.Comments)
 		clickDetailMoreEvent = { detailMore(responseMainItem) }
 
-		if (responseMainItem.Images.isNotEmpty()) imageFrameLoad(responseMainItem.Images)
+		if (responseMainItem.images?.isNotEmpty()!!) imageFrameLoad(responseMainItem.images)
 	}
 
 	private fun imageFrameLoad(images: List<Image>) {
@@ -176,12 +177,12 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 			.into(imageViewList[0])
 	}
 
-	private fun setCommentAdpater(comments: List<Comment>) {
+	private fun setCommentAdpater(comments: List<CommentBody>) {
 		homeDetailCommentAdpater = HomeDetailCommentAdpater(comments, applicationContext)
 		rv_home_detail_comment.adapter = homeDetailCommentAdpater
 	}
 
-	private fun detailMore(res: ResponseMainItem) {
+	private fun detailMore(res: Body) {
 		if (res.User?.id.toString() == App.prefs.local_user_id) {
 			customSelectDialog(View.GONE, View.VISIBLE, View.VISIBLE,
 				{},
@@ -190,34 +191,32 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 				},
 				{
 					Log.d("글삭제 버튼", "누름")
-					RequestToServer.service.requestDelete(
+					RequestToServer.backService.requestDelete(
 						App.prefs.local_login_token,
-						res.id
-					).customEnqueue {
-						if (it.isSuccessful) {
-							finish()
-						}
-					}
+						res.id)
+						.customEnqueue(
+							onSuccess = {finish()},
+							onError = {}
+						)
 				})
 		} else {
 			customSelectDialog(View.VISIBLE, View.GONE, View.GONE,
 				{
 					Log.d("글신고", "누름")
 					cumstomReportDialog {
-						RequestToServer.service.requestReport(
+						RequestToServer.backService.requestReport(
 							RequestReport(it), res.id
 						)
-							.customEnqueue { res ->
-								if (res.isSuccessful) {
-									Toast
+							.customEnqueue(
+								onSuccess = {Toast
 										.makeText(
 											applicationContext,
 											"신고가 성공적으로 접수되었습니다.",
 											Toast.LENGTH_SHORT
 										)
-										.show()
-								}
-							}
+										.show()},
+								onError = {}
+							)
 					}
 				}
 			)
@@ -247,7 +246,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 			R.id.img_detail_more -> clickDetailMoreEvent?.invoke()
 			R.id.img_detail_top_back_btn -> onBackPressed()
 			R.id.img_comment_upload_btn -> {
-				RequestToServer.service.requestComment(
+				RequestToServer.backService.requestComment(
 					App.prefs.local_login_token,
 					postId!!,
 					RequestComment(et_detail_comment.text.toString())
@@ -256,7 +255,8 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 						et_detail_comment.text = null
 						finish()
 						startActivity(intent)
-					}
+					},
+					onError = {}
 				)
 			}
 		}

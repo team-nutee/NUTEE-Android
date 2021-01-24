@@ -23,7 +23,7 @@ interface RequestInterface {
 	/*list*/
 	//LookUp category list
 	@GET("/sns/post/category/{INTER2}")
-	fun requestMain(
+	fun requestCategoryList(
 		@Query("lastId") lastId: Int,
 		@Query("limit") limit: Int,
 		@Path("INTER2") INTER2:String
@@ -47,13 +47,14 @@ interface RequestInterface {
 	@POST("/sns/post")
 	fun requestPost(
 		@Header("Cookie") cookie: String,
-		@Body content: String
+		@Body content: RequestPost
 	): Call<LookUpDetail>
 
 	//rewrite post
-	@PATCH("/sns/post")
+	@PATCH("/sns/post/{id}")
 	fun requestFixPost(
 		@Header("Cookie") cookie: String,
+		@Path("id") id:Number?,
 		@Body content: RequestFixPost
 	): Call<LookUpDetail>
 
@@ -61,14 +62,14 @@ interface RequestInterface {
 	@DELETE("/sns/post/{id}")
 	fun requestDelete(
 		@Header("Cookie") cookie: String,
-		@Path("id") id: Int?
+		@Path("id") id: Number?
 	): Call<LookUpDetail>
 
 	// report post
 	@POST("/sns/post/{id}/report")
 	fun requestReport(
 		@Body content: RequestReport,
-		@Path("id") id: Int?
+		@Path("id") id: Number?
 	): Call<LookUpDetail>
 
 	/*comment*/
@@ -93,11 +94,11 @@ interface RequestInterface {
 
 	//Like post
 	@POST("/api/post/{id}/like")
-	fun requestLike(@Header("Cookie") cookie: String, @Path("id") id: Int?): Call<Unit>
+	fun requestLike(@Header("Cookie") cookie: String, @Path("id") id: Number?): Call<Unit>
 
 	//UnLike post
 	@DELETE("/api/post/{id}/like")
-	fun requestDelLike(@Header("Cookie") cookie: String, @Path("id") id: Int?): Call<Unit>
+	fun requestDelLike(@Header("Cookie") cookie: String, @Path("id") id: Number?): Call<Unit>
 
 
 	/*comment*/
@@ -116,7 +117,7 @@ interface RequestInterface {
 
 	/*Login*/
 	// Login
-	@POST("/api/user/login")
+	@POST("/auth/login")
 	fun requestLogin(@Body body: RequestLogin): Call<ResponseLogin>
 
 	/*Register*/
