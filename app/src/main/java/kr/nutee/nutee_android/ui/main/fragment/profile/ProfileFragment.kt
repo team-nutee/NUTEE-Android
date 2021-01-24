@@ -12,6 +12,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.main_fragment_home.*
 import kotlinx.android.synthetic.main.main_fragment_notice.*
 import kotlinx.android.synthetic.main.main_fragment_profile.*
+import kotlinx.android.synthetic.main.main_fragment_profile_recommended_post.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.main.home.ResponseMain
@@ -75,10 +76,10 @@ class ProfileFragment : Fragment() {
 			.customEnqueue(
 				onSuccess = { response ->
 					if (response.body().isNullOrEmpty()) {
-						cl_profile_my_post_is_empty.visibility = View.VISIBLE
+						cl_my_profile_recommended_post_list.visibility = View.VISIBLE
 						return@customEnqueue
 					}
-					cl_profile_my_post_list.visibility = View.VISIBLE
+					cl_my_profile_recommended_post_list.visibility = View.VISIBLE
 					//setAdapter(response.body()!!)
 				}
 			)
