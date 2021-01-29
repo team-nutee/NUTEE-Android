@@ -30,8 +30,18 @@ interface RequestInterface {
 	): Call<LookUpList>
 
 	//LookUp favorite list
+	@Headers(
+		"Accept: application/hal+json",
+		"Content-Type:application/json;charset=UTF-8")
 	@GET("/sns/post/favorite")
 	fun requestFavoriteList(
+		@Query("lastId") lastId: Int,
+		@Query("limit") limit: Int
+	):Call<LookUpList>
+
+	//LookUp full list
+	@GET("/sns/post")
+	fun requestFullList(
 		@Query("lastId") lastId: Int,
 		@Query("limit") limit: Int
 	):Call<LookUpList>

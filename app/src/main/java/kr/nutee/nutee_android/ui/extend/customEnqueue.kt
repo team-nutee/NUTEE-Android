@@ -10,7 +10,7 @@ import retrofit2.Response
 fun <ResponseType> Call<ResponseType>.customEnqueue(
 	onFail:()->Unit = {},
 	onSuccess: (Response<ResponseType>) -> Unit,
-	onError:(Response<ResponseType>) -> Unit
+	onError:(Response<ResponseType>) -> Unit ={}
 )
 {
 	this.enqueue(object : Callback<ResponseType> {

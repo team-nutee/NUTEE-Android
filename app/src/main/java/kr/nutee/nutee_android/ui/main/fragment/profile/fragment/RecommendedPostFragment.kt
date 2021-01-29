@@ -41,35 +41,35 @@ class RecommendedPostFragment: Fragment() {
 			LinearLayoutManager.VERTICAL, false)
 		rv_profile_post_list.setHasFixedSize(true)
 
-		requestUserData()
+	//	requestUserData()
 
 	}
 
-	private fun requestUserData() {
-		RequestToServer.service
-			.requestUserData(App.prefs.local_login_token)
-			.customEnqueue(
-				onSuccess = {response -> loadUserProfileList(response.body()!!) },
-				onError = {
-					requireContext().customDialogSingleButton("로그인이 필요합니다!!")
-				}
-			)
-	}
+//	private fun requestUserData() {
+//		RequestToServer.service
+//			.requestUserData(App.prefs.local_login_token)
+//			.customEnqueue(
+//				onSuccess = {response -> loadUserProfileList(response.body()!!) },
+//				onError = {
+//					requireContext().customDialogSingleButton("로그인이 필요합니다!!")
+//				}
+//			)
+//	}
 
-	private fun loadUserProfileList(res: ResponseProfile) {
-		RequestToServer.service
-			.requestUserPosts(res.id)
-			.customEnqueue(
-				onSuccess = { response ->
-					if (response.body().isNullOrEmpty()) {
-						cl_my_profile_recommended_post_is_empty.visibility = View.VISIBLE
-						return@customEnqueue
-					}
-					cl_my_profile_recommended_post_list.visibility = View.VISIBLE
-					// loadRecommendedPost{}
-				}
-			)
-	}
+//	private fun loadUserProfileList(res: ResponseProfile) {
+//		RequestToServer.service
+//			.requestUserPosts(res.id)
+//			.customEnqueue(
+//				onSuccess = { response ->
+//					if (response.body().isNullOrEmpty()) {
+//						cl_my_profile_recommended_post_is_empty.visibility = View.VISIBLE
+//						return@customEnqueue
+//					}
+//					cl_my_profile_recommended_post_list.visibility = View.VISIBLE
+//					// loadRecommendedPost{}
+//				}
+//			)
+//	}
 
 	/*private fun loadRecommendedPost(function: (resRecommendedPost: ResponseMain) -> kotlin.Unit) {
 		RequestToServer.
