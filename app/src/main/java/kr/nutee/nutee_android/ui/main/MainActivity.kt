@@ -22,6 +22,7 @@ import kr.nutee.nutee_android.ui.main.fragment.home.HomeFragement
 import kr.nutee.nutee_android.ui.main.fragment.notice.NoticeFragment
 import kr.nutee.nutee_android.ui.main.fragment.profile.ProfileFragment
 import kr.nutee.nutee_android.ui.main.fragment.search.SearchFragment
+import kr.nutee.nutee_android.ui.main.fragment.search.SearchView
 import kr.nutee.nutee_android.ui.setting.SettingActivity
 
 class MainActivity : AppCompatActivity() {
@@ -120,11 +121,8 @@ class MainActivity : AppCompatActivity() {
 	private fun icSearchEvent(){
 		icSearch=findViewById(R.id.img_main_top_search)
 		icSearch.setOnClickListener {
-			loadMainPageFragment(
-				resources.getText(R.string.fragment_search),
-				SearchFragment(),
-				View.INVISIBLE
-			)
+			val intent=Intent(this,SearchView::class.java)
+			startActivity(intent)
 		}
 	}
 
