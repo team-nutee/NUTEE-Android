@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.data.QueryValue
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.main.fragment.home.HomeRecyclerViewAdapter
@@ -27,8 +28,6 @@ class favoritePostFragment : Fragment() {
 
 	private lateinit var recyclerView:RecyclerView
 	val requestToServer = RequestToServer
-	var lastId = 0
-	var limit = 10
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -44,7 +43,6 @@ class favoritePostFragment : Fragment() {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
-		mainHandler= Handler()
 		recyclerView= view.findViewById(R.id.rv_main_home_suggested_post)
 		recyclerView.apply {
 			layoutManager=LinearLayoutManager(
@@ -58,7 +56,8 @@ class favoritePostFragment : Fragment() {
 
 	private fun loadFavoriteList(){
 		requestToServer.backService.requestFavoriteList(
-			lastId, limit
+			QueryValue.lastId,
+			QueryValue.limit
 		).customEnqueue(
 			onSuccess = {
 				Log.d("Network", "통신 성공.")

@@ -26,7 +26,7 @@ interface RequestInterface {
 	fun requestCategoryList(
 		@Query("lastId") lastId: Int,
 		@Query("limit") limit: Int,
-		@Path("INTER2") INTER2:String
+		@Path("INTER2") INTER2:String?
 	): Call<LookUpList>
 
 	//LookUp favorite list

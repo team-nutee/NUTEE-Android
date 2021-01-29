@@ -6,10 +6,12 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.DateParser
+import kr.nutee.nutee_android.data.QueryValue
 import kr.nutee.nutee_android.data.main.RequestReport
 import kr.nutee.nutee_android.data.main.home.Body
 import kr.nutee.nutee_android.network.RequestToServer
@@ -18,6 +20,7 @@ import kr.nutee.nutee_android.ui.extend.dialog.cumstomReportDialog
 import kr.nutee.nutee_android.ui.extend.dialog.customSelectDialog
 import kr.nutee.nutee_android.ui.main.fragment.add.AddActivity
 import kr.nutee.nutee_android.ui.main.fragment.home.detail.HomeDetailActivity
+import kr.nutee.nutee_android.ui.main.fragment.search.SearchResultsView
 
 
 /*home fragment RecyclerView 내부 하나의 뷰의 정보를 지정하는 클래스 */
@@ -64,6 +67,9 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 		img_main_home_likes.setOnClickListener {
 			likeClickEvent(it, customData)
 		}
+		category.setOnClickListener {
+			categoryClickEvent(it,customData)
+		}
 	}
 
 	private fun setLikeEvent(it: View, customData: Body) {
@@ -89,13 +95,6 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 					},
 					onError = {}
 				)
-//				.customEnqueue { res->
-//					if (res.isSuccessful) {
-//						it.isActivated = false
-//						text_main_home_count_like.text = (text_main_home_count_like.text.toString().toInt() - 1).toString()
-//					}
-//				}
-
 		} else {
 			//좋아요 안눌림
 			requestToServer.backService.requestLike(App.prefs.local_login_token, customData.id)
@@ -103,15 +102,8 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 					onSuccess = {
 						view.isActivated = true
 						text_main_home_count_like.text = (text_main_home_count_like.text.toString().toInt() + 1).toString()
-					},
-					onError = {}
+					}
 				)
-//				.customEnqueue { res->
-//					if (res.isSuccessful) {
-//						it.isActivated = true
-//						text_main_home_count_like.text = (text_main_home_count_like.text.toString().toInt() + 1).toString()
-//					}
-//				}
 		}
 	}
 
@@ -145,16 +137,8 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 									Toast
 										.makeText(itemView.context,"신고가 성공적으로 접수되었습니다.",Toast.LENGTH_SHORT)
 										.show()
-								},
-								onError = {}
+								}
 							)
-//							.customEnqueue{ res->
-//								if (res.isSuccessful) {
-//									Toast
-//										.makeText(itemView.context,"신고가 성공적으로 접수되었습니다.",Toast.LENGTH_SHORT)
-//										.show()
-//								}
-//							}
 					}
 				})
 		}
@@ -174,5 +158,19 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 		itemView.context.startActivity(intent)
 	}
 
+	fun categoryClickEvent(view:View, customData: Body){
+		requestToServer.backService.requestCategoryList(
+			QueryValue.lastId,
+			QueryValue.limit,
+			customData.category
+		)
+			.customEnqueue(
+				onSuccess = {
+					val intent = Intent(itemView.context, SearchResultsView::class.java)
+					intent.putExtra("categiry",customData.category) //검색어
+					intent.putExtra("categoryBodyList", it.body()?.bodyList)//검색 결과 바디
+				}
+			)
+	}
 }
 
