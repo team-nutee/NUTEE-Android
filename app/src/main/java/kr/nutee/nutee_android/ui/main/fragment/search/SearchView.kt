@@ -15,7 +15,7 @@ import kr.nutee.nutee_android.data.App
 
 /*
  * Created by 88yhtesrof
- * DESC: 검색 창 Activity
+ * DESC: 검색 창 Activity 2.0 버전
  */
 
 class SearchView : AppCompatActivity() {

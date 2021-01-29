@@ -8,7 +8,7 @@ import kr.nutee.nutee_android.data.App
 
 /*
  * Created by 88yhtesrof
- * DESC: 검색 창 RecyclerView Adapter
+ * DESC: 검색 창 - 이전 검색어 저장 RecyclerView Adapter
  */
 
 class SearchViewRecyclerAdapter(var previousSearchResultsList:ArrayList<String>)

@@ -8,8 +8,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_search_results_find.*
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.data.main.home.Body
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
+import kr.nutee.nutee_android.ui.main.fragment.home.HomeRecyclerViewAdapter
 
 /*
  * Created by 88yhtesrof
@@ -18,19 +20,11 @@ import kr.nutee.nutee_android.ui.extend.customEnqueue
 
 class SearchResultsFindFragment : Fragment() {
 
-	//서버연결
-	private val requestToServer = RequestToServer
-	lateinit var searchBoxText:String
-	var lastId = 0
-	var limit = 10
+	lateinit var bodyList: ArrayList<Body>
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-
-		//검색어
-		searchBoxText=(activity as SearchResultsView).searchBoxText
-
-
+		bodyList=(activity as SearchResultsView).bodyList
 	}
 
 	override fun onCreateView(
@@ -43,27 +37,11 @@ class SearchResultsFindFragment : Fragment() {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		//loadSesrch(searchBoxText, lastId, limit)
-		rv_search_results.layoutManager= LinearLayoutManager(
-			getActivity(), LinearLayoutManager.VERTICAL, false
-		)
+		rv_search_results.apply {
+			layoutManager= LinearLayoutManager(
+				getActivity(), LinearLayoutManager.VERTICAL, false
+			)
+			adapter= HomeRecyclerViewAdapter(bodyList)
+		}
 	}
-
-//	private fun loadSesrch(
-//		searchBoxText: String, lastId: Int, limit: Int
-//	) {
-//		requestToServer.backService.requestSearch(
-//			text = searchBoxText,
-//			lastId = lastId,
-//			limit = limit
-//		).customEnqueue { response ->
-//			if(response.body().isNullOrEmpty()){
-//				(activity as SearchResultsView).setFrage(SearchResultsNotFindFragment())
-//			}
-//			else {
-//				response.body()?.let {
-//					rv_search_results.adapter = SearchResultsViewRecyclerAdapter(it)
-//				}
-//			}
-//		}
-//	}
 }

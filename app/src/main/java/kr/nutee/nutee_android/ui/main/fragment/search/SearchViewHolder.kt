@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.item_recyclerview_previous_search_results.
 
 /*
  * Created by 88yhtesrof
- * DESC: 검색 창 RecyclerView Holder
+ * DESC: 검색 창- 이전 검색어 저장 RecyclerView Holder
  */
 
 class SearchViewHolder(itemView:View):RecyclerView.ViewHolder(itemView) {

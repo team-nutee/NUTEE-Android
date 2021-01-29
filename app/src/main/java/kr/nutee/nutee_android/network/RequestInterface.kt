@@ -7,7 +7,6 @@ import kr.nutee.nutee_android.data.main.add.RequestPost
 import kr.nutee.nutee_android.data.main.home.*
 import kr.nutee.nutee_android.data.main.home.detail.RequestComment
 import kr.nutee.nutee_android.data.main.profile.ResponseProfile
-import kr.nutee.nutee_android.data.main.search.ResponseSearchMain
 import kr.nutee.nutee_android.data.main.setting.ResponseUploadProfile
 import kr.nutee.nutee_android.data.member.login.RequestLogin
 import kr.nutee.nutee_android.data.member.login.ResponseLogin
@@ -182,7 +181,7 @@ interface RequestInterface {
 		@Path("text") text: String?,
 		@Query("lastId") lastId: Int,
 		@Query("limit") limit: Int
-	): Call<ResponseSearchMain>
+	): Call<LookUpList>
 
 	/*Setting*/
 	//profile setting

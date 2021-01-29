@@ -1,11 +1,13 @@
 package kr.nutee.nutee_android.ui.main.fragment.search
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_search_results_view.*
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.data.QueryValue
+import kr.nutee.nutee_android.data.main.home.Body
+import kr.nutee.nutee_android.network.RequestToServer
+import kr.nutee.nutee_android.ui.extend.customEnqueue
 
 /*
  * Created by 88yhtesrof
@@ -14,6 +16,8 @@ import kr.nutee.nutee_android.R
 
 class SearchResultsView : AppCompatActivity() {
 	lateinit var searchBoxText:String
+	private val requestToServer = RequestToServer
+	lateinit var bodyList: ArrayList<Body>
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -22,21 +26,24 @@ class SearchResultsView : AppCompatActivity() {
 		//검색어
 		searchBoxText=intent.getStringExtra("searchBoxText")
 
-		setFrage(SearchResultsFindFragment())
+		loadSesrch(searchBoxText)
 
 		//검색어 창 기능
 		tv_search_results_find.apply {
-			setOnClickListener{
-				finish()
-			}
+			setOnClickListener{ finish() }
 			text = searchBoxText
 		}
 	}
 
-	fun setFrage(name:Fragment){
+	fun setFrag(searchResult: Boolean){
 		val fragmentManager=supportFragmentManager.beginTransaction()
+
 		fragmentManager.apply {
-			replace(R.id.fl_search_results_view,name)
+			if(searchResult) {
+				replace(R.id.fl_search_results_view,
+					SearchResultsFindFragment())
+			}else
+				replace(R.id.fl_search_results_view, SearchResultsNotFindFragment())
 			commit()
 		}
 	}
@@ -46,7 +53,21 @@ class SearchResultsView : AppCompatActivity() {
 			supportFragmentManager.popBackStack()
 		else
 			super.onBackPressed()
+	}
 
-
+	private fun loadSesrch(searchBoxText: String) {
+		requestToServer.backService.requestSearch(
+			searchBoxText,
+			QueryValue.lastId,
+			QueryValue.limit
+		).customEnqueue(
+			onSuccess = {
+				bodyList=it.body()?.bodyList!!
+				if (it.body()?.bodyList.isNullOrEmpty())
+					setFrag(false)
+				else
+					setFrag(true)
+			}
+		)
 	}
 }
