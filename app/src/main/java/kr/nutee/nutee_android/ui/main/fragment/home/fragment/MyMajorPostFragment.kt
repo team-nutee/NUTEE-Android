@@ -8,6 +8,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.data.QueryValue
+import kr.nutee.nutee_android.network.RequestToServer
+import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.main.fragment.home.HomeRecyclerViewAdapter
 
 /*
@@ -19,6 +22,7 @@ class MyMajorPostFragment : Fragment() {
 
 	private lateinit var recyclerView: RecyclerView
 	private lateinit var homeRecyclerViewAdapter: HomeRecyclerViewAdapter
+	val requestToServer = RequestToServer
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -41,5 +45,19 @@ class MyMajorPostFragment : Fragment() {
 				LinearLayoutManager.VERTICAL, false)
 			setHasFixedSize(true)
 		}
+		loadFavoriteList()
+	}
+
+	private fun loadFavoriteList(){
+		requestToServer.backService.requestCategoryList(
+			"IT2", //임시
+			QueryValue.lastId,
+			QueryValue.limit
+		).customEnqueue(
+			onSuccess = {
+				recyclerView.adapter = HomeRecyclerViewAdapter(it.body()?.body!!)
+			},
+			onError = {}
+		)
 	}
 }

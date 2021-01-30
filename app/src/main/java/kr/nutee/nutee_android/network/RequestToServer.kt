@@ -10,37 +10,39 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RequestToServer {
     private val logging = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-    private val client = OkHttpClient.Builder()
+    private val clientNotice = OkHttpClient.Builder()
         .addInterceptor(logging)
         .build()
-//        .addInterceptor { chain: Interceptor.Chain ->
-//            val original = chain.request()
-//            if (original.url.encodedPath.equals("/sns/upload", true)
-//            ) {
-//                chain.proceed(original)
-//            } else {
-//                chain.proceed(original.newBuilder().apply {
-//                    addHeader("Content-Type", "application/json;charset=UTF-8")
-//                    logging
-//                }.build())
-//            }
-//        }.build()
+    private val clientNutee = OkHttpClient.Builder()
+        .addInterceptor { chain: Interceptor.Chain ->
+            val original = chain.request()
+            if (original.url.encodedPath.equals("/sns/upload", true)
+            ) {
+                chain.proceed(original)
+            } else {
+                chain.proceed(original.newBuilder().apply {
+                    addHeader("Accept","application/hal+json")
+                    addHeader("Content-Type", "application/json;charset=UTF-8")
+                }.build())
+            }
+        }.addInterceptor(logging)
+        .build()
 
     var authRetrofit: Retrofit = Retrofit.Builder()
         .baseUrl("http://3.34.61.71:9708")
-        .client(client)
+        .client(clientNutee)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
     var BackRetrofit: Retrofit = Retrofit.Builder()
         .baseUrl("http://3.34.61.71:9425")
-        .client(client)
+        .client(clientNutee)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
     var noticeRetrofit: Retrofit = Retrofit.Builder()
         .baseUrl("http://nutee.kr:9709/crawl/")
-        .client(client)
+        .client(clientNotice )
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 

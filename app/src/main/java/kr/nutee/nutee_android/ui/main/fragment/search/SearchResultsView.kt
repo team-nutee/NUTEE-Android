@@ -62,8 +62,8 @@ class SearchResultsView : AppCompatActivity() {
 			QueryValue.limit
 		).customEnqueue(
 			onSuccess = {
-				bodyList=it.body()?.bodyList!!
-				if (it.body()?.bodyList.isNullOrEmpty())
+				bodyList=it.body()?.body!!
+				if (it.body()?.body.isNullOrEmpty())
 					setFrag(false)
 				else
 					setFrag(true)

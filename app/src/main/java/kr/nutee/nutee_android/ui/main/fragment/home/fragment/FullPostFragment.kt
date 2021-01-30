@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.data.QueryValue
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.main.fragment.home.HomeRecyclerViewAdapter
@@ -20,15 +21,7 @@ import kr.nutee.nutee_android.ui.main.fragment.home.HomeRecyclerViewAdapter
 class FullPostFragment : Fragment() {
 
 	private lateinit var recyclerView: RecyclerView
-
 	val requestToServer = RequestToServer
-	var lastId = 0
-	var limit = 10
-
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-
-	}
 
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?,
@@ -48,14 +41,15 @@ class FullPostFragment : Fragment() {
 		}
 //		loadFavoriteList()
 	}
-//	private fun loadFavoriteList(){
-//		requestToServer.backService.requestFullList(
-//			lastId, limit
-//		).customEnqueue(
-//			onSuccess = {
-//				recyclerView.adapter = HomeRecyclerViewAdapter(it.body()?.bodyList!!)
-//			},
-//			onError = {}
-//		)
-//	}
+	private fun loadFavoriteList(){
+		requestToServer.backService.requestFullList(
+			QueryValue.lastId,
+			QueryValue.limit
+		).customEnqueue(
+			onSuccess = {
+				recyclerView.adapter = HomeRecyclerViewAdapter(it.body()?.body!!)
+			},
+			onError = {}
+		)
+	}
 }

@@ -61,7 +61,7 @@ class favoritePostFragment : Fragment() {
 		).customEnqueue(
 			onSuccess = {
 				Log.d("Network", "통신 성공.")
-				recyclerView.adapter = HomeRecyclerViewAdapter(it.body()?.bodyList!!)
+				recyclerView.adapter = HomeRecyclerViewAdapter(it.body()?.body!!)
 			}
 			,
 			onError = {

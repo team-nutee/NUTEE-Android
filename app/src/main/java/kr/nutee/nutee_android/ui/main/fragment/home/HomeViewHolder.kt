@@ -160,15 +160,15 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
 	fun categoryClickEvent(view:View, customData: Body){
 		requestToServer.backService.requestCategoryList(
+			customData.category,
 			QueryValue.lastId,
-			QueryValue.limit,
-			customData.category
+			QueryValue.limit
 		)
 			.customEnqueue(
 				onSuccess = {
 					val intent = Intent(itemView.context, SearchResultsView::class.java)
 					intent.putExtra("categiry",customData.category) //검색어
-					intent.putExtra("categoryBodyList", it.body()?.bodyList)//검색 결과 바디
+					intent.putExtra("categoryBodyList", it.body()?.body)//검색 결과 바디
 				}
 			)
 	}
