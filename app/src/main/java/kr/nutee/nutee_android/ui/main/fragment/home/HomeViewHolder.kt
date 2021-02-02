@@ -6,11 +6,9 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
-import kr.nutee.nutee_android.data.DateParser
 import kr.nutee.nutee_android.data.QueryValue
 import kr.nutee.nutee_android.data.main.RequestReport
 import kr.nutee.nutee_android.data.main.home.Body
@@ -35,12 +33,9 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 	val text_main_home_count_comment = itemView.findViewById<TextView>(R.id.text_main_home_recyclerview_item_comment)
 	val text_main_home_count_like = itemView.findViewById<TextView>(R.id.text_main_home_recyclerview_item_likes)
 	val text_main_home_updateat = itemView.findViewById<TextView>(R.id.text_main_home_recyclerview_item_date)
-	val text_main_home_hits = itemView.findViewById<ImageView>(R.id.text_main_home_recyclerview_item_hits)
-	val img_main_home_img = itemView.findViewById<ImageView>(R.id.img_main_home_recyclerview_item_img)
+	val text_main_home_hits = itemView.findViewById<TextView>(R.id.text_main_home_recyclerview_item_hits)
 	val img_main_home_likes = itemView.findViewById<ImageView>(R.id.img_main_home_recyclerview_item_likes)
-	val img_main_home_hits = itemView.findViewById<ImageView>(R.id.img_main_home_recyclerview_item_hits)
-	val img_main_home_comment = itemView.findViewById<TextView>(R.id.img_main_home_recyclerview_item_comment)
-	val img_main_home_more=itemView.findViewById<TextView>(R.id.img_main_home_recyclerview_item_more)
+	val img_main_home_more=itemView.findViewById<ImageView>(R.id.img_main_home_recyclerview_item_more)
 
 	fun bind(
 		customData: Body
@@ -53,6 +48,9 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 		text_main_home_count_image.text = customData.images?.size.toString()
 		text_main_home_count_comment.text = customData.commentNum.toString()
 		text_main_home_count_like.text = customData.likers?.size.toString()
+		text_main_home_hits.text=customData.hits.toString()
+
+		checkNullInItem(customData)
 
 		itemView.setOnClickListener{
 			Log.d("DetailClick",customData.id.toString())
@@ -160,6 +158,7 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
 	fun categoryClickEvent(view:View, customData: Body){
 		requestToServer.backService.requestCategoryList(
+			"Bearer "+App.prefs.local_login_token,
 			customData.category,
 			QueryValue.lastId,
 			QueryValue.limit
@@ -171,6 +170,15 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 					intent.putExtra("categoryBodyList", it.body()?.body)//검색 결과 바디
 				}
 			)
+	}
+
+	fun checkNullInItem(customData: Body){
+		if(customData.likers?.size.toString()=="null"){
+			Log.d("HolderIn","잡입 성공1")
+			text_main_home_count_like.text="0"
+		}
+		if(customData.images?.size.toString()=="null")
+			text_main_home_count_image.text="0"
 	}
 }
 

@@ -24,6 +24,7 @@
             android:background="@color/colorWhite"
             android:textSize="18dp"
             android:textStyle="bold"
+            app:titleTextColor="@color/colorWhite"
             app:layout_scrollFlags="scroll|enterAlways|snap">
 
             <View
@@ -58,6 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="?android:attr/listDivider"
+                android:backgroundTint="@color/colorWhite"
                 app:layout_constraintTop_toBottomOf="@id/main_title"/>
 
         </androidx.appcompat.widget.Toolbar>
