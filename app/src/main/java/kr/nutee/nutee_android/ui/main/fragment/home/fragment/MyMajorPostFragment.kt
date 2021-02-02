@@ -49,8 +49,7 @@ class MyMajorPostFragment : Fragment() {
 	}
 
 	private fun loadFavoriteList(){
-		requestToServer.backService.requestCategoryList(
-			"IT2", //임시
+		requestToServer.backService.requestFavoriteList(
 			QueryValue.lastId,
 			QueryValue.limit
 		).customEnqueue(

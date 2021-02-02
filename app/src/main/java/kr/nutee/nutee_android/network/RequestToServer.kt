@@ -1,5 +1,6 @@
 package kr.nutee.nutee_android.network
 
+import kr.nutee.nutee_android.data.App
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -23,6 +24,7 @@ object RequestToServer {
                 chain.proceed(original.newBuilder().apply {
                     addHeader("Accept","application/hal+json")
                     addHeader("Content-Type", "application/json;charset=UTF-8")
+//                    addHeader("Authorization", "Bearer "+App.prefs.local_login_token)
                 }.build())
             }
         }.addInterceptor(logging)

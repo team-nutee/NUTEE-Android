@@ -141,7 +141,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		if (responseMainItem.images?.isNotEmpty()!!) imageFrameLoad(responseMainItem.images)
 	}
 
-	private fun imageFrameLoad(images: List<Image>) {
+	private fun imageFrameLoad(images: Array<Image>) {
 		sendDataToShowDetailImageView = { loadDetailImagePage(images) }
 		if (images.count() > 3) {
 			loadMoreImageFrame(images)
@@ -150,7 +150,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		loadLessThenThreeImageFragme(images)
 	}
 
-	private fun loadDetailImagePage(images: List<Image>) {
+	private fun loadDetailImagePage(images: Array<Image>) {
 		val detailImageViewIntent = Intent(applicationContext, ShowDetailImageView::class.java)
 		val bundle = Bundle()
 		bundle.putParcelableArrayList("Images", images as ArrayList<Image>)
@@ -159,7 +159,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 
 	}
 
-	private fun loadLessThenThreeImageFragme(images: List<Image>) {
+	private fun loadLessThenThreeImageFragme(images: Array<Image>) {
 		cl_detail_image3.visibility = View.VISIBLE
 		for (i in 0 until images.count()) {
 			Glide.with(applicationContext)
@@ -170,7 +170,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 
 	}
 
-	private fun loadMoreImageFrame(images: List<Image>) {
+	private fun loadMoreImageFrame(images: Array<Image>) {
 		cl_detail_image_more.visibility = View.VISIBLE
 		Glide.with(applicationContext)
 			.load(setImageURLSetting(images[0].src))

@@ -11,7 +11,7 @@ import kr.nutee.nutee_android.data.main.home.Body
  * DESC: 메인뷰 홈 게시글 RecyclerViewAdapter
  */
 
-class HomeRecyclerViewAdapter(private var homeDataList: ArrayList<Body>)
+class HomeRecyclerViewAdapter(private var homeDataList: Array<Body>)
 	: RecyclerView.Adapter<HomeViewHolder>() {
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
 		val view=LayoutInflater.from(parent.context).inflate(R.layout.main_home_recyclerview_item,parent,false)

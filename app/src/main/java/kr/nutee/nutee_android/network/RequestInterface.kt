@@ -23,6 +23,7 @@ interface RequestInterface {
 	//LookUp category list
 	@GET("/sns/post/category/{INTER2}")
 	fun requestCategoryList(
+		@Header("Authorization") Authorization:String,
 		@Path("INTER2") INTER2:String?,
 		@Query("lastId") lastId: Int,
 		@Query("limit") limit: Int

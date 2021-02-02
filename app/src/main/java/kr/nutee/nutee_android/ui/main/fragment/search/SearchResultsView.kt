@@ -17,7 +17,7 @@ import kr.nutee.nutee_android.ui.extend.customEnqueue
 class SearchResultsView : AppCompatActivity() {
 	lateinit var searchBoxText:String
 	private val requestToServer = RequestToServer
-	lateinit var bodyList: ArrayList<Body>
+	lateinit var bodyList: Array<Body>
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
