@@ -14,28 +14,36 @@
         android:id="@+id/imageView"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:background="@mipmap/nutee_logo_foreground"
+        android:background="@mipmap/nutee_logo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.335" />
+        app:layout_constraintVertical_bias="0.36" />
+
+    <TextView
+        android:id="@+id/tv_main_home_no_post"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="검색결과를 찾지 못했습니다."
+        android:textColor="@color/nuteeBase"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <TextView
         android:id="@+id/tv_search_results_not_find_"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="검색 결과가 없습니다."
-        android:textColor="@color/nuteeBase"
-        android:textSize="20dp"
+        android:text="검색어를 확인해 주세요!"
+        android:padding="3dp"
+        android:textColor="@color/colorLightGray"
+        android:textSize="16dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_main_home_no_post" />
 </androidx.constraintlayout.widget.ConstraintLayout>
-
 </FrameLayout>

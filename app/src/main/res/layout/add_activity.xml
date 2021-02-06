@@ -163,14 +163,13 @@
 
         <ImageView
             android:id="@+id/img_upload_image_btn"
-            android:layout_width="33dp"
-            android:layout_height="27.88dp"
-            android:background="@drawable/ic_baseline_filter_24"
-            android:layout_margin="15dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@mipmap/ic_add_image"
+            android:layout_margin="12dp"
             app:layout_constraintBottom_toBottomOf="@id/add_bottom_bar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/add_bottom_line" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
