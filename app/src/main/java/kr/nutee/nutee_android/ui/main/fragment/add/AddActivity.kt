@@ -105,7 +105,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 
 	override fun onBackPressed() {
 		//뒤로가기 버튼을 클릭한경우 custom dialog를 띄우고 이벤트 처리
-		customDialog("작성을 취소하시겠습니까??") {
+		customDialog("작성을 취소하시겠습니까?") {
 			finish()
 		}
 	}

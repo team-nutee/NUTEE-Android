@@ -5,6 +5,7 @@ import android.content.Context
 import android.view.Window
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import kr.nutee.nutee_android.R
 
 fun Context.cumstomReportDialog(reportEvent:(String)->Unit) {
@@ -14,8 +15,8 @@ fun Context.cumstomReportDialog(reportEvent:(String)->Unit) {
 	dialog.setContentView(R.layout.custom_report_dialog)
 
 	val et_report = dialog.findViewById<EditText>(R.id.et_report)
-	val cancel_button = dialog.findViewById<Button>(R.id.btn_cancel_button)
-	val report_button = dialog.findViewById<Button>(R.id.btn_report_button)
+	val cancel_button = dialog.findViewById<TextView>(R.id.btn_cancel_button)
+	val report_button = dialog.findViewById<TextView>(R.id.btn_report_button)
 
 	dialog.show()
 

@@ -16,8 +16,8 @@ fun Context.customDialog(msg: String, okClickEvent: ()-> Unit) {
 
 	val body = dialog.findViewById<TextView>(R.id.dialog_text)
 	body.text = msg
-	val okButton = dialog.findViewById<Button>(R.id.okButton)
-	val cancelButton = dialog.findViewById<Button>(R.id.cancelButton)
+	val okButton = dialog.findViewById<TextView>(R.id.okButton)
+	val cancelButton = dialog.findViewById<TextView>(R.id.cancelButton)
 
 	dialog.show()
 
