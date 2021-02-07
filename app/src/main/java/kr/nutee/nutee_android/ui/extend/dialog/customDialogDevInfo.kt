@@ -16,7 +16,7 @@ fun Context.customDialogDevInfo(msg: String) {
 
 	val body = dialog.findViewById<TextView>(R.id.dialog_text)
 	body.text = msg
-	val okButton = dialog.findViewById<Button>(R.id.okButton)
+	val okButton = dialog.findViewById<TextView>(R.id.okButton)
 
 	dialog.show()
 

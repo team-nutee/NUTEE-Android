@@ -4,7 +4,9 @@ import android.app.Dialog
 import android.content.Context
 import android.view.Window
 import android.widget.Button
+import android.widget.TextView
 import kr.nutee.nutee_android.R
+import org.w3c.dom.Text
 
 fun Context.customSelectDialog(
 	reportVisible:Int,
@@ -23,7 +25,7 @@ fun Context.customSelectDialog(
 	val report_button = dialog.findViewById<Button>(R.id.report_button)
 	val fix_button = dialog.findViewById<Button>(R.id.fix_button)
 	val del_button = dialog.findViewById<Button>(R.id.del_button)
-	val cancle_button = dialog.findViewById<Button>(R.id.cancel_button_select)
+	val cancle_button = dialog.findViewById<TextView>(R.id.cancel_button_select)
 
 	report_button.visibility = reportVisible
 	fix_button.visibility = fixVisible
