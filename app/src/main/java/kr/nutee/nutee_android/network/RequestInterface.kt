@@ -30,11 +30,9 @@ interface RequestInterface {
 	): Call<LookUpList>
 
 	//LookUp favorite list
-//	@Headers(
-//		"Accept:application/hal+json",
-//		"Content-Type:application/json;charset=UTF-8")
 	@GET("/sns/post/favorite")
 	fun requestFavoriteList(
+		@Header("Authorization") Authorization:String,
 		@Query("lastId") lastId: Int,
 		@Query("limit") limit: Int
 	):Call<LookUpList>
@@ -50,21 +48,21 @@ interface RequestInterface {
 	//LookUp post detail
 	@GET("/sns/post/{id}")
 	fun requestDetail(
-		@Path("id") id: Int
+		@Header("Authorization") Authorization:String,
+		@Path("id") id:Int
 	): Call<LookUpDetail?>
 
 	//Posting
 	@POST("/sns/post")
 	fun requestPost(
-		@Header("Cookie") cookie: String,
+		@Header("Authorization") Authorization:String,
 		@Body content: RequestPost
 	): Call<LookUpDetail>
 
 	//rewrite post
 	@PATCH("/sns/post/{id}")
 	fun requestFixPost(
-		@Header("Cookie") cookie: String,
-		@Path("id") id:Number?,
+		@Header("Authorization") Authorization:String,
 		@Body content: RequestFixPost
 	): Call<LookUpDetail>
 
@@ -103,8 +101,11 @@ interface RequestInterface {
 	fun requestImage(@Part image: ArrayList<MultipartBody.Part>): Call<ArrayList<String>>
 
 	//Like post
-	@POST("/api/post/{id}/like")
-	fun requestLike(@Header("Cookie") cookie: String, @Path("id") id: Number?): Call<Unit>
+	@POST("/sns/post/{id}/like")
+	fun requestLike(
+		@Header("Authorization") Authorization:String,
+		@Path("id") id: Number?
+	): Call<LookUpDetail>
 
 	//UnLike post
 	@DELETE("/api/post/{id}/like")

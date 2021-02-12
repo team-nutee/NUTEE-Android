@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.QueryValue
+import kr.nutee.nutee_android.data.TestToken
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.main.fragment.home.HomeRecyclerViewAdapter
@@ -56,11 +57,12 @@ class favoritePostFragment : Fragment() {
 
 	private fun loadFavoriteList(){
 		requestToServer.backService.requestFavoriteList(
+			"Bearer "+ TestToken.testToken,
 			QueryValue.lastId,
 			QueryValue.limit
 		).customEnqueue(
 			onSuccess = {
-				Log.d("Network", "통신 성공.")
+				Log.d("Network", "추천게시글 통신 성공")
 				recyclerView.adapter = HomeRecyclerViewAdapter(it.body()?.body!!)
 			}
 			,

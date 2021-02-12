@@ -15,7 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tabGravity="fill"
-        app:tabTextColor="#000000"
+        app:tabTextColor="@color/colorBlack"
         app:tabSelectedTextColor="@color/nuteeBase"
         app:tabTextAppearance="@style/TabLayoutTextStyle"/>
 

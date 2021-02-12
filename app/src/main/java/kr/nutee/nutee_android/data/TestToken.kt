@@ -1,0 +1,6 @@
+package kr.nutee.nutee_android.data
+
+object TestToken{
+	val testMemberId: Int =1
+	val testToken:String="eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtZjAwMDkiLCJyb2xlIjoiUk9MRV9VU0VSIiwiaWQiOjEsImV4cCI6MTkyODQxNzIyOSwiaWF0IjoxNjEzMDU3MjI5fQ.KQq9ons_qY78Nq-8LXbb2dT046LWlvwzBJKowZrakpTHyoLbCRvyTQlrIeBz5fqry0XKI8EBS_7TJYvwgN38-w"
+}

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.QueryValue
+import kr.nutee.nutee_android.data.TestToken
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.main.fragment.home.HomeRecyclerViewAdapter
@@ -40,12 +41,12 @@ class FullPostFragment : Fragment() {
 				LinearLayoutManager.VERTICAL, false)
 			setHasFixedSize(true)
 		}
-		loadFavoriteList()
+		loadFullList()
 	}
-	private fun loadFavoriteList(){
+	private fun loadFullList(){
 		requestToServer.backService.requestCategoryList(
 			//"Bearer "+ App.prefs.local_login_token,
-			"Bearer "+"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtZjAwMDEiLCJyb2xlIjoiUk9MRV9NQU5BR0VSIiwiaWQiOjEsImV4cCI6MTkxMjA2NDU4NiwiaWF0IjoxNTk2NzA0NTg2fQ.VmpRq6R0NhyteAp2ToaPPbjAANcSfZTMKvrXxCd3iFBcm3gVLn9GYd6lJQ07gRIyk_U38x4t7VEpzA2qcbMAgA",
+			"Bearer "+ TestToken.testToken,
 			"IT2",
 			QueryValue.lastId,
 			QueryValue.limit

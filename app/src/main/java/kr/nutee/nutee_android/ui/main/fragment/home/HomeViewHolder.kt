@@ -174,7 +174,6 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
 	fun checkNullInItem(customData: Body){
 		if(customData.likers?.size.toString()=="null"){
-			Log.d("HolderIn","잡입 성공1")
 			text_main_home_count_like.text="0"
 		}
 		if(customData.images?.size.toString()=="null")

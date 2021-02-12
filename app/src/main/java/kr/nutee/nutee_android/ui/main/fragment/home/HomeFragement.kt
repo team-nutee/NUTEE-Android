@@ -34,10 +34,7 @@ class HomeFragement() : Fragment() {
 		homeViewpager=view.findViewById(R.id.vp_main_home)
 		homeAdapter=HomeAdapter(this)
 
-		homeViewpager.apply {
-			adapter = homeAdapter
-			orientation = ViewPager2.ORIENTATION_HORIZONTAL
-		}
+		homeViewpager.adapter = homeAdapter
 
 		TabLayoutMediator(homeTabLayout, homeViewpager) { tab, position ->
 			tab.text =homeTapTextList[position]

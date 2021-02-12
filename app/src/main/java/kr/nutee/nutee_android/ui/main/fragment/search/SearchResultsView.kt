@@ -2,6 +2,7 @@ package kr.nutee.nutee_android.ui.main.fragment.search
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import kotlinx.android.synthetic.main.activity_search_results_view.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.QueryValue
@@ -14,7 +15,7 @@ import kr.nutee.nutee_android.ui.extend.customEnqueue
  * DESC: 검색 결과 창 Activity
  */
 
-class SearchResultsView : AppCompatActivity() {
+class SearchResultsView : FragmentActivity() {
 	lateinit var searchBoxText:String
 	private val requestToServer = RequestToServer
 	lateinit var bodyList: Array<Body>
