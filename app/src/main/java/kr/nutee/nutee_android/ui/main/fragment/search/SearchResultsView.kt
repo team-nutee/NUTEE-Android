@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentActivity
 import kotlinx.android.synthetic.main.activity_search_results_view.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.QueryValue
+import kr.nutee.nutee_android.data.TestToken
 import kr.nutee.nutee_android.data.main.home.Body
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
@@ -58,6 +59,7 @@ class SearchResultsView : FragmentActivity() {
 
 	private fun loadSesrch(searchBoxText: String) {
 		requestToServer.backService.requestSearch(
+			"Bearer "+ TestToken.testToken,
 			searchBoxText,
 			QueryValue.lastId,
 			QueryValue.limit

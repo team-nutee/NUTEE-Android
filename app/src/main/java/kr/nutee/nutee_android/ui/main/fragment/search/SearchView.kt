@@ -23,7 +23,7 @@ class SearchView : AppCompatActivity() {
 
 	private var previousSearchResultsList = ArrayList<String>()
 	private lateinit var searchViewRecyclerAdapter: SearchViewRecyclerAdapter
-
+	lateinit var searchBoxText:String
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -46,21 +46,18 @@ class SearchView : AppCompatActivity() {
 		//검색어 입력
 		et_search_box.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
 			if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == ACTION_DOWN) {
-				val searchBoxText = et_search_box.text.toString()
+				searchBoxText = et_search_box.text.toString()
 
 				if (searchBoxText.length == 0) {
-					Toast.makeText(this, "검색어를 입력해 주세요", Toast.LENGTH_LONG).show()
+					Toast.makeText(this, "검색어를 입력해 주세요!", Toast.LENGTH_LONG).show()
 				}
-				if (searchBoxText.length != 0) {
-					//SharedPreferences에 검색어 저장
+				else{
 					prefsSearch.setString(prefsSearch.KeyList.size + 1, searchBoxText)
-
-					//저장된 이전 검색어 받기
-					val inputText = prefsSearch.getString(prefsSearch.KeyList.size + 1)
-
-					previousSearchResultsList.add(inputText)
+					previousSearchResultsList.add(
+						prefsSearch.getString(prefsSearch.KeyList.size + 1))
 
 					val intentSearchResults=Intent(this@SearchView,SearchResultsView::class.java)
+					intentSearchResults.putExtra("searchBoxText", searchBoxText)
 					startActivity(intentSearchResults)
 				}
 				return@OnKeyListener true

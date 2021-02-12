@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 
 /*
+88yhtserof
 * NUTEE 검색 기록을 저장하는 class
 */
 

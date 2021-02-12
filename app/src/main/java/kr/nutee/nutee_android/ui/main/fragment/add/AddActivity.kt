@@ -14,9 +14,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.add_activity.*
-import kotlinx.android.synthetic.main.main_home_detail_activtiy.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
+import kr.nutee.nutee_android.data.TestToken
 import kr.nutee.nutee_android.data.main.add.RequestFixPost
 import kr.nutee.nutee_android.data.main.add.RequestPost
 import kr.nutee.nutee_android.network.RequestToServer
@@ -25,7 +25,6 @@ import kr.nutee.nutee_android.ui.extend.dialog.CustomLodingDialog
 import kr.nutee.nutee_android.ui.extend.dialog.customDialog
 import kr.nutee.nutee_android.ui.extend.imageSetting.createImageMultipart
 import kr.nutee.nutee_android.ui.main.MainActivity
-import org.w3c.dom.Text
 
 
 /*
@@ -39,48 +38,45 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	private lateinit var imageAdapter: ImageAdapter
 	lateinit var loadingDialog:CustomLodingDialog
 	lateinit var addContent:EditText
-	//val viewTitle=view.findViewById<EditText>(R.id.et_add_title)
-	//var viewCategory=view.findViewById<TextView>(R.id.text_add_category)
-	lateinit var viewTitle:EditText
-	lateinit var viewCategory:TextView
-	var postId:Int = 0
+	lateinit var addTitle:EditText
+	lateinit var addCategory:TextView
+
+	private var booleanTitle=false
+	private var booleanContent=false
 
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.add_activity)
-		viewTitle=findViewById(R.id.et_add_title)
-		viewCategory=findViewById(R.id.text_add_category)
+		addTitle=findViewById(R.id.et_add_title)
+		addContent=findViewById(R.id.et_add_content)
+		addCategory=findViewById(R.id.text_add_category)
 		fixDataMapping()
 		loadingDialog = CustomLodingDialog(this)
 		init()
 
-		addContent=findViewById(R.id.et_add_content)
 		addContent.movementMethod = ScrollingMovementMethod()
 
 	}
 
-	private fun fixDataMapping() {
+	private fun fixDataMapping() {//기존에 작성된 게시글 연결
 		val content = intent.getStringExtra("content")
 		val title = intent.getStringExtra("title")
-		//val category=intent.getStringExtra("category")
-		postId = intent.getIntExtra("postId", 0)
-		et_add_content.setText(content)
-		viewTitle.setText(title)
+		val category=intent.getStringExtra("category")
+		addContent.setText(content)
+		addTitle.setText(title)
+		addCategory.text = category
 
 	}
 
 	private fun init() {
-		//해당 edit Text 에 자동 클릭하도록 한다.
-		et_add_content.requestFocus()
+		addTitle.requestFocus()
+
 		//자동으로 키보드가 올라오는 이벤트 처리
 		val inputMethodManager: InputMethodManager =
 			getSystemService(Service.INPUT_METHOD_SERVICE) as InputMethodManager
-		inputMethodManager.showSoftInput(et_add_content, 0)
-		//내용이 변경되는 이벤트 처리
-		et_add_content.textChangedListener {
-			text_create_button.isEnabled = !it.isNullOrBlank()
-		}
+		inputMethodManager.showSoftInput(addTitle, 0)
+
 		text_back_button.setOnClickListener(this)
 		img_upload_image_btn.setOnClickListener(this)
 		text_create_button.setOnClickListener(this)
@@ -89,16 +85,14 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	override fun onClick(v: View?) {
 		when (v!!.id) {
 			R.id.text_back_button -> onBackPressed()
-			R.id.img_upload_image_btn -> {
-				openImageChooser()
-			}
+			R.id.img_upload_image_btn -> openImageChooser()
 			R.id.text_create_button -> {
-				if (intent.hasExtra("content")) {
-					fixPostUpload()
-				} else {
-					uploadContent()
+				if(checkPostBlank()){
+					if (intent.hasExtra("content"))
+						fixPostUpload()
+					else
+						uploadContent()
 				}
-
 			}
 		}
 	}
@@ -124,18 +118,17 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 		loadingDialog.startLoadingDialog()
 		if (selectedImage.size > 0) {
 			uploadHasImage()
-		} else {
+		} else
 			uploadNonImage()
-		}
 	}
 
 	private fun fixPostUpload() {
 		requestToServer.backService.requestFixPost(
-			App.prefs.local_login_token,
-			postId,
+			"Bearer "+ TestToken.testToken ,
+			//App.prefs.local_login_token,
 			RequestFixPost(
-				viewTitle.toString(),
-				et_add_content.text.toString(),
+				addTitle.text.toString(),
+				addContent.text.toString(),
 				null
 			))
 			.customEnqueue(
@@ -154,10 +147,10 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 					requestToServer.backService.requestPost(
 						App.prefs.local_login_token,
 						RequestPost(
-							viewTitle.toString(),
-							et_add_content.text.toString(),
+							addTitle.text.toString(),
+							addContent.text.toString(),
 							it.body(),
-							viewCategory.toString()
+							addCategory.toString()
 						))
 						.customEnqueue(
 							onSuccess = {
@@ -173,18 +166,22 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	private fun uploadNonImage() {
 		requestToServer.backService
 			.requestPost(
-				App.prefs.local_login_token,
+				"Bearer "+TestToken.testToken,
 				RequestPost(
-					viewTitle.toString(),
-					et_add_content.text.toString(),
-					null,
-					viewCategory.toString()
+					title = addTitle.text.toString(),
+					content = addContent.text.toString(),
+					image = null,
+					category = "IT2"
+					//viewCategory.toString()
 				))
 			.customEnqueue(
 				onSuccess = {
+					Log.d("Network", "포스트 생성 성공")
 					gotoMain()
 				},
-				onError = {}
+				onError = {
+					Log.d("Network", "포스트 생성 실패")
+				}
 			)
 	}
 
@@ -237,6 +234,15 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 		val intent = Intent(applicationContext,MainActivity::class.java)
 		finish()
 		startActivity(intent)
+	}
+
+	private fun checkPostBlank(): Boolean {//글 작성 여부 확인
+		if(addTitle.text.toString().isBlank()
+			||addContent.text.toString().isBlank()){
+			Toast.makeText(this,"아직 글이 완성되지 않았습니다.",Toast.LENGTH_LONG).show()
+			return false
+		}
+		return true
 	}
 
 }

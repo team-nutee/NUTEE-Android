@@ -70,14 +70,14 @@ interface RequestInterface {
 	@DELETE("/sns/post/{id}")
 	fun requestDelete(
 		@Header("Cookie") cookie: String,
-		@Path("id") id: Number?
+		@Path("id") id: Int?
 	): Call<LookUpDetail>
 
 	// report post
 	@POST("/sns/post/{id}/report")
 	fun requestReport(
 		@Body content: RequestReport,
-		@Path("id") id: Number?
+		@Path("id") id: Int?
 	): Call<LookUpDetail>
 
 	/*comment*/
@@ -104,12 +104,15 @@ interface RequestInterface {
 	@POST("/sns/post/{id}/like")
 	fun requestLike(
 		@Header("Authorization") Authorization:String,
-		@Path("id") id: Number?
+		@Path("id") id: Int?
 	): Call<LookUpDetail>
 
 	//UnLike post
-	@DELETE("/api/post/{id}/like")
-	fun requestDelLike(@Header("Cookie") cookie: String, @Path("id") id: Number?): Call<Unit>
+	@DELETE("/sns/post/{id}/like")
+	fun requestDelLike(
+		@Header("Authorization") Authorization:String,
+		@Path("id") id: Int?
+	): Call<LookUpDetail>
 
 
 	/*comment*/
@@ -178,8 +181,9 @@ interface RequestInterface {
 
 	/*Search*/
 	//search
-	@GET("/api/search/{text}")
+	@GET("/sns/search/{text}")
 	fun requestSearch(
+		@Header("Authorization") Authorization:String,
 		@Path("text") text: String?,
 		@Query("lastId") lastId: Int,
 		@Query("limit") limit: Int

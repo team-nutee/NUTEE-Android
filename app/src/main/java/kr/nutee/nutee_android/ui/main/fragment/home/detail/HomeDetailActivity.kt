@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.main_home_detail_activtiy.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.DateParser
+import kr.nutee.nutee_android.data.TestToken
 import kr.nutee.nutee_android.data.main.RequestReport
 import kr.nutee.nutee_android.data.main.home.*
 import kr.nutee.nutee_android.data.main.home.detail.RequestComment
@@ -38,11 +39,13 @@ import java.util.*
 *
 * created by 88yhtserofG
 * DESC: 해시태그 기능. Hashtag Helper 라이브러리 사용
+*2.0버전으로 수정
 * */
 
 class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 	HashTagHelper.OnHashTagClickListener {
 
+	val requestToServer = RequestToServer
 	private var postId: Int? = 0
 
 	private var sendDataToShowDetailImageView: (() -> Unit)? = null
@@ -71,7 +74,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 	}
 
 	private fun init() {
-		postId = intent?.getIntExtra("Detail_id", 0)
+		postId = intent?.getIntExtra("Detail_id",0)
 		imageViewList = listOf<ImageView>(
 			img_detail_image3_1,
 			img_detail_image3_2,
@@ -95,11 +98,17 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 	}
 
 	private fun loadDetailPage() {
+		Log.d("ididid", "로드디테일페이지 $postId")
 		RequestToServer.backService
-			.requestDetail(postId!!)
+			.requestDetail(
+				"Bearer "+ TestToken.testToken,
+				postId!!
+			)
 			.customEnqueue(
 				onSuccess = {
-					onSucessLoadDetailView(it.body()) },
+					Log.d("Network", "글 상세 통신 성공")
+					onSucessLoadDetailView(it.body())
+					setLikeEvent(img_detail_favorit_btn, it.body()?.body)},
 				onError = { onErrorDetailPage() }
 			)
 	}
@@ -127,18 +136,18 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 	}
 
 	private fun bindDetailPostEvent(responseMainItem: Body) {
-		val userImageLoad = setImageURLSetting(responseMainItem.User?.Image?.src)
+		val userImageLoad = setImageURLSetting(responseMainItem.user?.Image?.src)
 		Glide.with(applicationContext).load(userImageLoad).placeholder(glideProgressDrawable())
 			.into(img_detail_profile)
-		text_detail_nick.text = responseMainItem.User?.nickname
+		text_detail_nick.text = responseMainItem.user?.nickname
 		text_detail_time.text =
-			responseMainItem.CreatedAt?.let { DateParser(it).calculateDiffDate() }
+			responseMainItem.createdAt?.let { DateParser(it).calculateDiffDate() }
 		text_detail_content.text = responseMainItem.content
 		//추후수정-댓글
 		//setCommentAdpater(responseMainItem.Comments)
 		clickDetailMoreEvent = { detailMore(responseMainItem) }
 
-		if (responseMainItem.images?.isNotEmpty()!!) imageFrameLoad(responseMainItem.images)
+//		if (responseMainItem.images?.isNotEmpty()!!) imageFrameLoad(responseMainItem.images)
 	}
 
 	private fun imageFrameLoad(images: Array<Image>) {
@@ -183,7 +192,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 	}
 
 	private fun detailMore(res: Body) {
-		if (res.User?.id.toString() == App.prefs.local_user_id) {
+		if (res.user?.id.toString() == TestToken.testMemberId.toString()) {
 			customSelectDialog(View.GONE, View.VISIBLE, View.VISIBLE,
 				{},
 				{
@@ -229,6 +238,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		img_comment_upload_btn.setOnClickListener(this)
 		img_detail_more.setOnClickListener(this)
 		img_detail_top_back_btn.setOnClickListener(this)
+		img_detail_favorit_btn.setOnClickListener(this)
 	}
 
 	private fun detailViewButtonEnableEvent() {
@@ -259,6 +269,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 					onError = {}
 				)
 			}
+			R.id.img_detail_favorit_btn->likeClickEvent()
 		}
 	}
 
@@ -266,5 +277,48 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		val intentSearchResults= Intent(this, SearchResultsView::class.java)
 		intentSearchResults.putExtra("searchBoxText", "#$hashTag")
 		startActivity(intentSearchResults)
+	}
+
+	private fun setLikeEvent(it: View, responseBody: Body?) {
+		val boolLike = responseBody?.likers?.any{ liker:Liker ->
+			liker.id == TestToken.testMemberId
+		}
+		Log.d("setLike", "좋아요 설정$boolLike")
+		if (boolLike != null)
+			it.isActivated = boolLike
+
+		if(responseBody?.likers?.size!=null)
+			text_detail_favorit_count.text=responseBody.likers.size.toString()
+	}
+
+	private fun likeClickEvent() {
+		val view=findViewById<ImageView>(R.id.img_detail_favorit_btn)
+
+		if (view.isActivated) {//이미 좋아요한 경우
+			requestToServer.backService.requestDelLike(
+				"Bearer "+TestToken.testToken,
+				postId)
+				.customEnqueue(
+					onSuccess = {
+						view.isActivated = false
+						(text_detail_favorit_count.text.toString().toInt()-1).toString()
+							.also { text_detail_favorit_count.text = it }
+					},
+				onError = {
+					Log.d("setLike", "좋아요 취소 에러")
+				})
+		} else {
+			requestToServer.backService.requestLike(
+				"Bearer "+TestToken.testToken,
+				postId)
+				.customEnqueue(
+					onSuccess = {
+						view.isActivated = true
+						text_detail_favorit_count.text = it.body()?.body?.likers?.size.toString()
+					},
+				onError = {
+					Log.d("setLike", "좋아요 설정 에러")
+				})
+		}
 	}
 }
