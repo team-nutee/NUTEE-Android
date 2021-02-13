@@ -17,14 +17,14 @@ import kotlinx.android.synthetic.main.add_activity.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.TestToken
-import kr.nutee.nutee_android.data.main.add.RequestFixPost
+import kr.nutee.nutee_android.data.main.add.RequestRewritePost
 import kr.nutee.nutee_android.data.main.add.RequestPost
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.*
 import kr.nutee.nutee_android.ui.extend.dialog.CustomLodingDialog
 import kr.nutee.nutee_android.ui.extend.dialog.customDialog
 import kr.nutee.nutee_android.ui.extend.imageSetting.createImageMultipart
-import kr.nutee.nutee_android.ui.main.MainActivity
+import kr.nutee.nutee_android.ui.main.fragment.home.detail.HomeDetailActivity
 
 
 /*
@@ -89,7 +89,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 			R.id.text_create_button -> {
 				if(checkPostBlank()){
 					if (intent.hasExtra("content"))
-						fixPostUpload()
+						rewritePost()
 					else
 						uploadContent()
 				}
@@ -122,18 +122,22 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 			uploadNonImage()
 	}
 
-	private fun fixPostUpload() {
-		requestToServer.backService.requestFixPost(
+	private fun rewritePost() {
+		val postId=intent.getIntExtra("postId",0)
+
+		requestToServer.backService.requestRewritePost(
 			"Bearer "+ TestToken.testToken ,
 			//App.prefs.local_login_token,
-			RequestFixPost(
+			RequestRewritePost(
 				addTitle.text.toString(),
 				addContent.text.toString(),
 				null
-			))
+			),
+			postId
+		)
 			.customEnqueue(
 				onSuccess = {
-					gotoMain()
+					gotoMain(it.body()?.body?.id!!)
 				},
 				onError = {}
 			)
@@ -154,7 +158,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 						))
 						.customEnqueue(
 							onSuccess = {
-								gotoMain()
+								gotoMain(it.body()?.body?.id!!)
 							},
 							onError = {}
 						)
@@ -177,7 +181,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 			.customEnqueue(
 				onSuccess = {
 					Log.d("Network", "포스트 생성 성공")
-					gotoMain()
+					gotoMain(it.body()?.body?.id!!)
 				},
 				onError = {
 					Log.d("Network", "포스트 생성 실패")
@@ -229,9 +233,10 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 		rv_image_list.adapter = imageAdapter
 	}
 
-	private fun gotoMain() {
-		loadingDialog.dismissDialog()
-		val intent = Intent(applicationContext,MainActivity::class.java)
+	private fun gotoMain(id: Int) {
+		//loadingDialog.dismissDialog()
+		val intent = Intent(applicationContext, HomeDetailActivity::class.java)
+		intent.putExtra("Detail_id",id)
 		finish()
 		startActivity(intent)
 	}

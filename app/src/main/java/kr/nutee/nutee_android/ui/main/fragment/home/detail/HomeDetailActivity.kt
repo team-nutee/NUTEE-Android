@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -28,6 +29,7 @@ import kr.nutee.nutee_android.ui.extend.dialog.customDialogSingleButton
 import kr.nutee.nutee_android.ui.extend.dialog.customSelectDialog
 import kr.nutee.nutee_android.ui.extend.imageSetting.setImageURLSetting
 import kr.nutee.nutee_android.ui.extend.textChangedListener
+import kr.nutee.nutee_android.ui.main.fragment.add.AddActivity
 import kr.nutee.nutee_android.ui.main.fragment.search.SearchResultsView
 import java.util.*
 
@@ -57,20 +59,20 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 
 	private lateinit var mTextHashTagHelper: HashTagHelper
 	private lateinit var mHashTagText: TextView
+	private val additionalSymbols = '#'
+
+	lateinit var detailContent: TextView
+	lateinit var detailNickname: TextView
+	lateinit var detailTime:TextView
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.main_home_detail_activtiy)
+		detailNickname=findViewById(R.id.text_detail_nick)
+		detailTime=findViewById(R.id.text_detail_time)
+		detailContent=findViewById(R.id.text_detail_content)
+
 		init()
-
-		//해시태그 기능
-		val additionalSymbols = '#'
-
-		mHashTagText = text_detail_content
-		mTextHashTagHelper = HashTagHelper.Creator.create(
-			ContextCompat.getColor(this, R.color.nuteeBase), this, additionalSymbols
-		)
-		mTextHashTagHelper.handle(mHashTagText)
 	}
 
 	private fun init() {
@@ -84,6 +86,11 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		loadDetailPage()
 		detailViewClickEvnet()
 		detailViewButtonEnableEvent()
+		//해시태그 기능
+		mTextHashTagHelper = HashTagHelper.Creator.create(
+			ContextCompat.getColor(this, R.color.nuteeBase), this, additionalSymbols
+		)
+		mTextHashTagHelper.handle(detailContent)
 	}
 
 	private fun detailRefreshEvnet() {
@@ -109,29 +116,25 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 					Log.d("Network", "글 상세 통신 성공")
 					onSucessLoadDetailView(it.body())
 					setLikeEvent(img_detail_favorit_btn, it.body()?.body)},
-				onError = { onErrorDetailPage() }
+				onError = {
+					onErrorDetailPage()
+				}
 			)
 	}
 
 	private fun onErrorDetailPage() {
-		customDialogSingleButton("네트워크 오류") {
+		customDialogSingleButton("네트워크 오류")
 			finish()
-		}
 	}
 
 	private fun onSucessLoadDetailView(response: LookUpDetail?) {
 		if (response != null) {
 			if (response.body == null) {
-				nullPostEvnet()
-				return
+				customDialogSingleButton("해당 글은 존재하지 않습니다.\n 지속적으로 해당 글이 보일 경우 문의 바랍니다.") {
+					finish()
+				}
 			}
 			bindDetailPostEvent(response.body!!)
-		}
-	}
-
-	private fun nullPostEvnet() {
-		customDialogSingleButton("해당 글은 존재하지 않습니다.\n 지속적으로 해당 글이 보일 경우 문의 바랍니다.") {
-			finish()
 		}
 	}
 
@@ -139,10 +142,10 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		val userImageLoad = setImageURLSetting(responseMainItem.user?.Image?.src)
 		Glide.with(applicationContext).load(userImageLoad).placeholder(glideProgressDrawable())
 			.into(img_detail_profile)
-		text_detail_nick.text = responseMainItem.user?.nickname
-		text_detail_time.text =
+		detailNickname.text = responseMainItem.user?.nickname
+		detailTime.text =
 			responseMainItem.createdAt?.let { DateParser(it).calculateDiffDate() }
-		text_detail_content.text = responseMainItem.content
+		detailContent.setText(responseMainItem.content)
 		//추후수정-댓글
 		//setCommentAdpater(responseMainItem.Comments)
 		clickDetailMoreEvent = { detailMore(responseMainItem) }
@@ -191,21 +194,25 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		rv_home_detail_comment.adapter = homeDetailCommentAdpater
 	}
 
-	private fun detailMore(res: Body) {
-		if (res.user?.id.toString() == TestToken.testMemberId.toString()) {
-			customSelectDialog(View.GONE, View.VISIBLE, View.VISIBLE,
-				{},
+	private fun detailMore(responseBody: Body) {
+		if (responseBody.user?.id.toString() == TestToken.testMemberId.toString()) {
+			customSelectDialog(View.GONE, View.VISIBLE, View.VISIBLE,{},
 				{
 					Log.d("글수정 버튼", "누름")
+					rewritePost(responseBody)
 				},
 				{
 					Log.d("글삭제 버튼", "누름")
 					RequestToServer.backService.requestDelete(
-						App.prefs.local_login_token,
-						res.id)
+						"Bearer "+TestToken.testToken,
+						//App.prefs.local_login_token,
+						responseBody.id)
 						.customEnqueue(
 							onSuccess = {finish()},
-							onError = {}
+							onError = {
+								Toast.makeText(this,"네트워크오류",Toast.LENGTH_SHORT)
+									.show()
+							}
 						)
 				})
 		} else {
@@ -214,7 +221,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 					Log.d("글신고", "누름")
 					cumstomReportDialog {
 						RequestToServer.backService.requestReport(
-							RequestReport(it), res.id
+							RequestReport(it), responseBody.id
 						)
 							.customEnqueue(
 								onSuccess = {Toast
@@ -320,5 +327,19 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 					Log.d("setLike", "좋아요 설정 에러")
 				})
 		}
+	}
+
+	private fun rewritePost(responseBody: Body?) {
+		val intent=Intent(this, AddActivity::class.java)
+		intent.putExtra("title",responseBody?.title)
+		intent.putExtra("content",detailContent.text.toString())
+		intent.putExtra("category",responseBody?.category)
+		intent.putExtra("postId",responseBody?.id)
+		val imageArrayList = arrayListOf<String>()
+		responseBody?.images?.forEach{
+			imageArrayList.add(it.src)
+		}
+		intent.putStringArrayListExtra("image", imageArrayList)
+		startActivity(intent)
 	}
 }

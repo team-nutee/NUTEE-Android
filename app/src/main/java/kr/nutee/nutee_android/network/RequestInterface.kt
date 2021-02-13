@@ -2,7 +2,7 @@ package kr.nutee.nutee_android.network
 
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.main.RequestReport
-import kr.nutee.nutee_android.data.main.add.RequestFixPost
+import kr.nutee.nutee_android.data.main.add.RequestRewritePost
 import kr.nutee.nutee_android.data.main.add.RequestPost
 import kr.nutee.nutee_android.data.main.home.*
 import kr.nutee.nutee_android.data.main.home.detail.RequestComment
@@ -61,15 +61,16 @@ interface RequestInterface {
 
 	//rewrite post
 	@PATCH("/sns/post/{id}")
-	fun requestFixPost(
+	fun requestRewritePost(
 		@Header("Authorization") Authorization:String,
-		@Body content: RequestFixPost
+		@Body content: RequestRewritePost,
+		@Path("id") id: Int?
 	): Call<LookUpDetail>
 
 	// delete post
 	@DELETE("/sns/post/{id}")
 	fun requestDelete(
-		@Header("Cookie") cookie: String,
+		@Header("Authorization") Authorization:String,
 		@Path("id") id: Int?
 	): Call<LookUpDetail>
 

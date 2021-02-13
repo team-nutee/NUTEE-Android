@@ -11,6 +11,7 @@ import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.DateParser
 import kr.nutee.nutee_android.data.QueryValue
+import kr.nutee.nutee_android.data.TestToken
 import kr.nutee.nutee_android.data.main.RequestReport
 import kr.nutee.nutee_android.data.main.home.Body
 import kr.nutee.nutee_android.network.RequestToServer
@@ -67,21 +68,25 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 	}
 
 	private fun moreEvent(it:View, customData: Body) {
-		if (customData.user?.id.toString() == App.prefs.local_user_id) {
+		if (customData.user?.id.toString() == TestToken.testMemberId.toString()) {
 			itemView.context.customSelectDialog(View.GONE, View.VISIBLE, View.VISIBLE,
 				{},
 				{
 					Log.d("글수정 버튼", "누름")
-					fixPost(customData)
+					rewritePost(customData)
 				},
 				{
 					Log.d("글삭제 버튼", "누름")
 					requestToServer.backService.requestDelete(
-						App.prefs.local_login_token,
+						"Bearer "+ TestToken.testToken,
 						customData.id)
 						.customEnqueue(
-							onSuccess = {HomeFragement()},
-							onError = {}
+							onSuccess = {
+								//FIXME 리프레쉬되게 하기
+								HomeFragement()},
+							onError = {
+								Toast.makeText(itemView.context,"네트워크 오류",Toast.LENGTH_SHORT)
+								.show()}
 						)
 				})
 		} else {
@@ -93,8 +98,7 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 							RequestReport(it), customData.id)
 							.customEnqueue(
 								onSuccess = {
-									Toast
-										.makeText(itemView.context,"신고가 성공적으로 접수되었습니다.",Toast.LENGTH_SHORT)
+									Toast.makeText(itemView.context,"신고가 성공적으로 접수되었습니다.",Toast.LENGTH_SHORT)
 										.show()
 								}
 							)
@@ -103,11 +107,12 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 		}
 	}
 
-	private fun fixPost(customData: Body) {
+	private fun rewritePost(customData: Body) {
 		val intent = Intent(itemView.context, AddActivity::class.java)
 		intent.putExtra("title",customData.title)
 		intent.putExtra("content",customData.content)
 		intent.putExtra("category",customData.category)
+		intent.putExtra("postId",customData.id)
 		val imageArrayList = arrayListOf<String>()
 		customData.images?.forEach{
 			imageArrayList.add(it.src)
