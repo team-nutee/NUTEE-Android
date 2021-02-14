@@ -85,17 +85,27 @@ interface RequestInterface {
 	//LookUp comments list
 	@GET("/sns/post/{id}/comments")
 	fun requestCommentList(
-		@Path("id") id:Int
-	):Call<Comment>
+		@Header("Authorization") Authorization:String,
+		@Path("id") id:Int?,
+		@Query("lastId") lastId: Int,
+		@Query("limit") limit: Int
+	):Call<Comment?>
 
 	//post comment
-	@POST("/api/post/{id}/comment")
+	@POST("/sns/post/{id}/comment")
 	fun requestComment(
-		@Header("Cookie") cookie: String,
-		@Path("id") id: Int,
+		@Header("Authorization") Authorization:String,
+		@Path("id") id: Int?,
 		@Body content: RequestComment
 	): Call<Comment>
 
+	//comment Del
+	@DELETE("/sns/post/{postId}/comment/{id}")
+	fun requestDelComment(
+		@Header("Authorization") Authorization:String,
+		@Path("postId") postId: Int?,
+		@Path("id") id: Int?
+	): Call<Comment?>
 
 	@Multipart
 	@POST("/api/post/images")
@@ -114,12 +124,6 @@ interface RequestInterface {
 		@Header("Authorization") Authorization:String,
 		@Path("id") id: Int?
 	): Call<LookUpDetail>
-
-
-	/*comment*/
-	//comment Del
-	@DELETE("/api/post/{postId}/comment/{id}")
-	fun requestDelComment(@Path("postId") postId: Int?, @Path("id") id: Int?): Call<Unit>
 
 	/*User Profile*/
 	// load user

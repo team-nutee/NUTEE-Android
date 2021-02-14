@@ -69,12 +69,9 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
 	private fun moreEvent(it:View, customData: Body) {
 		if (customData.user?.id.toString() == TestToken.testMemberId.toString()) {
-			itemView.context.customSelectDialog(View.GONE, View.VISIBLE, View.VISIBLE,
-				{},
-				{
-					Log.d("글수정 버튼", "누름")
-					rewritePost(customData)
-				},
+			itemView.context.customSelectDialog(View.GONE, View.VISIBLE, View.VISIBLE, {},
+				{ Log.d("글수정 버튼", "누름")
+					rewritePost(customData) },
 				{
 					Log.d("글삭제 버튼", "누름")
 					requestToServer.backService.requestDelete(
@@ -89,6 +86,7 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 								.show()}
 						)
 				})
+			HomeFragement()
 		} else {
 			itemView.context.customSelectDialog(View.VISIBLE, View.GONE, View.GONE,
 				{
@@ -131,7 +129,7 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 			.customEnqueue(
 				onSuccess = {
 					val intent = Intent(itemView.context, SearchResultsView::class.java)
-					intent.putExtra("categiry",customData.category) //검색어
+					intent.putExtra("category",customData.category) //검색어
 					intent.putExtra("categoryBodyList", it.body()?.body)//검색 결과 바디
 				}
 			)

@@ -5,10 +5,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kr.nutee.nutee_android.R
-import kr.nutee.nutee_android.data.main.home.Comment
 import kr.nutee.nutee_android.data.main.home.CommentBody
 
-class HomeDetailCommentAdpater (var datas: List<CommentBody> ,val context: Context) : RecyclerView.Adapter<HomeDetailCommentViewHolder>() {
+class HomeDetailCommentAdpater(val context: Context, var datas: Array<CommentBody>, val postId: Int?) : RecyclerView.Adapter<HomeDetailCommentViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeDetailCommentViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.main_home_detail_item,parent,false)
@@ -18,7 +17,7 @@ class HomeDetailCommentAdpater (var datas: List<CommentBody> ,val context: Conte
     override fun getItemCount() = datas.size
 
     override fun onBindViewHolder(holder: HomeDetailCommentViewHolder, position: Int) {
-		holder.bind(datas[position])
+		holder.bind(datas[position],postId,context)
     }
 
 }

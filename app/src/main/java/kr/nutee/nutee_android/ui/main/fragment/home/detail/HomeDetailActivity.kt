@@ -5,18 +5,18 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.volokh.danylo.hashtaghelper.HashTagHelper
 import kotlinx.android.synthetic.main.main_home_detail_activtiy.*
 import kr.nutee.nutee_android.R
-import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.DateParser
+import kr.nutee.nutee_android.data.QueryValue
 import kr.nutee.nutee_android.data.TestToken
 import kr.nutee.nutee_android.data.main.RequestReport
 import kr.nutee.nutee_android.data.main.home.*
@@ -31,7 +31,7 @@ import kr.nutee.nutee_android.ui.extend.imageSetting.setImageURLSetting
 import kr.nutee.nutee_android.ui.extend.textChangedListener
 import kr.nutee.nutee_android.ui.main.fragment.add.AddActivity
 import kr.nutee.nutee_android.ui.main.fragment.search.SearchResultsView
-import java.util.*
+import kotlin.collections.ArrayList
 
 
 /*
@@ -56,9 +56,9 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 	private lateinit var imageViewList: List<ImageView>
 
 	private lateinit var homeDetailCommentAdpater: HomeDetailCommentAdpater
+	private lateinit var layoutManager:LinearLayoutManager
 
 	private lateinit var mTextHashTagHelper: HashTagHelper
-	private lateinit var mHashTagText: TextView
 	private val additionalSymbols = '#'
 
 	lateinit var detailContent: TextView
@@ -84,6 +84,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		)
 		detailRefreshEvnet()
 		loadDetailPage()
+		loadCommentList()
 		detailViewClickEvnet()
 		detailViewButtonEnableEvent()
 		//해시태그 기능
@@ -105,7 +106,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 	}
 
 	private fun loadDetailPage() {
-		Log.d("ididid", "로드디테일페이지 $postId")
+		Log.d("ididid", "포스트아이디 확인 $postId")
 		RequestToServer.backService
 			.requestDetail(
 				"Bearer "+ TestToken.testToken,
@@ -114,8 +115,8 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 			.customEnqueue(
 				onSuccess = {
 					Log.d("Network", "글 상세 통신 성공")
-					onSucessLoadDetailView(it.body())
-					setLikeEvent(img_detail_favorit_btn, it.body()?.body)},
+					onSuccessLoadDetailView(it.body())
+					},
 				onError = {
 					onErrorDetailPage()
 				}
@@ -127,7 +128,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 			finish()
 	}
 
-	private fun onSucessLoadDetailView(response: LookUpDetail?) {
+	private fun onSuccessLoadDetailView(response: LookUpDetail?) {
 		if (response != null) {
 			if (response.body == null) {
 				customDialogSingleButton("해당 글은 존재하지 않습니다.\n 지속적으로 해당 글이 보일 경우 문의 바랍니다.") {
@@ -145,9 +146,8 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		detailNickname.text = responseMainItem.user?.nickname
 		detailTime.text =
 			responseMainItem.createdAt?.let { DateParser(it).calculateDiffDate() }
-		detailContent.setText(responseMainItem.content)
-		//추후수정-댓글
-		//setCommentAdpater(responseMainItem.Comments)
+		detailContent.text = responseMainItem.content
+		setLikeEvent(img_detail_favorit_btn, responseMainItem)
 		clickDetailMoreEvent = { detailMore(responseMainItem) }
 
 //		if (responseMainItem.images?.isNotEmpty()!!) imageFrameLoad(responseMainItem.images)
@@ -187,11 +187,6 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		Glide.with(applicationContext)
 			.load(setImageURLSetting(images[0].src))
 			.into(imageViewList[0])
-	}
-
-	private fun setCommentAdpater(comments: List<CommentBody>) {
-		homeDetailCommentAdpater = HomeDetailCommentAdpater(comments, applicationContext)
-		rv_home_detail_comment.adapter = homeDetailCommentAdpater
 	}
 
 	private fun detailMore(responseBody: Body) {
@@ -262,20 +257,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 			R.id.cl_detail_image_more -> sendDataToShowDetailImageView?.invoke()
 			R.id.img_detail_more -> clickDetailMoreEvent?.invoke()
 			R.id.img_detail_top_back_btn -> onBackPressed()
-			R.id.img_comment_upload_btn -> {
-				RequestToServer.backService.requestComment(
-					App.prefs.local_login_token,
-					postId!!,
-					RequestComment(et_detail_comment.text.toString())
-				).customEnqueue(
-					onSuccess = {
-						et_detail_comment.text = null
-						finish()
-						startActivity(intent)
-					},
-					onError = {}
-				)
-			}
+			R.id.img_comment_upload_btn -> uploadComment()
 			R.id.img_detail_favorit_btn->likeClickEvent()
 		}
 	}
@@ -312,7 +294,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 							.also { text_detail_favorit_count.text = it }
 					},
 				onError = {
-					Log.d("setLike", "좋아요 취소 에러")
+					Log.d("Network", "좋아요 취소 에러")
 				})
 		} else {
 			requestToServer.backService.requestLike(
@@ -324,7 +306,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 						text_detail_favorit_count.text = it.body()?.body?.likers?.size.toString()
 					},
 				onError = {
-					Log.d("setLike", "좋아요 설정 에러")
+					Log.d("Network", "좋아요 설정 에러")
 				})
 		}
 	}
@@ -340,6 +322,45 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 			imageArrayList.add(it.src)
 		}
 		intent.putStringArrayListExtra("image", imageArrayList)
+		startActivity(intent)
+	}
+
+	private fun loadCommentList() {
+		requestToServer.backService.requestCommentList(
+			"Bearer "+TestToken.testToken,
+			postId,
+			QueryValue.lastId,
+			QueryValue.limit
+		).customEnqueue(
+			onSuccess = {
+				if(it.body()?.body !=null) {
+					homeDetailCommentAdpater = HomeDetailCommentAdpater(this, it.body()!!.body!!,postId)
+					rv_home_detail_comment.apply{
+						adapter = homeDetailCommentAdpater
+					}
+				}
+			},
+			onError = {
+				Toast.makeText(this,"댓글 조회 네트워크 오류",Toast.LENGTH_SHORT).show()
+			}
+		)
+	}
+
+	private fun uploadComment(){
+		requestToServer.backService.requestComment(
+			"Bearer "+TestToken.testToken,
+			postId!!,
+			RequestComment(et_detail_comment.text.toString())
+		).customEnqueue(
+			onSuccess = {
+				Log.d("Network", "댓글 생성 성공")
+			},
+			onError = {
+				Toast.makeText(this, "댓글 생성 네트워크 오류", Toast.LENGTH_SHORT).show()
+			}
+		)
+		//FIXME 리프레쉬하는걸로 바꿔보면 어떨까
+		finish()
 		startActivity(intent)
 	}
 }

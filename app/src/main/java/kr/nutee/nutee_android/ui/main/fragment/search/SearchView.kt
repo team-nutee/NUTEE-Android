@@ -28,8 +28,6 @@ class SearchView : AppCompatActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_search_view)
-
-		//SharedPreference
 		val prefsSearch = App.prefsSearch
 
 
@@ -39,8 +37,6 @@ class SearchView : AppCompatActivity() {
 				previousSearchResultsList.add(prefsSearch.getString(key))
 			}
 		}
-		//최근 검색 기록이 상단에 뜨도록 역순으로 정렬
-		previousSearchResultsList.reverse()
 
 
 		//검색어 입력
@@ -67,8 +63,8 @@ class SearchView : AppCompatActivity() {
 
 		searchViewRecyclerAdapter = SearchViewRecyclerAdapter(previousSearchResultsList)
 		rv_search_previous_search_results.apply {
-			layoutManager =
-				LinearLayoutManager(this@SearchView, LinearLayoutManager.VERTICAL, false)
+//			layoutManager =
+//				LinearLayoutManager(this@SearchView, LinearLayoutManager.VERTICAL, false)
 			adapter = searchViewRecyclerAdapter
 		}
 
