@@ -93,8 +93,8 @@ class HomeDetaiProfilelActivity : AppCompatActivity() {
 
 	private fun profileMore(userID: Int, customData: ResponseProfile) {
 		if (userID.toString() == App.prefs.local_user_id) {
-			customSelectDialog(View.GONE, View.VISIBLE, View.VISIBLE,
-				{},
+			customSelectDialog(View.GONE,View.GONE, View.VISIBLE, View.VISIBLE,
+				{},{},
 				{
 					Log.d("글수정 버튼", "누름")
 				},
@@ -109,10 +109,10 @@ class HomeDetaiProfilelActivity : AppCompatActivity() {
 						)
 				})
 		} else {
-			customSelectDialog(View.VISIBLE, View.GONE, View.GONE,
+			customSelectDialog(View.VISIBLE, View.GONE,View.GONE, View.GONE,
 				{
 					Log.d("글신고", "누름")
-					cumstomReportDialog{
+					cumstomReportDialog("이 게시글을 신고하시겠습니까?"){
 						RequestToServer.backService.requestReport(
 							RequestReport(it), customData.id)
 							.customEnqueue(

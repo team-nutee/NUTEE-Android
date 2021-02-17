@@ -37,11 +37,10 @@ import kotlin.collections.ArrayList
 /*
 * created by jinsu47555
 * DESC: 디테일 페이지를 표시하는 엑티비티
-* //FIXME 증말 급하게 만들어서 나중에 리펙함 하자...하.. 이게 모니...
 *
 * created by 88yhtserofG
 * DESC: 해시태그 기능. Hashtag Helper 라이브러리 사용
-*2.0버전으로 수정
+*       디테일 페이지 2.0버전으로 수정 및 구현
 * */
 
 class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
@@ -49,6 +48,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 
 	val requestToServer = RequestToServer
 	private var postId: Int? = 0
+	private var commentId: Int? = 0
 
 	private var sendDataToShowDetailImageView: (() -> Unit)? = null
 	private var clickDetailMoreEvent: (() -> Unit)? = null
@@ -77,6 +77,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 
 	private fun init() {
 		postId = intent?.getIntExtra("Detail_id",0)
+		commentId=intent?.getIntExtra("comment_id",0)
 		imageViewList = listOf<ImageView>(
 			img_detail_image3_1,
 			img_detail_image3_2,
@@ -85,6 +86,8 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		detailRefreshEvnet()
 		loadDetailPage()
 		loadCommentList()
+		if(intent.hasExtra("rewriteComment"))
+			bindRewriteComment()
 		detailViewClickEvnet()
 		detailViewButtonEnableEvent()
 		//해시태그 기능
@@ -106,11 +109,11 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 	}
 
 	private fun loadDetailPage() {
-		Log.d("ididid", "포스트아이디 확인 $postId")
+		Log.d("ididid", "포스트아이디 확인 ${this.postId}")
 		RequestToServer.backService
 			.requestDetail(
 				"Bearer "+ TestToken.testToken,
-				postId!!
+				this.postId!!
 			)
 			.customEnqueue(
 				onSuccess = {
@@ -191,13 +194,13 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 
 	private fun detailMore(responseBody: Body) {
 		if (responseBody.user?.id.toString() == TestToken.testMemberId.toString()) {
-			customSelectDialog(View.GONE, View.VISIBLE, View.VISIBLE,{},
+			customSelectDialog(View.GONE,View.GONE, View.VISIBLE, View.VISIBLE,{},{},
 				{
-					Log.d("글수정 버튼", "누름")
+					Log.d("select button", "글 수정")
 					rewritePost(responseBody)
 				},
 				{
-					Log.d("글삭제 버튼", "누름")
+					Log.d("select button", "글 삭제")
 					RequestToServer.backService.requestDelete(
 						"Bearer "+TestToken.testToken,
 						//App.prefs.local_login_token,
@@ -211,10 +214,10 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 						)
 				})
 		} else {
-			customSelectDialog(View.VISIBLE, View.GONE, View.GONE,
+			customSelectDialog(View.VISIBLE, View.GONE,View.GONE, View.GONE,
 				{
-					Log.d("글신고", "누름")
-					cumstomReportDialog {
+					Log.d("select button", "글 신고")
+					cumstomReportDialog("이 게시글을 신고하시겠습니까?") {
 						RequestToServer.backService.requestReport(
 							RequestReport(it), responseBody.id
 						)
@@ -257,8 +260,15 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 			R.id.cl_detail_image_more -> sendDataToShowDetailImageView?.invoke()
 			R.id.img_detail_more -> clickDetailMoreEvent?.invoke()
 			R.id.img_detail_top_back_btn -> onBackPressed()
-			R.id.img_comment_upload_btn -> uploadComment()
 			R.id.img_detail_favorit_btn->likeClickEvent()
+			R.id.img_comment_upload_btn ->{
+				if(intent.hasExtra("rewriteComment"))
+					rewriteComment(postId,commentId)
+				if(intent.hasExtra("reply"))
+						postReply(postId,commentId)
+				else
+					uploadComment()
+			}
 		}
 	}
 
@@ -335,9 +345,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 			onSuccess = {
 				if(it.body()?.body !=null) {
 					homeDetailCommentAdpater = HomeDetailCommentAdpater(this, it.body()!!.body!!,postId)
-					rv_home_detail_comment.apply{
-						adapter = homeDetailCommentAdpater
-					}
+					rv_home_detail_comment.adapter = homeDetailCommentAdpater
 				}
 			},
 			onError = {
@@ -355,12 +363,57 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 			onSuccess = {
 				Log.d("Network", "댓글 생성 성공")
 			},
-			onError = {
-				Toast.makeText(this, "댓글 생성 네트워크 오류", Toast.LENGTH_SHORT).show()
-			}
 		)
 		//FIXME 리프레쉬하는걸로 바꿔보면 어떨까
 		finish()
 		startActivity(intent)
+	}
+
+	private fun bindRewriteComment() {
+		val comment= intent?.getStringExtra("rewriteComment").toString()
+		et_detail_comment.apply {
+			setText(comment)
+			requestFocus()
+		}
+	}
+
+	private fun rewriteComment(postId: Int?, commentId: Int?) {
+		RequestToServer.backService.requestRewriteComment(
+			"Bearer "+ TestToken.testToken,
+			postId,
+			commentId,
+			RequestComment(et_detail_comment.text.toString())
+		).customEnqueue(
+			onSuccess = {
+				Log.d("Network", "댓글 수정 성공")
+				finish()
+				val intent=Intent(this,HomeDetailActivity::class.java)
+				intent.putExtra("Detail_id",postId)
+				startActivity(intent)
+			},
+			onError = {
+				Toast.makeText(this, "댓글 수정 네트워크 오류", Toast.LENGTH_SHORT).show()
+			}
+		)
+	}
+
+	private fun postReply(postId: Int?, commentId: Int?) {
+		RequestToServer.backService.requestReply(
+			"Bearer "+ TestToken.testToken,
+			postId,
+			commentId,
+			RequestComment(et_detail_comment.text.toString())
+		).customEnqueue(
+			onSuccess = {
+				Log.d("Network", "답글 생성 성공")
+				finish()
+				val intent=Intent(this,HomeDetailActivity::class.java)
+				intent.putExtra("Detail_id",postId)
+				startActivity(intent)
+			},
+			onError = {
+				Toast.makeText(this, "답글 생성 네트워크 오류", Toast.LENGTH_SHORT).show()
+			}
+		)
 	}
 }

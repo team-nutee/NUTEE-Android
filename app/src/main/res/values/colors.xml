@@ -13,6 +13,7 @@
     <color name="Transparent">#b3000000</color>
     <color name="colorBlack">#000000</color>
     <color name="colorLightGray">#a8a8a8</color>
+    <color name="colorLightLightGray">#DDDDDD</color>
     <color name="PM">#e1d3f8</color>
     <color name="PL">#ffccd1</color>
     <color name="Android">#cce7e1</color>

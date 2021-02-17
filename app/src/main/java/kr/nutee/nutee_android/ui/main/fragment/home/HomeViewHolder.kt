@@ -69,7 +69,7 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
 	private fun moreEvent(it:View, customData: Body) {
 		if (customData.user?.id.toString() == TestToken.testMemberId.toString()) {
-			itemView.context.customSelectDialog(View.GONE, View.VISIBLE, View.VISIBLE, {},
+			itemView.context.customSelectDialog(View.GONE, View.GONE, View.VISIBLE, View.VISIBLE, {}, {},
 				{ Log.d("글수정 버튼", "누름")
 					rewritePost(customData) },
 				{
@@ -88,10 +88,10 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 				})
 			HomeFragement()
 		} else {
-			itemView.context.customSelectDialog(View.VISIBLE, View.GONE, View.GONE,
+			itemView.context.customSelectDialog(View.VISIBLE,View.GONE, View.GONE, View.GONE,
 				{
 					Log.d("글신고", "누름")
-					it.context.cumstomReportDialog{
+					it.context.cumstomReportDialog("이 게시글을 신고하시겠습니까?"){
 						requestToServer.backService.requestReport(
 							RequestReport(it), customData.id)
 							.customEnqueue(
