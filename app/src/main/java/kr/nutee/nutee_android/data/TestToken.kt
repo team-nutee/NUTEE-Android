@@ -1,6 +1,6 @@
 package kr.nutee.nutee_android.data
 
 object TestToken{
-	val testMemberId: Int =1
-	val testToken:String="eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtZjAwMDkiLCJyb2xlIjoiUk9MRV9VU0VSIiwiaWQiOjEsImV4cCI6MTkyODQxNzIyOSwiaWF0IjoxNjEzMDU3MjI5fQ.KQq9ons_qY78Nq-8LXbb2dT046LWlvwzBJKowZrakpTHyoLbCRvyTQlrIeBz5fqry0XKI8EBS_7TJYvwgN38-w"
+	val testMemberId: Int =4
+	val testToken:String="eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4OHlodHNlcm9mIiwicm9sZSI6IlJPTEVfVVNFUiIsImlkIjo0LCJleHAiOjE5MjkwNjkwMTgsImlhdCI6MTYxMzcwOTAxOH0.JbqKB8fW0EV0brHSKn6NP7N4e0Vqq6i0i-ztr2dRZRrqyVCM5k56ZhgQxy6ctL-b2JTlwPIU3idWGMvliG_Wtw"
 }

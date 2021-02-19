@@ -32,6 +32,7 @@ import kr.nutee.nutee_android.ui.extend.textChangedListener
 import kr.nutee.nutee_android.ui.main.fragment.add.AddActivity
 import kr.nutee.nutee_android.ui.main.fragment.search.SearchResultsView
 import kotlin.collections.ArrayList
+import kotlin.collections.isNullOrEmpty as isNullOrEmpty1
 
 
 /*
@@ -79,9 +80,10 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		postId = intent?.getIntExtra("Detail_id",0)
 		commentId=intent?.getIntExtra("comment_id",0)
 		imageViewList = listOf<ImageView>(
-			img_detail_image3_1,
-			img_detail_image3_2,
-			img_detail_image3_3
+			img_detail_main_image_1,
+			img_detail_main_image_2,
+			img_detail_main_image_3,
+			img_detail_main_image_4
 		)
 		detailRefreshEvnet()
 		loadDetailPage()
@@ -153,16 +155,16 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		setLikeEvent(img_detail_favorit_btn, responseMainItem)
 		clickDetailMoreEvent = { detailMore(responseMainItem) }
 
-//		if (responseMainItem.images?.isNotEmpty()!!) imageFrameLoad(responseMainItem.images)
+		if (!responseMainItem.images.isNullOrEmpty1()) imageFrameLoad(responseMainItem.images)
 	}
 
 	private fun imageFrameLoad(images: Array<Image>) {
 		sendDataToShowDetailImageView = { loadDetailImagePage(images) }
-		if (images.count() > 3) {
+		if (images.size > 4) {
 			loadMoreImageFrame(images)
 			return
 		}
-		loadLessThenThreeImageFragme(images)
+		loadNoMoreImageFrame(images)
 	}
 
 	private fun loadDetailImagePage(images: Array<Image>) {
@@ -174,11 +176,12 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 
 	}
 
-	private fun loadLessThenThreeImageFragme(images: Array<Image>) {
-		cl_detail_image3.visibility = View.VISIBLE
+	private fun loadNoMoreImageFrame(images: Array<Image>) {
+		cl_detail_main_image.visibility = View.VISIBLE
 		for (i in 0 until images.count()) {
 			Glide.with(applicationContext)
-				.load(setImageURLSetting(images[i].src))
+				.load(images[i].src)
+				//.load(setImageURLSetting(images[i].src))
 				.into(imageViewList[i])
 			imageViewList[i].visibility = View.VISIBLE
 		}
@@ -186,7 +189,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 	}
 
 	private fun loadMoreImageFrame(images: Array<Image>) {
-		cl_detail_image_more.visibility = View.VISIBLE
+		bt_detail_main_image_more.visibility = View.VISIBLE
 		Glide.with(applicationContext)
 			.load(setImageURLSetting(images[0].src))
 			.into(imageViewList[0])
@@ -238,8 +241,8 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 	}
 
 	private fun detailViewClickEvnet() {
-		cl_detail_image3.setOnClickListener(this)
-		cl_detail_image_more.setOnClickListener(this)
+		cl_detail_main_image.setOnClickListener(this)
+		bt_detail_main_image_more.setOnClickListener(this)
 		img_comment_upload_btn.setOnClickListener(this)
 		img_detail_more.setOnClickListener(this)
 		img_detail_top_back_btn.setOnClickListener(this)
@@ -256,8 +259,8 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 
 	override fun onClick(detailClickableView: View?) {
 		when (detailClickableView!!.id) {
-			R.id.cl_detail_image3 -> sendDataToShowDetailImageView?.invoke()
-			R.id.cl_detail_image_more -> sendDataToShowDetailImageView?.invoke()
+			R.id.cl_detail_main_image -> sendDataToShowDetailImageView?.invoke()
+			R.id.bt_detail_main_image_more -> sendDataToShowDetailImageView?.invoke()
 			R.id.img_detail_more -> clickDetailMoreEvent?.invoke()
 			R.id.img_detail_top_back_btn -> onBackPressed()
 			R.id.img_detail_favorit_btn->likeClickEvent()
