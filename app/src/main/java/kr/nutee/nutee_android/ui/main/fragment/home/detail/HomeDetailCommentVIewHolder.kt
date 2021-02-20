@@ -2,8 +2,6 @@ package kr.nutee.nutee_android.ui.main.fragment.home.detail
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
@@ -11,11 +9,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.main_home_detail_activtiy.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.DateParser
 import kr.nutee.nutee_android.data.TestToken
 import kr.nutee.nutee_android.data.main.RequestReport
 import kr.nutee.nutee_android.data.main.home.CommentBody
+import kr.nutee.nutee_android.data.main.home.Liker
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.extend.dialog.cumstomReportDialog
@@ -30,16 +30,22 @@ class HomeDetailCommentViewHolder(itemView: View) : RecyclerView.ViewHolder(item
 	private val text_comment_updateAt = itemView.findViewById<TextView>(R.id.text_comment_updateAt)
 	private val recyclerView_Reply = itemView.findViewById<RecyclerView>(R.id.rv_comment_reply)
 	private val more_button = itemView.findViewById<ImageView>(R.id.img_comment_more)
+	private val img_detail_favorit_btn=itemView.findViewById<ImageView>(R.id.img_detail_favorit_btn)
+	private val text_detail_favorit_count=itemView.findViewById<TextView>(R.id.text_detail_favorit_count)
 
 	lateinit var homeDetailReplyAdapter:HomeDetailReplyAdapter
+	private var commentId:Int?=0
 
     fun bind(customData: CommentBody, postId: Int?, context: Context) {
+		commentId=customData.id
+
 		if(!customData.reComment.isNullOrEmpty()){
 			Log.d("reComment", "답글 not null")
-			homeDetailReplyAdapter= HomeDetailReplyAdapter(context, customData.reComment,postId, customData.id)
+			homeDetailReplyAdapter= HomeDetailReplyAdapter(context, customData.reComment,postId, commentId)
 			recyclerView_Reply.adapter=homeDetailReplyAdapter
 		}
 
+		setLikeEvent(img_detail_favorit_btn,customData,text_detail_favorit_count)
 		Glide.with(itemView).load(
 			setImageURLSetting(
 				customData.user?.Image?.src
@@ -50,6 +56,9 @@ class HomeDetailCommentViewHolder(itemView: View) : RecyclerView.ViewHolder(item
 		text_comment_updateAt.text = customData.updatedAt?.let { DateParser(it).calculateDiffDate() }
 		more_button.setOnClickListener{
 			moreEvent(customData,postId,context)
+		}
+		img_detail_favorit_btn.setOnClickListener {
+			likeClickEvent(it,postId,commentId,text_detail_favorit_count)
 		}
     }
 
@@ -107,6 +116,54 @@ class HomeDetailCommentViewHolder(itemView: View) : RecyclerView.ViewHolder(item
 							}
 						)}
 				})
+		}
+	}
+
+	private fun setLikeEvent(it: View, responseBody: CommentBody?, countView: TextView) {
+		val boolLike = responseBody?.likers?.any{ liker: Liker ->
+			liker.id == TestToken.testMemberId
+		}
+		Log.d("setLike", "댓글 좋아요 설정$boolLike")
+		if (boolLike != null)
+			it.isActivated = boolLike
+
+		if(responseBody?.likers?.size!=null)
+			countView.text=responseBody.likers.size.toString()
+	}
+
+	private fun likeClickEvent(
+		view: View,
+		postId: Int?,
+		commentId: Int?,
+		countView: TextView
+	) {
+		if (view.isActivated) {//이미 좋아요한 경우
+			RequestToServer.backService.requestDelLikecomment(
+				"Bearer "+TestToken.testToken,
+				postId,
+				commentId
+			).customEnqueue(
+					onSuccess = {
+						view.isActivated = false
+						(countView.text.toString().toInt()-1).toString()
+							.also { countView.text = it }
+					},
+					onError = {
+						Log.d("Network", "댓글 좋아요 취소 에러")
+					})
+		} else {
+			RequestToServer.backService.requestLikecomment(
+				"Bearer "+TestToken.testToken,
+				postId,
+				commentId)
+				.customEnqueue(
+					onSuccess = {
+						view.isActivated = true
+						countView.text = it.body()?.body?.likers?.size.toString()
+					},
+					onError = {
+						Log.d("Network", "댓글 좋아요 설정 에러")
+					})
 		}
 	}
 }

@@ -153,6 +153,22 @@ interface RequestInterface {
 		@Body content: RequestComment
 	):Call<CommentDetail>
 
+	//like comment
+	@POST("/sns/post/{postId}/comment/{id}/like")
+	fun requestLikecomment(
+		@Header("Authorization") Authorization:String,
+		@Path("postId") postId: Int?,
+		@Path("id") id: Int?
+	):Call<CommentDetail>
+
+	//ulike comment
+	@DELETE("/sns/post/{postId}/comment/{id}/unlike")
+	fun requestDelLikecomment(
+		@Header("Authorization") Authorization:String,
+		@Path("postId") postId: Int?,
+		@Path("id") id: Int?
+	):Call<CommentDetail>
+
 	/*User Profile*/
 	// load user
 	@GET("/api/user")

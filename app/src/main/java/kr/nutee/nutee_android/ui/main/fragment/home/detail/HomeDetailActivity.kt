@@ -1,10 +1,12 @@
 package kr.nutee.nutee_android.ui.main.fragment.home.detail
 
+import android.app.Service
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -154,8 +156,16 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		detailContent.text = responseMainItem.content
 		setLikeEvent(img_detail_favorit_btn, responseMainItem)
 		clickDetailMoreEvent = { detailMore(responseMainItem) }
-
 		if (!responseMainItem.images.isNullOrEmpty1()) imageFrameLoad(responseMainItem.images)
+
+		//답글 생성 시
+		if(intent.hasExtra("reply")) {
+			et_detail_comment.requestFocus()
+			//키보드 자동 생성
+			val inputMethodManager: InputMethodManager =
+				getSystemService(Service.INPUT_METHOD_SERVICE) as InputMethodManager
+			inputMethodManager.showSoftInput(et_detail_comment, 0)
+		}
 	}
 
 	private fun imageFrameLoad(images: Array<Image>) {
@@ -265,12 +275,11 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 			R.id.img_detail_top_back_btn -> onBackPressed()
 			R.id.img_detail_favorit_btn->likeClickEvent()
 			R.id.img_comment_upload_btn ->{
-				if(intent.hasExtra("rewriteComment"))
-					rewriteComment(postId,commentId)
-				if(intent.hasExtra("reply"))
-						postReply(postId,commentId)
-				else
-					uploadComment()
+				when {
+					intent.hasExtra("rewriteComment") -> rewriteComment(postId,commentId)
+					intent.hasExtra("reply") -> postReply(postId,commentId)
+					else -> uploadComment()
+				}
 			}
 		}
 	}

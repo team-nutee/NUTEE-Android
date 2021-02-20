@@ -72,11 +72,6 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	private fun init() {
 		addTitle.requestFocus()
 
-		//자동으로 키보드가 올라오는 이벤트 처리
-		val inputMethodManager: InputMethodManager =
-			getSystemService(Service.INPUT_METHOD_SERVICE) as InputMethodManager
-		inputMethodManager.showSoftInput(addTitle, 0)
-
 		text_back_button.setOnClickListener(this)
 		img_upload_image_btn.setOnClickListener(this)
 		text_create_button.setOnClickListener(this)
