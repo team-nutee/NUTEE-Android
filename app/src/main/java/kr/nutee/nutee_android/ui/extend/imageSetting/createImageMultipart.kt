@@ -23,7 +23,8 @@ fun Context.createImageMultipart(fileUri: ArrayList<Uri>): ArrayList<MultipartBo
 			inputStream.copyTo(outputStream)
 			Log.d("UriFilePath", file.path)
 			val requestFile = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-			body.add(MultipartBody.Part.createFormData("image", file.path, requestFile))
+			Log.d("UriFilePath", requestFile.toString())
+			body.add(MultipartBody.Part.createFormData("images", file.path, requestFile))
 		}
 	}
 

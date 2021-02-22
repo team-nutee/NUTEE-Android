@@ -108,7 +108,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		swipe_refresh_detail_view.setColorSchemeColors(Color.WHITE)
 		swipe_refresh_detail_view.setOnRefreshListener {
 			onRestart()
-			swipe_refresh_detail_view.isRefreshing = false
+			//swipe_refresh_detail_view.isRefreshing = false
 		}
 	}
 
@@ -157,6 +157,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		setLikeEvent(img_detail_favorit_btn, responseMainItem)
 		clickDetailMoreEvent = { detailMore(responseMainItem) }
 		if (!responseMainItem.images.isNullOrEmpty1()) imageFrameLoad(responseMainItem.images)
+		else Log.d("Network", "글 상세 뷰 사진 null")
 
 		//답글 생성 시
 		if(intent.hasExtra("reply")) {
@@ -170,17 +171,13 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 
 	private fun imageFrameLoad(images: Array<Image>) {
 		sendDataToShowDetailImageView = { loadDetailImagePage(images) }
-		if (images.size > 4) {
-			loadMoreImageFrame(images)
-			return
-		}
 		loadNoMoreImageFrame(images)
 	}
 
 	private fun loadDetailImagePage(images: Array<Image>) {
 		val detailImageViewIntent = Intent(applicationContext, ShowDetailImageView::class.java)
 		val bundle = Bundle()
-		bundle.putParcelableArrayList("Images", images as ArrayList<Image>)
+		bundle.putParcelableArray("Images", images)
 		detailImageViewIntent.putExtras(bundle)
 		startActivity(detailImageViewIntent)
 
@@ -188,7 +185,16 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 
 	private fun loadNoMoreImageFrame(images: Array<Image>) {
 		cl_detail_main_image.visibility = View.VISIBLE
-		for (i in 0 until images.count()) {
+		var boolImageSize= images.size
+		if(images.size > 4) {
+			bt_detail_main_image_more.apply {
+				visibility = View.VISIBLE
+				text=getString(R.string.detailImageMore, images.size)
+			}
+			boolImageSize = 4
+		}
+
+		(0 until boolImageSize).forEach { i ->
 			Glide.with(applicationContext)
 				.load(images[i].src)
 				//.load(setImageURLSetting(images[i].src))
@@ -196,13 +202,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 			imageViewList[i].visibility = View.VISIBLE
 		}
 
-	}
 
-	private fun loadMoreImageFrame(images: Array<Image>) {
-		bt_detail_main_image_more.visibility = View.VISIBLE
-		Glide.with(applicationContext)
-			.load(setImageURLSetting(images[0].src))
-			.into(imageViewList[0])
 	}
 
 	private fun detailMore(responseBody: Body) {

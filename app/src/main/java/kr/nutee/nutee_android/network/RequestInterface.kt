@@ -2,6 +2,7 @@ package kr.nutee.nutee_android.network
 
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.main.RequestReport
+import kr.nutee.nutee_android.data.main.add.ResponseImage
 import kr.nutee.nutee_android.data.main.add.RequestRewritePost
 import kr.nutee.nutee_android.data.main.add.RequestPost
 import kr.nutee.nutee_android.data.main.home.*
@@ -60,6 +61,13 @@ interface RequestInterface {
 		@Body content: RequestPost
 	): Call<LookUpDetail>
 
+	//post Image
+	@Multipart
+	@POST("/sns/upload")
+	fun requestUploadImage(
+		@Part images: ArrayList<MultipartBody.Part>
+	):Call<ResponseImage>
+
 	//rewrite post
 	@PATCH("/sns/post/{id}")
 	fun requestRewritePost(
@@ -82,9 +90,6 @@ interface RequestInterface {
 		@Path("id") id: Int?
 	): Call<LookUpDetail>
 
-	@Multipart
-	@POST("/api/post/images")
-	fun requestImage(@Part image: ArrayList<MultipartBody.Part>): Call<ArrayList<String>>
 
 	//Like post
 	@POST("/sns/post/{id}/like")

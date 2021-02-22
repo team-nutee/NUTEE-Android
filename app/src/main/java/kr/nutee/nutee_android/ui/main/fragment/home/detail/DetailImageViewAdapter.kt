@@ -17,7 +17,7 @@ import kr.nutee.nutee_android.ui.extend.imageSetting.setImageURLSetting
  *
  */
 
-class DetailImageViewAdapter(private val context: Context, private var detailViewImageList: ArrayList<Image>)
+class DetailImageViewAdapter(private val context: Context, private var detailViewImageList: Array<Image>)
 	:RecyclerView.Adapter<DetailImageViewHolder>(){
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailImageViewHolder {
 		return DetailImageViewHolder(
