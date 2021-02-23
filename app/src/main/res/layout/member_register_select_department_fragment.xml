@@ -46,17 +46,29 @@
                 app:layout_constraintStart_toStartOf="parent"
                 />
 
-            <EditText
-                android:id="@+id/et_register_select_2nd_department"
+            <TextView
+                android:id="@+id/tv_register_select_2nd_department"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="전공을 선택해주세요"
+                android:text="전공을 선택해주세요"
                 android:textSize="14dp"
+                android:textColor="@color/colorBlack"
                 android:textStyle="bold"
+                android:focusable="false"
                 android:textIsSelectable="true"
                 android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="@id/tv_register_select_2nd_department_text"
                 app:layout_constraintTop_toBottomOf="@id/tv_register_select_2nd_department_text"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/nuteeBase"
+                android:layout_marginTop="5dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_register_select_2nd_department"
+                app:layout_constraintStart_toStartOf="@id/tv_register_select_2nd_department"
+                app:layout_constraintEnd_toEndOf="@id/tv_register_select_2nd_department"
                 />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -80,17 +92,29 @@
                 app:layout_constraintStart_toStartOf="parent"
                 />
 
-            <EditText
-                android:id="@+id/et_register_select_1st_department"
+            <TextView
+                android:id="@+id/tv_register_select_1st_department"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="전공을 선택해주세요"
+                android:text="전공을 선택해주세요"
                 android:textSize="14dp"
+                android:textColor="@color/colorBlack"
+                android:focusable="false"
                 android:textStyle="bold"
                 android:textIsSelectable="true"
                 android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="@id/tv_register_select_1st_department_text"
                 app:layout_constraintTop_toBottomOf="@id/tv_register_select_1st_department_text"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/nuteeBase"
+                android:layout_marginTop="5dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_register_select_1st_department"
+                app:layout_constraintStart_toStartOf="@id/tv_register_select_1st_department"
+                app:layout_constraintEnd_toEndOf="@id/tv_register_select_1st_department"
                 />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -108,7 +132,6 @@
 
         <TextView
             android:id="@+id/tv_select_department_next"
-            android:enabled="false"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center"
