@@ -65,6 +65,11 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 		addTitle.setText(title)
 		addCategory.text = category
 
+		//이미지 수정 기능 구현 필요함
+//		if(intent.hasExtra("rewriteImage")){
+//			selectedImage= intent.getParcelableArrayListExtra("rewriteImage")
+//			setImageAndAdpater()
+//		}
 	}
 
 	private fun init() {

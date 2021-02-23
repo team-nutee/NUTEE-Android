@@ -134,18 +134,19 @@
                         android:gravity="center_horizontal"
                         android:lineSpacingExtra="5sp"
                         android:text="0"
+                        android:layout_marginBottom="10dp"
                         android:textColor="#ff0000"
                         android:textSize="15sp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/text_detail_content" />
+                        app:layout_constraintEnd_toEndOf="@+id/text_detail_content"/>
 
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/cl_detail_main_image"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:paddingHorizontal="20dp"
-                        android:paddingTop="10dp"
+                        android:paddingHorizontal="15dp"
+                        android:paddingVertical="20dp"
                         android:visibility="visible"
                         app:layout_constraintDimensionRatio="1:0.6"
                         app:layout_constraintBottom_toTopOf="@+id/text_detail_favorit_count"
@@ -157,29 +158,25 @@
                             android:id="@+id/img_detail_main_image_1"
                             android:layout_width="0dp"
                             android:layout_height="0dp"
-                            android:scaleType="fitCenter"
+                            android:scaleType="centerCrop"
                             android:visibility="visible"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/img_detail_main_image_2"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toTopOf="@id/img_detail_main_image_3"
-                            app:layout_constraintVertical_weight="0.5"
-                            app:layout_constraintHorizontal_weight="0.5"/>
+                            app:layout_constraintBottom_toTopOf="@id/img_detail_main_image_3"/>
 
                         <ImageView
                             android:id="@+id/img_detail_main_image_2"
                             android:layout_width="0dp"
                             android:layout_height="0dp"
                             android:layout_marginStart="2dp"
-                            android:scaleType="fitEnd"
+                            android:scaleType="centerCrop"
                             android:visibility="visible"
                             app:layout_constraintBottom_toTopOf="@+id/img_detail_main_image_3"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/img_detail_main_image_1"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_weight="0.5"
-                            app:layout_constraintHorizontal_weight="0.5"/>
+                            app:layout_constraintTop_toTopOf="parent"/>
 
                         <ImageView
                             android:id="@+id/img_detail_main_image_3"
@@ -191,8 +188,7 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@id/img_detail_main_image_4"
                             app:layout_constraintStart_toStartOf="@+id/img_detail_main_image_1"
-                            app:layout_constraintTop_toBottomOf="@+id/img_detail_main_image_1"
-                            app:layout_constraintVertical_weight="0.5" />
+                            app:layout_constraintTop_toBottomOf="@+id/img_detail_main_image_1" />
 
                         <ImageView
                             android:id="@+id/img_detail_main_image_4"
@@ -205,8 +201,7 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/img_detail_main_image_3"
-                            app:layout_constraintTop_toBottomOf="@+id/img_detail_main_image_2"
-                            app:layout_constraintVertical_weight="0.5" />
+                            app:layout_constraintTop_toBottomOf="@+id/img_detail_main_image_2"/>
 
                         <Button
                             android:id="@+id/bt_detail_main_image_more"
@@ -223,8 +218,7 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/img_detail_main_image_3"
-                            app:layout_constraintTop_toBottomOf="@+id/img_detail_main_image_2"
-                            app:layout_constraintVertical_weight="0.5" />
+                            app:layout_constraintTop_toBottomOf="@+id/img_detail_main_image_2"/>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 

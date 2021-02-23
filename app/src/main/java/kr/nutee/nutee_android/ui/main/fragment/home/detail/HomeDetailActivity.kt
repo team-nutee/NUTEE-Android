@@ -156,7 +156,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		detailContent.text = responseMainItem.content
 		setLikeEvent(img_detail_favorit_btn, responseMainItem)
 		clickDetailMoreEvent = { detailMore(responseMainItem) }
-		if (!responseMainItem.images.isNullOrEmpty1()) imageFrameLoad(responseMainItem.images)
+		if (!responseMainItem.images.isNullOrEmpty1()) imageFrameLoad(responseMainItem.images, responseMainItem.id)
 		else Log.d("Network", "글 상세 뷰 사진 null")
 
 		//답글 생성 시
@@ -169,16 +169,14 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		}
 	}
 
-	private fun imageFrameLoad(images: Array<Image>) {
-		sendDataToShowDetailImageView = { loadDetailImagePage(images) }
+	private fun imageFrameLoad(images: Array<Image>, postId: Int?) {
+		sendDataToShowDetailImageView = { loadDetailImagePage(postId) }
 		loadNoMoreImageFrame(images)
 	}
 
-	private fun loadDetailImagePage(images: Array<Image>) {
+	private fun loadDetailImagePage(postId: Int?) {
 		val detailImageViewIntent = Intent(applicationContext, ShowDetailImageView::class.java)
-		val bundle = Bundle()
-		bundle.putParcelableArray("Images", images)
-		detailImageViewIntent.putExtras(bundle)
+		detailImageViewIntent.putExtra("postId", postId)
 		startActivity(detailImageViewIntent)
 
 	}
@@ -197,7 +195,6 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		(0 until boolImageSize).forEach { i ->
 			Glide.with(applicationContext)
 				.load(images[i].src)
-				//.load(setImageURLSetting(images[i].src))
 				.into(imageViewList[i])
 			imageViewList[i].visibility = View.VISIBLE
 		}
@@ -339,11 +336,18 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		intent.putExtra("content",detailContent.text.toString())
 		intent.putExtra("category",responseBody?.category)
 		intent.putExtra("postId",responseBody?.id)
-		val imageArrayList = arrayListOf<String>()
-		responseBody?.images?.forEach{
-			imageArrayList.add(it.src)
-		}
-		intent.putStringArrayListExtra("image", imageArrayList)
+		//이미지 수정 기능 구현 필요함
+//		if (responseBody?.images?.isNullOrEmpty1() == false){
+//			val imageArrayList = responseBody?.images?.toCollection(ArrayList())
+//			intent.putParcelableArrayListExtra("rewriteImage", imageArrayList)
+//			startActivity(intent)
+//		}
+
+//		val imageArrayList = arrayListOf<String?>()
+//		responseBody?.images?.forEach{
+//			imageArrayList.add(it.src)
+//		}
+//		intent.putParcelableArrayListExtra("rewriteImage", imageArrayList)
 		startActivity(intent)
 	}
 

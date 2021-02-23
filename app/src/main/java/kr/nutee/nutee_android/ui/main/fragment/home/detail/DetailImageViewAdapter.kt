@@ -34,7 +34,7 @@ class DetailImageViewAdapter(private val context: Context, private var detailVie
 	override fun onBindViewHolder(holder: DetailImageViewHolder, position: Int) {
 		//데이터와 뷰를 묶기
 		Glide.with(context)
-			.load(setImageURLSetting(detailViewImageList[position].src))
+			.load(detailViewImageList[position].src)
 			.placeholder(context.glideProgressDrawable())
 			.into(holder.itemImage)
 	}

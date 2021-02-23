@@ -5,11 +5,11 @@ import android.os.Parcelable
 
 
 data class Image(
-    val src: String
+    val src: String?
 ):Parcelable {
     constructor(parcel: Parcel) : this(
-        parcel.readString().toString()
-
+        //parcel.readString().toString()
+        src=parcel.readString()
     ) {
     }
 

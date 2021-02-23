@@ -6,7 +6,10 @@ import android.os.Parcelable
 import androidx.viewpager2.widget.ViewPager2
 import kotlinx.android.synthetic.main.activity_show_detail_image_view.*
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.data.TestToken
 import kr.nutee.nutee_android.data.main.home.Image
+import kr.nutee.nutee_android.network.RequestToServer
+import kr.nutee.nutee_android.ui.extend.customEnqueue
 import java.util.ArrayList
 
 /*
@@ -20,32 +23,15 @@ class ShowDetailImageView : AppCompatActivity() {
 		const val TAG = "ShowDetailImageView"
     }
 
-    //데이터 배열 선언
 	private lateinit var detailViewImageList:Array<Image>
-    private lateinit var detailImageViewAdapter: DetailImageViewAdapter
+    private var postId=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_show_detail_image_view)
 
-        //데이터 배열 준비
-		val bundle = Bundle()
-		detailViewImageList= bundle.getSerializable("Images") as Array<Image>
-
-        //어댑터 인스턴스 생성
-        detailImageViewAdapter=
-			DetailImageViewAdapter(this,
-				detailViewImageList
-			)
-
-        vp_detail_image.apply {
-			//뷰페이저와 어댑터 연결
-            adapter=detailImageViewAdapter
-			//뷰페이저 방향
-            orientation=ViewPager2.ORIENTATION_HORIZONTAL
-            //viewPager와 indicator 연결
-            indicator_dots.setViewPager2(this)
-        }
+		postId=intent.getIntExtra("postId",0)
+		requestImage()
 
 		//'닫기' 버튼 기능
 		tv_top_back_btn.setOnClickListener {
@@ -79,4 +65,21 @@ class ShowDetailImageView : AppCompatActivity() {
 		}
 
     }
+
+	private fun requestImage(){
+		RequestToServer.backService.requestDetail(
+			"Bearer "+ TestToken.testToken,
+			this.postId
+		).customEnqueue(
+			onSuccess = {
+				detailViewImageList=it.body()?.body?.images!!
+				vp_detail_image.apply {
+					adapter=DetailImageViewAdapter(context,detailViewImageList)
+					orientation=ViewPager2.ORIENTATION_HORIZONTAL
+					//viewPager와 indicator 연결
+					indicator_dots.setViewPager2(this)
+				}
+			}
+		)
+	}
 }

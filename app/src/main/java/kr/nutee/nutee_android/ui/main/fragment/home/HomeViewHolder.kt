@@ -111,12 +111,17 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 		intent.putExtra("content",customData.content)
 		intent.putExtra("category",customData.category)
 		intent.putExtra("postId",customData.id)
-		val imageArrayList = arrayListOf<String>()
-		customData.images?.forEach{
-			imageArrayList.add(it.src)
+		if (customData.images?.isNullOrEmpty() == false){
+			val imageArrayList = customData.images.toCollection(ArrayList())
+			intent.putParcelableArrayListExtra("rewriteImage", imageArrayList)
+			itemView.context.startActivity(intent)
 		}
-		intent.putStringArrayListExtra("image", imageArrayList)
-		itemView.context.startActivity(intent)
+//		val imageArrayList = arrayListOf<String>()
+//		customData.images?.forEach{
+//			imageArrayList.add(it.src)
+//		}
+//		intent.putParcelableArrayListExtra("rewriteImage", imageArrayList)
+//		itemView.context.startActivity(intent)
 	}
 
 	fun categoryClickEvent(view:View, customData: Body){
