@@ -7,8 +7,6 @@ import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.member_register_email_auth_fragment.*
 import kotlinx.android.synthetic.main.member_register_password_fragment.*
@@ -26,113 +24,112 @@ import kr.nutee.nutee_android.ui.setting.TermOfUseActivity
 
 class PasswordInputFragment : Fragment(), View.OnClickListener {
 
-	private var password: String? = null
-	private var passwordCheck: String? = null
+    private var password: String? = null
+    private var passwordCheck: String? = null
 
-	private var onRegisterDataSetListener: OnRegisterDataSetListener? = null
-	private val dataValid = DataValid()
+    private var onRegisterDataSetListener: OnRegisterDataSetListener? = null
+    private val dataValid = DataValid()
 
-	private var registerPasswordPreviousEvnetListener: (() -> Unit)? = null
-	private var registerPasswordNextEventListener: (() -> Unit)? = null
+    private var registerPasswordPreviousEvnetListener: (() -> Unit)? = null
+    private var registerPasswordNextEventListener: (() -> Unit)? = null
 
-	fun setRegisterPasswordPreviousEventListener(listener: () -> Unit) {
-		this.registerPasswordPreviousEvnetListener = listener
-	}
+    fun setRegisterPasswordPreviousEventListener(listener: () -> Unit) {
+        this.registerPasswordPreviousEvnetListener = listener
+    }
 
-	fun setReigsterPasswordNextEventListener(listener: () -> Unit) {
-		this.registerPasswordNextEventListener = listener
-	}
+    fun setReigsterPasswordNextEventListener(listener: () -> Unit) {
+        this.registerPasswordNextEventListener = listener
+    }
 
-	override fun onCreateView(
-		inflater: LayoutInflater,
-		container: ViewGroup?,
-		savedInstanceState: Bundle?
-	): View? {
-		return inflater.inflate(
-			R.layout.member_register_password_fragment,
-			container,
-			false
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(
+            R.layout.member_register_password_fragment,
+            container,
+            false
 		)
-	}
+    }
 
-	override fun onAttach(context: Context) {
-		super.onAttach(context)
-		if (context !is OnRegisterDataSetListener)
-			throw RuntimeException(context.toString() + "must implement OnRegisterDataSetListener")
-		onRegisterDataSetListener = context
-	}
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context !is OnRegisterDataSetListener)
+            throw RuntimeException(context.toString() + "must implement OnRegisterDataSetListener")
+        onRegisterDataSetListener = context
+    }
 
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
-		passwordInputButtonEventMapping()
-		passwordInputButtonEnableEvent()
-	}
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        passwordInputButtonEventMapping()
+        passwordInputButtonEnableEvent()
+    }
 
-	private fun passwordInputButtonEventMapping() {
-		tv_check_agree_to_personal_info.setOnClickListener(this)
-		tv_password_previous.setOnClickListener(this)
-		tv_password_next.setOnClickListener(this)
-		cb_agree_to_personal_info.setOnClickListener(this)
-	}
+    private fun passwordInputButtonEventMapping() {
+        tv_check_agree_to_personal_info.setOnClickListener(this)
+        tv_password_previous.setOnClickListener(this)
+        tv_password_next.setOnClickListener(this)
+        cb_agree_to_personal_info.setOnClickListener(this)
+    }
 
-	private fun passwordInputButtonEnableEvent() {
-		passwordTextChangedListener()
-		passwordCheckTextChangedListener()
-	}
+    private fun passwordInputButtonEnableEvent() {
+        passwordTextChangedListener()
+        passwordCheckTextChangedListener()
+    }
 
-	private fun passwordTextChangedListener() {
-		et_register_password.textChangedListener { pw ->
-			passwordInputEvent(pw)
-		}
-	}
+    private fun passwordTextChangedListener() {
+        et_register_password.textChangedListener { pw ->
+            passwordInputEvent(pw)
+        }
+    }
 
-	private fun passwordInputEvent(pw: Editable?) {
-		if (dataValid.isValidPassword(pw.toString())) {
-			password = pw?.toString()
-			tv_register_password_result.text = ""
-			passwordNextButtonEnable()
-			return
-		}
-		password = null
-		requireContext().showTextShake(
-			tv_register_password_result,
-			"8자 이상의 !@#\$%^&*_+- 가 포함된\n 영어 대문자, 소문자, 특수문자, 숫자가 포함된 비밀번호를 입력해주세요",
-			R.color.colorRed
+    private fun passwordInputEvent(pw: Editable?) {
+        if (dataValid.isValidPassword(pw.toString())) {
+            password = pw?.toString()
+            tv_register_password_result.text = ""
+            passwordNextButtonEnable()
+            return
+        }
+        password = null
+        requireContext().showTextShake(
+            tv_register_password_result,
+            "8자 이상의 !@#\$%^&*_+- 가 포함된\n 영어 대문자, 소문자, 특수문자, 숫자가 포함된 비밀번호를 입력해주세요",
+            R.color.colorRed
 		)
-	}
+    }
 
-	private fun passwordCheckTextChangedListener() {
-		et_register_password_check.textChangedListener {
-			passwordCheckInputEvent(it)
-		}
-	}
+    private fun passwordCheckTextChangedListener() {
+        et_register_password_check.textChangedListener {
+            passwordCheckInputEvent(it)
+        }
+    }
 
-	private fun passwordCheckInputEvent(pw: Editable?): Boolean {
-		if (pw?.toString() == password) {
-			passwordCheck = pw.toString()
-			tv_register_password_check_result.text = ""
-			passwordNextButtonEnable()
-			return true
-		}
-		passwordCheck = null
-		requireContext().showTextShake(
-			tv_register_password_check_result,
-			"비밀번호가 일치하지 않습니다.",
-			R.color.colorRed
+    private fun passwordCheckInputEvent(pw: Editable?): Boolean {
+        if (pw?.toString() == password) {
+            passwordCheck = pw.toString()
+            tv_register_password_check_result.text = ""
+            passwordNextButtonEnable()
+            return true
+        }
+        passwordCheck = null
+        requireContext().showTextShake(
+            tv_register_password_check_result,
+            "비밀번호가 일치하지 않습니다.",
+            R.color.colorRed
 		)
-		return false
-	}
+        return false
+    }
 
-	private fun passwordNextButtonEnable() {
-		tv_password_next.isEnabled =
-					cb_agree_to_personal_info.isChecked &&
-					et_register_password.text.toString()==password&&
-					et_register_password_check.text.toString()==passwordCheck
+    private fun passwordNextButtonEnable() {
+        tv_password_next.isEnabled =
+            cb_agree_to_personal_info.isChecked &&
+            et_register_password.text.toString() == password &&
+            et_register_password_check.text.toString() == passwordCheck
+    }
 
-	}
-
-	override fun onClick(passwordInputFragmentButton: View?) {
-		when (passwordInputFragmentButton!!.id) {
+    override fun onClick(passwordInputFragmentButton: View?) {
+        when (passwordInputFragmentButton!!.id) {
 			R.id.tv_check_agree_to_personal_info -> gotoPersonalInfoEvent()
 			R.id.tv_password_previous -> registerPasswordPreviousEvnetListener?.invoke()
 			R.id.tv_password_next -> {
@@ -142,17 +139,16 @@ class PasswordInputFragment : Fragment(), View.OnClickListener {
 			R.id.cb_agree_to_personal_info -> {
 				passwordNextButtonEnable()
 			}
-		}
-	}
+        }
+    }
 
-	private fun gotoPersonalInfoEvent() {
-		val gotoPersonalInfoEvent = Intent(requireContext(), TermOfUseActivity::class.java)
-		startActivity(gotoPersonalInfoEvent)
-	}
+    private fun gotoPersonalInfoEvent() {
+        val gotoPersonalInfoEvent = Intent(requireContext(), TermOfUseActivity::class.java)
+        startActivity(gotoPersonalInfoEvent)
+    }
 
-
-	override fun onDetach() {
-		super.onDetach()
-		onRegisterDataSetListener = null
-	}
+    override fun onDetach() {
+        super.onDetach()
+        onRegisterDataSetListener = null
+    }
 }

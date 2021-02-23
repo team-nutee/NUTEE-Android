@@ -190,19 +190,19 @@ interface RequestInterface {
 
 	/*Register*/
 	//Email OTP
-	@POST("/api/user/otpsend")
+	@POST("/auth/otp")
 	fun requestEmailOTP(@Body body: RequestEmailOTP): Call<Unit>
 
 	//check OTP
-	@POST("/api/user/otpcheck")
+	@POST("/auth/check/otp")
 	fun requestOTPCheck(@Body body: RequestOTPCheck): Call<Unit>
 
 	// id Check
-	@POST("/api/user/idcheck")
+	@POST("/auth/check/user-id")
 	fun requestIdCheck(@Body body: RequestIdCheck): Call<Unit>
 
 	//nick check
-	@POST("/api/user/nicknamecheck")
+	@POST("/auth/check/nickname")
 	fun requestNickCheck(@Body body: RequestNickCheck): Call<Unit>
 
 	//Register
