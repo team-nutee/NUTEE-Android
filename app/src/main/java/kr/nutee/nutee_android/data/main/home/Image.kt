@@ -8,7 +8,7 @@ data class Image(
     val src: String
 ):Parcelable {
     constructor(parcel: Parcel) : this(
-        parcel.readString()!!
+        parcel.readString().toString()
 
     ) {
     }

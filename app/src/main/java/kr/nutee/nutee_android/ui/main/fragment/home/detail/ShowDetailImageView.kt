@@ -2,6 +2,7 @@ package kr.nutee.nutee_android.ui.main.fragment.home.detail
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Parcelable
 import androidx.viewpager2.widget.ViewPager2
 import kotlinx.android.synthetic.main.activity_show_detail_image_view.*
 import kr.nutee.nutee_android.R
@@ -20,7 +21,7 @@ class ShowDetailImageView : AppCompatActivity() {
     }
 
     //데이터 배열 선언
-    private var detailViewImageList=ArrayList<Image>()
+	private lateinit var detailViewImageList:Array<Image>
     private lateinit var detailImageViewAdapter: DetailImageViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +29,8 @@ class ShowDetailImageView : AppCompatActivity() {
         setContentView(R.layout.activity_show_detail_image_view)
 
         //데이터 배열 준비
-		detailViewImageList= intent.getParcelableArrayListExtra("Images") !!
+		val bundle = Bundle()
+		detailViewImageList= bundle.getSerializable("Images") as Array<Image>
 
         //어댑터 인스턴스 생성
         detailImageViewAdapter=

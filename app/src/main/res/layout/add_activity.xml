@@ -80,7 +80,7 @@
             android:backgroundTint="@color/nuteeBase"
             android:gravity="center"
             android:padding="5dp"
-            android:text="IT2"
+            android:text="카테고리"
             android:textColor="@color/colorWhite"
             android:textSize="12dp"
             android:textStyle="bold"

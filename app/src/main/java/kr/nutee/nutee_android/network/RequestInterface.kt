@@ -2,10 +2,12 @@ package kr.nutee.nutee_android.network
 
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.main.RequestReport
+import kr.nutee.nutee_android.data.main.add.ResponseImage
 import kr.nutee.nutee_android.data.main.add.RequestRewritePost
 import kr.nutee.nutee_android.data.main.add.RequestPost
 import kr.nutee.nutee_android.data.main.home.*
 import kr.nutee.nutee_android.data.main.home.detail.RequestComment
+import kr.nutee.nutee_android.data.main.home.detail.CommentDetail
 import kr.nutee.nutee_android.data.main.profile.ResponseProfile
 import kr.nutee.nutee_android.data.main.setting.ResponseUploadProfile
 import kr.nutee.nutee_android.data.member.login.RequestLogin
@@ -59,6 +61,13 @@ interface RequestInterface {
 		@Body content: RequestPost
 	): Call<LookUpDetail>
 
+	//post Image
+	@Multipart
+	@POST("/sns/upload")
+	fun requestUploadImage(
+		@Part images: ArrayList<MultipartBody.Part>
+	):Call<ResponseImage>
+
 	//rewrite post
 	@PATCH("/sns/post/{id}")
 	fun requestRewritePost(
@@ -81,35 +90,6 @@ interface RequestInterface {
 		@Path("id") id: Int?
 	): Call<LookUpDetail>
 
-	/*comment*/
-	//LookUp comments list
-	@GET("/sns/post/{id}/comments")
-	fun requestCommentList(
-		@Header("Authorization") Authorization:String,
-		@Path("id") id:Int?,
-		@Query("lastId") lastId: Int,
-		@Query("limit") limit: Int
-	):Call<Comment?>
-
-	//post comment
-	@POST("/sns/post/{id}/comment")
-	fun requestComment(
-		@Header("Authorization") Authorization:String,
-		@Path("id") id: Int?,
-		@Body content: RequestComment
-	): Call<Comment>
-
-	//comment Del
-	@DELETE("/sns/post/{postId}/comment/{id}")
-	fun requestDelComment(
-		@Header("Authorization") Authorization:String,
-		@Path("postId") postId: Int?,
-		@Path("id") id: Int?
-	): Call<Comment?>
-
-	@Multipart
-	@POST("/api/post/images")
-	fun requestImage(@Part image: ArrayList<MultipartBody.Part>): Call<ArrayList<String>>
 
 	//Like post
 	@POST("/sns/post/{id}/like")
@@ -119,11 +99,80 @@ interface RequestInterface {
 	): Call<LookUpDetail>
 
 	//UnLike post
-	@DELETE("/sns/post/{id}/like")
+	@DELETE("/sns/post/{id}/unlike")
 	fun requestDelLike(
 		@Header("Authorization") Authorization:String,
 		@Path("id") id: Int?
 	): Call<LookUpDetail>
+
+	/*comment*/
+	//LookUp comments list
+	@GET("/sns/post/{id}/comments")
+	fun requestCommentList(
+		@Header("Authorization") Authorization:String,
+		@Path("id") id:Int?,
+		@Query("lastId") lastId: Int,
+		@Query("limit") limit: Int
+	):Call<CommentList?>
+
+	//post comment
+	@POST("/sns/post/{id}/comment")
+	fun requestComment(
+		@Header("Authorization") Authorization:String,
+		@Path("id") id: Int?,
+		@Body content: RequestComment
+	): Call<CommentList>
+
+	//Del comment
+	@DELETE("/sns/post/{postId}/comment/{id}")
+	fun requestDelComment(
+		@Header("Authorization") Authorization:String,
+		@Path("postId") postId: Int?,
+		@Path("id") id: Int?
+	): Call<CommentList?>
+
+	//rewrite comment
+	@PATCH("/sns/post/{postId}/comment/{id}")
+	fun requestRewriteComment(
+		@Header("Authorization") Authorization:String,
+		@Path("postId") postId: Int?,
+		@Path("id") id: Int?,
+		@Body content: RequestComment
+	): Call<CommentDetail?>
+
+	//report comment
+	@POST("/sns/post/{postId}/comment/{id}/report")
+	fun requestReportComment(
+		@Header("Authorization") Authorization:String,
+		@Path("postId") postId: Int?,
+		@Path("id") id: Int?,
+		@Body content: RequestReport
+	): Call<CommentDetail?>
+
+	//post reply
+	@POST("/sns/post/{postId}/comment/{id}")
+	fun requestReply(
+		@Header("Authorization") Authorization:String,
+		@Path("postId") postId: Int?,
+		@Path("id") id: Int?,
+		@Body content: RequestComment
+	):Call<CommentDetail>
+
+	//like comment
+	@POST("/sns/post/{postId}/comment/{id}/like")
+	fun requestLikecomment(
+		@Header("Authorization") Authorization:String,
+		@Path("postId") postId: Int?,
+		@Path("id") id: Int?
+	):Call<CommentDetail>
+
+	//ulike comment
+	@DELETE("/sns/post/{postId}/comment/{id}/unlike")
+	fun requestDelLikecomment(
+		@Header("Authorization") Authorization:String,
+		@Path("postId") postId: Int?,
+		@Path("id") id: Int?
+	):Call<CommentDetail>
 
 	/*User Profile*/
 	// load user
@@ -142,19 +191,19 @@ interface RequestInterface {
 
 	/*Register*/
 	//Email OTP
-	@POST("/api/user/otpsend")
+	@POST("/auth/otp")
 	fun requestEmailOTP(@Body body: RequestEmailOTP): Call<Unit>
 
 	//check OTP
-	@POST("/api/user/otpcheck")
+	@POST("/auth/check/otp")
 	fun requestOTPCheck(@Body body: RequestOTPCheck): Call<Unit>
 
 	// id Check
-	@POST("/api/user/idcheck")
+	@POST("/auth/check/user-id")
 	fun requestIdCheck(@Body body: RequestIdCheck): Call<Unit>
 
 	//nick check
-	@POST("/api/user/nicknamecheck")
+	@POST("/auth/check/nickname")
 	fun requestNickCheck(@Body body: RequestNickCheck): Call<Unit>
 
 	//Register

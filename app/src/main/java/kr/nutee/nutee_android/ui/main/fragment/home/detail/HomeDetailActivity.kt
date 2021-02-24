@@ -1,10 +1,12 @@
 package kr.nutee.nutee_android.ui.main.fragment.home.detail
 
+import android.app.Service
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -32,16 +34,16 @@ import kr.nutee.nutee_android.ui.extend.textChangedListener
 import kr.nutee.nutee_android.ui.main.fragment.add.AddActivity
 import kr.nutee.nutee_android.ui.main.fragment.search.SearchResultsView
 import kotlin.collections.ArrayList
+import kotlin.collections.isNullOrEmpty as isNullOrEmpty1
 
 
 /*
 * created by jinsu47555
 * DESC: 디테일 페이지를 표시하는 엑티비티
-* //FIXME 증말 급하게 만들어서 나중에 리펙함 하자...하.. 이게 모니...
 *
 * created by 88yhtserofG
 * DESC: 해시태그 기능. Hashtag Helper 라이브러리 사용
-*2.0버전으로 수정
+*       디테일 페이지 2.0버전으로 수정 및 구현
 * */
 
 class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
@@ -49,6 +51,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 
 	val requestToServer = RequestToServer
 	private var postId: Int? = 0
+	private var commentId: Int? = 0
 
 	private var sendDataToShowDetailImageView: (() -> Unit)? = null
 	private var clickDetailMoreEvent: (() -> Unit)? = null
@@ -77,14 +80,18 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 
 	private fun init() {
 		postId = intent?.getIntExtra("Detail_id",0)
+		commentId=intent?.getIntExtra("comment_id",0)
 		imageViewList = listOf<ImageView>(
-			img_detail_image3_1,
-			img_detail_image3_2,
-			img_detail_image3_3
+			img_detail_main_image_1,
+			img_detail_main_image_2,
+			img_detail_main_image_3,
+			img_detail_main_image_4
 		)
 		detailRefreshEvnet()
 		loadDetailPage()
 		loadCommentList()
+		if(intent.hasExtra("rewriteComment"))
+			bindRewriteComment()
 		detailViewClickEvnet()
 		detailViewButtonEnableEvent()
 		//해시태그 기능
@@ -101,16 +108,16 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		swipe_refresh_detail_view.setColorSchemeColors(Color.WHITE)
 		swipe_refresh_detail_view.setOnRefreshListener {
 			onRestart()
-			swipe_refresh_detail_view.isRefreshing = false
+			//swipe_refresh_detail_view.isRefreshing = false
 		}
 	}
 
 	private fun loadDetailPage() {
-		Log.d("ididid", "포스트아이디 확인 $postId")
+		Log.d("ididid", "포스트아이디 확인 ${this.postId}")
 		RequestToServer.backService
 			.requestDetail(
 				"Bearer "+ TestToken.testToken,
-				postId!!
+				this.postId!!
 			)
 			.customEnqueue(
 				onSuccess = {
@@ -149,55 +156,64 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		detailContent.text = responseMainItem.content
 		setLikeEvent(img_detail_favorit_btn, responseMainItem)
 		clickDetailMoreEvent = { detailMore(responseMainItem) }
+		if (!responseMainItem.images.isNullOrEmpty1()) imageFrameLoad(responseMainItem.images)
+		else Log.d("Network", "글 상세 뷰 사진 null")
 
-//		if (responseMainItem.images?.isNotEmpty()!!) imageFrameLoad(responseMainItem.images)
+		//답글 생성 시
+		if(intent.hasExtra("reply")) {
+			et_detail_comment.requestFocus()
+			//키보드 자동 생성
+			val inputMethodManager: InputMethodManager =
+				getSystemService(Service.INPUT_METHOD_SERVICE) as InputMethodManager
+			inputMethodManager.showSoftInput(et_detail_comment, 0)
+		}
 	}
 
 	private fun imageFrameLoad(images: Array<Image>) {
 		sendDataToShowDetailImageView = { loadDetailImagePage(images) }
-		if (images.count() > 3) {
-			loadMoreImageFrame(images)
-			return
-		}
-		loadLessThenThreeImageFragme(images)
+		loadNoMoreImageFrame(images)
 	}
 
 	private fun loadDetailImagePage(images: Array<Image>) {
 		val detailImageViewIntent = Intent(applicationContext, ShowDetailImageView::class.java)
 		val bundle = Bundle()
-		bundle.putParcelableArrayList("Images", images as ArrayList<Image>)
+		bundle.putParcelableArray("Images", images)
 		detailImageViewIntent.putExtras(bundle)
 		startActivity(detailImageViewIntent)
 
 	}
 
-	private fun loadLessThenThreeImageFragme(images: Array<Image>) {
-		cl_detail_image3.visibility = View.VISIBLE
-		for (i in 0 until images.count()) {
+	private fun loadNoMoreImageFrame(images: Array<Image>) {
+		cl_detail_main_image.visibility = View.VISIBLE
+		var boolImageSize= images.size
+		if(images.size > 4) {
+			bt_detail_main_image_more.apply {
+				visibility = View.VISIBLE
+				text=getString(R.string.detailImageMore, images.size)
+			}
+			boolImageSize = 4
+		}
+
+		(0 until boolImageSize).forEach { i ->
 			Glide.with(applicationContext)
-				.load(setImageURLSetting(images[i].src))
+				.load(images[i].src)
+				//.load(setImageURLSetting(images[i].src))
 				.into(imageViewList[i])
 			imageViewList[i].visibility = View.VISIBLE
 		}
 
-	}
 
-	private fun loadMoreImageFrame(images: Array<Image>) {
-		cl_detail_image_more.visibility = View.VISIBLE
-		Glide.with(applicationContext)
-			.load(setImageURLSetting(images[0].src))
-			.into(imageViewList[0])
 	}
 
 	private fun detailMore(responseBody: Body) {
 		if (responseBody.user?.id.toString() == TestToken.testMemberId.toString()) {
-			customSelectDialog(View.GONE, View.VISIBLE, View.VISIBLE,{},
+			customSelectDialog(View.GONE,View.GONE, View.VISIBLE, View.VISIBLE,{},{},
 				{
-					Log.d("글수정 버튼", "누름")
+					Log.d("select button", "글 수정")
 					rewritePost(responseBody)
 				},
 				{
-					Log.d("글삭제 버튼", "누름")
+					Log.d("select button", "글 삭제")
 					RequestToServer.backService.requestDelete(
 						"Bearer "+TestToken.testToken,
 						//App.prefs.local_login_token,
@@ -211,10 +227,10 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 						)
 				})
 		} else {
-			customSelectDialog(View.VISIBLE, View.GONE, View.GONE,
+			customSelectDialog(View.VISIBLE, View.GONE,View.GONE, View.GONE,
 				{
-					Log.d("글신고", "누름")
-					cumstomReportDialog {
+					Log.d("select button", "글 신고")
+					cumstomReportDialog("이 게시글을 신고하시겠습니까?") {
 						RequestToServer.backService.requestReport(
 							RequestReport(it), responseBody.id
 						)
@@ -235,8 +251,8 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 	}
 
 	private fun detailViewClickEvnet() {
-		cl_detail_image3.setOnClickListener(this)
-		cl_detail_image_more.setOnClickListener(this)
+		cl_detail_main_image.setOnClickListener(this)
+		bt_detail_main_image_more.setOnClickListener(this)
 		img_comment_upload_btn.setOnClickListener(this)
 		img_detail_more.setOnClickListener(this)
 		img_detail_top_back_btn.setOnClickListener(this)
@@ -253,12 +269,18 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 
 	override fun onClick(detailClickableView: View?) {
 		when (detailClickableView!!.id) {
-			R.id.cl_detail_image3 -> sendDataToShowDetailImageView?.invoke()
-			R.id.cl_detail_image_more -> sendDataToShowDetailImageView?.invoke()
+			R.id.cl_detail_main_image -> sendDataToShowDetailImageView?.invoke()
+			R.id.bt_detail_main_image_more -> sendDataToShowDetailImageView?.invoke()
 			R.id.img_detail_more -> clickDetailMoreEvent?.invoke()
 			R.id.img_detail_top_back_btn -> onBackPressed()
-			R.id.img_comment_upload_btn -> uploadComment()
 			R.id.img_detail_favorit_btn->likeClickEvent()
+			R.id.img_comment_upload_btn ->{
+				when {
+					intent.hasExtra("rewriteComment") -> rewriteComment(postId,commentId)
+					intent.hasExtra("reply") -> postReply(postId,commentId)
+					else -> uploadComment()
+				}
+			}
 		}
 	}
 
@@ -335,9 +357,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 			onSuccess = {
 				if(it.body()?.body !=null) {
 					homeDetailCommentAdpater = HomeDetailCommentAdpater(this, it.body()!!.body!!,postId)
-					rv_home_detail_comment.apply{
-						adapter = homeDetailCommentAdpater
-					}
+					rv_home_detail_comment.adapter = homeDetailCommentAdpater
 				}
 			},
 			onError = {
@@ -355,12 +375,57 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 			onSuccess = {
 				Log.d("Network", "댓글 생성 성공")
 			},
-			onError = {
-				Toast.makeText(this, "댓글 생성 네트워크 오류", Toast.LENGTH_SHORT).show()
-			}
 		)
 		//FIXME 리프레쉬하는걸로 바꿔보면 어떨까
 		finish()
 		startActivity(intent)
+	}
+
+	private fun bindRewriteComment() {
+		val comment= intent?.getStringExtra("rewriteComment").toString()
+		et_detail_comment.apply {
+			setText(comment)
+			requestFocus()
+		}
+	}
+
+	private fun rewriteComment(postId: Int?, commentId: Int?) {
+		RequestToServer.backService.requestRewriteComment(
+			"Bearer "+ TestToken.testToken,
+			postId,
+			commentId,
+			RequestComment(et_detail_comment.text.toString())
+		).customEnqueue(
+			onSuccess = {
+				Log.d("Network", "댓글 수정 성공")
+				finish()
+				val intent=Intent(this,HomeDetailActivity::class.java)
+				intent.putExtra("Detail_id",postId)
+				startActivity(intent)
+			},
+			onError = {
+				Toast.makeText(this, "댓글 수정 네트워크 오류", Toast.LENGTH_SHORT).show()
+			}
+		)
+	}
+
+	private fun postReply(postId: Int?, commentId: Int?) {
+		RequestToServer.backService.requestReply(
+			"Bearer "+ TestToken.testToken,
+			postId,
+			commentId,
+			RequestComment(et_detail_comment.text.toString())
+		).customEnqueue(
+			onSuccess = {
+				Log.d("Network", "답글 생성 성공")
+				finish()
+				val intent=Intent(this,HomeDetailActivity::class.java)
+				intent.putExtra("Detail_id",postId)
+				startActivity(intent)
+			},
+			onError = {
+				Toast.makeText(this, "답글 생성 네트워크 오류", Toast.LENGTH_SHORT).show()
+			}
+		)
 	}
 }

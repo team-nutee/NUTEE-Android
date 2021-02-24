@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingStart="15dp"
-    android:paddingEnd="20dp">
+    android:paddingStart="15dp">
+
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/img_comment_profile"
@@ -44,25 +43,86 @@
         app:layout_constraintTop_toBottomOf="@+id/text_commnet_nick"
         tools:text="대대대댇글" />
 
-    <TextView
-        android:id="@+id/text_comment_updateAt"
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linearLayout_main_home_detail_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:lineSpacingExtra="2sp"
-        android:textColor="#707070"
-        android:textSize="11dp"
-        app:layout_constraintBottom_toBottomOf="@+id/text_commnet_nick"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/text_commnet_nick"
-        tools:text="date" />
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_comment_content">
+
+        <TextView
+            android:id="@+id/text_comment_updateAt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:lineSpacingExtra="2sp"
+            android:textColor="#707070"
+            android:textSize="11dp"
+            app:layout_constraintStart_toStartOf="@+id/img_comment_profile"
+            app:layout_constraintTop_toBottomOf="@+id/img_comment_profile"
+            tools:text="date" />
+
+
+        <ImageView
+            android:id="@+id/img_detail_favorit_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="15dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="5dp"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:src="@drawable/main_favorite_selector"
+            app:layout_constraintBottom_toBottomOf="@+id/text_detail_favorit_count"
+            app:layout_constraintEnd_toStartOf="@+id/text_detail_favorit_count"
+            app:layout_constraintHorizontal_bias="0.615"
+            app:layout_constraintStart_toEndOf="@+id/text_comment_updateAt"
+            app:layout_constraintTop_toTopOf="@+id/text_detail_favorit_count"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/text_detail_item_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingEnd="5dp"
+            android:text="좋아요"
+            android:textSize="11dp"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/text_detail_favorit_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:lineSpacingExtra="5sp"
+            android:layout_gravity="center"
+            android:text="0"
+            android:textColor="#ff0000"
+            android:textSize="11sp"
+            tools:layout_editor_absoluteX="55dp"
+            tools:layout_editor_absoluteY="65dp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <ImageView
         android:id="@+id/img_comment_more"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="20dp"
         android:src="@drawable/main_more_horiz_img"
-        app:layout_constraintEnd_toEndOf="@+id/text_comment_updateAt"
-        app:layout_constraintTop_toBottomOf="@+id/text_comment_updateAt" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/text_comment_content" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_comment_reply"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="10dp"
+        android:overScrollMode="never"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout_main_home_detail_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

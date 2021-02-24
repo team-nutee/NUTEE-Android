@@ -149,4 +149,12 @@ NUTEE(이하 누티) 서비스 이용약관은 S&amp;N(이하 소울)이 서비�
     <string name="categoryText">카테고리</string>
     <string name="departmentText">전공</string>
     <string name="passwordText">비밀번호</string>
+    <string name="mainDetailTest">
+        성공회대의 교육이념은 ‘열림·나눔·섬김’ 입니다. 열림이란 나와 나 자신이 속한 단체가
+가족주의의 이기심을 버리고 이웃과 사회와 소통함으로써 평화를 이루는 것입니다.
+나눔이란 내가 소유하고 있는 물질만이 아니라 재능까지 포함하여 모든 것을 이웃과
+공유하는 봉사의 실천을 통해 공의로운사회를 형성하는 것입니다. 섬김이란 하느님을
+섬기고 내 이웃을 사랑으로 섬김으로써 서로 존중하는 사회를 이룩하는 것입니다.
+    </string>
+    <string name="detailImageMore">+ %d</string>
 </resources>

@@ -22,7 +22,7 @@
         android:id="@+id/img_btn_image_del"
         android:layout_width="15dp"
         android:layout_height="15dp"
-        android:background="@drawable/cancel_button"
+        android:background="@drawable/ic_baseline_cancel_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

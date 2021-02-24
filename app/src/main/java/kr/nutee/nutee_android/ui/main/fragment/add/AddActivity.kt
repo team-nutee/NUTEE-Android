@@ -1,14 +1,12 @@
 package kr.nutee.nutee_android.ui.main.fragment.add
 
 import android.app.Activity
-import android.app.Service
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -72,11 +70,6 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	private fun init() {
 		addTitle.requestFocus()
 
-		//자동으로 키보드가 올라오는 이벤트 처리
-		val inputMethodManager: InputMethodManager =
-			getSystemService(Service.INPUT_METHOD_SERVICE) as InputMethodManager
-		inputMethodManager.showSoftInput(addTitle, 0)
-
 		text_back_button.setOnClickListener(this)
 		img_upload_image_btn.setOnClickListener(this)
 		text_create_button.setOnClickListener(this)
@@ -126,7 +119,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 		val postId=intent.getIntExtra("postId",0)
 
 		requestToServer.backService.requestRewritePost(
-			"Bearer "+ TestToken.testToken ,
+			"Bearer "+ TestToken.testToken,
 			//App.prefs.local_login_token,
 			RequestRewritePost(
 				addTitle.text.toString(),
@@ -144,26 +137,38 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	}
 
 	private fun uploadHasImage() {
-		requestToServer.backService.requestImage(createImageMultipart(selectedImage))
+		Log.d("Network", "${createImageMultipart(selectedImage).isNullOrEmpty()}")
+		requestToServer.backService.requestUploadImage(createImageMultipart(selectedImage))
 			.customEnqueue(
 				onSuccess = {
-					Log.d("imageUplod", "업로드 완료>${it.toString()}")
+					Log.d("Network", "사진준비 완료")
+					Log.d("Network", it.body()?.body?.size.toString())
 					requestToServer.backService.requestPost(
-						App.prefs.local_login_token,
+						"Bearer "+ TestToken.testToken,
 						RequestPost(
 							addTitle.text.toString(),
 							addContent.text.toString(),
-							it.body(),
-							addCategory.toString()
+							it.body()?.body,
+							"IT2"
+							//addCategory.toString()
 						))
 						.customEnqueue(
 							onSuccess = {
+								Log.d("Network", "사진 포스트 업로드 완료")
+								Log.d("Network", it.body()?.body?.images?.size.toString())
+								loadingDialog.dismissDialog()
 								gotoMain(it.body()?.body?.id!!)
 							},
-							onError = {}
+							onError = {
+								Log.d("Network", "사진 포스트 업로드 실패")
+								loadingDialog.dismissDialog()
+								Toast.makeText(this, "네트워크 오류로 사진 업로드를 실패했습니다.",Toast.LENGTH_SHORT).show()
+							}
 						)
 				},
-				onError = {}
+				onError = {
+					Log.d("Network", "사진 준비 실패")
+				}
 			)
 	}
 
@@ -175,7 +180,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 					title = addTitle.text.toString(),
 					content = addContent.text.toString(),
 					image = null,
-					category = "IT2"
+					category = "IT"
 					//viewCategory.toString()
 				))
 			.customEnqueue(
