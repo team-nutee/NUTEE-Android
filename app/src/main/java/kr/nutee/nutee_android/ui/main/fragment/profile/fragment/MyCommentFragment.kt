@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.main_fragment_profile_written_comment.*
 import kr.nutee.nutee_android.R
 
-class WrittenCommentFragment: Fragment() {
+class MyCommentFragment: Fragment() {
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?,
 		savedInstanceState: Bundle?

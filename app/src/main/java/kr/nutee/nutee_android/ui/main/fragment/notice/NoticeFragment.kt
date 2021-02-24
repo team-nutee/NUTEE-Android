@@ -5,8 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.android.synthetic.main.main_fragment_notice.*
 
 import kr.nutee.nutee_android.R
 
@@ -18,6 +19,8 @@ import kr.nutee.nutee_android.R
 class NoticeFragment : Fragment() {
 
 	private val tabTextList = arrayListOf("학사공지", "수업공지", "학점교류", "장학공지", "일반공지", "행사공지")
+	private lateinit var noticeTabLayout: TabLayout
+	private lateinit var noticeViewPager: ViewPager2
 
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?,
@@ -30,11 +33,14 @@ class NoticeFragment : Fragment() {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
+		noticeTabLayout = view.findViewById(R.id.tab_notice)
+		noticeViewPager = view.findViewById(R.id.vp_notice)
+
 		// viewpager와 adapter 연결
-		vp_notice.adapter = NoticePagerAdapter(this)
+		noticeViewPager.adapter = NoticePagerAdapter(this)
 
 		// viewpager와 tablayout 연결
-		TabLayoutMediator(tab_notice, vp_notice) { tab, position ->
+		TabLayoutMediator(noticeTabLayout, noticeViewPager) { tab, position ->
 			tab.text = tabTextList[position]
 		}.attach()
 

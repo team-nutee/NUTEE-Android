@@ -127,11 +127,12 @@ interface RequestInterface {
 
 	/*User Profile*/
 	// load user
-	@GET("/api/user")
-	fun requestUserData(@Header("Cookie") cookie: String): Call<ResponseProfile>
+	@GET("/auth/user/me")
+	fun requestUserData(@Header("Authorization") Authorization:String): Call<ResponseProfile>
+	//@Header("Cookie") token: String
 
 	//load user posts
-	@GET("/api/user/{id}/posts")
+	@GET("/sns/user/{id}/posts")
 	fun requestUserPosts(@Path("id") id: Int): Call<ResponseMain>
 
 	/*Login*/
@@ -227,5 +228,25 @@ interface RequestInterface {
 		@Path("id") id: Int
 	): Call<ResponseProfile>
 
+	@GET("/sns/user/me/posts")
+	fun requestMyPosts(
+		@Header("Authorization") Authorization:String,
+		@Query("lastId") lastId: Int,
+		@Query("limit") limit: Int
+	):Call<ResponseMain>
+
+	@GET("/sns/user/me/comment/posts")
+	fun requestMyCommentPosts(
+		@Header("Authorization") Authorization:String,
+		@Query("lastId") lastId: Int,
+		@Query("limit") limit: Int
+	):Call<ResponseMain>
+
+	@GET("/sns/user/me/like/posts")
+	fun requestMyLikePosts(
+		@Header("Authorization") Authorization:String,
+		@Query("lastId") lastId: Int,
+		@Query("limit") limit: Int
+	):Call<ResponseMain>
 
 }
