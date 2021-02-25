@@ -17,7 +17,7 @@ fun Context.createImageMultipart(fileUri: ArrayList<Uri>): ArrayList<MultipartBo
 				= contentResolver.openFileDescriptor(uri, "r", null)
 
 		parcelFileDescriptor?.let {
-			val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
+			val inputStream = FileInputStream(it.fileDescriptor)
 			val file = File(cacheDir, contentResolver.getFileName(uri))
 			val outputStream = FileOutputStream(file)
 			inputStream.copyTo(outputStream)

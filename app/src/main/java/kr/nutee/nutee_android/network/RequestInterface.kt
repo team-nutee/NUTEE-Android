@@ -61,8 +61,9 @@ interface RequestInterface {
 		@Body content: RequestPost
 	): Call<LookUpDetail>
 
-	//post Image
+	//upload Image
 	@Multipart
+	//@Headers("Content-Type:multipart/form-data;charset=UTF-8; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm")
 	@POST("/sns/upload")
 	fun requestUploadImage(
 		@Part images: ArrayList<MultipartBody.Part>

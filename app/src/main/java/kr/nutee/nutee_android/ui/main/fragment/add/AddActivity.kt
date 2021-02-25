@@ -17,6 +17,7 @@ import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.TestToken
 import kr.nutee.nutee_android.data.main.add.RequestRewritePost
 import kr.nutee.nutee_android.data.main.add.RequestPost
+import kr.nutee.nutee_android.data.main.home.Image
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.*
 import kr.nutee.nutee_android.ui.extend.dialog.CustomLodingDialog
@@ -28,6 +29,7 @@ import kr.nutee.nutee_android.ui.main.fragment.home.detail.HomeDetailActivity
 /*
 * 글쓰기
 */
+@Suppress("UNCHECKED_CAST")
 class AddActivity : AppCompatActivity(), View.OnClickListener {
 
 	val requestToServer = RequestToServer
@@ -142,25 +144,31 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	}
 
 	private fun uploadHasImage() {
-		Log.d("Network", "${createImageMultipart(selectedImage).isNullOrEmpty()}")
+		Log.d("Network", "이미지포함 업로드 시작 이미지 null 여부${createImageMultipart(selectedImage).isNullOrEmpty()}")
 		requestToServer.backService.requestUploadImage(createImageMultipart(selectedImage))
 			.customEnqueue(
 				onSuccess = {
 					Log.d("Network", "사진준비 완료")
-					Log.d("Network", it.body()?.body?.size.toString())
+					Log.d("Network", "사진 개수 ${it.body()?.body?.size}")
+					val imagesArray= arrayOfNulls<Image>(it.body()?.body!!.size)
+					it.body()?.body!!.forEachIndexed() { index, str ->
+						val src=Image(str)
+						imagesArray[index] = src
+					}
+					Log.d("Network", "imagesArray 사진 개수 ${imagesArray.size}")
 					requestToServer.backService.requestPost(
 						"Bearer "+ TestToken.testToken,
 						RequestPost(
 							addTitle.text.toString(),
 							addContent.text.toString(),
-							it.body()?.body,
-							"IT2"
+							imagesArray,
+							TestToken.testCategory
 							//addCategory.toString()
 						))
 						.customEnqueue(
 							onSuccess = {
 								Log.d("Network", "사진 포스트 업로드 완료")
-								Log.d("Network", it.body()?.body?.images?.size.toString())
+								Log.d("Network", "사진 개수 ${it.body()?.body?.images?.size}")
 								loadingDialog.dismissDialog()
 								gotoMain(it.body()?.body?.id!!)
 							},
