@@ -20,7 +20,7 @@ class ImageAdapter(private var datas: ArrayList<Uri>, private val context: Conte
     override fun getItemCount() = datas.size
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
-        holder.bind(datas[position])
+        holder.bind(datas[position],context)
         holder.itemView.img_btn_image_del.setOnClickListener {
             Log.d("imageDel","del")
             datas.remove(datas[position])

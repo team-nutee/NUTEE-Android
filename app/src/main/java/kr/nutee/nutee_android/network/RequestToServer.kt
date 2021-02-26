@@ -17,14 +17,16 @@ object RequestToServer {
     private val clientNutee = OkHttpClient.Builder()
         .addInterceptor { chain: Interceptor.Chain ->
             val original = chain.request()
+
+            chain.proceed(original.newBuilder().addHeader("Accept","application/hal+json").build())
             if (original.url.encodedPath.equals("/sns/upload", true)
             ) {
+//                chain.proceed(original.newBuilder()
+//                    .addHeader("Content-Type", "charset=UTF-8").build())
                 chain.proceed(original)
             } else {
-                chain.proceed(original.newBuilder().apply {
-                    addHeader("Accept","application/hal+json")
-                    addHeader("Content-Type", "application/json;charset=UTF-8")
-                }.build())
+                chain.proceed(original.newBuilder()
+                    .addHeader("Content-Type", "application/json;charset=UTF-8").build())
             }
         }.addInterceptor(logging)
         .build()

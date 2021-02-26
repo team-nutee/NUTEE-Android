@@ -47,7 +47,7 @@ class FullPostFragment : Fragment() {
 		requestToServer.backService.requestCategoryList(
 			//"Bearer "+ App.prefs.local_login_token,
 			"Bearer "+ TestToken.testToken,
-			"IT2",
+			TestToken.testCategory,
 			QueryValue.lastId,
 			QueryValue.limit
 		).customEnqueue(

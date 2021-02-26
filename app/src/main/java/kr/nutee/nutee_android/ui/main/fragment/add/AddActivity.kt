@@ -11,9 +11,9 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.add_activity.*
 import kr.nutee.nutee_android.R
-import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.TestToken
 import kr.nutee.nutee_android.data.main.add.RequestRewritePost
 import kr.nutee.nutee_android.data.main.add.RequestPost
@@ -35,11 +35,12 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	val requestToServer = RequestToServer
 	private val REQUEST_CODE_PICK_IMAGE = 1001
 	var selectedImage = arrayListOf<Uri>()
-	private lateinit var imageAdapter: ImageAdapter
 	lateinit var loadingDialog:CustomLodingDialog
 	lateinit var addContent:EditText
 	lateinit var addTitle:EditText
 	lateinit var addCategory:TextView
+	lateinit var addImageList:RecyclerView
+	private var postId: Int? = 0
 
 	private var booleanTitle=false
 	private var booleanContent=false
@@ -51,6 +52,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 		addTitle=findViewById(R.id.et_add_title)
 		addContent=findViewById(R.id.et_add_content)
 		addCategory=findViewById(R.id.text_add_category)
+		addImageList=findViewById(R.id.rv_image_list)
 		fixDataMapping()
 		loadingDialog = CustomLodingDialog(this)
 		init()
@@ -60,6 +62,8 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	}
 
 	private fun fixDataMapping() {//기존에 작성된 게시글 연결
+		postId=intent.getIntExtra("postId",0)
+
 		val content = intent.getStringExtra("content")
 		val title = intent.getStringExtra("title")
 		val category=intent.getStringExtra("category")
@@ -68,10 +72,15 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 		addCategory.text = category
 
 		//이미지 수정 기능 구현 필요함
-//		if(intent.hasExtra("rewriteImage")){
-//			selectedImage= intent.getParcelableArrayListExtra("rewriteImage")
-//			setImageAndAdpater()
-//		}
+		if(intent.hasExtra("rewriteImage")){
+			val rewriteImageList: ArrayList<Image>
+			= intent.getParcelableArrayListExtra("rewriteImage")
+			rewriteImageList.forEach { image ->
+				val uri=Uri.parse(image.src)
+				selectedImage.add(uri)
+			}
+			setImageAndAdpater()
+		}
 	}
 
 	private fun init() {
@@ -89,7 +98,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 			R.id.text_create_button -> {
 				if(checkPostBlank()){
 					if (intent.hasExtra("content"))
-						rewritePost()
+						uploadRewriteContent()
 					else
 						uploadContent()
 				}
@@ -122,9 +131,15 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 			uploadNonImage()
 	}
 
-	private fun rewritePost() {
-		val postId=intent.getIntExtra("postId",0)
+	private fun uploadRewriteContent() {
+		loadingDialog.startLoadingDialog()
+		if (selectedImage.size > 0) {
+			rewritePostHasImage()
+		} else
+			rewritePostNonImage()
+	}
 
+	private fun rewritePostNonImage() {
 		requestToServer.backService.requestRewritePost(
 			"Bearer "+ TestToken.testToken,
 			//App.prefs.local_login_token,
@@ -140,6 +155,48 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 					gotoMain(it.body()?.body?.id!!)
 				},
 				onError = {}
+			)
+	}
+
+	private fun rewritePostHasImage() {
+		Log.d("Network", "이미지포함 업로드 시작 이미지 null 여부${createImageMultipart(selectedImage).isNullOrEmpty()}")
+		requestToServer.backService.requestUploadImage(createImageMultipart(selectedImage))
+			.customEnqueue(
+				onSuccess = {
+					Log.d("Network", "사진준비 완료")
+					Log.d("Network", "사진 개수 ${it.body()?.body?.size}")
+					val imagesArray= arrayOfNulls<Image>(it.body()?.body!!.size)
+					it.body()?.body!!.forEachIndexed() { index, str ->
+						val src=Image(str)
+						imagesArray[index] = src
+					}
+					Log.d("Network", "imagesArray 사진 개수 ${imagesArray.size}")
+					requestToServer.backService.requestRewritePost(
+						"Bearer "+ TestToken.testToken,
+						//App.prefs.local_login_token,
+						RequestRewritePost(
+							addTitle.text.toString(),
+							addContent.text.toString(),
+							imagesArray
+						),
+						postId
+					).customEnqueue(
+							onSuccess = {
+								Log.d("Network", "사진 포스트 업로드 완료")
+								Log.d("Network", "사진 개수 ${it.body()?.body?.images?.size}")
+								loadingDialog.dismissDialog()
+								gotoMain(it.body()?.body?.id!!)
+							},
+							onError = {
+								Log.d("Network", "사진 포스트 업로드 실패")
+								loadingDialog.dismissDialog()
+								Toast.makeText(this, "네트워크 오류로 사진 업로드를 실패했습니다.",Toast.LENGTH_SHORT).show()
+							}
+						)
+				},
+				onError = {
+					Log.d("Network", "사진 준비 실패")
+				}
 			)
 	}
 
@@ -190,10 +247,10 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 			.requestPost(
 				"Bearer "+TestToken.testToken,
 				RequestPost(
-					title = addTitle.text.toString(),
-					content = addContent.text.toString(),
-					image = null,
-					category = "IT"
+					addTitle.text.toString(),
+					addContent.text.toString(),
+					null,
+					"IT"
 					//viewCategory.toString()
 				))
 			.customEnqueue(
@@ -229,7 +286,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 							for (i in 0 until clipdata.itemCount) {
 								selectedImageArrayList.add(clipdata.getItemAt(i).uri)
 							}
-							selectedImage.clear()
+							//selectedImage.clear()
 							selectedImage = selectedImageArrayList
 							setImageAndAdpater()
 
@@ -247,8 +304,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 
 	private fun setImageAndAdpater() {
 		sv_selected_image.visibility = View.VISIBLE
-		imageAdapter = ImageAdapter(selectedImage, this)
-		rv_image_list.adapter = imageAdapter
+		addImageList.adapter =ImageAdapter(selectedImage, this)
 	}
 
 	private fun gotoMain(id: Int) {

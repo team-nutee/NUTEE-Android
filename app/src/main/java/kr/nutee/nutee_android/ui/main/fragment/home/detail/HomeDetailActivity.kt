@@ -337,17 +337,12 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		intent.putExtra("category",responseBody?.category)
 		intent.putExtra("postId",responseBody?.id)
 		//이미지 수정 기능 구현 필요함
-//		if (responseBody?.images?.isNullOrEmpty1() == false){
-//			val imageArrayList = responseBody?.images?.toCollection(ArrayList())
-//			intent.putParcelableArrayListExtra("rewriteImage", imageArrayList)
-//			startActivity(intent)
-//		}
-
-//		val imageArrayList = arrayListOf<String?>()
-//		responseBody?.images?.forEach{
-//			imageArrayList.add(it.src)
-//		}
-//		intent.putParcelableArrayListExtra("rewriteImage", imageArrayList)
+		if (responseBody?.images?.isNullOrEmpty1() == false){
+			val imageArrayList = responseBody.images.toCollection(ArrayList())
+			intent.putParcelableArrayListExtra("rewriteImage", imageArrayList)
+			startActivity(intent)
+			return
+		}
 		startActivity(intent)
 	}
 
