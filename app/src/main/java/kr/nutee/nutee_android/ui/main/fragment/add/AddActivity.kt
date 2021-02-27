@@ -22,6 +22,7 @@ import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.*
 import kr.nutee.nutee_android.ui.extend.dialog.CustomLodingDialog
 import kr.nutee.nutee_android.ui.extend.dialog.customDialog
+import kr.nutee.nutee_android.ui.extend.dialog.customDialogSingleButton
 import kr.nutee.nutee_android.ui.extend.imageSetting.createImageMultipart
 import kr.nutee.nutee_android.ui.main.fragment.home.detail.HomeDetailActivity
 
@@ -78,6 +79,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 			rewriteImageList.forEach { image ->
 				val uri=Uri.parse(image.src)
 				selectedImage.add(uri)
+				Log.d("selectedImageAdd",selectedImage.size.toString())
 			}
 			setImageAndAdpater()
 		}
@@ -97,9 +99,9 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 			R.id.img_upload_image_btn -> openImageChooser()
 			R.id.text_create_button -> {
 				if(checkPostBlank()){
-					if (intent.hasExtra("content"))
-						uploadRewriteContent()
-					else
+//					if (intent.hasExtra("content"))
+//						uploadRewriteContent()
+//					else
 						uploadContent()
 				}
 			}
@@ -159,6 +161,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	}
 
 	private fun rewritePostHasImage() {
+		Log.d("selectedImageAdd",selectedImage.size.toString())
 		Log.d("Network", "이미지포함 업로드 시작 이미지 null 여부${createImageMultipart(selectedImage).isNullOrEmpty()}")
 		requestToServer.backService.requestUploadImage(createImageMultipart(selectedImage))
 			.customEnqueue(
@@ -250,7 +253,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 					addTitle.text.toString(),
 					addContent.text.toString(),
 					null,
-					"IT"
+					TestToken.testCategory
 					//viewCategory.toString()
 				))
 			.customEnqueue(
@@ -308,7 +311,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	}
 
 	private fun gotoMain(id: Int) {
-		//loadingDialog.dismissDialog()
+		loadingDialog.dismissDialog()
 		val intent = Intent(applicationContext, HomeDetailActivity::class.java)
 		intent.putExtra("Detail_id",id)
 		finish()

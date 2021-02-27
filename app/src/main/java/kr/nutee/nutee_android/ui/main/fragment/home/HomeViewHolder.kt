@@ -17,6 +17,7 @@ import kr.nutee.nutee_android.data.main.home.Body
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.extend.dialog.cumstomReportDialog
+import kr.nutee.nutee_android.ui.extend.dialog.customDialogSingleButton
 import kr.nutee.nutee_android.ui.extend.dialog.customSelectDialog
 import kr.nutee.nutee_android.ui.main.fragment.add.AddActivity
 import kr.nutee.nutee_android.ui.main.fragment.home.detail.HomeDetailActivity
@@ -70,10 +71,16 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 	private fun moreEvent(it:View, customData: Body) {
 		if (customData.user?.id.toString() == TestToken.testMemberId.toString()) {
 			itemView.context.customSelectDialog(View.GONE, View.GONE, View.VISIBLE, View.VISIBLE, {}, {},
-				{ Log.d("글수정 버튼", "누름")
-					rewritePost(customData) },
+				{ Log.d("Network", " 글 수정 버튼 누름")
+					if(customData.images.isNullOrEmpty()){
+						Log.d("Network", "누름")
+						rewritePost(customData)
+					}
+					else
+						itemView.context.customDialogSingleButton(itemView.context.getString(R.string.UnableRewritePost))
+				},
 				{
-					Log.d("글삭제 버튼", "누름")
+					Log.d("Network", "글 삭제 버튼 누름")
 					requestToServer.backService.requestDelete(
 						"Bearer "+ TestToken.testToken,
 						customData.id)
@@ -121,7 +128,7 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 //			imageArrayList.add(it.src)
 //		}
 //		intent.putParcelableArrayListExtra("rewriteImage", imageArrayList)
-//		itemView.context.startActivity(intent)
+		itemView.context.startActivity(intent)
 	}
 
 	fun categoryClickEvent(view:View, customData: Body){

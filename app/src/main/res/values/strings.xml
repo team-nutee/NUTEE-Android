@@ -157,4 +157,5 @@ NUTEE(이하 누티) 서비스 이용약관은 S&amp;N(이하 소울)이 서비�
 섬기고 내 이웃을 사랑으로 섬김으로써 서로 존중하는 사회를 이룩하는 것입니다.
     </string>
     <string name="detailImageMore">+ %d</string>
+    <string name="UnableRewritePost">사진이 포함된 게시글은 안드로이드에서는 아직 수정이 불가합니다.</string>
 </resources>

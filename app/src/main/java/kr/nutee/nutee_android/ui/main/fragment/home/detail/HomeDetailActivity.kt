@@ -207,7 +207,10 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 			customSelectDialog(View.GONE,View.GONE, View.VISIBLE, View.VISIBLE,{},{},
 				{
 					Log.d("select button", "글 수정")
-					rewritePost(responseBody)
+					if(responseBody.images.isNullOrEmpty1())
+						rewritePost(responseBody)
+					else
+						customDialogSingleButton(getString(R.string.UnableRewritePost))
 				},
 				{
 					Log.d("select button", "글 삭제")
