@@ -80,11 +80,10 @@ class HomeDetaiProfilelActivity : AppCompatActivity() {
 	}
 
 	private fun bindUserProfile(userID: Int, res: ResponseProfile) {
-		tv_profile_detail_nickname.text = res.nickname
-		val userImageLoad = setImageURLSetting(res.Image?.src)
+		tv_profile_detail_nickname.text = res.body.nickname
+		val userImageLoad = setImageURLSetting(res.body.profileUrl.src)
 		Glide.with(applicationContext).load(userImageLoad).into(img_profile)
-		tv_profile_detail_content_num.text = res.Posts?.size.toString()
-		App.prefs.url = res.Image?.src
+		App.prefs.url = res.body.profileUrl.src
 
 		img_profile_detail_more.setOnClickListener {
 			profileMore(userID, res)
@@ -102,7 +101,7 @@ class HomeDetaiProfilelActivity : AppCompatActivity() {
 					Log.d("글삭제 버튼", "누름")
 					RequestToServer.backService.requestDelete(
 						App.prefs.local_login_token,
-						customData.id)
+						customData.body.id)
 						.customEnqueue(
 							onSuccess = {finish()},
 							onError = {}
@@ -114,7 +113,7 @@ class HomeDetaiProfilelActivity : AppCompatActivity() {
 					Log.d("글신고", "누름")
 					cumstomReportDialog("이 게시글을 신고하시겠습니까?"){
 						RequestToServer.backService.requestReport(
-							RequestReport(it), customData.id)
+							RequestReport(it), customData.body.id)
 							.customEnqueue(
 								onSuccess = {
 									Toast

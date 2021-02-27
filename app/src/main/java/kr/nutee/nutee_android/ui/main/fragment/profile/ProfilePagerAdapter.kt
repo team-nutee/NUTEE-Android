@@ -2,9 +2,9 @@ package kr.nutee.nutee_android.ui.main.fragment.profile
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import kr.nutee.nutee_android.ui.main.fragment.profile.fragment.RecommendedPostFragment
-import kr.nutee.nutee_android.ui.main.fragment.profile.fragment.WrittenCommentFragment
-import kr.nutee.nutee_android.ui.main.fragment.profile.fragment.WrittenPostFragment
+import kr.nutee.nutee_android.ui.main.fragment.profile.fragment.LikePostFragment
+import kr.nutee.nutee_android.ui.main.fragment.profile.fragment.MyCommentFragment
+import kr.nutee.nutee_android.ui.main.fragment.profile.fragment.MyPostFragment
 
 class ProfilePagerAdapter(fragmentActivity: ProfileFragment) : FragmentStateAdapter(fragmentActivity) {
 	override fun getItemCount(): Int {
@@ -13,9 +13,9 @@ class ProfilePagerAdapter(fragmentActivity: ProfileFragment) : FragmentStateAdap
 
 	override fun createFragment(position: Int): Fragment {
 		return when(position) {
-			0 -> WrittenPostFragment()
-			1 -> WrittenCommentFragment()
-			else -> RecommendedPostFragment()
+			0 -> MyPostFragment()
+			1 -> MyCommentFragment()
+			else -> LikePostFragment()
 		}
 	}
 }

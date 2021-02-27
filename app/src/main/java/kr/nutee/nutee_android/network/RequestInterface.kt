@@ -176,11 +176,12 @@ interface RequestInterface {
 
 	/*User Profile*/
 	// load user
-	@GET("/api/user")
-	fun requestUserData(@Header("Cookie") cookie: String): Call<ResponseProfile>
+	@GET("/auth/user/me")
+	fun requestUserData(@Header("Authorization") Authorization:String): Call<ResponseProfile>
+	//@Header("Cookie") token: String
 
 	//load user posts
-	@GET("/api/user/{id}/posts")
+	@GET("/sns/user/{id}/posts")
 	fun requestUserPosts(@Path("id") id: Int): Call<ResponseMain>
 
 	/*Login*/
@@ -190,19 +191,19 @@ interface RequestInterface {
 
 	/*Register*/
 	//Email OTP
-	@POST("/api/user/otpsend")
+	@POST("/auth/otp")
 	fun requestEmailOTP(@Body body: RequestEmailOTP): Call<Unit>
 
 	//check OTP
-	@POST("/api/user/otpcheck")
+	@POST("/auth/check/otp")
 	fun requestOTPCheck(@Body body: RequestOTPCheck): Call<Unit>
 
 	// id Check
-	@POST("/api/user/idcheck")
+	@POST("/auth/check/user-id")
 	fun requestIdCheck(@Body body: RequestIdCheck): Call<Unit>
 
 	//nick check
-	@POST("/api/user/nicknamecheck")
+	@POST("/auth/check/nickname")
 	fun requestNickCheck(@Body body: RequestNickCheck): Call<Unit>
 
 	//Register
@@ -276,5 +277,25 @@ interface RequestInterface {
 		@Path("id") id: Int
 	): Call<ResponseProfile>
 
+	@GET("/sns/user/me/posts")
+	fun requestMyPosts(
+		@Header("Authorization") Authorization:String,
+		@Query("lastId") lastId: Int,
+		@Query("limit") limit: Int
+	):Call<ResponseMain>
+
+	@GET("/sns/user/me/comment/posts")
+	fun requestMyCommentPosts(
+		@Header("Authorization") Authorization:String,
+		@Query("lastId") lastId: Int,
+		@Query("limit") limit: Int
+	):Call<ResponseMain>
+
+	@GET("/sns/user/me/like/posts")
+	fun requestMyLikePosts(
+		@Header("Authorization") Authorization:String,
+		@Query("lastId") lastId: Int,
+		@Query("limit") limit: Int
+	):Call<ResponseMain>
 
 }
