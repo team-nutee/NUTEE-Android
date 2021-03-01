@@ -1,5 +1,6 @@
 package kr.nutee.nutee_android.ui.main.fragment.home
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -24,6 +25,7 @@ class HomeRecyclerViewAdapter(private var homeDataList: Array<Body>)
 	}
 
 	override fun getItemCount(): Int {
+		Log.d("homeDataListChaeck", homeDataList.size.toString())
 		return homeDataList.size
 	}
 }

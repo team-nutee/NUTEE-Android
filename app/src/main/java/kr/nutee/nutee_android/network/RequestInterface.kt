@@ -23,10 +23,10 @@ interface RequestInterface {
 
 	/*list*/
 	//LookUp category list
-	@GET("/sns/post/category/{INTER2}")
+	@GET("/sns/post/category/{category}")
 	fun requestCategoryList(
 		@Header("Authorization") Authorization:String,
-		@Path("INTER2") INTER2:String?,
+		@Path("category") category:String?,
 		@Query("lastId") lastId: Int,
 		@Query("limit") limit: Int
 	): Call<LookUpList>
@@ -40,10 +40,11 @@ interface RequestInterface {
 	):Call<LookUpList>
 
 	//LookUp full list
-	@GET("/sns/post")
+	@GET("/sns/post/all")
 	fun requestFullList(
-		@Query("lastId") lastId: Int,
-		@Query("limit") limit: Int
+			@Header("Authorization") Authorization:String,
+			@Query("lastId") lastId: Int,
+			@Query("limit") limit: Int
 	):Call<LookUpList>
 
 	/*post*/

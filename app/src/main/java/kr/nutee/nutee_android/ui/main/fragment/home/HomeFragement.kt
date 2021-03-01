@@ -29,7 +29,7 @@ class HomeFragement() : Fragment() {
 		super.onViewCreated(view, savedInstanceState)
 
 		//게시글 탭 기능
-		homeTapTextList= arrayListOf("추천 게시글", "내 전공", "전체 게시글")
+		homeTapTextList= arrayListOf("즐겨찾기", "내 전공", "전체 게시글")
 		homeTabLayout = view.findViewById(R.id.tab_main_home)
 		homeViewpager=view.findViewById(R.id.vp_main_home)
 		homeAdapter=HomeAdapter(this)

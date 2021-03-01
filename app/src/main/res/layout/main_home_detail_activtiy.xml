@@ -238,55 +238,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:reverseLayout="true"
+                    android:overScrollMode="never"
                     android:nestedScrollingEnabled="false"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="@+id/view"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view"
                     tools:listitem="@layout/main_home_detail_item"/>
-
-
-<!--                <androidx.constraintlayout.widget.ConstraintLayout -->
-<!--                    android:id="@+id/view2" -->
-<!--                    android:layout_width="wrap_content" -->
-<!--                    android:layout_height="wrap_content" -->
-<!--                    android:background="@android:color/background_light" -->
-<!--                    android:backgroundTint="@android:color/white" -->
-<!--                    app:layout_constraintBottom_toBottomOf="parent" -->
-<!--                    app:layout_constraintEnd_toEndOf="parent" -->
-<!--                    app:layout_constraintStart_toStartOf="parent">-->
-
-<!--        <View-->
-<!--            android:id="@+id/comment_divider"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="2dp"-->
-<!--            android:background="?android:attr/listDivider"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--        <EditText-->
-<!--            android:id="@+id/et_detail_comment"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:backgroundTint="@android:color/white"-->
-<!--            android:hint="댓글을 입력해주세요"-->
-<!--            android:paddingHorizontal="14dp"-->
-<!--            android:paddingVertical="9dp"-->
-<!--            android:textSize="14dp"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toStartOf="@+id/img_comment_upload_btn"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/comment_divider" />-->
-
-<!--        <ImageView-->
-<!--            android:id="@+id/img_comment_upload_btn"-->
-<!--            android:layout_width="24dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:src="@drawable/ic_arrow_upward_black_24dp"-->
-<!--            android:visibility="invisible"-->
-<!--            app:layout_constraintBottom_toBottomOf="@+id/et_detail_comment"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="@+id/et_detail_comment" />-->
-<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

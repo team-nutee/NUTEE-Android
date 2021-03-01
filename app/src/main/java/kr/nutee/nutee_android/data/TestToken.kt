@@ -2,6 +2,6 @@ package kr.nutee.nutee_android.data
 
 object TestToken{
 	val testMemberId: Int =1
-	val testToken:String="eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4OHlodHNlcm9mIiwicm9sZSI6IlJPTEVfVVNFUiIsImlkIjoxLCJleHAiOjE5MjkwOTM2NzIsImlhdCI6MTYxMzczMzY3Mn0.hIc4yUxtkEob6d83gwYNYg8549oqzmn90MY_Txm8dDuJO0Afmf-A-mkkyy7sjP2_ZhuzU1PvzTeBeSfAd6_R0w"
-	val testCategory:String="IT융합자율학부"
+	val testToken:String="eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4OHlodHNlcm9mIiwicm9sZSI6IlJPTEVfVVNFUiIsImlkIjoxLCJleHAiOjE5Mjk4MzkyMDEsImlhdCI6MTYxNDQ3OTIwMX0.vt4waZczUbzVinO8ro7cKv-WxdWtJggn-qxKlpz_IjeXUJFxmlgTWzcbCjA6xZ2xsRnee2YlzG8asvBB-DQVFw"
+	val testCategory:String="소프트웨어공학"
 }

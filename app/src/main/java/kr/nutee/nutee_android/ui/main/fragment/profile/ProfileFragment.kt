@@ -65,7 +65,7 @@ class ProfileFragment : Fragment() {
 	}
 
 	private fun requestUserData() {
-		RequestToServer.backService
+		RequestToServer.authService
 			.requestUserData("Bearer "+ TestToken.testToken)//App.prefs.local_login_token)
 			.customEnqueue(
 				onSuccess = {response -> bindUserProfile(response.body()!!) },

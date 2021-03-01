@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.QueryValue
 import kr.nutee.nutee_android.data.TestToken
 import kr.nutee.nutee_android.network.RequestToServer
+import kr.nutee.nutee_android.ui.extend.RefreshEvent
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.main.fragment.home.HomeRecyclerViewAdapter
 
@@ -22,7 +24,7 @@ import kr.nutee.nutee_android.ui.main.fragment.home.HomeRecyclerViewAdapter
 class MyMajorPostFragment : Fragment() {
 
 	private lateinit var recyclerView: RecyclerView
-	private lateinit var homeRecyclerViewAdapter: HomeRecyclerViewAdapter
+	private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 	val requestToServer = RequestToServer
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,18 +42,26 @@ class MyMajorPostFragment : Fragment() {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
+		swipeRefreshLayout= view.findViewById(R.id.swipe_home_my_major_post_refresh)
 		recyclerView= view.findViewById(R.id.rv_main_home_my_major_post)
+
+		setAdapter()
+		loadFavoriteList()
+		detailRefreshEvnet()
+	}
+
+	private fun setAdapter(){
 		recyclerView.apply {
 			layoutManager= LinearLayoutManager(this.context,
 				LinearLayoutManager.VERTICAL, false)
 			setHasFixedSize(true)
 		}
-		loadFavoriteList()
 	}
 
 	private fun loadFavoriteList(){
-		requestToServer.backService.requestFavoriteList(
+		requestToServer.backService.requestCategoryList(
 			"Bearer "+TestToken.testToken,
+				TestToken.testCategory,
 			QueryValue.lastId,
 			QueryValue.limit
 		).customEnqueue(
@@ -60,5 +70,9 @@ class MyMajorPostFragment : Fragment() {
 			},
 			onError = {}
 		)
+	}
+
+	private fun detailRefreshEvnet() {
+		context?.RefreshEvent(swipeRefreshLayout){loadFavoriteList()}
 	}
 }

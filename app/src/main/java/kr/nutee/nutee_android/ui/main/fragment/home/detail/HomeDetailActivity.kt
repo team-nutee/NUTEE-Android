@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
 import com.volokh.danylo.hashtaghelper.HashTagHelper
 import kotlinx.android.synthetic.main.main_home_detail_activtiy.*
@@ -24,6 +25,7 @@ import kr.nutee.nutee_android.data.main.RequestReport
 import kr.nutee.nutee_android.data.main.home.*
 import kr.nutee.nutee_android.data.main.home.detail.RequestComment
 import kr.nutee.nutee_android.network.RequestToServer
+import kr.nutee.nutee_android.ui.extend.RefreshEvent
 import kr.nutee.nutee_android.ui.extend.animation.glideProgressDrawable
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.extend.dialog.cumstomReportDialog
@@ -59,7 +61,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 	private lateinit var imageViewList: List<ImageView>
 
 	private lateinit var homeDetailCommentAdpater: HomeDetailCommentAdpater
-	private lateinit var layoutManager:LinearLayoutManager
+	private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
 	private lateinit var mTextHashTagHelper: HashTagHelper
 	private val additionalSymbols = '#'
@@ -74,6 +76,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		detailNickname=findViewById(R.id.text_detail_nick)
 		detailTime=findViewById(R.id.text_detail_time)
 		detailContent=findViewById(R.id.text_detail_content)
+		swipeRefreshLayout=findViewById(R.id.swipe_refresh_detail_view)
 
 		init()
 	}
@@ -102,14 +105,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 	}
 
 	private fun detailRefreshEvnet() {
-		swipe_refresh_detail_view.setProgressBackgroundColorSchemeColor(
-			ContextCompat.getColor(applicationContext, R.color.nuteeBase)
-		)
-		swipe_refresh_detail_view.setColorSchemeColors(Color.WHITE)
-		swipe_refresh_detail_view.setOnRefreshListener {
-			onRestart()
-			//swipe_refresh_detail_view.isRefreshing = false
-		}
+		RefreshEvent(swipeRefreshLayout){loadCommentList()}
 	}
 
 	private fun loadDetailPage() {
