@@ -9,10 +9,17 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 * DESC: Refresh 이벤트를 위한 확장 함수
 */
 
-fun Context.RefreshEvent(view: SwipeRefreshLayout, refreshListener: () -> Unit){
+fun Context.RefreshEvent(view: SwipeRefreshLayout, swipeBoolean: Boolean,refreshListener: () -> Unit){
     view.apply {
         setColorSchemeResources(kr.nutee.nutee_android.R.color.nuteeBase)
-        setOnRefreshListener{
+        if(swipeBoolean){
+            setOnRefreshListener{
+                refreshListener()
+                view.isRefreshing = false
+            }
+        }
+        else{
+            isRefreshing=true
             refreshListener()
             view.isRefreshing = false
         }

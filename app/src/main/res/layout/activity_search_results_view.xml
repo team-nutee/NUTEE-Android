@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.appcompat.widget.LinearLayoutCompat
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,33 +10,45 @@
     android:orientation="vertical"
     tools:context=".ui.main.fragment.search.SearchResultsView">
 
-    <LinearLayout
-        android:id="@+id/constraintLayout2"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_search_top_bar"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:paddingHorizontal="20dp"
-        android:paddingTop="10dp"
+        android:layout_height="56dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/tv_search_results_find"
-            android:layout_width="match_parent"
-            android:layout_height="38dp"
-            android:background="@drawable/search_results_box"
-            android:lineSpacingExtra="3dp"
-            android:paddingHorizontal="20dp"
+            android:id="@+id/tv_searchBoxText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="검색어"
+            android:textColor="@color/colorBlack"
+            android:lineSpacingExtra="3sp"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/img_search_back_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:paddingRight="10dp"
             android:paddingVertical="10dp"
-            android:text="검색어가 있을 예정입니다."
-            android:textAlignment="viewStart"
-            android:textColor="@color/nuteeBase"
-            android:textSize="14dp" />
-    </LinearLayout>
+            android:src="@drawable/ic_chevron_left_seaweed_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <FrameLayout
         android:id="@+id/fl_search_results_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
-</LinearLayout>
+        android:layout_height="match_parent" />
+</androidx.appcompat.widget.LinearLayoutCompat>

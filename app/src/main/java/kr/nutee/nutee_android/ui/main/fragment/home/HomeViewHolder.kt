@@ -15,10 +15,10 @@ import kr.nutee.nutee_android.data.TestToken
 import kr.nutee.nutee_android.data.main.RequestReport
 import kr.nutee.nutee_android.data.main.home.Body
 import kr.nutee.nutee_android.network.RequestToServer
+import kr.nutee.nutee_android.ui.extend.contentMoreEvent
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.extend.dialog.cumstomReportDialog
 import kr.nutee.nutee_android.ui.extend.dialog.customDialogSingleButton
-import kr.nutee.nutee_android.ui.extend.dialog.customSelectDialog
 import kr.nutee.nutee_android.ui.main.fragment.add.AddActivity
 import kr.nutee.nutee_android.ui.main.fragment.home.detail.HomeDetailActivity
 import kr.nutee.nutee_android.ui.main.fragment.search.SearchResultsView
@@ -69,47 +69,38 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 	}
 
 	private fun moreEvent(it:View, customData: Body) {
-		if (customData.user?.id.toString() == TestToken.testMemberId.toString()) {
-			itemView.context.customSelectDialog(View.GONE, View.GONE, View.VISIBLE, View.VISIBLE, {}, {},
-				{ Log.d("Network", " 글 수정 버튼 누름")
-					if(customData.images.isNullOrEmpty()){
-						Log.d("Network", "누름")
-						rewritePost(customData)
-					}
-					else
-						itemView.context.customDialogSingleButton(itemView.context.getString(R.string.UnableRewritePost))
-				},
-				{
-					Log.d("Network", "글 삭제 버튼 누름")
-					requestToServer.backService.requestDelete(
-						"Bearer "+ TestToken.testToken,
-						customData.id)
+		itemView.context.contentMoreEvent(
+			customData.user,
+			View.GONE,{},
+			{ //게시글 수정
+				if(customData.images.isNullOrEmpty()) rewritePost(customData)
+				else
+					itemView.context.customDialogSingleButton(itemView.context.getString(R.string.UnableRewritePost))
+			},
+			{ //게시글 삭제
+				requestToServer.backService.requestDelete(
+					"Bearer "+ TestToken.testToken,
+					customData.id)
+					.customEnqueue(
+						onSuccess = {
+							Log.d("Network", "누름")
+						},
+						onError = {
+							Toast.makeText(itemView.context,"네트워크 오류",Toast.LENGTH_SHORT)
+								.show()}
+					)},
+			{ //게시글 신고
+				it.context.cumstomReportDialog("이 게시글을 신고하시겠습니까?"){
+					requestToServer.backService.requestReport(
+						RequestReport(it), customData.id)
 						.customEnqueue(
 							onSuccess = {
-								//FIXME 리프레쉬되게 하기
-								HomeFragement()},
-							onError = {
-								Toast.makeText(itemView.context,"네트워크 오류",Toast.LENGTH_SHORT)
-								.show()}
+								Toast.makeText(itemView.context,"신고가 성공적으로 접수되었습니다.",Toast.LENGTH_SHORT)
+									.show()
+							}
 						)
-				})
-			HomeFragement()
-		} else {
-			itemView.context.customSelectDialog(View.VISIBLE,View.GONE, View.GONE, View.GONE,
-				{
-					Log.d("글신고", "누름")
-					it.context.cumstomReportDialog("이 게시글을 신고하시겠습니까?"){
-						requestToServer.backService.requestReport(
-							RequestReport(it), customData.id)
-							.customEnqueue(
-								onSuccess = {
-									Toast.makeText(itemView.context,"신고가 성공적으로 접수되었습니다.",Toast.LENGTH_SHORT)
-										.show()
-								}
-							)
-					}
-				})
-		}
+				}}
+		)
 	}
 
 	private fun rewritePost(customData: Body) {
@@ -147,7 +138,7 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 			)
 	}
 
-	fun checkNullInItem(customData: Body){
+	private fun checkNullInItem(customData: Body){
 		if(customData.likers?.size.toString()=="null"){
 			text_main_home_count_like.text="0"
 		}

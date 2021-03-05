@@ -65,7 +65,7 @@
 
 
         <ImageView
-            android:id="@+id/img_detail_favorit_btn"
+            android:id="@+id/img_detail_comment_favorit_btn"
             android:layout_width="wrap_content"
             android:layout_height="15dp"
             android:paddingStart="10dp"
@@ -73,15 +73,15 @@
             android:layout_gravity="center"
             android:clickable="true"
             android:src="@drawable/main_favorite_selector"
-            app:layout_constraintBottom_toBottomOf="@+id/text_detail_favorit_count"
-            app:layout_constraintEnd_toStartOf="@+id/text_detail_favorit_count"
+            app:layout_constraintBottom_toBottomOf="@+id/text_detail_comment_favorit_count"
+            app:layout_constraintEnd_toStartOf="@+id/text_detail_comment_favorit_count"
             app:layout_constraintHorizontal_bias="0.615"
             app:layout_constraintStart_toEndOf="@+id/text_comment_updateAt"
-            app:layout_constraintTop_toTopOf="@+id/text_detail_favorit_count"
+            app:layout_constraintTop_toTopOf="@+id/text_detail_comment_favorit_count"
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
-            android:id="@+id/text_detail_item_like"
+            android:id="@+id/text_detail_comment_like"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingEnd="5dp"
@@ -90,7 +90,7 @@
             android:layout_gravity="center"/>
 
         <TextView
-            android:id="@+id/text_detail_favorit_count"
+            android:id="@+id/text_detail_comment_favorit_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"

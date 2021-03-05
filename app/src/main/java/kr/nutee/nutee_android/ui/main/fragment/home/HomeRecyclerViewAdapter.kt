@@ -25,7 +25,6 @@ class HomeRecyclerViewAdapter(private var homeDataList: Array<Body>)
 	}
 
 	override fun getItemCount(): Int {
-		Log.d("homeDataListChaeck", homeDataList.size.toString())
 		return homeDataList.size
 	}
 }

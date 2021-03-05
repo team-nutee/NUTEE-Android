@@ -82,7 +82,7 @@ class favoritePostFragment : Fragment() {
 	}
 
 	private fun detailRefreshEvnet() {
-		context?.RefreshEvent(swipeRefreshLayout){loadFavoriteList()}
+		context?.RefreshEvent(swipeRefreshLayout,true){loadFavoriteList()}
 	}
 
 }

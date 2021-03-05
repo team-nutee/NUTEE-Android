@@ -22,7 +22,6 @@ import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.*
 import kr.nutee.nutee_android.ui.extend.dialog.CustomLodingDialog
 import kr.nutee.nutee_android.ui.extend.dialog.customDialog
-import kr.nutee.nutee_android.ui.extend.dialog.customDialogSingleButton
 import kr.nutee.nutee_android.ui.extend.imageSetting.createImageMultipart
 import kr.nutee.nutee_android.ui.main.fragment.home.detail.HomeDetailActivity
 
@@ -54,7 +53,8 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 		addContent=findViewById(R.id.et_add_content)
 		addCategory=findViewById(R.id.text_add_category)
 		addImageList=findViewById(R.id.rv_image_list)
-		fixDataMapping()
+
+		if(intent.hasExtra("content")) fixDataMapping()
 		loadingDialog = CustomLodingDialog(this)
 		init()
 
@@ -99,9 +99,9 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 			R.id.img_upload_image_btn -> openImageChooser()
 			R.id.text_create_button -> {
 				if(checkPostBlank()){
-//					if (intent.hasExtra("content"))
-//						uploadRewriteContent()
-//					else
+					if (intent.hasExtra("content"))
+						uploadRewriteContent()
+					else
 						uploadContent()
 				}
 			}
@@ -154,7 +154,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 		)
 			.customEnqueue(
 				onSuccess = {
-					gotoMain(it.body()?.body?.id!!)
+					loadDetailPost(it.body()?.body?.id!!)
 				},
 				onError = {}
 			)
@@ -188,7 +188,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 								Log.d("Network", "사진 포스트 업로드 완료")
 								Log.d("Network", "사진 개수 ${it.body()?.body?.images?.size}")
 								loadingDialog.dismissDialog()
-								gotoMain(it.body()?.body?.id!!)
+								loadDetailPost(it.body()?.body?.id!!)
 							},
 							onError = {
 								Log.d("Network", "사진 포스트 업로드 실패")
@@ -230,7 +230,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 								Log.d("Network", "사진 포스트 업로드 완료")
 								Log.d("Network", "사진 개수 ${it.body()?.body?.images?.size}")
 								loadingDialog.dismissDialog()
-								gotoMain(it.body()?.body?.id!!)
+								loadDetailPost(it.body()?.body?.id!!)
 							},
 							onError = {
 								Log.d("Network", "사진 포스트 업로드 실패")
@@ -259,7 +259,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 			.customEnqueue(
 				onSuccess = {
 					Log.d("Network", "포스트 생성 성공")
-					gotoMain(it.body()?.body?.id!!)
+					loadDetailPost(it.body()?.body?.id!!)
 				},
 				onError = {
 					Log.d("Network", "포스트 생성 실패")
@@ -310,7 +310,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 		addImageList.adapter =ImageAdapter(selectedImage, this)
 	}
 
-	private fun gotoMain(id: Int) {
+	private fun loadDetailPost(id: Int) {
 		loadingDialog.dismissDialog()
 		val intent = Intent(applicationContext, HomeDetailActivity::class.java)
 		intent.putExtra("Detail_id",id)

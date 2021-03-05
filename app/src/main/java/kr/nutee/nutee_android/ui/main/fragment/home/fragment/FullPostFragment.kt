@@ -73,6 +73,6 @@ class FullPostFragment : Fragment() {
 	}
 
 	private fun detailRefreshEvnet() {
-		context?.RefreshEvent(swipeRefreshLayout){ loadFullList()}
+		context?.RefreshEvent(swipeRefreshLayout,true){ loadFullList()}
 	}
 }

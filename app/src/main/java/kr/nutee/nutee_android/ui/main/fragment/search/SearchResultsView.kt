@@ -31,9 +31,12 @@ class SearchResultsView : FragmentActivity() {
 		loadSesrch(searchBoxText)
 
 		//검색어 창 기능
-		tv_search_results_find.apply {
+		tv_searchBoxText.apply {
 			setOnClickListener{ finish() }
 			text = searchBoxText
+		}
+		img_search_back_btn.setOnClickListener {
+			onBackPressed()
 		}
 	}
 

@@ -18,8 +18,6 @@ object RequestToServer {
             chain.proceed(original.newBuilder().addHeader("Accept","application/hal+json").build())
             if (original.url.encodedPath.equals("/sns/upload", true)
             ) {
-//                chain.proceed(original.newBuilder()
-//                    .addHeader("Content-Type", "charset=UTF-8").build())
                 chain.proceed(original)
             } else {
                 chain.proceed(original.newBuilder()

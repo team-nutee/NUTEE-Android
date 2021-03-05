@@ -118,17 +118,17 @@
                         tools:text="Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda." />
 
                     <ImageView
-                        android:id="@+id/img_detail_favorit_btn"
+                        android:id="@+id/img_detail_comment_favorit_btn"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginRight="8dp"
                         android:src="@drawable/main_favorite_selector"
-                        app:layout_constraintBottom_toBottomOf="@+id/text_detail_favorit_count"
-                        app:layout_constraintEnd_toStartOf="@+id/text_detail_favorit_count"
-                        app:layout_constraintTop_toTopOf="@+id/text_detail_favorit_count" />
+                        app:layout_constraintBottom_toBottomOf="@+id/text_detail_comment_favorit_count"
+                        app:layout_constraintEnd_toStartOf="@+id/text_detail_comment_favorit_count"
+                        app:layout_constraintTop_toTopOf="@+id/text_detail_comment_favorit_count" />
 
                     <TextView
-                        android:id="@+id/text_detail_favorit_count"
+                        android:id="@+id/text_detail_comment_favorit_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
@@ -149,7 +149,7 @@
                         android:paddingVertical="20dp"
                         android:visibility="gone"
                         app:layout_constraintDimensionRatio="1:0.6"
-                        app:layout_constraintBottom_toTopOf="@+id/text_detail_favorit_count"
+                        app:layout_constraintBottom_toTopOf="@+id/text_detail_comment_favorit_count"
                         app:layout_constraintEnd_toEndOf="@+id/text_detail_content"
                         app:layout_constraintStart_toStartOf="@+id/text_detail_content"
                         app:layout_constraintTop_toBottomOf="@+id/text_detail_content">
