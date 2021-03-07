@@ -146,15 +146,15 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 			"Bearer "+ TestToken.testToken,
 			//App.prefs.local_login_token,
 			RequestRewritePost(
-				addTitle.text.toString(),
-				addContent.text.toString(),
+					addTitle.text.toString(),
+					addContent.text.toString(),
 				null
 			),
 			postId
 		)
 			.customEnqueue(
 				onSuccess = {
-					loadDetailPost(it.body()?.body?.id!!)
+					loadDetailPost(it.body()?.body?.id!!,true)
 				},
 				onError = {}
 			)
@@ -188,7 +188,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 								Log.d("Network", "사진 포스트 업로드 완료")
 								Log.d("Network", "사진 개수 ${it.body()?.body?.images?.size}")
 								loadingDialog.dismissDialog()
-								loadDetailPost(it.body()?.body?.id!!)
+								loadDetailPost(it.body()?.body?.id!!, true)
 							},
 							onError = {
 								Log.d("Network", "사진 포스트 업로드 실패")
@@ -230,7 +230,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 								Log.d("Network", "사진 포스트 업로드 완료")
 								Log.d("Network", "사진 개수 ${it.body()?.body?.images?.size}")
 								loadingDialog.dismissDialog()
-								loadDetailPost(it.body()?.body?.id!!)
+								loadDetailPost(it.body()?.body?.id!!, false)
 							},
 							onError = {
 								Log.d("Network", "사진 포스트 업로드 실패")
@@ -259,7 +259,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 			.customEnqueue(
 				onSuccess = {
 					Log.d("Network", "사진 없는 포스트 생성 성공")
-					loadDetailPost(it.body()?.body?.id!!)
+					loadDetailPost(it.body()?.body?.id!!, false)
 				},
 				onError = {
 					Log.d("Network", "포스트 생성 실패")
@@ -310,7 +310,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 		addImageList.adapter =ImageAdapter(selectedImage, this)
 	}
 
-	private fun loadDetailPost(id: Int) {
+	private fun loadDetailPost(id: Int, rewriteBool: Boolean) {
 		loadingDialog.dismissDialog()
 		val intent = Intent(applicationContext, HomeDetailActivity::class.java)
 		intent.putExtra("Detail_id",id)

@@ -22,7 +22,7 @@ import kr.nutee.nutee_android.ui.extend.imageSetting.setImageURLSetting
 
 class HomeDetailCommentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-	private val img_comment_profile: ImageView = itemView.findViewById<ImageView>(R.id.img_comment_profile)
+	private val img_comment_profile: ImageView = itemView.findViewById(R.id.img_comment_profile)
 	private val text_commnet_nick = itemView.findViewById<TextView>(R.id.text_commnet_nick)
 	private val text_comment_content = itemView.findViewById<TextView>(R.id.text_comment_content)
 	private val text_comment_updateAt = itemView.findViewById<TextView>(R.id.text_comment_updateAt)
@@ -30,11 +30,16 @@ class HomeDetailCommentViewHolder(itemView: View) : RecyclerView.ViewHolder(item
 	private val more_button = itemView.findViewById<ImageView>(R.id.img_comment_more)
 	private val img_detail_favorit_btn=itemView.findViewById<ImageView>(R.id.img_detail_comment_favorit_btn)
 	private val text_detail_favorit_count=itemView.findViewById<TextView>(R.id.text_detail_comment_favorit_count)
+	private val textRewrite = itemView.findViewById<TextView>(R.id.text_comment_rewrite)
 
 	lateinit var homeDetailReplyAdapter:HomeDetailReplyAdapter
 	private var commentId:Int?=0
 
-    fun bind(customData: CommentBody, postId: Int?, context: Context) {
+    fun bind(
+			customData: CommentBody,
+			postId: Int?,
+			context: Context
+	) {
 		commentId=customData.id
 
 		//답글 목록 생성
@@ -52,7 +57,11 @@ class HomeDetailCommentViewHolder(itemView: View) : RecyclerView.ViewHolder(item
 		).into(img_comment_profile)
 		text_commnet_nick.text = customData.user?.nickname
 		text_comment_content.text = customData.content
-		text_comment_updateAt.text = customData.updatedAt?.let { DateParser(it).calculateDiffDate() }
+		text_comment_updateAt.text = customData.updatedAt?.let { DateParser(it).calculateDiffDate()}
+		//수정 여부 표시
+		if(customData.updatedAt !=customData.createdAt)
+			textRewrite.visibility=View.VISIBLE
+
 		more_button.setOnClickListener{
 			moreEvent(customData,postId,context)
 		}
@@ -98,24 +107,19 @@ class HomeDetailCommentViewHolder(itemView: View) : RecyclerView.ViewHolder(item
 				context.startActivity(intent)
 			},
 			{//댓글 신고
-				itemView.context.customSelectDialog(View.VISIBLE, View.GONE, View.GONE, View.GONE,
-					{ Log.d("select button", "댓글 신고")
-						itemView.context.cumstomReportDialog("이 댓글을 신고하시겠습니까?"){
-							RequestToServer.backService.requestReportComment(
-								"Bearer " + TestToken.testToken,
-								postId,
-								customData.id,
-								RequestReport(it)
-							).customEnqueue(
-								onSuccess = {
-									Toast.makeText(
-										itemView.context,
+				itemView.context.cumstomReportDialog("이 댓글을 신고하시겠습니까?"){
+					RequestToServer.backService.requestReportComment(
+							"Bearer " + TestToken.testToken,
+							postId,
+							customData.id,
+							RequestReport(it)
+					).customEnqueue(
+							onSuccess = {
+								Toast.makeText(itemView.context,
 										"신고가 성공적으로 접수되었습니다.",
-										Toast.LENGTH_SHORT
-									).show()
-								}
-							)}
-					})
+										Toast.LENGTH_SHORT).show()
+							}
+					)}
 			}
 		)
 

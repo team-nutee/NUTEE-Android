@@ -15,6 +15,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
 import com.volokh.danylo.hashtaghelper.HashTagHelper
 import kotlinx.android.synthetic.main.main_home_detail_activtiy.*
+import kotlinx.android.synthetic.main.main_home_detail_activtiy.img_detail_comment_favorit_btn
+import kotlinx.android.synthetic.main.main_home_detail_activtiy.text_detail_comment_favorit_count
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.DateParser
 import kr.nutee.nutee_android.data.QueryValue
@@ -65,6 +67,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 	lateinit var detailContent: TextView
 	lateinit var detailNickname: TextView
 	lateinit var detailTime:TextView
+	lateinit var detailRewrite:TextView
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -73,6 +76,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		detailTime=findViewById(R.id.text_detail_time)
 		detailContent=findViewById(R.id.text_detail_content)
 		swipeRefreshLayout=findViewById(R.id.swipe_refresh_detail_view)
+		detailRewrite=findViewById(R.id.text_detail_content_rewrite)
 
 		init()
 	}
@@ -158,6 +162,10 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		)
 		else Log.d("Network", "글 상세 뷰 사진 null")
 
+		//수정 여부 표시
+		if(responseMainItem.updatedAt !=responseMainItem.createdAt)
+			detailRewrite.visibility=View.VISIBLE
+
 		//답글 생성 시
 		if(intent.hasExtra("reply")) {
 			et_detail_comment.requestFocus()
@@ -205,7 +213,9 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		contentMoreEvent(responseBody.user,
 			View.GONE,{},
 			{//게시글 수정
-					if (responseBody.images.isNullOrEmpty1()) rewritePost(responseBody)
+					if (responseBody.images.isNullOrEmpty1()) {
+						rewritePost(responseBody)
+					}
 					else customDialogSingleButton(getString(R.string.UnableRewritePost))
 			},
 			{//게시글 삭제
@@ -314,9 +324,11 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		if (responseBody?.images?.isNullOrEmpty1() == false){
 			val imageArrayList = responseBody.images.toCollection(ArrayList())
 			intent.putParcelableArrayListExtra("rewriteImage", imageArrayList)
+			finish()
 			startActivity(intent)
 			return
 		}
+		finish()
 		startActivity(intent)
 	}
 
@@ -379,15 +391,19 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		).customEnqueue(
 			onSuccess = {
 				Log.d("Network", "댓글 수정 성공")
-				finish()
-				val intent = Intent(this, HomeDetailActivity::class.java)
-				intent.putExtra("Detail_id", postId)
-				startActivity(intent)
+
 			},
 			onError = {
 				Toast.makeText(this, "댓글 수정 네트워크 오류", Toast.LENGTH_SHORT).show()
 			}
 		)
+		val manager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+		manager.hideSoftInputFromWindow(
+				currentFocus!!.windowToken,
+				InputMethodManager.HIDE_NOT_ALWAYS
+		)
+		et_detail_comment.setText("")
+		detailRefreshEvnet(false)
 	}
 
 	private fun postReply(postId: Int?, commentId: Int?) {

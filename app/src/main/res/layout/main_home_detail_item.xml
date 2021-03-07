@@ -23,12 +23,25 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
         android:lineSpacingExtra="3sp"
-        android:textColor="#000000"
+        android:textColor="@color/colorBlack"
         android:textSize="14dp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/img_comment_profile"
         app:layout_constraintTop_toTopOf="@+id/img_comment_profile"
         tools:text="닉네임" />
+
+    <TextView
+        android:id="@+id/text_comment_rewrite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:visibility="gone"
+        android:text="(수정)"
+        android:textSize="14dp"
+        android:textColor="@color/colorMediumGray"
+        app:layout_constraintBottom_toBottomOf="@+id/text_commnet_nick"
+        app:layout_constraintStart_toEndOf="@+id/text_commnet_nick"
+        app:layout_constraintTop_toTopOf="@+id/text_commnet_nick" />
 
     <TextView
         android:id="@+id/text_comment_content"
@@ -57,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:lineSpacingExtra="2sp"
-            android:textColor="#707070"
+            android:textColor="@color/colorMediumGray"
             android:textSize="11dp"
             app:layout_constraintStart_toStartOf="@+id/img_comment_profile"
             app:layout_constraintTop_toBottomOf="@+id/img_comment_profile"
@@ -75,10 +88,8 @@
             android:src="@drawable/main_favorite_selector"
             app:layout_constraintBottom_toBottomOf="@+id/text_detail_comment_favorit_count"
             app:layout_constraintEnd_toStartOf="@+id/text_detail_comment_favorit_count"
-            app:layout_constraintHorizontal_bias="0.615"
             app:layout_constraintStart_toEndOf="@+id/text_comment_updateAt"
-            app:layout_constraintTop_toTopOf="@+id/text_detail_comment_favorit_count"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="@+id/text_detail_comment_favorit_count" />
 
         <TextView
             android:id="@+id/text_detail_comment_like"
@@ -97,7 +108,7 @@
             android:lineSpacingExtra="5sp"
             android:layout_gravity="center"
             android:text="0"
-            android:textColor="#ff0000"
+            android:textColor="@color/colorGray"
             android:textSize="11sp"
             tools:layout_editor_absoluteX="55dp"
             tools:layout_editor_absoluteY="65dp" />
@@ -110,8 +121,9 @@
         android:layout_height="20dp"
         android:layout_marginEnd="20dp"
         android:src="@drawable/main_more_horiz_img"
+        app:layout_constraintBottom_toBottomOf="@+id/text_comment_rewrite"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/text_comment_content" />
+        app:layout_constraintTop_toTopOf="@+id/text_comment_rewrite" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_comment_reply"

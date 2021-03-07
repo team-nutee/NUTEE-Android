@@ -7,8 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.main.home.CommentBody
 
-class HomeDetailCommentAdpater(val context: Context, var datas: Array<CommentBody>, val postId: Int?) : RecyclerView.Adapter<HomeDetailCommentViewHolder>() {
-
+class HomeDetailCommentAdpater(
+        val context: Context,
+        var datas: Array<CommentBody>,
+        val postId: Int?
+) : RecyclerView.Adapter<HomeDetailCommentViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeDetailCommentViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.main_home_detail_item,parent,false)
         return HomeDetailCommentViewHolder(view)

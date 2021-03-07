@@ -29,8 +29,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="date"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/colorMediumGray"
             android:textSize="11dp" />
+
+        <TextView
+            android:id="@+id/text_main_item_rewrite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:visibility="gone"
+            android:text="(수정)"
+            android:textSize="11dp"
+            android:textColor="@color/colorMediumGray"/>
 
         <View
             android:layout_width="match_parent"

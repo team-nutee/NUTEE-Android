@@ -30,6 +30,7 @@ class HomeDetailReplyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVi
 	private val img_detail_comment_favorit_btn=itemView.findViewById<ImageView>(R.id.img_detail_comment_favorit_btn)
 	private val text_detail_comment_favorit_count=itemView.findViewById<TextView>(R.id.text_detail_comment_favorit_count)
 	private val more_button=itemView.findViewById<ImageView>(R.id.img_comment_more)
+	private val textRewrite = itemView.findViewById<TextView>(R.id.text_comment_rewrite)
 
 	fun bindWithView(reComment: ReComment, context: Context, postId: Int?, commentId: Int?) {
 		Glide.with(itemView).load(
@@ -41,7 +42,9 @@ class HomeDetailReplyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVi
 		text_comment_content.text = reComment.content
 		text_comment_updateAt.text = reComment.updatedAt?.let { DateParser(it).calculateDiffDate() }
 		setLikeEvent(img_detail_comment_favorit_btn,text_detail_comment_favorit_count,reComment.likers)
-
+		//수정 여부 표시
+		if(reComment.updatedAt !=reComment.createdAt)
+			textRewrite.visibility=View.VISIBLE
 
 		img_detail_comment_favorit_btn.setOnClickListener {
 			likeClickEvent(it, postId, reComment.id, text_detail_comment_favorit_count)
