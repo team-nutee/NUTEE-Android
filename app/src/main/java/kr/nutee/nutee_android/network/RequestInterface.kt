@@ -1,6 +1,7 @@
 package kr.nutee.nutee_android.network
 
 import kr.nutee.nutee_android.data.App
+import kr.nutee.nutee_android.data.ResponseWrapper
 import kr.nutee.nutee_android.data.main.RequestReport
 import kr.nutee.nutee_android.data.main.add.ResponseImage
 import kr.nutee.nutee_android.data.main.add.RequestRewritePost
@@ -298,5 +299,11 @@ interface RequestInterface {
 		@Query("lastId") lastId: Int,
 		@Query("limit") limit: Int
 	):Call<ResponseMain>
+
+	@GET("/sns/category/interests")
+	fun getCategory(): Call<ResponseWrapper<List<String>>>
+
+	@GET("/sns/category/majors")
+	fun getMajors(): Call<ResponseWrapper<List<String>>>
 
 }

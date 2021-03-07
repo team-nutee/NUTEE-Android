@@ -245,7 +245,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 			)
 	}
 
-	private fun uploadNonImage() {
+	private fun uploadNonImage() {Log.d("Network", "uploadNonImage 함수 사용")
 		requestToServer.backService
 			.requestPost(
 				"Bearer "+TestToken.testToken,
@@ -258,7 +258,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 				))
 			.customEnqueue(
 				onSuccess = {
-					Log.d("Network", "포스트 생성 성공")
+					Log.d("Network", "사진 없는 포스트 생성 성공")
 					loadDetailPost(it.body()?.body?.id!!)
 				},
 				onError = {

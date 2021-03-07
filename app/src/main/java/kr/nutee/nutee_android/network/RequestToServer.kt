@@ -2,6 +2,7 @@ package kr.nutee.nutee_android.network
 
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -11,18 +12,23 @@ object RequestToServer {
     private val clientNotice = OkHttpClient.Builder()
         .addInterceptor(logging)
         .build()
+
     private val clientNutee = OkHttpClient.Builder()
         .addInterceptor { chain: Interceptor.Chain ->
-            val original = chain.request()
+            val request = chain.request()
 
-            chain.proceed(original.newBuilder().addHeader("Accept","application/hal+json").build())
-            if (original.url.encodedPath.equals("/sns/upload", true)
-            ) {
-                chain.proceed(original)
+            val newRequest: Request =
+                    if (request.url.encodedPath.equals("/sns/upload", true))
+                    {
+                        request.newBuilder()
+                                .addHeader("Accept","application/hal+json").build()
             } else {
-                chain.proceed(original.newBuilder()
-                    .addHeader("Content-Type", "application/json;charset=UTF-8").build())
+                request.newBuilder()
+                        .addHeader("Content-Type", "application/json;charset=UTF-8")
+                        .addHeader("Accept","application/hal+json")
+                        .build()
             }
+            chain.proceed(newRequest)
         }.addInterceptor(logging)
         .build()
 
@@ -47,5 +53,5 @@ object RequestToServer {
     var authService: RequestInterface = authRetrofit.create(RequestInterface::class.java)
     var backService: RequestInterface = BackRetrofit.create(RequestInterface::class.java)
     var noticeService: NoticeRequestInterface = noticeRetrofit.create(NoticeRequestInterface::class.java)
-    val snsCategoryAPI: SNSCategoryAPI = BackRetrofit.create(SNSCategoryAPI::class.java)
+    //val snsCategoryAPI: SNSCategoryAPI = BackRetrofit.create(SNSCategoryAPI::class.java)
 }
