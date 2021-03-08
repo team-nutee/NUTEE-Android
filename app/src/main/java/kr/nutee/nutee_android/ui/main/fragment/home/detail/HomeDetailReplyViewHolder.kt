@@ -33,11 +33,11 @@ class HomeDetailReplyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVi
 	private val textRewrite = itemView.findViewById<TextView>(R.id.text_comment_rewrite)
 
 	fun bindWithView(reComment: ReComment, context: Context, postId: Int?, commentId: Int?) {
-		Glide.with(itemView).load(
-			setImageURLSetting(
-				reComment.user?.Image?.src
-			)
-		).into(img_comment_profile)
+		//답글 프로필 이미지 설정
+		Glide.with(itemView)
+			.load(reComment.user?.image?.src)
+			.fallback(R.mipmap.nutee_character_background_white_round)
+			.into(img_comment_profile)
 		text_commnet_nick.text = reComment.user?.nickname
 		text_comment_content.text = reComment.content
 		text_comment_updateAt.text = reComment.updatedAt?.let { DateParser(it).calculateDiffDate() }

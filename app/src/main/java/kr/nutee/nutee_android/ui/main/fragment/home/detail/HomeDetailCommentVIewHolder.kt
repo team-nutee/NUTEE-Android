@@ -50,11 +50,11 @@ class HomeDetailCommentViewHolder(itemView: View) : RecyclerView.ViewHolder(item
 
 
 		setLikeEvent(img_detail_favorit_btn,text_detail_favorit_count,customData.likers)
-		Glide.with(itemView).load(
-			setImageURLSetting(
-				customData.user?.Image?.src
-			)
-		).into(img_comment_profile)
+		//댓글 프로필 이미지 설정
+		Glide.with(itemView)
+			.load(customData.user?.image?.src)
+			.fallback(R.mipmap.nutee_character_background_white_round)
+			.into(img_comment_profile)
 		text_commnet_nick.text = customData.user?.nickname
 		text_comment_content.text = customData.content
 		text_comment_updateAt.text = customData.updatedAt?.let { DateParser(it).calculateDiffDate()}
