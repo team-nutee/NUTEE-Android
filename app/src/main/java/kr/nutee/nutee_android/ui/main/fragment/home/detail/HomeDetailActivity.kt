@@ -143,9 +143,15 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 	}
 
 	private fun bindDetailPostEvent(responseMainItem: Body) {
-		val userImageLoad = setImageURLSetting(responseMainItem.user?.Image?.src)
-		Glide.with(applicationContext).load(userImageLoad).placeholder(glideProgressDrawable())
-			.into(img_detail_profile)
+		//val userImageLoad = setImageURLSetting(responseMainItem.user?.Image?.src)
+		//if(responseMainItem.user?.Image!=null)
+
+		Log.d("Glide test", "프로필 사진 로딩")
+		GlideApp.with(applicationContext)
+				.load(responseMainItem.user?.Image?.src)
+				//.placeholder(glideProgressDrawable())
+				//.fallback(R.mipmap.nutee_logo_round)
+				.into(img_detail_profile)
 		detailNickname.text = responseMainItem.user?.nickname
 		detailTime.text =
 			responseMainItem.createdAt?.let { DateParser(it).calculateDiffDate() }
