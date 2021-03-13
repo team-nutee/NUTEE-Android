@@ -59,9 +59,8 @@ class MyMajorPostFragment : Fragment() {
 	}
 
 	private fun loadFavoriteList(){
-		requestToServer.backService.requestCategoryList(
+		requestToServer.backService.requestMyMajorList(
 			"Bearer "+TestToken.testToken,
-				TestToken.testCategory,
 			QueryValue.lastId,
 			QueryValue.limit
 		).customEnqueue(

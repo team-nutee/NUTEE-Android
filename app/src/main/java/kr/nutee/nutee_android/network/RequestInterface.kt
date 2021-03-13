@@ -48,6 +48,14 @@ interface RequestInterface {
 			@Query("limit") limit: Int
 	):Call<LookUpList>
 
+	//LookUp My Major list
+	@GET("/sns/post/major")
+	fun requestMyMajorList(
+			@Header("Authorization") Authorization:String,
+			@Query("lastId") lastId: Int,
+			@Query("limit") limit: Int
+	):Call<LookUpList>
+
 	/*post*/
 	//LookUp post detail
 	@GET("/sns/post/{id}")
