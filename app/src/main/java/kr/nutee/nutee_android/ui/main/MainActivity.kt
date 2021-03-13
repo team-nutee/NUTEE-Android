@@ -3,27 +3,21 @@ package kr.nutee.nutee_android.ui.main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.main_fragment_search.*
 import kr.nutee.nutee_android.R
-import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.ui.extend.loadMainPageFragment
 import kr.nutee.nutee_android.ui.main.fragment.add.AddActivity
 import kr.nutee.nutee_android.ui.main.fragment.home.HomeFragement
 import kr.nutee.nutee_android.ui.main.fragment.notice.NoticeFragment
 import kr.nutee.nutee_android.ui.main.fragment.profile.ProfileFragment
-import kr.nutee.nutee_android.ui.main.fragment.search.SearchFragment
 import kr.nutee.nutee_android.ui.main.fragment.search.SearchView
-import kr.nutee.nutee_android.ui.setting.SettingActivity
 
 class MainActivity : AppCompatActivity() {
 

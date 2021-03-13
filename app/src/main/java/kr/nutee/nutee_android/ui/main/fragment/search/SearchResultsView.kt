@@ -1,5 +1,6 @@
 package kr.nutee.nutee_android.ui.main.fragment.search
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
@@ -25,10 +26,7 @@ class SearchResultsView : FragmentActivity() {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_search_results_view)
 
-		//검색어
-		searchBoxText=intent.getStringExtra("searchBoxText")
-
-		loadSesrch(searchBoxText)
+		loadSearchView()
 
 		//검색어 창 기능
 		tv_searchBoxText.apply {
@@ -40,7 +38,31 @@ class SearchResultsView : FragmentActivity() {
 		}
 	}
 
-	fun setFrag(searchResult: Boolean){
+	private fun loadSearchView(){
+		if(intent.hasExtra("categorySearch")){
+			searchBoxText=intent.getStringExtra("categorySearch")!!
+			requestToServer.backService.requestCategoryList(
+					"Bearer "+TestToken.testToken,
+					//"Bearer "+App.prefs.local_login_token,
+					searchBoxText,
+					QueryValue.lastId,
+					QueryValue.limit
+			).customEnqueue(
+					onSuccess = {
+						bodyList=it.body()?.body!!
+						if (it.body()?.body.isNullOrEmpty())
+							setFrag(false)
+						else
+							setFrag(true)
+					}
+			)
+			return
+		}
+		searchBoxText=intent.getStringExtra("searchBoxText")!!
+		loadSesrch(searchBoxText)
+	}
+
+	private fun setFrag(searchResult: Boolean){
 		val fragmentManager=supportFragmentManager.beginTransaction()
 
 		fragmentManager.apply {

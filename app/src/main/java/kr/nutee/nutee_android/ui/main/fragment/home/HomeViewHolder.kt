@@ -126,20 +126,10 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 		itemView.context.startActivity(intent)
 	}
 
-	fun categoryClickEvent(view:View, customData: Body){
-		requestToServer.backService.requestCategoryList(
-			"Bearer "+App.prefs.local_login_token,
-			customData.category,
-			QueryValue.lastId,
-			QueryValue.limit
-		)
-			.customEnqueue(
-				onSuccess = {
-					val intent = Intent(itemView.context, SearchResultsView::class.java)
-					intent.putExtra("category",customData.category) //검색어
-					intent.putExtra("categoryBodyList", it.body()?.body)//검색 결과 바디
-				}
-			)
+	private fun categoryClickEvent(view:View, customData: Body){
+		val intent = Intent(itemView.context, SearchResultsView::class.java)
+		intent.putExtra("categorySearch",customData.category) //검색어
+		itemView.context.startActivity(intent)
 	}
 
 	private fun checkNullInItem(customData: Body){
