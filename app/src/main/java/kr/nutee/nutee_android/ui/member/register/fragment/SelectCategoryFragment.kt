@@ -8,14 +8,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import kr.nutee.nutee_android.databinding.MemberRegisterSelectCategoryFragmentBinding
 import kr.nutee.nutee_android.ui.member.register.OnRegisterDataSetListener
-import kr.nutee.nutee_android.ui.member.register.bottomsheet.ModalSelectCategory
+import kr.nutee.nutee_android.ui.member.register.bottomsheet.ModalSelectMultipleCategory
 
 class SelectCategoryFragment : Fragment() {
     private var binding: MemberRegisterSelectCategoryFragmentBinding? = null
     private var onRegisterDataSetListener: OnRegisterDataSetListener? = null
     private lateinit var adapter: SelectedCategoryAdapter
-    private val modalSelectCategory: ModalSelectCategory by lazy {
-        ModalSelectCategory()
+    private val modalSelectCategory: ModalSelectMultipleCategory by lazy {
+        ModalSelectMultipleCategory()
     }
 
     private var registerCategoryPreviousEvnetListener: (() -> Unit)? = null

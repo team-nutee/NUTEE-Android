@@ -24,6 +24,8 @@ import kr.nutee.nutee_android.ui.extend.dialog.CustomLodingDialog
 import kr.nutee.nutee_android.ui.extend.dialog.customDialog
 import kr.nutee.nutee_android.ui.extend.imageSetting.createImageMultipart
 import kr.nutee.nutee_android.ui.main.fragment.home.detail.HomeDetailActivity
+import kr.nutee.nutee_android.ui.member.register.bottomsheet.ModalSelectCategory
+import kr.nutee.nutee_android.ui.member.register.bottomsheet.ModalSelectDepartment
 
 
 /*
@@ -34,16 +36,19 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 
 	val requestToServer = RequestToServer
 	private val REQUEST_CODE_PICK_IMAGE = 1001
+	private val modalSelectDepartment by lazy { ModalSelectDepartment() }
+	private val modalSelectCategory by lazy { ModalSelectCategory() }
+
 	var selectedImage = arrayListOf<Uri>()
 	lateinit var loadingDialog:CustomLodingDialog
 	lateinit var addContent:EditText
 	lateinit var addTitle:EditText
 	lateinit var addCategory:TextView
+	lateinit var addMajor:TextView
 	lateinit var addImageList:RecyclerView
 	private var postId: Int? = 0
 
-	private var booleanTitle=false
-	private var booleanContent=false
+	private lateinit var requestCategory:String
 
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,6 +57,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 		addTitle=findViewById(R.id.et_add_title)
 		addContent=findViewById(R.id.et_add_content)
 		addCategory=findViewById(R.id.text_add_category)
+		addMajor=findViewById(R.id.text_add_major)
 		addImageList=findViewById(R.id.rv_image_list)
 
 		if(intent.hasExtra("content")) fixDataMapping()
@@ -91,6 +97,37 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 		text_back_button.setOnClickListener(this)
 		img_upload_image_btn.setOnClickListener(this)
 		text_create_button.setOnClickListener(this)
+		addMajor.setOnClickListener{onClickMajor(it)}
+		addCategory.setOnClickListener { onClickCategory(it) }
+	}
+
+	private fun onClickMajor(view: View) {
+		showModel(view)
+		modalSelectDepartment.setItemClickListener {
+			addMajor.text = it
+			addCategory.apply {
+				isActivated=true
+				isEnabled=false
+			}
+		}
+	}
+
+	private fun onClickCategory(view: View) {
+		showModel(view)
+		modalSelectCategory.setItemClickListener {
+			addCategory.text = it
+			addMajor.apply {
+				isActivated=true
+				isEnabled=false
+			}
+		}
+	}
+
+	private fun showModel(view: View) {
+		when (view) {
+			addMajor -> modalSelectDepartment.show(supportFragmentManager, null)
+			addCategory->modalSelectCategory.show(supportFragmentManager,null)
+		}
 	}
 
 	override fun onClick(v: View?) {
@@ -126,6 +163,12 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	}
 
 	private fun uploadContent() {
+		//요청카테고리 설정
+		requestCategory = if(addCategory.isActivated)
+			addMajor.text.toString()
+		else
+			addCategory.text.toString()
+
 		loadingDialog.startLoadingDialog()
 		if (selectedImage.size > 0) {
 			uploadHasImage()
@@ -222,8 +265,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 							addTitle.text.toString(),
 							addContent.text.toString(),
 							imagesArray,
-							TestToken.testCategory
-							//addCategory.toString()
+								requestCategory
 						))
 						.customEnqueue(
 							onSuccess = {
@@ -253,8 +295,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 					addTitle.text.toString(),
 					addContent.text.toString(),
 					null,
-					TestToken.testCategory
-					//viewCategory.toString()
+							requestCategory
 				))
 			.customEnqueue(
 				onSuccess = {

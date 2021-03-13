@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="15dp"
-            android:background="@drawable/shape_category_box"
+            android:background="@drawable/shape_category_box_color_base"
             android:backgroundTint="@color/colorMediumGray"
             android:paddingVertical="2dp"
             android:paddingHorizontal="13dp"
