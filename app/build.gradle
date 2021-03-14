@@ -104,4 +104,7 @@ dependencies {
 
     //Swiperefreshlayout
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
+    //카드뷰 레이아웃
+    implementation "androidx.cardview:cardview:1.0.0"
 }

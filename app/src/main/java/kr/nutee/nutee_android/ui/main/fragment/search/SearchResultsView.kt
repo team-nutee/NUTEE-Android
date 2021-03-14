@@ -1,10 +1,8 @@
 package kr.nutee.nutee_android.ui.main.fragment.search
 
-import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
-import kotlinx.android.synthetic.main.activity_search_results_view.*
+import kotlinx.android.synthetic.main.search_results_activity.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.QueryValue
 import kr.nutee.nutee_android.data.TestToken
@@ -24,7 +22,7 @@ class SearchResultsView : FragmentActivity() {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		setContentView(R.layout.activity_search_results_view)
+		setContentView(R.layout.search_results_activity)
 
 		loadSearchView()
 

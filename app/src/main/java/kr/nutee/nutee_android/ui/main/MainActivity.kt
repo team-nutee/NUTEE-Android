@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.main_activity.*
-import kotlinx.android.synthetic.main.main_fragment_search.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.ui.extend.loadMainPageFragment
 import kr.nutee.nutee_android.ui.main.fragment.add.AddActivity
