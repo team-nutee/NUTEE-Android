@@ -3,7 +3,6 @@ package kr.nutee.nutee_android.ui.main.fragment.search
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.KeyEvent
 import android.view.KeyEvent.ACTION_DOWN
 import android.view.View

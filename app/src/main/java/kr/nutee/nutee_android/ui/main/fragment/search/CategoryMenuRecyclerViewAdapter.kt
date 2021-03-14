@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kr.nutee.nutee_android.R
 
-class CategoryMenuRecyclerViewAdapter(private val categoryList:List<String>)
+class CategoryMenuRecyclerViewAdapter(private val categoryList: List<String>)
     : RecyclerView.Adapter<CategoryMenuViewHolder>()  {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryMenuViewHolder {
         val view=LayoutInflater.from(parent.context).inflate(R.layout.search_category_item,parent,false)

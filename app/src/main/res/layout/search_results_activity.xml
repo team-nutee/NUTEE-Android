@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="10dp"
     android:paddingBottom="10dp"
     android:orientation="vertical"
     tools:context=".ui.main.fragment.search.SearchResultsView">
@@ -14,6 +13,7 @@
         android:id="@+id/cl_search_top_bar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        android:paddingHorizontal="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -47,8 +47,18 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@drawable/drop_shadow"
+        app:layout_constraintTop_toBottomOf="@id/et_search_box"
+        app:layout_constraintEnd_toEndOf="@+id/et_search_box"
+        app:layout_constraintStart_toStartOf="@+id/et_search_box" />
+
     <FrameLayout
         android:id="@+id/fl_search_results_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:paddingHorizontal="10dp"/>
 </androidx.appcompat.widget.LinearLayoutCompat>

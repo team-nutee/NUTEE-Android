@@ -37,7 +37,7 @@ class SearchResultsFindFragment : Fragment() {
 		//loadSesrch(searchBoxText, lastId, limit)
 		rv_search_results.apply {
 			layoutManager= LinearLayoutManager(
-				getActivity(), LinearLayoutManager.VERTICAL, false
+					activity, LinearLayoutManager.VERTICAL, false
 			)
 			adapter= HomeRecyclerViewAdapter(bodyList)
 		}
