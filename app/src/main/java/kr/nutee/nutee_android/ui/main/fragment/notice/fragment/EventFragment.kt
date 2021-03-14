@@ -24,8 +24,8 @@ class EventFragment : Fragment() {
 	val requestToServer = RequestToServer
 
 	override fun onCreateView(
-		inflater: LayoutInflater, container: ViewGroup?,
-		savedInstanceState: Bundle?
+			inflater: LayoutInflater, container: ViewGroup?,
+			savedInstanceState: Bundle?
 	): View? {
 		// Inflate the layout for this fragment
 		return inflater.inflate(R.layout.notice_fragment_event, container, false)
@@ -35,20 +35,19 @@ class EventFragment : Fragment() {
 		super.onViewCreated(view, savedInstanceState)
 
 		rv_notice_event.layoutManager = LinearLayoutManager(this.context,
-			LinearLayoutManager.VERTICAL, false)
+				LinearLayoutManager.VERTICAL, false)
 		rv_notice_event.setHasFixedSize(true)
 
-		//loadEvent{}
+		loadEvent()
 
 	}
 
-//	private fun loadEvent(function: (resBachelor:Notice) -> Unit) {
-//		requestToServer.noticeService.requestEvent(
-//		).customEnqueue { response ->
-//			response.body()?.let {
-//				rv_notice_event.adapter =  NoticeRecyclerAdapter(this.context!!, it)
-//			}
-//		}
-//	}
-
+	private fun loadEvent() {
+		requestToServer.noticeService.requestEvent(
+		).customEnqueue(
+				onSuccess = {
+					rv_notice_event.adapter = NoticeRecyclerAdapter(this.context!!, it.body()!!)
+				}
+		)
+	}
 }

@@ -38,17 +38,15 @@ class ClassFragment : Fragment() {
 			LinearLayoutManager.VERTICAL, false)
 		rv_notice_class.setHasFixedSize(true)
 
-		//loadClass{}
+		loadClass()
 
 	}
 
-//	private fun loadClass(function: (resBachelor:Notice) -> Unit) {
-//		requestToServer.noticeService.requestClass(
-//		).customEnqueue { response ->
-//			response.body()?.let {
-//				rv_notice_class.adapter = NoticeRecyclerAdapter(this.context!!, it)
-//			}
-//		}
-//	}
-
+	private fun loadClass() {
+		requestToServer.noticeService.requestClass(
+		).customEnqueue (
+				onSuccess = {
+					rv_notice_class.adapter = NoticeRecyclerAdapter(this.context!!, it.body()!!)
+				})
+			}
 }

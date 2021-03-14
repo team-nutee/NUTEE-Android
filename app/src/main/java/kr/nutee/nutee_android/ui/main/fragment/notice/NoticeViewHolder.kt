@@ -1,5 +1,6 @@
 package kr.nutee.nutee_android.ui.main.fragment.notice
 
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -26,7 +27,6 @@ class NoticeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
 		if(noticeData.no == "공지")
 			img_notice_priority_high.visibility = View.VISIBLE
-
 	}
 
 }

@@ -1,6 +1,7 @@
 package kr.nutee.nutee_android.ui.main.fragment.notice.fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,8 @@ import kr.nutee.nutee_android.ui.main.fragment.notice.NoticeRecyclerAdapter
 /*
  * Created by eunseo5355
  * DESC: 공지사항의 학사공지 Fragment
+ * Created by 88yhtserof
+ * DESC: 오류 수정
  */
 
 class BachelorFragment : Fragment() {
@@ -37,17 +40,14 @@ class BachelorFragment : Fragment() {
 		rv_notice_bachelor.layoutManager = LinearLayoutManager(this.context,
 			LinearLayoutManager.VERTICAL, false)
 		rv_notice_bachelor.setHasFixedSize(true)
-
-		loadBachelor{}
-
+		loadBachelor()
 	}
 
-	private fun loadBachelor(function: (resBachelor:Notice) -> Unit) {
+	private fun loadBachelor() {
 		requestToServer.noticeService.requestBachelor(
 		).customEnqueue(
 			onSuccess = {
 				rv_notice_bachelor.adapter = NoticeRecyclerAdapter(this.context!!, it.body()!!)
-			},
-			onError = {}
+			}
 		)}
 }

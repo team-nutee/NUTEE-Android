@@ -38,17 +38,17 @@ class ScholarshipFragment : Fragment() {
 			LinearLayoutManager.VERTICAL, false)
 		rv_notice_scholarship.setHasFixedSize(true)
 
-		//loadScholarship {}
+		loadScholarship()
 
 	}
 
-//	private fun loadScholarship(loadfun:(resBachelor: Notice)->Unit) {
-//		requestToServer.noticeService.requestScholarship(
-//		).customEnqueue { response ->
-//			response.body()?.let {
-//				rv_notice_scholarship.adapter = NoticeRecyclerAdapter(this.context!!, it)
-//			}
-//		}
-//	}
+	private fun loadScholarship() {
+		requestToServer.noticeService.requestScholarship(
+		).customEnqueue(
+				onSuccess = {
+					rv_notice_scholarship.adapter = NoticeRecyclerAdapter(this.context!!, it.body()!!)
+				}
+		)}
+
 
 }

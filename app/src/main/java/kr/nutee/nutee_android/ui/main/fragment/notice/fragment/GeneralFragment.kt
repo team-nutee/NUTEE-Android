@@ -38,17 +38,16 @@ class GeneralFragment : Fragment() {
 			LinearLayoutManager.VERTICAL, false)
 		rv_notice_general.setHasFixedSize(true)
 
-		//loadGeneral{}
+		loadGeneral()
 
 	}
 
-//	private fun loadGeneral(loadfun:(resBachelor: Notice)->Unit) {
-//		requestToServer.noticeService.requestGeneral(
-//		).customEnqueue { response ->
-//			response.body()?.let {
-//				rv_notice_general.adapter = NoticeRecyclerAdapter(this.context!!, it)
-//			}
-//		}
-//	}
+	private fun loadGeneral() {
+		requestToServer.noticeService.requestGeneral(
+		).customEnqueue(
+				onSuccess = {
+					rv_notice_general.adapter = NoticeRecyclerAdapter(this.context!!, it.body()!!)
+				}
+		)}
 
 }
