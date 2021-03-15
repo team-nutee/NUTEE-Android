@@ -217,7 +217,7 @@ interface RequestInterface {
 	fun requestNickCheck(@Body body: RequestNickCheck): Call<Unit>
 
 	//Register
-	@POST("/api/user")
+	@POST("/auth/user")
 	fun requestRegister(@Body body: RequestRegister): Call<ResponseRegister>
 
 	//pw check

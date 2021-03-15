@@ -31,6 +31,7 @@ class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
     private var registerId: String? = null
     private var nickName: String? = null
     private var password: String? = null
+    private var otp: String? = null
     private var categoryList: List<String>? = null
     private var majorList: List<String>? = null
 
@@ -90,7 +91,7 @@ class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
     }
 
     private fun loadExitRegisterDialog(okClickListener: () -> Unit) {
-        customDialog("회원가입을 종료하시겠습니까?😥", okClickListener)
+        customDialog("회원가입을 종료하시겠습니까?", okClickListener)
     }
 
     override fun onBackPressed() {
@@ -157,7 +158,10 @@ class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
         RequestToServer.authService
             .requestOTPCheck(body = RequestOTPCheck(otpNum.text.toString()))
             .customEnqueue(
-                onSuccess = { emailAuthOTPSuccessEvent(result) },
+                onSuccess = {
+                    emailAuthOTPSuccessEvent(result)
+                    otp= otpNum.text.toString()
+                            },
                 onError = { emailAuthOTPErrorEvent(result) }
             )
     }
@@ -387,8 +391,7 @@ class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
 
     private fun setDepartmentFragmentNextEvent() {
         selectDepartmentFragment.setReigsterDepartmentNextEventListener {
-            Log.d("test", "서벼연결 되기\n ${majorList?.toString()}")
-            // TODO 서버 연결
+            requestToRegister()
         }
     }
 
@@ -401,8 +404,10 @@ class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
         RequestToServer.authService
             .requestRegister(body = createRegisterBody())
             .customEnqueue(
-                onSuccess = { registerSuccessEvnet(it.body()!!) },
-                onError = {}
+                onSuccess = {
+                    Log.d("Network", "회원가입 성공")
+                    registerSuccessEvnet(it.body()!!)
+                }
             )
     }
 
@@ -428,16 +433,20 @@ class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
 
     private fun createRegisterBody(): RequestRegister {
         return RequestRegister(
-            nickName!!,
-            password!!,
-            registerEmail!!,
-            registerId!!
+                registerId!!,
+                nickName!!,
+                registerEmail!!,
+                password!!,
+                otp!!,
+                categoryList!!,
+                majorList!!
         )
     }
 
     private fun registerSuccessEvnet(response: ResponseRegister) {
         customLodingDialog.dismissDialog()
-        intent.putExtra("id", response.userId)
+        intent.putExtra("id", response.id)
         finish()
+        Toast.makeText(this,"회원가입되었습니다. 로그인 해주세요!",Toast.LENGTH_SHORT).show()
     }
 }
