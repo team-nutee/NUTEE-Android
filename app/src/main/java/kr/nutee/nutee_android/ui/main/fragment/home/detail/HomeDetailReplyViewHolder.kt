@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.main_home_detail_activtiy.*
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.DateParser
 import kr.nutee.nutee_android.data.TestToken
 import kr.nutee.nutee_android.data.main.RequestReport
@@ -68,7 +69,7 @@ class HomeDetailReplyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVi
 			},
 			{//답글 삭제
 				RequestToServer.backService.requestDelComment(
-					"Bearer "+ TestToken.testToken,
+						"Bearer "+ App.prefs.local_login_token,
 					postId,
 					reComment.id
 				).customEnqueue(
@@ -87,7 +88,7 @@ class HomeDetailReplyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVi
 					{ Log.d("select button", "댓글 신고")
 						itemView.context.cumstomReportDialog("이 댓글을 신고하시겠습니까?"){
 							RequestToServer.backService.requestReportComment(
-								"Bearer " + TestToken.testToken,
+									"Bearer "+ App.prefs.local_login_token,
 								postId,
 								reComment.id,
 								RequestReport(it)
@@ -113,7 +114,7 @@ class HomeDetailReplyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVi
 	) {
 		if (view.isActivated) {//이미 좋아요한 경우
 			RequestToServer.backService.requestDelLikecomment(
-					"Bearer "+ TestToken.testToken,
+					"Bearer "+ App.prefs.local_login_token,
 					postId,
 				reCommentId
 			).customEnqueue(
@@ -125,7 +126,7 @@ class HomeDetailReplyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVi
 					})
 		} else {
 			RequestToServer.backService.requestLikecomment(
-					"Bearer "+ TestToken.testToken,
+					"Bearer "+ App.prefs.local_login_token,
 					postId,
 				reCommentId)
 					.customEnqueue(

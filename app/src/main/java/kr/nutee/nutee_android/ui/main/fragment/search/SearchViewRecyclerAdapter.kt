@@ -29,32 +29,32 @@ class SearchViewRecyclerAdapter(var previousSearchResultsList:ArrayList<String>)
 		holder.bindWithView(previousSearchResultsList[position])
 
 
-		//cancle 아이콘 클릭 이벤트
-		holder.itemDelete.setOnClickListener {
-			removeItemView(position)
-
-		}
+//		//cancle 아이콘 클릭 이벤트
+//		holder.itemDelete.setOnClickListener {
+//			removeItemView(position)
+//
+//		}
 	}
 
 
 
-	//이전 검색어 부분 삭제
-	fun removeItemView(position: Int) {
-		//전역 SharedPreference
-		val prefsSearch=App.prefsSearch
-
-		//제거될 아이템 위치부터 다시 SharedPreference 저장
-		for(n in position downTo 0 ) {
-			if(position>0){
-				prefsSearch.setString(
-				prefsSearch.KeyList.size-n,
-				prefsSearch.getString(prefsSearch.KeyList.size-n+1))
-			}
-		}
-		prefsSearch.remove(prefsSearch.KeyList.size)
-
-		previousSearchResultsList.removeAt(position)
-		notifyItemRemoved(position)
-		notifyItemRangeChanged(position, previousSearchResultsList.size)
-	}
+//	//이전 검색어 부분 삭제
+//	fun removeItemView(position: Int) {
+//		//전역 SharedPreference
+//		val prefsSearch=App.prefsSearch
+//
+//		//제거될 아이템 위치부터 다시 SharedPreference 저장
+//		for(n in position downTo 0 ) {
+//			if(position>0){
+//				prefsSearch.setString(
+//				prefsSearch.KeyList.size-n,
+//				prefsSearch.getString(prefsSearch.KeyList.size-n+1))
+//			}
+//		}
+//		prefsSearch.remove(prefsSearch.KeyList.size)
+//
+//		previousSearchResultsList.removeAt(position)
+//		notifyItemRemoved(position)
+//		notifyItemRangeChanged(position, previousSearchResultsList.size)
+//	}
 }

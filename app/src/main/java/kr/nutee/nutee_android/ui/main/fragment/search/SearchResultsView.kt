@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import kotlinx.android.synthetic.main.search_results_activity.*
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.QueryValue
 import kr.nutee.nutee_android.data.TestToken
 import kr.nutee.nutee_android.data.main.home.Body
@@ -40,7 +41,7 @@ class SearchResultsView : FragmentActivity() {
 		if(intent.hasExtra("categorySearch")){
 			searchBoxText=intent.getStringExtra("categorySearch")!!
 			requestToServer.backService.requestCategoryList(
-					"Bearer "+TestToken.testToken,
+					"Bearer "+ App.prefs.local_login_token,
 					//"Bearer "+App.prefs.local_login_token,
 					searchBoxText,
 					QueryValue.lastId,
@@ -82,7 +83,7 @@ class SearchResultsView : FragmentActivity() {
 
 	private fun loadSesrch(searchBoxText: String) {
 		requestToServer.backService.requestSearch(
-			"Bearer "+ TestToken.testToken,
+				"Bearer "+ App.prefs.local_login_token,
 			searchBoxText,
 			QueryValue.lastId,
 			QueryValue.limit

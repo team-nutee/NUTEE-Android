@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.add_activity.*
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.TestToken
 import kr.nutee.nutee_android.data.main.add.RequestRewritePost
 import kr.nutee.nutee_android.data.main.add.RequestPost
@@ -186,7 +187,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 
 	private fun rewritePostNonImage() {
 		requestToServer.backService.requestRewritePost(
-			"Bearer "+ TestToken.testToken,
+				"Bearer "+ App.prefs.local_login_token,
 			//App.prefs.local_login_token,
 			RequestRewritePost(
 					addTitle.text.toString(),
@@ -218,7 +219,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 					}
 					Log.d("Network", "imagesArray 사진 개수 ${imagesArray.size}")
 					requestToServer.backService.requestRewritePost(
-						"Bearer "+ TestToken.testToken,
+							"Bearer "+ App.prefs.local_login_token,
 						//App.prefs.local_login_token,
 						RequestRewritePost(
 							addTitle.text.toString(),
@@ -260,7 +261,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 					}
 					Log.d("Network", "imagesArray 사진 개수 ${imagesArray.size}")
 					requestToServer.backService.requestPost(
-						"Bearer "+ TestToken.testToken,
+							"Bearer "+ App.prefs.local_login_token,
 						RequestPost(
 							addTitle.text.toString(),
 							addContent.text.toString(),
@@ -290,7 +291,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	private fun uploadNonImage() {Log.d("Network", "uploadNonImage 함수 사용")
 		requestToServer.backService
 			.requestPost(
-				"Bearer "+TestToken.testToken,
+					"Bearer "+ App.prefs.local_login_token,
 				RequestPost(
 					addTitle.text.toString(),
 					addContent.text.toString(),

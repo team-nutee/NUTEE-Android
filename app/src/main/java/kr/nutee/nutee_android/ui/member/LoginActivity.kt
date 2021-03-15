@@ -29,7 +29,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 	private val REQUEST_CODE = 1
 	private val requestToServer = RequestToServer
 	lateinit var loadingDialog: CustomLodingDialog
-	val logTag = "LoginActivityButtonEv"
+	private val logTag = "LoginActivityButtonEv"
 
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,14 +55,14 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
 	private fun autoLogin() {
 		//prefs에 저장된 정보가있다면 ID&PW창을 채워주고 자동로그인
-		if (!App.prefs.local_login_id.isBlank() && !App.prefs.local_login_pw.isBlank()) {
+		if (App.prefs.local_login_id.isNotBlank() && App.prefs.local_login_pw.isNotBlank()) {
 			et_login_id.setText(App.prefs.local_login_id)
 			et_login_pw.setText(App.prefs.local_login_pw)
 			requestlogin(App.prefs.local_login_id, App.prefs.local_login_pw)
 			return
 		}
 		customDialogDevInfo(
-			getString(R.string.version_info)
+			  getString(R.string.version_info)
 		)
 	}
 
@@ -128,10 +128,9 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 						App.prefs.local_login_pw = et_login_pw.text.toString()
 					}
 					Log.d(logTag, "로그인 성공")
-					val cookie = it.headers()["Set-Cookie"].toString()
-					val token = cookie.split(";")
-					App.prefs.local_login_token = token[0]
-					App.prefs.local_user_id = it.body()!!.id.toString()
+					val token = it.body()!!.body.accessToken
+					App.prefs.local_login_token = token
+					App.prefs.local_user_id = it.body()!!.body.memberId.toString()
 					Log.d(logTag, App.prefs.local_login_token)
 					Log.d(logTag, App.prefs.local_user_id)
 

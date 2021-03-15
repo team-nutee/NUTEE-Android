@@ -197,7 +197,7 @@ interface RequestInterface {
 	/*Login*/
 	// Login
 	@POST("/auth/login")
-	fun requestLogin(@Body body: RequestLogin): Call<ResponseLogin>
+	fun requestLogin(@Body body: RequestLogin): Call<ResponseWrapper<ResponseLogin>>
 
 	/*Register*/
 	//Email OTP

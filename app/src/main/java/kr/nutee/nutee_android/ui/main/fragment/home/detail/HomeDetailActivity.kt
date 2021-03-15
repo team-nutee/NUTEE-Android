@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.main_home_detail_activtiy.*
 import kotlinx.android.synthetic.main.main_home_detail_activtiy.img_detail_comment_favorit_btn
 import kotlinx.android.synthetic.main.main_home_detail_activtiy.text_detail_comment_favorit_count
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.DateParser
 import kr.nutee.nutee_android.data.QueryValue
 import kr.nutee.nutee_android.data.TestToken
@@ -112,7 +113,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		Log.d("ididid", "포스트아이디 확인 ${this.postId}")
 		RequestToServer.backService
 			.requestDetail(
-				"Bearer " + TestToken.testToken,
+					"Bearer "+ App.prefs.local_login_token,
 				this.postId!!
 			)
 			.customEnqueue(
@@ -146,7 +147,6 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		Log.d("Glide test", "프로필 사진 로딩")
 		GlideApp.with(applicationContext)
 				.load(responseMainItem.user?.image?.src)
-				//.placeholder(glideProgressDrawable())
 				.fallback(R.mipmap.nutee_character_background_white_round)
 				.into(img_detail_profile)
 		detailNickname.text = responseMainItem.user?.nickname
@@ -223,7 +223,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 			},
 			{//게시글 삭제
 					RequestToServer.backService.requestDelete(
-						"Bearer " + TestToken.testToken,
+							"Bearer "+ App.prefs.local_login_token,
 						//App.prefs.local_login_token,
 						responseBody.id
 					).customEnqueue(
@@ -292,7 +292,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 
 		if (view.isActivated) {//이미 좋아요한 경우
 			requestToServer.backService.requestDelLike(
-				"Bearer " + TestToken.testToken,
+					"Bearer "+ App.prefs.local_login_token,
 				postId
 			)
 				.customEnqueue(
@@ -304,7 +304,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 					})
 		} else {
 			requestToServer.backService.requestLike(
-				"Bearer " + TestToken.testToken,
+					"Bearer "+ App.prefs.local_login_token,
 				postId
 			)
 				.customEnqueue(
@@ -337,7 +337,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 
 	private fun loadCommentList() {
 		requestToServer.backService.requestCommentList(
-			"Bearer " + TestToken.testToken,
+				"Bearer "+ App.prefs.local_login_token,
 			postId,
 			QueryValue.lastId,
 			QueryValue.limit
@@ -360,7 +360,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 
 	private fun uploadComment(){
 		requestToServer.backService.requestComment(
-			"Bearer " + TestToken.testToken,
+				"Bearer "+ App.prefs.local_login_token,
 			postId!!,
 			RequestComment(et_detail_comment.text.toString())
 		).customEnqueue(
@@ -387,7 +387,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 
 	private fun rewriteComment(postId: Int?, commentId: Int?) {
 		RequestToServer.backService.requestRewriteComment(
-			"Bearer " + TestToken.testToken,
+				"Bearer "+ App.prefs.local_login_token,
 			postId,
 			commentId,
 			RequestComment(et_detail_comment.text.toString())
@@ -411,7 +411,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 
 	private fun postReply(postId: Int?, commentId: Int?) {
 		RequestToServer.backService.requestReply(
-			"Bearer " + TestToken.testToken,
+				"Bearer "+ App.prefs.local_login_token,
 			postId,
 			commentId,
 			RequestComment(et_detail_comment.text.toString())

@@ -92,6 +92,7 @@ class SearchView : AppCompatActivity() {
 			)
 	}
 
+//FIXME 이전 검색어 저장 기능- 추후 리팩토링 예정
 
 //	private var previousSearchResultsList = ArrayList<String>()
 //	private lateinit var searchViewRecyclerAdapter: SearchViewRecyclerAdapter

@@ -59,8 +59,7 @@ class FullPostFragment : Fragment() {
 	}
 	private fun loadFullList(){
 		requestToServer.backService.requestFullList(
-			//"Bearer "+ App.prefs.local_login_token,
-			"Bearer "+ TestToken.testToken,
+				"Bearer "+ App.prefs.local_login_token,
 			QueryValue.lastId,
 			QueryValue.limit
 		).customEnqueue(

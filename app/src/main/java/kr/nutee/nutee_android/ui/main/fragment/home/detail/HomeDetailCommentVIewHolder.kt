@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.DateParser
 import kr.nutee.nutee_android.data.TestToken
 import kr.nutee.nutee_android.data.main.RequestReport
@@ -92,7 +93,7 @@ class HomeDetailCommentViewHolder(itemView: View) : RecyclerView.ViewHolder(item
 			},
 			{//댓글 삭제
 				RequestToServer.backService.requestDelComment(
-				"Bearer "+ TestToken.testToken,
+						"Bearer "+ App.prefs.local_login_token,
 				postId,
 				customData.id
 			).customEnqueue(
@@ -109,7 +110,7 @@ class HomeDetailCommentViewHolder(itemView: View) : RecyclerView.ViewHolder(item
 			{//댓글 신고
 				itemView.context.cumstomReportDialog("이 댓글을 신고하시겠습니까?"){
 					RequestToServer.backService.requestReportComment(
-							"Bearer " + TestToken.testToken,
+							"Bearer "+ App.prefs.local_login_token,
 							postId,
 							customData.id,
 							RequestReport(it)
@@ -122,62 +123,6 @@ class HomeDetailCommentViewHolder(itemView: View) : RecyclerView.ViewHolder(item
 					)}
 			}
 		)
-
-
-//		if (customData.user?.id.toString() == TestToken.testMemberId.toString()) {
-//			itemView.context.customSelectDialog(View.GONE,View.VISIBLE, View.VISIBLE, View.VISIBLE, {},
-//				{Log.d("select button", "댓글 답글")
-//					val intent=Intent(context,HomeDetailActivity::class.java)
-//					intent.putExtra("reply",true)
-//					intent.putExtra("comment_id",customData.id)
-//					intent.putExtra("Detail_id",postId)
-//					(context as HomeDetailActivity).finish()
-//					context.startActivityForResult(intent,0)
-//				},
-//				{ Log.d("select button", "댓글 수정")
-//					val intent=Intent(context,HomeDetailActivity::class.java)
-//					intent.putExtra("rewriteComment",customData.content)
-//					intent.putExtra("comment_id",customData.id)
-//					intent.putExtra("Detail_id",postId)
-//					(context as HomeDetailActivity).finish()
-//					context.startActivityForResult(intent,0)
-//				},
-//				{ Log.d("select button", "댓글 삭제")
-//					RequestToServer.backService.requestDelComment(
-//						"Bearer "+ TestToken.testToken,
-//						postId,
-//						customData.id
-//					).customEnqueue(
-//							onSuccess = {},
-//							onError = {
-//								Toast.makeText(itemView.context,"네트워크 오류", Toast.LENGTH_SHORT)
-//									.show()}
-//						)
-//					(context as HomeDetailActivity).finish()
-//					val intent=Intent(context,HomeDetailActivity::class.java)
-//					intent.putExtra("Detail_id",postId)
-//					context.startActivity(intent)
-//				})
-//		}else{
-//			itemView.context.customSelectDialog(View.VISIBLE, View.GONE, View.GONE, View.GONE,
-//				{ Log.d("select button", "댓글 신고")
-//					itemView.context.cumstomReportDialog("이 댓글을 신고하시겠습니까?"){
-//						RequestToServer.backService.requestReportComment(
-//							"Bearer " + TestToken.testToken,
-//							postId,
-//							customData.id,
-//							RequestReport(it)
-//						).customEnqueue(
-//							onSuccess = {
-//								Toast.makeText(
-//									itemView.context,
-//									"신고가 성공적으로 접수되었습니다.",
-//									Toast.LENGTH_SHORT
-//								).show()
-//							}
-//						)}
-//				})
-//		}
 	}
 
 	private fun likeClickEvent(
@@ -188,7 +133,7 @@ class HomeDetailCommentViewHolder(itemView: View) : RecyclerView.ViewHolder(item
 	) {
 		if (view.isActivated) {//이미 좋아요한 경우
 			RequestToServer.backService.requestDelLikecomment(
-				"Bearer "+TestToken.testToken,
+					"Bearer "+ App.prefs.local_login_token,
 				postId,
 				commentId
 			).customEnqueue(
@@ -200,7 +145,7 @@ class HomeDetailCommentViewHolder(itemView: View) : RecyclerView.ViewHolder(item
 					})
 		} else {
 			RequestToServer.backService.requestLikecomment(
-				"Bearer "+TestToken.testToken,
+					"Bearer "+ App.prefs.local_login_token,
 				postId,
 				commentId)
 				.customEnqueue(

@@ -68,7 +68,7 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 			moreEvent(it,customData)
 		}
 		category.setOnClickListener {
-			categoryClickEvent(it,customData)
+			categoryClickEvent(customData)
 		}
 	}
 
@@ -83,7 +83,7 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 			},
 			{ //게시글 삭제
 				requestToServer.backService.requestDelete(
-					"Bearer "+ TestToken.testToken,
+						"Bearer "+ App.prefs.local_login_token,
 					customData.id)
 					.customEnqueue(
 						onSuccess = {
@@ -126,7 +126,7 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 		itemView.context.startActivity(intent)
 	}
 
-	private fun categoryClickEvent(view:View, customData: Body){
+	private fun categoryClickEvent(customData: Body){
 		val intent = Intent(itemView.context, SearchResultsView::class.java)
 		intent.putExtra("categorySearch",customData.category) //검색어
 		itemView.context.startActivity(intent)
