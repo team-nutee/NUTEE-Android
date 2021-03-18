@@ -9,6 +9,11 @@ import kr.nutee.nutee_android.databinding.ModelBottomListBinding
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 
+/*
+* 카테고리 단일 선택
+* */
+
+
 class ModalSelectCategory: BottomSheetDialogFragment() {
     private var binding: ModelBottomListBinding? = null
     private lateinit var adapter: ModalCategoryListAdapter
@@ -36,7 +41,8 @@ class ModalSelectCategory: BottomSheetDialogFragment() {
     }
 
     private fun initView() {
-        requireBinding().modelBottomTitle.text = "전공을 선택해주세요"
+        requireBinding().modelBottomTitle.text = "카테고리를 선택해주세요."
+        requireBinding().modelBottomTextButton.visibility=View.GONE
         setCategoryAdapter()
     }
 

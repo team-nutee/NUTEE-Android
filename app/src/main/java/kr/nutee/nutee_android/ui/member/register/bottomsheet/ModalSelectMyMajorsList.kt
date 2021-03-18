@@ -5,13 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.databinding.ModelBottomListBinding
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 
-class ModalSelectDepartment : BottomSheetDialogFragment() {
+class ModalSelectMyMajorsList : BottomSheetDialogFragment() {
     private var binding: ModelBottomListBinding? = null
-    private lateinit var adapter: ModalDepartmentListAdapter
+    private lateinit var adapter: ModalMyMajorsListAdapter
     private var itemClickListener: ((String) -> Unit)? = null
 
     fun setItemClickListener(listener: (String) -> Unit) {
@@ -19,16 +20,16 @@ class ModalSelectDepartment : BottomSheetDialogFragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         binding = ModelBottomListBinding.inflate(inflater, container, false)
         return requireBinding().root
     }
 
     private fun requireBinding(): ModelBottomListBinding = binding
-        ?: error("binding is not init")
+            ?: error("binding is not init")
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -42,9 +43,9 @@ class ModalSelectDepartment : BottomSheetDialogFragment() {
     }
 
     private fun setCategoryAdapter() {
-        adapter = ModalDepartmentListAdapter(
-            itemClickListener,
-            { dismiss() }
+        adapter = ModalMyMajorsListAdapter(
+                itemClickListener,
+                { dismiss() }
         )
         requireBinding().modelList.adapter = adapter
         loadDepartmentList()
@@ -52,9 +53,11 @@ class ModalSelectDepartment : BottomSheetDialogFragment() {
 
     private fun loadDepartmentList() {
         RequestToServer.backService
-            .getMajors()
-            .customEnqueue(
-                onSuccess = { adapter.addAllData(it.body()?.body ?: listOf()) }
-            )
+                .requestUserData(
+                        "Bearer "+ App.prefs.local_login_token
+                )
+                .customEnqueue(
+                        onSuccess = { adapter.addAllData(it.body()?.body?.majors!!) }
+                )
     }
 }

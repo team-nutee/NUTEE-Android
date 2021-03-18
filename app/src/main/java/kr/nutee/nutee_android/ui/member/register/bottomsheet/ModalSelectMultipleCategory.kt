@@ -36,7 +36,7 @@ class ModalSelectMultipleCategory : BottomSheetDialogFragment() {
     }
 
     private fun initView() {
-        requireBinding().modelBottomTitle.text = "카테고리를 선택해주세요"
+        requireBinding().modelBottomTitle.text = "카테고리를 선택해주세요."
         setCategoryAdapter()
         requireBinding().modelBottomTextButton.setOnClickListener {
             completionButtonListener?.invoke(

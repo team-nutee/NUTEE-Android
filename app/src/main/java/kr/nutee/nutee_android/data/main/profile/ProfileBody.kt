@@ -5,7 +5,10 @@ import kr.nutee.nutee_android.data.ProfileImage
 data class ProfileBody(
 	val id: Int,
 	val nickname: String,
-	val profileUrl: ProfileImage,
-	val interests: ArrayList<String>,
-	val majors: ArrayList<String>
+	val image: ProfileImage,
+	val interests: List<String>,
+	val majors: List<String>,
+	val postNum:Int,
+	val commentNum:Int,
+	val likeNum:Int
 )

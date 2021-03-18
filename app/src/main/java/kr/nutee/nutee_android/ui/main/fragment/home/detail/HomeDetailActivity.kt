@@ -110,7 +110,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 	}
 
 	private fun loadDetailPage() {
-		Log.d("ididid", "포스트아이디 확인 ${this.postId}")
+		Log.d("loadDetailPage", "포스트아이디 확인 ${this.postId}")
 		RequestToServer.backService
 			.requestDetail(
 					"Bearer "+ App.prefs.local_login_token,
@@ -216,10 +216,11 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		contentMoreEvent(responseBody.user,
 			View.GONE,{},
 			{//게시글 수정
-					if (responseBody.images.isNullOrEmpty1()) {
-						rewritePost(responseBody)
-					}
-					else customDialogSingleButton(getString(R.string.UnableRewritePost))
+//					if (responseBody.images.isNullOrEmpty1()) {
+//						rewritePost(responseBody)
+//					}
+//					else customDialogSingleButton(getString(R.string.UnableRewritePost))
+				rewritePost(responseBody)
 			},
 			{//게시글 삭제
 					RequestToServer.backService.requestDelete(
@@ -323,14 +324,8 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		intent.putExtra("content", detailContent.text.toString())
 		intent.putExtra("category", responseBody?.category)
 		intent.putExtra("postId", responseBody?.id)
-		//이미지 수정 기능 구현 필요함
-		if (responseBody?.images?.isNullOrEmpty1() == false){
-			val imageArrayList = responseBody.images.toCollection(ArrayList())
-			intent.putParcelableArrayListExtra("rewriteImage", imageArrayList)
-			finish()
-			startActivity(intent)
-			return
-		}
+		Log.d("Network", "사진 포함 게시글 수정 테스트")
+
 		finish()
 		startActivity(intent)
 	}

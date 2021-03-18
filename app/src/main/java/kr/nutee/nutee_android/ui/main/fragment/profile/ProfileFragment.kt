@@ -65,7 +65,7 @@ class ProfileFragment : Fragment() {
 	}
 
 	private fun requestUserData() {
-		RequestToServer.authService
+		RequestToServer.backService
 			.requestUserData("Bearer "+ TestToken.testToken)//App.prefs.local_login_token)
 			.customEnqueue(
 				onSuccess = {response -> bindUserProfile(response.body()!!) },
@@ -77,9 +77,9 @@ class ProfileFragment : Fragment() {
 
 	private fun bindUserProfile(res: ResponseProfile) {
 		text_user_name?.text = res.body.nickname
-		val userImageLoad = setImageURLSetting(res.body.profileUrl.src)
+		val userImageLoad = setImageURLSetting(res.body.image.src)
 		Glide.with(requireContext()).load(userImageLoad).into(img_profile_image)
-		App.prefs.url = res.body.profileUrl.src
+		App.prefs.url = res.body.image.src
 	}
 
 //	private fun loadUserProfileList(id: Int) {

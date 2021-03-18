@@ -81,9 +81,9 @@ class HomeDetaiProfilelActivity : AppCompatActivity() {
 
 	private fun bindUserProfile(userID: Int, res: ResponseProfile) {
 		tv_profile_detail_nickname.text = res.body.nickname
-		val userImageLoad = setImageURLSetting(res.body.profileUrl.src)
+		val userImageLoad = setImageURLSetting(res.body.image.src)
 		Glide.with(applicationContext).load(userImageLoad).into(img_profile)
-		App.prefs.url = res.body.profileUrl.src
+		App.prefs.url = res.body.image.src
 
 		img_profile_detail_more.setOnClickListener {
 			profileMore(userID, res)

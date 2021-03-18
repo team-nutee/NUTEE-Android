@@ -187,9 +187,10 @@ interface RequestInterface {
 
 	/*User Profile*/
 	// load user
-	@GET("/auth/user/me")
-	fun requestUserData(@Header("Authorization") Authorization:String): Call<ResponseProfile>
-	//@Header("Cookie") token: String
+	@GET("/sns/user/me")
+	fun requestUserData(
+			@Header("Authorization") Authorization:String
+	): Call<ResponseProfile>
 
 	//load user posts
 	@GET("/sns/user/{id}/posts")

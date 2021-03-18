@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.add_activity.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
-import kr.nutee.nutee_android.data.TestToken
 import kr.nutee.nutee_android.data.main.add.RequestRewritePost
 import kr.nutee.nutee_android.data.main.add.RequestPost
 import kr.nutee.nutee_android.data.main.home.Image
@@ -26,18 +25,22 @@ import kr.nutee.nutee_android.ui.extend.dialog.customDialog
 import kr.nutee.nutee_android.ui.extend.imageSetting.createImageMultipart
 import kr.nutee.nutee_android.ui.main.fragment.home.detail.HomeDetailActivity
 import kr.nutee.nutee_android.ui.member.register.bottomsheet.ModalSelectCategory
-import kr.nutee.nutee_android.ui.member.register.bottomsheet.ModalSelectDepartment
+import kr.nutee.nutee_android.ui.member.register.bottomsheet.ModalSelectMyMajorsList
 
 
 /*
+created by jinsu47555
 * 글쓰기
+*
+* created by 88yhtserofG
+* DESC: 2.0버전으로 수정 및 구현
 */
 @Suppress("UNCHECKED_CAST")
 class AddActivity : AppCompatActivity(), View.OnClickListener {
 
 	val requestToServer = RequestToServer
 	private val REQUEST_CODE_PICK_IMAGE = 1001
-	private val modalSelectDepartment by lazy { ModalSelectDepartment() }
+	private val modalSelectMyMajorsList by lazy {  ModalSelectMyMajorsList() }
 	private val modalSelectCategory by lazy { ModalSelectCategory() }
 
 	var selectedImage = arrayListOf<Uri>()
@@ -78,18 +81,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 		addContent.setText(content)
 		addTitle.setText(title)
 		addCategory.text = category
-
-		//이미지 수정 기능 구현 필요함
-		if(intent.hasExtra("rewriteImage")){
-			val rewriteImageList: ArrayList<Image>
-			= intent.getParcelableArrayListExtra("rewriteImage")
-			rewriteImageList.forEach { image ->
-				val uri=Uri.parse(image.src)
-				selectedImage.add(uri)
-				Log.d("selectedImageAdd",selectedImage.size.toString())
-			}
-			setImageAndAdpater()
-		}
+		addMajor.visibility=View.GONE
 	}
 
 	private fun init() {
@@ -104,7 +96,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 
 	private fun onClickMajor(view: View) {
 		showModel(view)
-		modalSelectDepartment.setItemClickListener {
+		modalSelectMyMajorsList.setItemClickListener {
 			addMajor.text = it
 			addCategory.apply {
 				isActivated=true
@@ -126,7 +118,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 
 	private fun showModel(view: View) {
 		when (view) {
-			addMajor -> modalSelectDepartment.show(supportFragmentManager, null)
+			addMajor ->modalSelectMyMajorsList.show(supportFragmentManager, null)
 			addCategory->modalSelectCategory.show(supportFragmentManager,null)
 		}
 	}
@@ -136,6 +128,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 			R.id.text_back_button -> onBackPressed()
 			R.id.img_upload_image_btn -> openImageChooser()
 			R.id.text_create_button -> {
+				Log.d("Network", "사진 포함 게시글 수정 버튼 클릭")
 				if(checkPostBlank()){
 					if (intent.hasExtra("content"))
 						uploadRewriteContent()
@@ -179,16 +172,15 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 
 	private fun uploadRewriteContent() {
 		loadingDialog.startLoadingDialog()
-		if (selectedImage.size > 0) {
-			rewritePostHasImage()
-		} else
+//		if (selectedImage.size > 0) {
+//			rewritePostHasImage()
+//		} else
 			rewritePostNonImage()
 	}
 
 	private fun rewritePostNonImage() {
 		requestToServer.backService.requestRewritePost(
 				"Bearer "+ App.prefs.local_login_token,
-			//App.prefs.local_login_token,
 			RequestRewritePost(
 					addTitle.text.toString(),
 					addContent.text.toString(),
@@ -209,18 +201,17 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 		Log.d("Network", "이미지포함 업로드 시작 이미지 null 여부${createImageMultipart(selectedImage).isNullOrEmpty()}")
 		requestToServer.backService.requestUploadImage(createImageMultipart(selectedImage))
 			.customEnqueue(
-				onSuccess = {
+				onSuccess = { uploadIt ->
 					Log.d("Network", "사진준비 완료")
-					Log.d("Network", "사진 개수 ${it.body()?.body?.size}")
-					val imagesArray= arrayOfNulls<Image>(it.body()?.body!!.size)
-					it.body()?.body!!.forEachIndexed() { index, str ->
+					Log.d("Network", "사진 개수 ${uploadIt.body()?.body?.size}")
+					val imagesArray= arrayOfNulls<Image>(uploadIt.body()?.body!!.size)
+					uploadIt.body()?.body!!.forEachIndexed() { index, str ->
 						val src=Image(str)
 						imagesArray[index] = src
 					}
 					Log.d("Network", "imagesArray 사진 개수 ${imagesArray.size}")
 					requestToServer.backService.requestRewritePost(
 							"Bearer "+ App.prefs.local_login_token,
-						//App.prefs.local_login_token,
 						RequestRewritePost(
 							addTitle.text.toString(),
 							addContent.text.toString(),
