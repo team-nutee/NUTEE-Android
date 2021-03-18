@@ -20,10 +20,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/closeText"
+            android:textStyle="bold"
             android:paddingHorizontal="15dp"
-            android:paddingVertical="19dp"
+            android:paddingVertical="15dp"
             android:textColor="@color/text_selector"
-            android:textSize="15dp"
+            android:textSize="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

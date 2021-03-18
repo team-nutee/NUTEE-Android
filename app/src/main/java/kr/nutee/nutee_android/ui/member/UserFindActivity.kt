@@ -12,6 +12,8 @@ import android.widget.TextView
 import androidx.core.widget.addTextChangedListener
 import kotlinx.android.synthetic.main.user_find_activity.*
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.data.member.find.RequestFindPw
+import kr.nutee.nutee_android.data.member.register.RequestEmail
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.extend.textChangedListener
@@ -31,6 +33,7 @@ class UserFindActivity : AppCompatActivity(), View.OnClickListener {
 		btnEvent()
 		editTextEvent()
 		editTextChangeEvent()
+		registerButtonEventMapping()
 	}
 
 	private fun btnEvent() {
@@ -108,8 +111,10 @@ class UserFindActivity : AppCompatActivity(), View.OnClickListener {
 	}
 
 	private fun findUserId() {
-		requestToServer.authService.requestFindId(et_find_id_email.text.toString())
-			.customEnqueue(
+		requestToServer.authService.requestFindId(
+				RequestEmail(
+						et_find_id_email.text.toString()
+				)).customEnqueue(
 				onSuccess = {
 					settingResultText(
 						text_find_id_result,
@@ -129,13 +134,14 @@ class UserFindActivity : AppCompatActivity(), View.OnClickListener {
 
 	private fun findUserPw() {
 		requestToServer.authService.requestFindPw(
-			et_find_pw_id.text.toString(),
-			et_find_pw_email.text.toString())
-			.customEnqueue(
+				RequestFindPw(
+						et_find_pw_email.text.toString(),
+						et_find_pw_id.text.toString()
+				)).customEnqueue(
 				onSuccess = {
 					settingResultText(
 						text_find_pw_result,
-						"이메일 발송이 완료되었습니다.",
+						it.body()!!.body,
 						getColor(R.color.nuteeBase)
 					)
 				},
@@ -156,5 +162,11 @@ class UserFindActivity : AppCompatActivity(), View.OnClickListener {
 		val animation: Animation =
 			AnimationUtils.loadAnimation(applicationContext, R.anim.shake)
 		view.startAnimation(animation)
+	}
+
+	private fun registerButtonEventMapping() {
+		text_user_find_back.setOnClickListener {
+			super.onBackPressed()
+		}
 	}
 }

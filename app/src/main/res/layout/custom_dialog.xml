@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="10dp"
-        android:background="@color/colorLightGray"
+        android:background="@color/colorLightLightGray"
         app:layout_constraintEnd_toEndOf="@+id/dialog_text"
         app:layout_constraintStart_toStartOf="@+id/dialog_text"
         app:layout_constraintTop_toBottomOf="@+id/dialog_text" />

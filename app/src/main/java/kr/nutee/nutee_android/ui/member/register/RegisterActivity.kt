@@ -91,7 +91,7 @@ class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
     }
 
     private fun loadExitRegisterDialog(okClickListener: () -> Unit) {
-        customDialog("회원가입을 종료하시겠습니까?", okClickListener)
+        customDialog("회원가입을\n종료하시겠습니까?", okClickListener)
     }
 
     override fun onBackPressed() {
@@ -123,7 +123,7 @@ class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
 
     private fun requestToEmailAuth(email: EditText, result: TextView) {
         RequestToServer.authService
-            .requestEmailOTP(body = RequestEmailOTP(email.text.toString()))
+            .requestEmailOTP(body = RequestEmail(email.text.toString()))
             .customEnqueue(
                 onSuccess = { emailAuthSuccessEvent(result) },
                 onError = { emailAuthErrorEvent(result) }

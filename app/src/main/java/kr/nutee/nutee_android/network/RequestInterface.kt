@@ -11,6 +11,7 @@ import kr.nutee.nutee_android.data.main.home.detail.RequestComment
 import kr.nutee.nutee_android.data.main.home.detail.CommentDetail
 import kr.nutee.nutee_android.data.main.profile.ResponseProfile
 import kr.nutee.nutee_android.data.main.setting.ResponseUploadProfile
+import kr.nutee.nutee_android.data.member.find.RequestFindPw
 import kr.nutee.nutee_android.data.member.login.RequestLogin
 import kr.nutee.nutee_android.data.member.login.ResponseLogin
 import kr.nutee.nutee_android.data.member.logout.ResponseLogout
@@ -202,7 +203,7 @@ interface RequestInterface {
 	/*Register*/
 	//Email OTP
 	@POST("/auth/otp")
-	fun requestEmailOTP(@Body body: RequestEmailOTP): Call<Unit>
+	fun requestEmailOTP(@Body body: RequestEmail): Call<Unit>
 
 	//check OTP
 	@POST("/auth/check/otp")
@@ -233,16 +234,15 @@ interface RequestInterface {
 	fun reqeustLogout(@Header("Cookie") token: String = App.prefs.local_login_token): Call<ResponseLogout>
 
 	/*Find user Data*/
-	@FormUrlEncoded
-	@POST("/api/user/findid")
-	fun requestFindId(@Field("schoolEmail") schoolEmail: String): Call<Unit>
+	@POST("/auth/user-id")
+	fun requestFindId(
+			@Body body: RequestEmail
+	): Call<ResponseWrapper<String>>
 
-	@FormUrlEncoded
-	@POST("/api/user/reissuance")
+	@PATCH("/auth/password")
 	fun requestFindPw(
-		@Field("userId") userId: String,
-		@Field("schoolEmail") schoolEmail: String
-	): Call<Unit>
+		@Body body:RequestFindPw
+	): Call<ResponseWrapper<String>>
 
 	/*Search*/
 	//search

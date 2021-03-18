@@ -1,5 +1,5 @@
 package kr.nutee.nutee_android.data.member.register
 
-data class RequestEmailOTP(
+data class RequestEmail(
     val schoolEmail: String
 )
