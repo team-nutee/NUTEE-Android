@@ -192,9 +192,26 @@ interface RequestInterface {
 			@Header("Authorization") Authorization:String
 	): Call<ResponseProfile>
 
-	//load user posts
-	@GET("/sns/user/{id}/posts")
-	fun requestUserPosts(@Path("id") id: Int): Call<ResponseMain>
+	@GET("/sns/user/me/posts")
+	fun requestMyPosts(
+			@Header("Authorization") Authorization:String,
+			@Query("lastId") lastId: Int,
+			@Query("limit") limit: Int
+	):Call<ResponseWrapper<Array<ResponseMainBody>>>
+
+	@GET("/sns/user/me/comment/posts")
+	fun requestMyCommentPosts(
+			@Header("Authorization") Authorization:String,
+			@Query("lastId") lastId: Int,
+			@Query("limit") limit: Int
+	):Call<ResponseWrapper<Array<ResponseMainBody>>>
+
+	@GET("/sns/user/me/like/posts")
+	fun requestMyLikePosts(
+			@Header("Authorization") Authorization:String,
+			@Query("lastId") lastId: Int,
+			@Query("limit") limit: Int
+	):Call<ResponseWrapper<Array<ResponseMainBody>>>
 
 	/*Login*/
 	// Login
@@ -288,26 +305,6 @@ interface RequestInterface {
 		@Path("id") id: Int
 	): Call<ResponseProfile>
 
-	@GET("/sns/user/me/posts")
-	fun requestMyPosts(
-		@Header("Authorization") Authorization:String,
-		@Query("lastId") lastId: Int,
-		@Query("limit") limit: Int
-	):Call<ResponseMain>
-
-	@GET("/sns/user/me/comment/posts")
-	fun requestMyCommentPosts(
-		@Header("Authorization") Authorization:String,
-		@Query("lastId") lastId: Int,
-		@Query("limit") limit: Int
-	):Call<ResponseMain>
-
-	@GET("/sns/user/me/like/posts")
-	fun requestMyLikePosts(
-		@Header("Authorization") Authorization:String,
-		@Query("lastId") lastId: Int,
-		@Query("limit") limit: Int
-	):Call<ResponseMain>
 
 	@GET("/sns/category/interests")
 	fun getCategory(): Call<ResponseWrapper<List<String>>>

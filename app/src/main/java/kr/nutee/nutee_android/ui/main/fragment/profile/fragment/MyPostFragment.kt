@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.main_fragment_profile_written_post.*
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.QueryValue
 import kr.nutee.nutee_android.data.TestToken
 import kr.nutee.nutee_android.network.RequestToServer
@@ -33,29 +34,24 @@ class MyPostFragment: Fragment() {
 		super.onViewCreated(view, savedInstanceState)
 
 		recyclerView= view.findViewById(R.id.rv_profile_written_post)
-		recyclerView.apply {
-			layoutManager= LinearLayoutManager(this.context,
-				LinearLayoutManager.VERTICAL, false)
-			setHasFixedSize(true)
-		}
-
-		//loadMyPost()
+		recyclerView.setHasFixedSize(true)
+		loadMyPost()
 
 	}
 
-//	private fun loadMyPost() {
-//		requestToServer.backService.requestMyPosts(
-//			"Bearer "+ TestToken.testToken,
-//			QueryValue.lastId,
-//			QueryValue.limit
-//		).customEnqueue(
-//			onSuccess = {
-//				Log.d("Network", "내 포스트 정보 통신 성공")
-//				recyclerView.adapter = HomeRecyclerViewAdapter(it.body()?.body!!)
-//			},
-//			onError = {
-//				Log.d("Network", "통신 에러")
-//			}
-//		)
-//	}
+	private fun loadMyPost() {
+		requestToServer.backService.requestMyPosts(
+				"Bearer "+ App.prefs.local_login_token,
+			QueryValue.lastId,
+			QueryValue.limit
+		).customEnqueue(
+			onSuccess = {
+				Log.d("Network", "내 포스트 정보 통신 성공")
+				recyclerView.adapter = HomeRecyclerViewAdapter(it.body()!!.body)
+			},
+			onError = {
+				Log.d("Network", "통신 에러")
+			}
+		)
+	}
 }

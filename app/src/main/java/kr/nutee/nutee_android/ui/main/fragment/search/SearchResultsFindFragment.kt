@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_search_results_find.*
 import kr.nutee.nutee_android.R
-import kr.nutee.nutee_android.data.main.home.Body
+import kr.nutee.nutee_android.data.main.home.ResponseMainBody
 import kr.nutee.nutee_android.ui.main.fragment.home.HomeRecyclerViewAdapter
 
 /*
@@ -18,7 +18,7 @@ import kr.nutee.nutee_android.ui.main.fragment.home.HomeRecyclerViewAdapter
 
 class SearchResultsFindFragment : Fragment() {
 
-	lateinit var bodyList: Array<Body>
+	lateinit var bodyList: Array<ResponseMainBody>
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)

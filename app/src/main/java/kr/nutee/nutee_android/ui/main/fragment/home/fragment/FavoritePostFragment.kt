@@ -25,7 +25,7 @@ import kr.nutee.nutee_android.ui.main.fragment.home.HomeRecyclerViewAdapter
  * DESC: 메인뷰 홈 즐겨찾기 게시글 Fragment
  */
 
-class favoritePostFragment : Fragment() {
+class FavoritePostFragment : Fragment() {
 
 	//val handler:Handler= Handler()
 	lateinit var mainHandler:Handler
@@ -34,15 +34,10 @@ class favoritePostFragment : Fragment() {
 	val requestToServer = RequestToServer
 	private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-	}
-
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View? {
-		//if()
 		return inflater.inflate(R.layout.home_favorite_post_fragment, container, false)
 	}
 

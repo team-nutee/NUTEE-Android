@@ -63,7 +63,8 @@ class MainActivity : AppCompatActivity() {
 					loadMainPageFragment(
 						resources.getText(R.string.fragment_home),
 						HomeFragement(),
-						View.VISIBLE
+						View.VISIBLE,
+							View.GONE
 					)
 					inputMethodManager.hideSoftInputFromWindow(
 						currentFocus?.windowToken,
@@ -80,9 +81,10 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.menu_notice-> {
 					loadMainPageFragment(
-						resources.getString(R.string.fragment_notice),
-						NoticeFragment(),
-						View.INVISIBLE
+							resources.getString(R.string.fragment_notice),
+							NoticeFragment(),
+							View.INVISIBLE,
+							View.INVISIBLE
 					)
 					inputMethodManager.hideSoftInputFromWindow(
 						currentFocus?.windowToken,
@@ -93,9 +95,10 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.menu_profile-> {
 					loadMainPageFragment(
-						resources.getString(R.string.fragment_profile),
-						ProfileFragment(),
-						View.VISIBLE
+							resources.getString(R.string.fragment_profile),
+							ProfileFragment(),
+							View.GONE,
+							View.INVISIBLE
 					)
 					inputMethodManager.hideSoftInputFromWindow(
 						currentFocus?.windowToken,

@@ -12,13 +12,14 @@ import kr.nutee.nutee_android.R
 */
 
 //fragment load 함수
-fun Context.loadMainPageFragment(title: CharSequence, fragment: Fragment, visibility: Int) {
+fun Context.loadMainPageFragment(title: CharSequence, fragment: Fragment, searchView: Int, settingView: Int) {
 	val transaction =
 		(this as FragmentActivity).supportFragmentManager.beginTransaction()
 	main_title.text= title
 	transaction.replace(R.id.frame_layout, fragment)
 	transaction.commit()
-	img_main_top_search.visibility = visibility
+	img_main_top_search.visibility = searchView
+	img_main_top_setting.visibility= settingView
 }
 
 fun Context.loadFragment(

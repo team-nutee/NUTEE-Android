@@ -21,18 +21,15 @@ import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.DateParser
 import kr.nutee.nutee_android.data.QueryValue
-import kr.nutee.nutee_android.data.TestToken
 import kr.nutee.nutee_android.data.main.RequestReport
-import kr.nutee.nutee_android.data.main.home.Body
+import kr.nutee.nutee_android.data.main.home.ResponseMainBody
 import kr.nutee.nutee_android.data.main.home.Image
 import kr.nutee.nutee_android.data.main.home.LookUpDetail
 import kr.nutee.nutee_android.data.main.home.detail.RequestComment
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.*
-import kr.nutee.nutee_android.ui.extend.animation.glideProgressDrawable
 import kr.nutee.nutee_android.ui.extend.dialog.cumstomReportDialog
 import kr.nutee.nutee_android.ui.extend.dialog.customDialogSingleButton
-import kr.nutee.nutee_android.ui.extend.imageSetting.setImageURLSetting
 import kr.nutee.nutee_android.ui.main.fragment.add.AddActivity
 import kr.nutee.nutee_android.ui.main.fragment.search.SearchResultsView
 import kotlin.collections.isNullOrEmpty as isNullOrEmpty1
@@ -143,7 +140,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		}
 	}
 
-	private fun bindDetailPostEvent(responseMainItem: Body) {
+	private fun bindDetailPostEvent(responseMainItem: ResponseMainBody) {
 		Log.d("Glide test", "프로필 사진 로딩")
 		GlideApp.with(applicationContext)
 				.load(responseMainItem.user?.image?.src)
@@ -212,7 +209,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 
 	}
 
-	private fun detailMore(responseBody: Body) {
+	private fun detailMore(responseBody: ResponseMainBody) {
 		contentMoreEvent(responseBody.user,
 			View.GONE,{},
 			{//게시글 수정
@@ -318,7 +315,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		}
 	}
 
-	private fun rewritePost(responseBody: Body?) {
+	private fun rewritePost(responseBody: ResponseMainBody?) {
 		val intent=Intent(this, AddActivity::class.java)
 		intent.putExtra("title", responseBody?.title)
 		intent.putExtra("content", detailContent.text.toString())

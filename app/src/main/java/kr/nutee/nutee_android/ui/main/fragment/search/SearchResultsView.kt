@@ -6,8 +6,7 @@ import kotlinx.android.synthetic.main.search_results_activity.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.QueryValue
-import kr.nutee.nutee_android.data.TestToken
-import kr.nutee.nutee_android.data.main.home.Body
+import kr.nutee.nutee_android.data.main.home.ResponseMainBody
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 
@@ -19,7 +18,7 @@ import kr.nutee.nutee_android.ui.extend.customEnqueue
 class SearchResultsView : FragmentActivity() {
 	lateinit var searchBoxText:String
 	private val requestToServer = RequestToServer
-	lateinit var bodyList: Array<Body>
+	lateinit var bodyList: Array<ResponseMainBody>
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)

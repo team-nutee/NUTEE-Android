@@ -10,10 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.DateParser
-import kr.nutee.nutee_android.data.QueryValue
-import kr.nutee.nutee_android.data.TestToken
 import kr.nutee.nutee_android.data.main.RequestReport
-import kr.nutee.nutee_android.data.main.home.Body
+import kr.nutee.nutee_android.data.main.home.ResponseMainBody
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.contentMoreEvent
 import kr.nutee.nutee_android.ui.extend.customEnqueue
@@ -41,7 +39,7 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 	private val textRewrite = itemView.findViewById<TextView>(R.id.text_main_item_rewrite)
 
 	fun bind(
-		customData: Body
+		customData: ResponseMainBody
 	) {
 		category.text = customData.category
 		text_main_home_updateat.text = customData.updatedAt?.let { DateParser(it).calculateDiffDate() }
@@ -72,7 +70,7 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 		}
 	}
 
-	private fun moreEvent(it:View, customData: Body) {
+	private fun moreEvent(it:View, customData: ResponseMainBody) {
 		itemView.context.contentMoreEvent(
 			customData.user,
 			View.GONE,{},
@@ -107,7 +105,7 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 		)
 	}
 
-	private fun rewritePost(customData: Body) {
+	private fun rewritePost(customData: ResponseMainBody) {
 		val intent = Intent(itemView.context, AddActivity::class.java)
 		intent.putExtra("title",customData.title)
 		intent.putExtra("content",customData.content)
@@ -126,13 +124,13 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 		itemView.context.startActivity(intent)
 	}
 
-	private fun categoryClickEvent(customData: Body){
+	private fun categoryClickEvent(customData: ResponseMainBody){
 		val intent = Intent(itemView.context, SearchResultsView::class.java)
 		intent.putExtra("categorySearch",customData.category) //검색어
 		itemView.context.startActivity(intent)
 	}
 
-	private fun checkNullInItem(customData: Body){
+	private fun checkNullInItem(customData: ResponseMainBody){
 		if(customData.likers?.size.toString()=="null"){
 			text_main_home_count_like.text="0"
 		}

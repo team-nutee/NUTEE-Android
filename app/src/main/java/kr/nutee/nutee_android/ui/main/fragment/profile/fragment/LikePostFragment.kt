@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.QueryValue
 import kr.nutee.nutee_android.data.TestToken
 import kr.nutee.nutee_android.network.RequestToServer
@@ -37,43 +38,24 @@ class LikePostFragment: Fragment() {
 				LinearLayoutManager.VERTICAL, false)
 			setHasFixedSize(true)
 		}
-
-		//loadRecommendedPost()
+		loadLikePostList()
 
 	}
 
-	// 글이 있을 때와 없을 때 뷰를 다르게 보여주려고 만든 함수같음 (jinsu가 만듬)
-//	private fun loadUserProfileList(res: ResponseProfile) {
-//		RequestToServer.authService
-//			.requestUserPosts(res.id)
-//			.customEnqueue(
-//				onSuccess = { response ->
-//					if (response.body().isNullOrEmpty()) {
-//						cl_my_profile_recommended_post_is_empty.visibility = View.VISIBLE
-//						return@customEnqueue
-//					}
-//					cl_my_profile_recommended_post_list.visibility = View.VISIBLE
-//					 loadRecommendedPost{}
-//				}
-//			)
-//	}
-
-//	private fun loadRecommendedPost() {
-//		requestToServer.backService.requestMyLikePosts(
-//			//"Bearer "+ TestToken.testToken,
-//			"Bearer "+ TestToken.testToken,
-//			QueryValue.lastId,
-//			QueryValue.limit
-//		).customEnqueue(
-//			onSuccess = {
-//				Log.d("Network", "좋아요한 포스트 통신 성공")
-//				recyclerView.adapter = HomeRecyclerViewAdapter(it.body()!!)
-//			}
-//			,
-//			onError = {
-//				Log.d("Network", "통신 에러")
-//			}
-//		)
-//	}
+	private fun loadLikePostList() {
+		requestToServer.backService.requestMyLikePosts(
+				"Bearer "+ App.prefs.local_login_token,
+				QueryValue.lastId,
+				QueryValue.limit
+		).customEnqueue(
+				onSuccess = {
+					Log.d("Network", "내 포스트 정보 통신 성공")
+					recyclerView.adapter = HomeRecyclerViewAdapter(it.body()!!.body)
+				},
+				onError = {
+					Log.d("Network", "통신 에러")
+				}
+		)
+	}
 
 }

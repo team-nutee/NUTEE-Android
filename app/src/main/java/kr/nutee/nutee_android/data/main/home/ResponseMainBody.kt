@@ -1,6 +1,6 @@
 package kr.nutee.nutee_android.data.main.home
 
-data class Body(
+data class ResponseMainBody(
 	val id:Int?,
 	val title:String?,
 	val content:String?,

@@ -6,7 +6,7 @@ import kr.nutee.nutee_android.ui.main.fragment.profile.fragment.LikePostFragment
 import kr.nutee.nutee_android.ui.main.fragment.profile.fragment.MyCommentFragment
 import kr.nutee.nutee_android.ui.main.fragment.profile.fragment.MyPostFragment
 
-class ProfilePagerAdapter(fragmentActivity: ProfileFragment) : FragmentStateAdapter(fragmentActivity) {
+class ProfilePagerAdapter(fragment: ProfileFragment) : FragmentStateAdapter(fragment) {
 	override fun getItemCount(): Int {
 		return 3
 	}
