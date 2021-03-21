@@ -16,13 +16,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.main.fragment.add.MajorListActivity"
-            android:theme="@style/Transparent"/>
-        <activity
-            android:name=".ui.main.fragment.add.CategoryListActivity"
-            android:theme="@style/Transparent"/>
-        <activity android:name=".ui.main.fragment.home.detail.HomeDetaiProfilelActivity" />
-        <activity android:name=".ui.main.fragment.home.detail.HomeDetailActivity" />
+        <activity android:name=".ui.main.fragment.home.detail.HomeDetailActivity"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".ui.setting.DeveloperInformationActivity" />
         <activity android:name=".ui.main.fragment.search.SearchResultsView" />
         <activity android:name=".ui.notification.NotificationActivity" />

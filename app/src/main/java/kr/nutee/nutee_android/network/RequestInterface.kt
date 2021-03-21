@@ -132,7 +132,7 @@ interface RequestInterface {
 		@Header("Authorization") Authorization:String,
 		@Path("id") id: Int?,
 		@Body content: RequestComment
-	): Call<CommentList>
+	): Call<CommentDetail>
 
 	//Del comment
 	@DELETE("/sns/post/{postId}/comment/{id}")
