@@ -12,7 +12,7 @@ import kr.nutee.nutee_android.data.main.home.Liker
 * */
 fun setLikeEvent(it: View, countView: TextView, likers: Array<Liker>?,){
     val boolLike = likers?.any{ liker: Liker ->
-        liker.id.toString() == App.prefs.local_login_id
+        liker.id.toString() == App.prefs.local_user_id
     }
     Log.d("setLike", "댓글 좋아요 설정$boolLike")
     if (boolLike != null)
