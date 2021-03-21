@@ -61,9 +61,6 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 			requestlogin(App.prefs.local_login_id, App.prefs.local_login_pw)
 			return
 		}
-		customDialogDevInfo(
-			  getString(R.string.version_info)
-		)
 	}
 
 
