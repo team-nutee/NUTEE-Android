@@ -218,7 +218,6 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 			{//게시글 삭제
 					RequestToServer.backService.requestDelete(
 							"Bearer "+ App.prefs.local_login_token,
-						//App.prefs.local_login_token,
 						responseBody.id
 					).customEnqueue(
 							onSuccess = { finish() },
@@ -381,7 +380,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		).customEnqueue(
 			onSuccess = {
 				Log.d("Network", "댓글 수정 성공")
-
+				detailRefreshEvnet(false)
 			},
 			onError = {
 				Toast.makeText(this, "댓글 수정 네트워크 오류", Toast.LENGTH_SHORT).show()
@@ -393,7 +392,6 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 				InputMethodManager.HIDE_NOT_ALWAYS
 		)
 		et_detail_comment.setText("")
-		detailRefreshEvnet(false)
 	}
 
 	private fun postReply(postId: Int?, commentId: Int?) {
@@ -405,6 +403,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		).customEnqueue(
 			onSuccess = {
 				Log.d("Network", "답글 생성 성공")
+				detailRefreshEvnet(false)
 			},
 			onError = {
 				Toast.makeText(this, "답글 생성 네트워크 오류", Toast.LENGTH_SHORT).show()
@@ -416,6 +415,5 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 			InputMethodManager.HIDE_NOT_ALWAYS
 		)
 		et_detail_comment.setText("")
-		detailRefreshEvnet(false)
 	}
 }
