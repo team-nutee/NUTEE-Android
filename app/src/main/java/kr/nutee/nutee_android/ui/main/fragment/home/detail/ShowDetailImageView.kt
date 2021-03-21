@@ -2,15 +2,13 @@ package kr.nutee.nutee_android.ui.main.fragment.home.detail
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Parcelable
 import androidx.viewpager2.widget.ViewPager2
 import kotlinx.android.synthetic.main.activity_show_detail_image_view.*
 import kr.nutee.nutee_android.R
-import kr.nutee.nutee_android.data.TestToken
+import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.main.home.Image
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
-import java.util.ArrayList
 
 /*
  * Created by 88yhtserof
@@ -68,7 +66,7 @@ class ShowDetailImageView : AppCompatActivity() {
 
 	private fun requestImage(){
 		RequestToServer.backService.requestDetail(
-			"Bearer "+ TestToken.testToken,
+			"Bearer "+ App.prefs.local_login_token,
 			this.postId
 		).customEnqueue(
 			onSuccess = {

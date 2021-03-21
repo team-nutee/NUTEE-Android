@@ -3,8 +3,7 @@ package kr.nutee.nutee_android.ui.extend
 import android.util.Log
 import android.view.View
 import android.widget.TextView
-import kr.nutee.nutee_android.data.TestToken
-import kr.nutee.nutee_android.data.main.home.CommentBody
+import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.main.home.Liker
 
 /*
@@ -13,7 +12,7 @@ import kr.nutee.nutee_android.data.main.home.Liker
 * */
 fun setLikeEvent(it: View, countView: TextView, likers: Array<Liker>?,){
     val boolLike = likers?.any{ liker: Liker ->
-        liker.id == TestToken.testMemberId
+        liker.id.toString() == App.prefs.local_login_id
     }
     Log.d("setLike", "댓글 좋아요 설정$boolLike")
     if (boolLike != null)

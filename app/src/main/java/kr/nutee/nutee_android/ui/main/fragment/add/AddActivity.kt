@@ -197,19 +197,14 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	}
 
 	private fun rewritePostHasImage() {
-		Log.d("selectedImageAdd",selectedImage.size.toString())
-		Log.d("Network", "이미지포함 업로드 시작 이미지 null 여부${createImageMultipart(selectedImage).isNullOrEmpty()}")
 		requestToServer.backService.requestUploadImage(createImageMultipart(selectedImage))
 			.customEnqueue(
 				onSuccess = { uploadIt ->
-					Log.d("Network", "사진준비 완료")
-					Log.d("Network", "사진 개수 ${uploadIt.body()?.body?.size}")
 					val imagesArray= arrayOfNulls<Image>(uploadIt.body()?.body!!.size)
 					uploadIt.body()?.body!!.forEachIndexed() { index, str ->
 						val src=Image(str)
 						imagesArray[index] = src
 					}
-					Log.d("Network", "imagesArray 사진 개수 ${imagesArray.size}")
 					requestToServer.backService.requestRewritePost(
 							"Bearer "+ App.prefs.local_login_token,
 						RequestRewritePost(
@@ -244,13 +239,11 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 			.customEnqueue(
 				onSuccess = {
 					Log.d("Network", "사진준비 완료")
-					Log.d("Network", "사진 개수 ${it.body()?.body?.size}")
 					val imagesArray= arrayOfNulls<Image>(it.body()?.body!!.size)
 					it.body()?.body!!.forEachIndexed() { index, str ->
 						val src=Image(str)
 						imagesArray[index] = src
 					}
-					Log.d("Network", "imagesArray 사진 개수 ${imagesArray.size}")
 					requestToServer.backService.requestPost(
 							"Bearer "+ App.prefs.local_login_token,
 						RequestPost(
@@ -262,7 +255,6 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 						.customEnqueue(
 							onSuccess = {
 								Log.d("Network", "사진 포스트 업로드 완료")
-								Log.d("Network", "사진 개수 ${it.body()?.body?.images?.size}")
 								loadingDialog.dismissDialog()
 								loadDetailPost(it.body()?.body?.id!!, false)
 							},
@@ -279,7 +271,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 			)
 	}
 
-	private fun uploadNonImage() {Log.d("Network", "uploadNonImage 함수 사용")
+	private fun uploadNonImage() {
 		requestToServer.backService
 			.requestPost(
 					"Bearer "+ App.prefs.local_login_token,

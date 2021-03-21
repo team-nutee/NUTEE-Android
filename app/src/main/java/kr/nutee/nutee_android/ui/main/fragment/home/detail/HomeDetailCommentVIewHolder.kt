@@ -12,14 +12,11 @@ import com.bumptech.glide.Glide
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.DateParser
-import kr.nutee.nutee_android.data.TestToken
 import kr.nutee.nutee_android.data.main.RequestReport
 import kr.nutee.nutee_android.data.main.home.CommentBody
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.*
 import kr.nutee.nutee_android.ui.extend.dialog.cumstomReportDialog
-import kr.nutee.nutee_android.ui.extend.dialog.customSelectDialog
-import kr.nutee.nutee_android.ui.extend.imageSetting.setImageURLSetting
 
 class HomeDetailCommentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 

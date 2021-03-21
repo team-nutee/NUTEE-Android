@@ -213,11 +213,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		contentMoreEvent(responseBody.user,
 			View.GONE,{},
 			{//게시글 수정
-//					if (responseBody.images.isNullOrEmpty1()) {
-//						rewritePost(responseBody)
-//					}
-//					else customDialogSingleButton(getString(R.string.UnableRewritePost))
-				rewritePost(responseBody)
+			rewritePost(responseBody)
 			},
 			{//게시글 삭제
 					RequestToServer.backService.requestDelete(
@@ -321,7 +317,6 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		intent.putExtra("content", detailContent.text.toString())
 		intent.putExtra("category", responseBody?.category)
 		intent.putExtra("postId", responseBody?.id)
-		Log.d("Network", "사진 포함 게시글 수정 테스트")
 
 		finish()
 		startActivity(intent)

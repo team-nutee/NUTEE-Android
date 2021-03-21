@@ -3,7 +3,7 @@ package kr.nutee.nutee_android.ui.extend
 import android.content.Context
 import android.util.Log
 import android.view.View
-import kr.nutee.nutee_android.data.TestToken
+import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.main.home.User
 import kr.nutee.nutee_android.ui.extend.dialog.customSelectDialog
 
@@ -20,7 +20,7 @@ fun Context.contentMoreEvent(
     deleteContent: () -> Unit,
     reportContent: () -> Unit
 ) {
-    if (user?.id.toString() == TestToken.testMemberId.toString()) {
+    if (user?.id.toString() == App.prefs.local_user_id) {
         customSelectDialog(
             View.GONE, replyVisible, View.VISIBLE, View.VISIBLE, {},
             {Log.d("Network", " 답글 생성 버튼 누름")

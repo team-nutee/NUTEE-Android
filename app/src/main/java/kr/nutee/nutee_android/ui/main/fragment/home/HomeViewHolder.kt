@@ -75,9 +75,7 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 			customData.user,
 			View.GONE,{},
 			{ //게시글 수정
-				if(customData.images.isNullOrEmpty()) rewritePost(customData)
-				else
-					itemView.context.customDialogSingleButton(itemView.context.getString(R.string.UnableRewritePost))
+			rewritePost(customData)
 			},
 			{ //게시글 삭제
 				requestToServer.backService.requestDelete(
@@ -111,16 +109,7 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 		intent.putExtra("content",customData.content)
 		intent.putExtra("category",customData.category)
 		intent.putExtra("postId",customData.id)
-		if (customData.images?.isNullOrEmpty() == false){
-			val imageArrayList = customData.images.toCollection(ArrayList())
-			intent.putParcelableArrayListExtra("rewriteImage", imageArrayList)
-			itemView.context.startActivity(intent)
-		}
-//		val imageArrayList = arrayListOf<String>()
-//		customData.images?.forEach{
-//			imageArrayList.add(it.src)
-//		}
-//		intent.putParcelableArrayListExtra("rewriteImage", imageArrayList)
+
 		itemView.context.startActivity(intent)
 	}
 
