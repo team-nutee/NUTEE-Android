@@ -172,9 +172,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 
 	private fun uploadRewriteContent() {
 		loadingDialog.startLoadingDialog()
-//		if (selectedImage.size > 0) {
-//			rewritePostHasImage()
-//		} else
+
 			rewritePostNonImage()
 	}
 
@@ -190,7 +188,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 		)
 			.customEnqueue(
 				onSuccess = {
-					loadDetailPost(it.body()?.body?.id!!,true)
+					loadDetailPost(it.body()?.body?.id!!)
 				},
 				onError = {}
 			)
@@ -218,7 +216,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 								Log.d("Network", "사진 포스트 업로드 완료")
 								Log.d("Network", "사진 개수 ${it.body()?.body?.images?.size}")
 								loadingDialog.dismissDialog()
-								loadDetailPost(it.body()?.body?.id!!, true)
+								loadDetailPost(it.body()?.body?.id!!)
 							},
 							onError = {
 								Log.d("Network", "사진 포스트 업로드 실패")
@@ -256,7 +254,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 							onSuccess = {
 								Log.d("Network", "사진 포스트 업로드 완료")
 								loadingDialog.dismissDialog()
-								loadDetailPost(it.body()?.body?.id!!, false)
+								loadDetailPost(it.body()?.body?.id!!)
 							},
 							onError = {
 								Log.d("Network", "사진 포스트 업로드 실패")
@@ -284,7 +282,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 			.customEnqueue(
 				onSuccess = {
 					Log.d("Network", "사진 없는 포스트 생성 성공")
-					loadDetailPost(it.body()?.body?.id!!, false)
+					loadDetailPost(it.body()?.body?.id!!)
 				},
 				onError = {
 					Log.d("Network", "포스트 생성 실패")
@@ -335,7 +333,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 		addImageList.adapter =ImageAdapter(selectedImage, this)
 	}
 
-	private fun loadDetailPost(id: Int, rewriteBool: Boolean) {
+	private fun loadDetailPost(id: Int) {
 		loadingDialog.dismissDialog()
 		val intent = Intent(applicationContext, HomeDetailActivity::class.java)
 		intent.putExtra("Detail_id",id)
@@ -346,7 +344,14 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	private fun checkPostBlank(): Boolean {//글 작성 여부 확인
 		if(addTitle.text.toString().isBlank()
 			||addContent.text.toString().isBlank()){
-			Toast.makeText(this,"아직 글이 완성되지 않았습니다.",Toast.LENGTH_LONG).show()
+			Toast.makeText(this,"아직 글이 완성되지 않았습니다!",Toast.LENGTH_LONG)
+					.show()
+			return false
+		}
+		if(addCategory.text.toString()=="카테고리"
+				&&addMajor.text.toString()=="내 전공") {
+			Toast.makeText(this, "카테고리를 설정해 주세요!", Toast.LENGTH_LONG)
+					.show()
 			return false
 		}
 		return true
