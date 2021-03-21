@@ -50,6 +50,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 	val requestToServer = RequestToServer
 	private var postId: Int? = 0
 	private var commentId: Int? = 0
+	private var commentDuplCheck=false
 
 	private var sendDataToShowDetailImageView: (() -> Unit)? = null
 	private var clickDetailMoreEvent: (() -> Unit)? = null
@@ -266,8 +267,10 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 			R.id.img_detail_comment_favorit_btn -> likeClickEvent()
 			R.id.img_comment_upload_btn -> {
 				when {
-					intent.hasExtra("rewriteComment") -> rewriteComment(postId, commentId)
-					intent.hasExtra("reply") -> postReply(postId, commentId)
+					intent.hasExtra("rewriteComment")
+							&& !commentDuplCheck-> rewriteComment(postId, commentId)
+					intent.hasExtra("reply")
+							&& !commentDuplCheck-> postReply(postId, commentId)
 					else -> uploadComment()
 				}
 			}
@@ -332,7 +335,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 				if (it.body()?.body != null) {
 					homeDetailCommentAdpater = HomeDetailCommentAdpater(
 						this,
-						it.body()!!.body!!,
+							it.body()!!.body!!,
 						postId
 					)
 					rv_home_detail_comment.adapter = homeDetailCommentAdpater
@@ -352,6 +355,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		).customEnqueue(
 			onSuccess = {
 				Log.d("Network", "댓글 생성 성공")
+				detailRefreshEvnet(false)
 			}
 		)
 		val manager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
@@ -360,7 +364,6 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 			InputMethodManager.HIDE_NOT_ALWAYS
 		)
 		et_detail_comment.setText("")
-		detailRefreshEvnet(false)
 	}
 
 	private fun bindRewriteComment() {
@@ -380,6 +383,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		).customEnqueue(
 			onSuccess = {
 				Log.d("Network", "댓글 수정 성공")
+				commentDuplCheck=true
 				detailRefreshEvnet(false)
 			},
 			onError = {
@@ -403,6 +407,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		).customEnqueue(
 			onSuccess = {
 				Log.d("Network", "답글 생성 성공")
+				commentDuplCheck=true
 				detailRefreshEvnet(false)
 			},
 			onError = {
