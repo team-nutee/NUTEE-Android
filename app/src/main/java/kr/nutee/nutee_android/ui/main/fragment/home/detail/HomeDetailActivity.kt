@@ -144,9 +144,11 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 	private fun bindDetailPostEvent(responseMainItem: ResponseMainBody) {
 		Log.d("Glide test", "프로필 사진 로딩")
 		GlideApp.with(applicationContext)
-				.load(responseMainItem.user?.image?.src)
-				.fallback(R.mipmap.nutee_character_background_white_round)
-				.into(img_detail_profile)
+			.load(responseMainItem.user?.image?.src)
+			.placeholder(R.drawable.ic_baseline_rotate_left_24)
+			.error(R.mipmap.nutee_character_background_white_round)
+			.fallback(R.mipmap.nutee_character_background_white_round)
+			.into(img_detail_profile)
 		detailNickname.text = responseMainItem.user?.nickname
 		detailTime.text =
 			responseMainItem.createdAt?.let { DateParser(it).calculateDiffDate() }

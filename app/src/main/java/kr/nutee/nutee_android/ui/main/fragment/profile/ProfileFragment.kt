@@ -17,6 +17,7 @@ import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.main.profile.ResponseProfile
 import kr.nutee.nutee_android.network.RequestToServer
+import kr.nutee.nutee_android.ui.extend.GlideApp
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.extend.dialog.customDialogSingleButton
 
@@ -74,10 +75,13 @@ class ProfileFragment : Fragment() {
 
 	private fun bindUserProfile(res: ResponseProfile) {
 		textUserName.text = res.body.nickname
-		Glide.with(requireContext())
-				.load(res.body.image.src)
-				.placeholder(R.mipmap.nutee_character_background_white_round)
+		GlideApp.with(requireContext())
+				.load(res.body.image?.src)
+				.placeholder(R.drawable.ic_baseline_rotate_left_24)
+			.error(R.mipmap.nutee_character_background_white_round)
+			.fallback(R.mipmap.nutee_character_background_white_round)
 				.into(img_profile_image)
-		App.prefs.url = res.body.image.src
+		if(!res.body.image?.src.isNullOrEmpty())
+			App.prefs.url = res.body.image!!.src
 	}
 }

@@ -32,8 +32,10 @@ class HomeDetailReplyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVi
 
 	fun bindWithView(reComment: ReComment, context: Context, postId: Int?, commentId: Int?) {
 		//답글 프로필 이미지 설정
-		Glide.with(itemView)
+		GlideApp.with(itemView)
 			.load(reComment.user?.image?.src)
+			.placeholder(R.drawable.ic_baseline_rotate_left_24)
+			.error(R.mipmap.nutee_character_background_white_round)
 			.fallback(R.mipmap.nutee_character_background_white_round)
 			.into(img_comment_profile)
 		text_commnet_nick.text = reComment.user?.nickname
