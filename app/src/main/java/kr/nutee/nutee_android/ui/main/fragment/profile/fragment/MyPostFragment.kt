@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.main_fragment_profile_written_post.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.QueryValue
@@ -44,7 +45,11 @@ class MyPostFragment: Fragment() {
 		).customEnqueue(
 			onSuccess = {
 				Log.d("Network", "내 포스트 정보 통신 성공")
-				recyclerView.adapter = HomeRecyclerViewAdapter(it.body()!!.body)
+				if (it.body()?.body.isNullOrEmpty()) {
+					cl_main_profile_no_post.visibility = View.VISIBLE
+				}
+				else
+					recyclerView.adapter = HomeRecyclerViewAdapter(it.body()?.body!!)
 			},
 			onError = {
 				Log.d("Network", "통신 에러")

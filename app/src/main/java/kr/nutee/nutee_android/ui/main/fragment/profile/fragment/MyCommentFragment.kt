@@ -49,7 +49,11 @@ class MyCommentFragment: Fragment() {
 		).customEnqueue(
 				onSuccess = {
 					Log.d("Network", "내 포스트 정보 통신 성공")
-					recyclerView.adapter = HomeRecyclerViewAdapter(it.body()!!.body)
+					if (it.body()?.body.isNullOrEmpty()) {
+						cl_main_profile_no_comment.visibility = View.VISIBLE
+					}
+					else
+						recyclerView.adapter = HomeRecyclerViewAdapter(it.body()?.body!!)
 				},
 				onError = {
 					Log.d("Network", "통신 에러")

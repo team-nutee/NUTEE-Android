@@ -15,6 +15,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -22,52 +23,51 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorWhite"
-            android:textSize="18dp"
-            android:textStyle="bold"
-            app:titleTextColor="@color/colorWhite"
-            app:layout_scrollFlags="scroll|enterAlways|snap">
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            app:titleTextColor="@color/colorWhite">
 
-            <View
-                android:layout_width="155dp"
-                android:layout_height="10dp"/>
-            <TextView
-                android:id="@+id/main_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingBottom="10dp"
-                android:text="@string/app_name"
-                android:textColor="#000000"
-                android:textSize="18dp"
-                android:textStyle="bold"
-                android:layout_marginTop="10dp" />
-
-            <View
-                android:layout_width="115dp"
-                android:layout_height="10dp"/>
-
-            <ImageButton
-            android:id="@+id/img_main_top_search"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-                android:visibility="visible"
-            android:background="@drawable/ic_baseline_search_24"
-            android:padding="15dp" />
-            <ImageButton
-                android:id="@+id/img_main_top_setting"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:visibility="visible"
-                android:background="@mipmap/ic_setting_foreground"
-                android:padding="15dp" />
-
-            <View
-                android:id="@+id/main_top_line"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                android:backgroundTint="@color/colorWhite"
-                app:layout_constraintTop_toBottomOf="@id/main_title"/>
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp">
+
+                <TextView
+                    android:id="@+id/main_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/app_name"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/img_main_top_search"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/ic_baseline_search_24"
+                    android:padding="15dp"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/img_main_top_setting"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@mipmap/ic_setting_foreground"
+                    android:padding="15dp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.appcompat.widget.Toolbar>
 

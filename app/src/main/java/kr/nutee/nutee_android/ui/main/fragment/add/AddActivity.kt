@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.View
@@ -149,10 +150,12 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	private fun openImageChooser() {
 		Intent(Intent.ACTION_PICK).also {
 			it.type = "image/*"
+			//it.data = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
 			it.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
 			val mimeTypes = arrayOf("image/jpeg", "image/png")
 			it.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
 			startActivityForResult(it, REQUEST_CODE_PICK_IMAGE)
+			//startActivityForResult(it, REQUEST_CODE_PICK_IMAGE)
 		}
 	}
 
@@ -312,15 +315,14 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 							for (i in 0 until clipdata.itemCount) {
 								selectedImageArrayList.add(clipdata.getItemAt(i).uri)
 							}
-							//selectedImage.clear()
-							selectedImage = selectedImageArrayList
+							selectedImage.addAll(selectedImageArrayList)
 							setImageAndAdpater()
 
 						}
 					}
 				} else {//멀티 선택 미지원 기기에서 clipData가 없음.
 					selectedImageArrayList.add(data.data!!)
-					selectedImage = selectedImageArrayList
+					selectedImage.addAll(selectedImageArrayList)
 					setImageAndAdpater()
 				}
 

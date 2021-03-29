@@ -6,16 +6,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import kotlinx.android.synthetic.main.home_favorite_post_fragment.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.QueryValue
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.RefreshEvent
 import kr.nutee.nutee_android.ui.extend.customEnqueue
+import kr.nutee.nutee_android.ui.extend.dialog.customDialogSingleButton
 import kr.nutee.nutee_android.ui.main.fragment.home.HomeRecyclerViewAdapter
 
 
@@ -68,11 +71,18 @@ class FavoritePostFragment : Fragment() {
 		).customEnqueue(
 			onSuccess = {
 				Log.d("Network", "즐겨찾기 게시글 통신 성공")
-				recyclerView.adapter = HomeRecyclerViewAdapter(it.body()?.body!!)
+				if (it.body()?.body.isNullOrEmpty()) {
+					cl_main_home_no_post.visibility = View.VISIBLE
+				}
+				else
+					recyclerView.adapter = HomeRecyclerViewAdapter(it.body()?.body!!)
 			},
 			onError = {
 				Log.d("Network", "즐겨찾기 게시글 통신 에러")
-			}
+			},
+				onFail = {
+					requireContext().customDialogSingleButton("네트워크 통신 오류")
+				}
 		)
 	}
 

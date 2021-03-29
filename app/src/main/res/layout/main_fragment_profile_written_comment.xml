@@ -6,6 +6,41 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.main.fragment.profile.fragment.MyCommentFragment">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_main_profile_no_comment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_main_profile_like_no_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:text="작성한 댓글이 없습니다."
+            android:textColor="@color/nuteeBase"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.36" />
+
+        <TextView
+            android:id="@+id/tv_main_profile_like_no_comment_"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="댓글을 작성해 보세요!"
+            android:textColor="@color/colorLightGray"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/tv_main_profile_like_no_comment"
+            app:layout_constraintStart_toStartOf="@+id/tv_main_profile_like_no_comment"
+            app:layout_constraintTop_toBottomOf="@+id/tv_main_profile_like_no_comment" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_profile_written_comment"
         android:layout_width="match_parent"

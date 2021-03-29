@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import kotlinx.android.synthetic.main.home_favorite_post_fragment.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.QueryValue
@@ -65,7 +66,11 @@ class MyMajorPostFragment : Fragment() {
 			QueryValue.limit
 		).customEnqueue(
 			onSuccess = {
-				recyclerView.adapter = HomeRecyclerViewAdapter(it.body()?.body!!)
+				if (it.body()?.body.isNullOrEmpty()) {
+					cl_main_home_no_post.visibility = View.VISIBLE
+				}
+				else
+					recyclerView.adapter = HomeRecyclerViewAdapter(it.body()?.body!!)
 			},
 			onError = {}
 		)

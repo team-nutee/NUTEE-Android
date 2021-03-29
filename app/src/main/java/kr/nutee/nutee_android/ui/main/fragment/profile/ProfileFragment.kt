@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
@@ -75,6 +76,7 @@ class ProfileFragment : Fragment() {
 		textUserName.text = res.body.nickname
 		Glide.with(requireContext())
 				.load(res.body.image.src)
+				.placeholder(R.mipmap.nutee_character_background_white_round)
 				.into(img_profile_image)
 		App.prefs.url = res.body.image.src
 	}
