@@ -9,12 +9,13 @@
         android:id="@+id/cl_setting_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="68dp"
-        android:paddingLeft="30dp"
         android:paddingRight="85dp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_setting_logout"
+        android:paddingLeft="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.42000002">
 
         <TextView
             android:id="@+id/tv_setting_profile_image_btn"
@@ -22,6 +23,7 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             android:drawableEnd="@drawable/ic_chevron_right_black_17dp"
+            android:paddingVertical="2.5dp"
             android:text="프로필 이미지를 설정하고 싶으신가요?"
             android:textColor="#000000"
             android:textSize="14dp"
@@ -34,9 +36,10 @@
             android:id="@+id/tv_setting_nickname_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="25dp"
             android:clickable="true"
             android:drawableEnd="@drawable/ic_chevron_right_black_17dp"
+            android:paddingVertical="2.5dp"
             android:text="닉네임을 변경하고 싶으신가요?"
             android:textColor="#000000"
             android:textSize="14dp"
@@ -49,9 +52,10 @@
             android:id="@+id/tv_setting_password_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="25dp"
             android:clickable="true"
             android:drawableEnd="@drawable/ic_chevron_right_black_17dp"
+            android:paddingVertical="2.5dp"
             android:text="비밀번호를 변경하고 싶으신가요?"
             android:textColor="#000000"
             android:textSize="14dp"
@@ -64,9 +68,10 @@
             android:id="@+id/tv_setting_category_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="25dp"
             android:clickable="true"
             android:drawableEnd="@drawable/ic_chevron_right_black_17dp"
+            android:paddingVertical="2.5dp"
             android:text="카테고리를 변경하고 싶으신가요?"
             android:textColor="#000000"
             android:textSize="14dp"
@@ -79,9 +84,10 @@
             android:id="@+id/tv_setting_major_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="25dp"
             android:clickable="true"
             android:drawableEnd="@drawable/ic_chevron_right_black_17dp"
+            android:paddingVertical="2.5dp"
             android:text="전공을 변경하고 싶으신가요?"
             android:textColor="#000000"
             android:textSize="14dp"
@@ -90,36 +96,36 @@
             app:layout_constraintStart_toStartOf="@+id/tv_setting_category_btn"
             app:layout_constraintTop_toBottomOf="@+id/tv_setting_category_btn" />
 
+        <TextView
+            android:id="@+id/tv_setting_developer_information_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:clickable="true"
+            android:paddingVertical="2.5dp"
+            android:text="개발자 정보"
+            android:textColor="@color/colorGray"
+            android:textSize="14dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_setting_major_btn" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/tv_setting_logout"
         android:layout_width="wrap_content"
-        android:layout_height="42dp"
-        android:layout_marginBottom="4dp"
+        android:layout_height="wrap_content"
         android:clickable="true"
-        android:padding="10dp"
+        android:padding="15dp"
         android:text="로그아웃"
         android:textColor="@color/nuteeBase"
-        android:textSize="16dp"
+        android:textSize="20dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/tv_setting_developer_information_btn"
-        app:layout_constraintEnd_toEndOf="@id/cl_setting_main"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="@id/cl_setting_main" />
-
-    <TextView
-        android:id="@+id/tv_setting_developer_information_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_marginBottom="15dp"
-        android:clickable="true"
-        android:text="개발자 정보"
-        android:textColor="@color/nuteeBase"
-        android:textSize="12dp"
-        app:layout_constraintStart_toStartOf="@id/tv_setting_logout"
-        app:layout_constraintEnd_toEndOf="@id/tv_setting_logout"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cl_setting_main" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

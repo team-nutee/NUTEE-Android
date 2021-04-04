@@ -17,17 +17,20 @@ import kr.nutee.nutee_android.ui.main.fragment.home.HomeFragement
 import kr.nutee.nutee_android.ui.main.fragment.notice.NoticeFragment
 import kr.nutee.nutee_android.ui.main.fragment.profile.ProfileFragment
 import kr.nutee.nutee_android.ui.main.fragment.search.SearchView
+import kr.nutee.nutee_android.ui.setting.SettingActivity
 
 class MainActivity : AppCompatActivity() {
 
 	private var pressTime:Long = 0 //onBackPressedEvent 처리 변수
 	private lateinit var icSearch:ImageButton
+	private lateinit var icSetting: ImageButton
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.main_activity)
 		init()
 		icSearchEvent()
+		icSettingEvent()
 	}
 
 	private fun init() {
@@ -98,7 +101,7 @@ class MainActivity : AppCompatActivity() {
 							resources.getString(R.string.fragment_profile),
 							ProfileFragment(),
 							View.GONE,
-							View.INVISIBLE
+							View.VISIBLE
 					)
 					inputMethodManager.hideSoftInputFromWindow(
 						currentFocus?.windowToken,
@@ -122,6 +125,14 @@ class MainActivity : AppCompatActivity() {
 		}
 	}
 
+	//상단바 설정 위젯 이벤트
+	private fun icSettingEvent(){
+		icSetting=findViewById(R.id.img_main_top_setting)
+		icSetting.setOnClickListener {
+			val intent=Intent(this, SettingActivity::class.java)
+			startActivity(intent)
+		}
+	}
 }
 
 

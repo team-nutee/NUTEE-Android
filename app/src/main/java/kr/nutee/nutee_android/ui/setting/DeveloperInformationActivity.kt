@@ -14,7 +14,7 @@ import kr.nutee.nutee_android.data.main.home.DeveloperInformationItem
 class DeveloperInformationActivity : AppCompatActivity() {
 
 	lateinit var developerInformationAdapter: DeveloperInformationAdapter
-	val developerDatas = mutableListOf<DeveloperInformationItem>()
+	private val developerDatas = mutableListOf<DeveloperInformationItem>()
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -39,103 +39,112 @@ class DeveloperInformationActivity : AppCompatActivity() {
 	private fun loadDatas(){
 		developerDatas.apply {
 			add(
-				DeveloperInformationItem(
-					name = "박진수",
-					role1 = "Android",
-					role2 = "PL",
-					role3 = "TI",
-					href = "https://github.com/jinsu4755"
-				)
+					DeveloperInformationItem(
+							name = "이문혁",
+							role1 = "BackEnd",
+							role2 = null,
+							date = "2019 ~",
+							href = "https://github.com/MoonHKLee"
+					)
 			)
 			add(
-				DeveloperInformationItem(
-					name = "배은서",
-					role1 = "Android",
-					role2 = null,
-					role3 = null,
-					href = "https://github.com/eunseo5355"
-				)
+					DeveloperInformationItem(
+							name = "윤석노",
+							role1 = "BackEnd",
+							role2 = null,
+							date = "2021 ~",
+							href = "https://github.com/sny1032"
+					)
 			)
 			add(
-				DeveloperInformationItem(
-					name = "임윤휘",
-					role1 = "Android",
-					role2 = "Design",
-					role3 = null,
-					href = "https://github.com/88yhtserof"
-				)
+					DeveloperInformationItem(
+							name = "오준현",
+							role1 = "PM",
+							role2 = "Design",
+							date = "2019 ~",
+							href = "https://github.com/5anniversary"
+					)
 			)
 			add(
-				DeveloperInformationItem(
-					name = "오준현",
-					role1 = "iOS",
-					role2 = "Design",
-					role3 = "PM",
-					href = "https://github.com/5anniversary"
-				)
+					DeveloperInformationItem(
+							name = "김희재",
+							role1 = "iOS",
+							role2 = null,
+							date = "2019 ~",
+							href = "https://github.com/iowa329"
+					)
 			)
 			add(
-				DeveloperInformationItem(
-					name = "김희재",
-					role1 = "iOS",
-					role2 = null,
-					role3 = null,
-					href = "https://github.com/iowa329"
-				)
+					DeveloperInformationItem(
+							name = "김은우",
+							role1 = "iOS",
+							role2 = null,
+							date = "2019 ~",
+							href = "https://github.com/suuum12"
+					)
 			)
 			add(
-				DeveloperInformationItem(
-					name = "이문혁",
-					role1 = "Server",
-					role2 = "Web",
-					role3 = null,
-					href = "https://github.com/MoonHKLee"
-				)
-			)
-			add(
-				DeveloperInformationItem(
-					name = "김은우",
-					role1 = "Server",
-					role2 = "PL",
-					role3 = null,
-					href = "https://github.com/suuum12"
-				)
-			)
-			add(
-				DeveloperInformationItem(
-					name = "차희주",
-					role1 = "Server",
-					role2 = null,
-					role3 = null,
-					href = "https://github.com/JOOZOO20"
-				)
+					DeveloperInformationItem(
+							name = "임윤휘",
+							role1 = "Android",
+							role2 = null,
+							date = "2020 ~",
+							href = "https://github.com/88yhtserof"
+					)
 			)
 			add(
 				DeveloperInformationItem(
 					name = "김지원",
 					role1 = "Web",
-					role2 = "PL",
-					role3 = null,
+					role2 = null,
+					date = "2020 ~",
 					href = "https://github.com/gwonkim"
 				)
 			)
 			add(
-				DeveloperInformationItem(
-					name = "고병우",
-					role1 = "QA",
-					role2 = null,
-					role3 = null,
-					href = "https://github.com/kohbwoo"
-				)
+					DeveloperInformationItem(
+							name = "김산호",
+							role1 = "Web",
+							role2 = null,
+							date = "2020 ~",
+							href = "https://github.com/san9901"
+					)
 			)
 			add(
-				DeveloperInformationItem(
-					name = "박세연",
-					role1 = "QA",
-					role2 = null,
-					role3 = null,
-					href = "https://github.com/SEYEON-PARK"
-				)
+					DeveloperInformationItem(
+							name = "박세연",
+							role1 = "QA",
+							role2 = null,
+							date = "2020 ~",
+							href = "https://github.com/SEYEON-PARK"
+					)
+			)
+			add(
+					DeveloperInformationItem(
+							name = "임우찬",
+							role1 = "BackEnd",
+							role2 = null,
+							date = "2019 ~ 2020",
+							href = "https://github.com/dladncks1217"
+					)
+			)
+			add(
+					DeveloperInformationItem(
+							name = "박진수",
+							role1 = "Android",
+							role2 = null,
+							date = "2020 ~ 2021",
+							href = "https://github.com/jinsu4755"
+					)
+			)
+			add(
+					DeveloperInformationItem(
+							name = "배은서",
+							role1 = "Android",
+							role2 = null,
+							date = "2020 ~ 2021",
+							href = "https://github.com/eunseo5355"
+					)
 			)
 		}
 		developerInformationAdapter.developerDatas = developerDatas

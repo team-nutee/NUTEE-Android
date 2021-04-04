@@ -19,6 +19,9 @@ import kr.nutee.nutee_android.ui.setting.DeveloperInformationActivity
 /*
  * Created by eunseo5355
  * DESC: 설정 메인화면 Fragment
+ *
+ * Created by 88yhtserof
+ * 누티 2.0 리팩토링
  */
 
 class MainSettingFragment : Fragment() {
@@ -34,36 +37,37 @@ class MainSettingFragment : Fragment() {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
+		//프로필 이미지 설정
 		tv_setting_profile_image_btn.setOnClickListener {
 			requireContext().loadFragmentAddtoBackStack(ProfileImageSettingFragment()
 				,R.id.frame_layout_setting,null)
 		}
-
+		//닉네임 설정
 		tv_setting_nickname_btn.setOnClickListener {
 			requireContext().loadFragmentAddtoBackStack(NickNameSettingFragment()
 				,R.id.frame_layout_setting,null)
 		}
-
+		//비밀번호 재설정
 		tv_setting_password_btn.setOnClickListener {
 			requireContext().loadFragmentAddtoBackStack(PasswordSettingFragment()
 				,R.id.frame_layout_setting,null)
 		}
-
+		//카테고리 재설정
 		tv_setting_category_btn.setOnClickListener {
 			requireContext().loadFragmentAddtoBackStack(CategorySettingFragment()
 				,R.id.frame_layout_setting,null)
 		}
-
+		//전공 재설정
 		tv_setting_major_btn.setOnClickListener {
 			requireContext().loadFragmentAddtoBackStack(MajorSettingFragment()
 				,R.id.frame_layout_setting,null)
 		}
-
+		//개발자 정보
 		tv_setting_developer_information_btn.setOnClickListener {
 			val intent = Intent(context, DeveloperInformationActivity::class.java)
 			startActivity(intent)
 		}
-
+		//로그아웃
 		tv_setting_logout.setOnClickListener {
 			requestlogout()
 		}

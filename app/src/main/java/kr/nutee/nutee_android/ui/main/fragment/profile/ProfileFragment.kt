@@ -1,10 +1,12 @@
 package kr.nutee.nutee_android.ui.main.fragment.profile
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -20,6 +22,7 @@ import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.GlideApp
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.extend.dialog.customDialogSingleButton
+import kr.nutee.nutee_android.ui.main.fragment.search.SearchView
 
 class ProfileFragment : Fragment() {
 
