@@ -83,11 +83,10 @@ class MainSettingFragment : Fragment() {
 					App.prefs.local_login_pw = ""
 					App.prefs.local_login_token = ""
 
-					Toast.makeText(view?.context,"성공적으로 로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
+					Toast.makeText(view?.context,it.body()!!.body, Toast.LENGTH_LONG).show()
 					val intent = Intent(view?.context, LoginActivity::class.java)
 					startActivity(intent)
-				},
-				onError = {}
+				}
 			)
 	}
 

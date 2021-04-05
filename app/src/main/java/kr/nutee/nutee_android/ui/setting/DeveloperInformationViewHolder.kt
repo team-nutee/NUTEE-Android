@@ -10,6 +10,8 @@ import kr.nutee.nutee_android.data.main.home.DeveloperInformationItem
 /*
  * Created by eunseo5355
  * DESC: 개발자 정보 ViewHolder
+ * Created by 88yhtserof
+ * 누티 2.0 수정
  */
 
 class DeveloperInformationViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {

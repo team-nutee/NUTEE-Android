@@ -1,6 +1,5 @@
 package kr.nutee.nutee_android.network
 
-import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.ResponseWrapper
 import kr.nutee.nutee_android.data.main.RequestReport
 import kr.nutee.nutee_android.data.main.add.ResponseImage
@@ -10,11 +9,11 @@ import kr.nutee.nutee_android.data.main.home.*
 import kr.nutee.nutee_android.data.main.home.detail.RequestComment
 import kr.nutee.nutee_android.data.main.home.detail.CommentDetail
 import kr.nutee.nutee_android.data.main.profile.ResponseProfile
+import kr.nutee.nutee_android.data.main.setting.RequestChangeCategory
 import kr.nutee.nutee_android.data.main.setting.ResponseUploadProfile
 import kr.nutee.nutee_android.data.member.find.RequestFindPw
 import kr.nutee.nutee_android.data.member.login.RequestLogin
 import kr.nutee.nutee_android.data.member.login.ResponseLogin
-import kr.nutee.nutee_android.data.member.logout.ResponseLogout
 import kr.nutee.nutee_android.data.member.register.*
 import okhttp3.MultipartBody
 import retrofit2.Call
@@ -248,8 +247,10 @@ interface RequestInterface {
 	): Call<Unit>
 
 	//logout
-	@POST("/api/user/logout")
-	fun reqeustLogout(@Header("Cookie") token: String = App.prefs.local_login_token): Call<ResponseLogout>
+	@POST("/auth/logout")
+	fun reqeustLogout(
+			@Body body:String
+	): Call<ResponseWrapper<String>>
 
 	/*Find user Data*/
 	@POST("/auth/user-id")
@@ -297,6 +298,13 @@ interface RequestInterface {
 		@Header("Cookie") cookie: String,
 		@Field("newpassword") newpassword: String
 	): Call<Unit>
+
+	//interests change
+	@PATCH("/auth/user/interests")
+	fun requestChageCategory(
+			@Header("Authorization") Authorization:String,
+			@Body body:RequestChangeCategory
+	):Call<ResponseWrapper<List<String>>>
 
 	/*other User Profile*/
 	// load user
