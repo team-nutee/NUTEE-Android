@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.setting_password_fragment.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.ValidData
+import kr.nutee.nutee_android.data.main.setting.RequestChangePassword
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.animation.showTextShake
 import kr.nutee.nutee_android.ui.extend.customEnqueue
@@ -107,23 +108,25 @@ class PasswordSettingFragment : Fragment() {
 	private fun requestToChangePassword(){
 		RequestToServer.authService
 			.requestChagePassword(
-				cookie = App.prefs.local_login_token,
-				newpassword = validPassword!!
-			)
-			.customEnqueue(
+				"Bearer "+ App.prefs.local_login_token,
+				RequestChangePassword(
+						App.prefs.local_login_pw,
+						validPassword!!
+				)
+			).customEnqueue(
 				onSuccess = {
 					requireContext().loadFragment(MainSettingFragment(),R.id.frame_layout_setting)
 					Toast.makeText(
 						requireContext(),
 						"비밀번호 변경되었습니다",
-						Toast.LENGTH_SHORT
+						Toast.LENGTH_LONG
 					).show()
 				},
 				onError = {
 					Toast.makeText(
 						requireContext(),
 						"비밀번호 변경에 실패하였습니다.",
-						Toast.LENGTH_SHORT
+						Toast.LENGTH_LONG
 					).show()
 				}
 			)

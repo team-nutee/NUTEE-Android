@@ -14,14 +14,18 @@ import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.setting_profile_image_fragment.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
+import kr.nutee.nutee_android.data.main.add.RequestPost
+import kr.nutee.nutee_android.data.main.home.Image
+import kr.nutee.nutee_android.data.main.setting.RequestChangeProfileImage
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.extend.imageSetting.createProfileMultipart
-import kr.nutee.nutee_android.ui.extend.imageSetting.setImageURLSetting
 
 /*
  * Created by eunseo5355
  * DESC: 프로필 이미지 설정 Fragment
+ * by 88yhtserof
+ * DESC: 2.0 버전 수정
  */
 
 class ProfileImageSettingFragment : Fragment(), View.OnClickListener {
@@ -43,14 +47,22 @@ class ProfileImageSettingFragment : Fragment(), View.OnClickListener {
 	}
 
 	private fun init() {
-		loadProfileImage(App.prefs.url)
+		loadProfileImage()
 		profileImageSettingFragmentButtneEvent()
 	}
 
-	private fun loadProfileImage(profileImage: String?) {
-		Glide.with(this)
-			.load(setImageURLSetting(profileImage))
-			.into(img_setting_profile_image_btn)
+	private fun loadProfileImage() {
+		RequestToServer.backService.requestUserData(
+				"Bearer "+ App.prefs.local_login_token
+		).customEnqueue(
+				onSuccess = {
+					Glide.with(this)
+							.load(it.body()?.body?.image?.src)
+							.placeholder(R.drawable.ic_baseline_rotate_left_24)
+							.error(R.mipmap.nutee_character_background_white_round)
+							.into(img_setting_profile_image_btn)
+				}
+		)
 	}
 
 	private fun profileImageSettingFragmentButtneEvent() {
@@ -87,32 +99,36 @@ class ProfileImageSettingFragment : Fragment(), View.OnClickListener {
 			data != null
 		) {
 			Glide.with(this)
-				.load(data.data!!)
-				.into(img_setting_profile_image_btn)
+					.load(data.data!!)
+					.into(img_setting_profile_image_btn)
+			//'저장하기' 버튼 클릭 EvnetListner
 			profileImageSaveEvnetListner={profileImageRequestToServer(data.data!!)}
 			return
 		}
 	}
 
 	private fun profileImageRequestToServer(data: Uri) {
-		RequestToServer.authService
-			.requestToUploadProfile(
-				token = App.prefs.local_login_token,
-				src = requireContext().createProfileMultipart(data)!!
-			)
-			.customEnqueue(
-				onSuccess = {
-					Toast.makeText(requireContext(),"프로필이 변경되었습니다.\n 적용까지 시간이 걸릴 수 있습니다.",Toast.LENGTH_SHORT).show()
-					loadProfileImage(it.body()?.src)
-				},
-				onError = {
-					Toast.makeText(requireContext(),"프로필을 변경 할 수 없습니다!!",Toast.LENGTH_SHORT).show()
-				},
-				onFail = {
-					Toast.makeText(requireContext(),"서버 에러입니다.",Toast.LENGTH_SHORT).show()
-				}
-			)
-	}
+			RequestToServer.backService.requestUploadImage(context?.createProfileMultipart(data)!!)
+					.customEnqueue(
+							onSuccess = {
+								RequestToServer.authService
+										.requestToUploadProfile(
+												"Bearer "+ App.prefs.local_login_token,
+												RequestChangeProfileImage(it.body()!!.body[0])
+										).customEnqueue(
+												onSuccess = {
+													Toast.makeText(requireContext(),"프로필이 변경되었습니다.\n 적용까지 시간이 걸릴 수 있습니다.",Toast.LENGTH_LONG).show()
+												},
+												onError = {
+													Toast.makeText(requireContext(),"프로필을 변경 할 수 없습니다!!",Toast.LENGTH_SHORT).show()
+												},
+												onFail = {
+													Toast.makeText(requireContext(),"네트워크 오류",Toast.LENGTH_SHORT).show()
+												}
+										)
+		}
+					)
+		}
 
 	companion object {
 	private const val PROFILE_CODE_PICK_IMAGE = 1011

@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.View
@@ -150,12 +149,10 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	private fun openImageChooser() {
 		Intent(Intent.ACTION_PICK).also {
 			it.type = "image/*"
-			//it.data = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
 			it.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
 			val mimeTypes = arrayOf("image/jpeg", "image/png")
 			it.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
 			startActivityForResult(it, REQUEST_CODE_PICK_IMAGE)
-			//startActivityForResult(it, REQUEST_CODE_PICK_IMAGE)
 		}
 	}
 
@@ -198,7 +195,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	}
 
 	private fun rewritePostHasImage() {
-		requestToServer.backService.requestUploadImage(createImageMultipart(selectedImage))
+		requestToServer.backService.requestUploadMultipleImage(createImageMultipart(selectedImage))
 			.customEnqueue(
 				onSuccess = { uploadIt ->
 					val imagesArray= arrayOfNulls<Image>(uploadIt.body()?.body!!.size)
@@ -235,11 +232,9 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	}
 
 	private fun uploadHasImage() {
-		Log.d("Network", "이미지포함 업로드 시작 이미지 null 여부${createImageMultipart(selectedImage).isNullOrEmpty()}")
-		requestToServer.backService.requestUploadImage(createImageMultipart(selectedImage))
+		requestToServer.backService.requestUploadMultipleImage(createImageMultipart(selectedImage))
 			.customEnqueue(
 				onSuccess = {
-					Log.d("Network", "사진준비 완료")
 					val imagesArray= arrayOfNulls<Image>(it.body()?.body!!.size)
 					it.body()?.body!!.forEachIndexed() { index, str ->
 						val src=Image(str)

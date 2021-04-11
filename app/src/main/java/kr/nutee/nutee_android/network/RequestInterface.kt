@@ -11,7 +11,8 @@ import kr.nutee.nutee_android.data.main.home.detail.CommentDetail
 import kr.nutee.nutee_android.data.main.profile.ResponseProfile
 import kr.nutee.nutee_android.data.main.setting.RequestChangeCategory
 import kr.nutee.nutee_android.data.main.setting.RequestChangeNickname
-import kr.nutee.nutee_android.data.main.setting.ResponseUploadProfile
+import kr.nutee.nutee_android.data.main.setting.RequestChangePassword
+import kr.nutee.nutee_android.data.main.setting.RequestChangeProfileImage
 import kr.nutee.nutee_android.data.member.find.RequestFindPw
 import kr.nutee.nutee_android.data.member.login.RequestLogin
 import kr.nutee.nutee_android.data.member.login.ResponseLogin
@@ -75,7 +76,7 @@ interface RequestInterface {
 	//upload Image
 	@Multipart
 	@POST("/sns/upload")
-	fun requestUploadImage(
+	fun requestUploadMultipleImage(
 		@Part images: ArrayList<MultipartBody.Part>
 	):Call<ResponseImage>
 
@@ -275,13 +276,19 @@ interface RequestInterface {
 	): Call<LookUpList>
 
 	/*Setting*/
-	//profile setting
-	@Multipart
-	@POST("/api/user/profile")
+	//profile image setting
+	@PATCH("/auth/user/profile")
 	fun requestToUploadProfile(
-		@Header("Cookie") token: String,
-		@Part src:MultipartBody.Part
-	):Call<ResponseUploadProfile>
+			@Header("Authorization") Authorization:String,
+			@Body body:RequestChangeProfileImage
+	):Call<ResponseWrapper<String>>
+
+	//upload Image
+	@Multipart
+	@POST("/sns/upload")
+	fun requestUploadImage(
+			@Part images: MultipartBody.Part
+	):Call<ResponseWrapper<Array<String>>>
 
 	//nickName change
 	@PATCH("/auth/user/nickname")
@@ -292,12 +299,11 @@ interface RequestInterface {
 
 
 	//password change
-	@FormUrlEncoded
-	@POST("/api/user/passwordchange")
+	@PATCH("/auth/user/password")
 	fun requestChagePassword(
-		@Header("Cookie") cookie: String,
-		@Field("newpassword") newpassword: String
-	): Call<Unit>
+			@Header("Authorization") Authorization:String,
+			@Body body:RequestChangePassword
+	): Call<ResponseWrapper<String?>>
 
 	//interests change
 	@PATCH("/auth/user/interests")
@@ -307,11 +313,7 @@ interface RequestInterface {
 	):Call<ResponseWrapper<List<String>>>
 
 	/*other User Profile*/
-	// load user
-	@GET("/api/user/{id}")
-	fun requestUserProfile(
-		@Path("id") id: Int
-	): Call<ResponseProfile>
+
 
 
 	@GET("/sns/category/interests")

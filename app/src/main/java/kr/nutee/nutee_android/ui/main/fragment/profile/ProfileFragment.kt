@@ -78,13 +78,11 @@ class ProfileFragment : Fragment() {
 
 	private fun bindUserProfile(res: ResponseProfile) {
 		textUserName.text = res.body.nickname
-		GlideApp.with(requireContext())
+		Glide.with(requireActivity())
 				.load(res.body.image?.src)
 				.placeholder(R.drawable.ic_baseline_rotate_left_24)
 			.error(R.mipmap.nutee_character_background_white_round)
 			.fallback(R.mipmap.nutee_character_background_white_round)
 				.into(img_profile_image)
-		if(!res.body.image?.src.isNullOrEmpty())
-			App.prefs.url = res.body.image!!.src
 	}
 }

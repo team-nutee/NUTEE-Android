@@ -42,8 +42,8 @@ fun Context.createProfileMultipart(fileUri: Uri): MultipartBody.Part? {
 		val outputStream = FileOutputStream(file)
 		inputStream.copyTo(outputStream)
 		Log.d("UriFilePath", file.path)
-		val requestFile = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-		body = MultipartBody.Part.createFormData("image", file.path, requestFile)
+		val requestFile = file.asRequestBody("multipart/form-data; boundary=6o2knFse3p53ty9dmcQvWAIx1zInP11uCfbm".toMediaTypeOrNull())
+		body = MultipartBody.Part.createFormData("images", file.path, requestFile)
 	}
 
 	return body
