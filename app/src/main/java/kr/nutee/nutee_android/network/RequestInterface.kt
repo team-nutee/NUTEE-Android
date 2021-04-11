@@ -10,6 +10,7 @@ import kr.nutee.nutee_android.data.main.home.detail.RequestComment
 import kr.nutee.nutee_android.data.main.home.detail.CommentDetail
 import kr.nutee.nutee_android.data.main.profile.ResponseProfile
 import kr.nutee.nutee_android.data.main.setting.RequestChangeCategory
+import kr.nutee.nutee_android.data.main.setting.RequestChangeNickname
 import kr.nutee.nutee_android.data.main.setting.ResponseUploadProfile
 import kr.nutee.nutee_android.data.member.find.RequestFindPw
 import kr.nutee.nutee_android.data.member.login.RequestLogin
@@ -283,12 +284,11 @@ interface RequestInterface {
 	):Call<ResponseUploadProfile>
 
 	//nickName change
-	@FormUrlEncoded
-	@PATCH("/api/user/nickname")
+	@PATCH("/auth/user/nickname")
 	fun requestToNickNameChange(
-		@Header("Cookie") token: String,
-		@Field("nickname") nickname:String
-	):Call<Unit>
+			@Header("Authorization") Authorization:String,
+		@Body body:RequestChangeNickname
+	):Call<ResponseWrapper<String>>
 
 
 	//password change

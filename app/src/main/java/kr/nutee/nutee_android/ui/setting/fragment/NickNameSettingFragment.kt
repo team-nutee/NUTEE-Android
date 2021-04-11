@@ -5,15 +5,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import kotlinx.android.synthetic.main.custom_loading_dialog.*
 import kotlinx.android.synthetic.main.setting_nickname_fragment.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
+import kr.nutee.nutee_android.data.main.setting.RequestChangeNickname
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.animation.showTextShake
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.extend.textChangedListener
+import org.w3c.dom.Text
 
 /*
  * Created by eunseo5355
@@ -23,6 +27,7 @@ import kr.nutee.nutee_android.ui.extend.textChangedListener
 class NickNameSettingFragment:Fragment() {
 
 	private var isChangedData:String? = ""
+	lateinit var textViewNickname:TextView
 
 	override fun onCreateView(
 		inflater: LayoutInflater,
@@ -34,12 +39,28 @@ class NickNameSettingFragment:Fragment() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
+		textViewNickname=view.findViewById(R.id.tv_setting_nickname_text)
+
 		init()
 	}
 
 	private fun init(){
+		loadUserData()
 		nickNameSettingEnableEvent()
 		nickNameSettingButtonEvnet()
+	}
+
+	private fun loadUserData() {
+		RequestToServer.backService.requestUserData(
+				"Bearer "+ App.prefs.local_login_token
+		).customEnqueue(
+				onSuccess = {
+					textViewNickname.text=it.body()!!.body.nickname
+				},
+				onError = {
+					textViewNickname.text="닉네임"
+				}
+		)
 	}
 
 	private fun nickNameSettingEnableEvent(){
@@ -70,10 +91,9 @@ class NickNameSettingFragment:Fragment() {
 	private fun requestToNickNameChange(){
 		RequestToServer.authService
 			.requestToNickNameChange(
-				token = App.prefs.local_login_token,
-				nickname = et_setting_nickname.text.toString()
-			)
-			.customEnqueue(
+					"Bearer "+ App.prefs.local_login_token,
+					RequestChangeNickname(et_setting_nickname.text.toString())
+			).customEnqueue(
 				onSuccess = {
 					requireContext().showTextShake(
 						tv_nick_name_change_resutl,
