@@ -15,6 +15,7 @@ import kr.nutee.nutee_android.data.main.setting.RequestChangePassword
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.animation.showTextShake
 import kr.nutee.nutee_android.ui.extend.customEnqueue
+import kr.nutee.nutee_android.ui.extend.dialog.customDialogSingleButton
 import kr.nutee.nutee_android.ui.extend.loadFragment
 import kr.nutee.nutee_android.ui.extend.textChangedListener
 
@@ -114,21 +115,12 @@ class PasswordSettingFragment : Fragment() {
 						validPassword!!
 				)
 			).customEnqueue(
-				onSuccess = {
-					requireContext().loadFragment(MainSettingFragment(),R.id.frame_layout_setting)
-					Toast.makeText(
-						requireContext(),
-						"비밀번호 변경되었습니다",
-						Toast.LENGTH_LONG
-					).show()
-				},
-				onError = {
-					Toast.makeText(
-						requireContext(),
-						"비밀번호 변경에 실패하였습니다.",
-						Toast.LENGTH_LONG
-					).show()
-				}
+						onSuccess = {
+							context?.customDialogSingleButton(getString(R.string.changeSuccess)) {}
+						},
+						onError = {
+							context?.customDialogSingleButton(getString(R.string.changeError)) {}
+						}
 			)
 	}
 }

@@ -19,6 +19,7 @@ import kr.nutee.nutee_android.data.main.home.Image
 import kr.nutee.nutee_android.data.main.setting.RequestChangeProfileImage
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
+import kr.nutee.nutee_android.ui.extend.dialog.customDialogSingleButton
 import kr.nutee.nutee_android.ui.extend.imageSetting.createProfileMultipart
 
 /*
@@ -117,13 +118,10 @@ class ProfileImageSettingFragment : Fragment(), View.OnClickListener {
 												RequestChangeProfileImage(it.body()!!.body[0])
 										).customEnqueue(
 												onSuccess = {
-													Toast.makeText(requireContext(),"프로필이 변경되었습니다.\n 적용까지 시간이 걸릴 수 있습니다.",Toast.LENGTH_LONG).show()
+													context?.customDialogSingleButton(getString(R.string.changeSuccess)) {}
 												},
 												onError = {
-													Toast.makeText(requireContext(),"프로필을 변경 할 수 없습니다!!",Toast.LENGTH_SHORT).show()
-												},
-												onFail = {
-													Toast.makeText(requireContext(),"네트워크 오류",Toast.LENGTH_SHORT).show()
+													context?.customDialogSingleButton(getString(R.string.changeError)) {}
 												}
 										)
 		}

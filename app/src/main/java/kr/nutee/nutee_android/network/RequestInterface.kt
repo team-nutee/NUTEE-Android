@@ -9,10 +9,7 @@ import kr.nutee.nutee_android.data.main.home.*
 import kr.nutee.nutee_android.data.main.home.detail.RequestComment
 import kr.nutee.nutee_android.data.main.home.detail.CommentDetail
 import kr.nutee.nutee_android.data.main.profile.ResponseProfile
-import kr.nutee.nutee_android.data.main.setting.RequestChangeCategory
-import kr.nutee.nutee_android.data.main.setting.RequestChangeNickname
-import kr.nutee.nutee_android.data.main.setting.RequestChangePassword
-import kr.nutee.nutee_android.data.main.setting.RequestChangeProfileImage
+import kr.nutee.nutee_android.data.main.setting.*
 import kr.nutee.nutee_android.data.member.find.RequestFindPw
 import kr.nutee.nutee_android.data.member.login.RequestLogin
 import kr.nutee.nutee_android.data.member.login.ResponseLogin
@@ -310,6 +307,13 @@ interface RequestInterface {
 	fun requestChageCategory(
 			@Header("Authorization") Authorization:String,
 			@Body body:RequestChangeCategory
+	):Call<ResponseWrapper<List<String>>>
+
+	//majors change
+	@PATCH("/auth/user/majors")
+	fun requestChangeMajors(
+			@Header("Authorization") Authorization:String,
+			@Body body:RequestChangeMajors
 	):Call<ResponseWrapper<List<String>>>
 
 	/*other User Profile*/
