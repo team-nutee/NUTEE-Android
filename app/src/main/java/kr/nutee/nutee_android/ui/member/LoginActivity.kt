@@ -54,8 +54,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 	}
 
 	private fun autoLogin() {
-		//prefs에 저장된 정보가있다면 ID&PW창을 채워주고 자동로그인
-		if (App.prefs.local_login_id.isNotBlank() && App.prefs.local_login_pw.isNotBlank()) {
+		//자동 로그인 설정 시 ID&PW창을 채워주고 자동로그인
+		if (App.prefs.local_login_oto) {
 			et_login_id.setText(App.prefs.local_login_id)
 			et_login_pw.setText(App.prefs.local_login_pw)
 			requestlogin(App.prefs.local_login_id, App.prefs.local_login_pw)
@@ -119,12 +119,15 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 				)
 			).customEnqueue(
 				onSuccess = {
-					if (check_login_save.isChecked) {
-						//로그인 유지시 id/pw 저장
-						App.prefs.local_login_id = et_login_id.text.toString()
-						App.prefs.local_login_pw = et_login_pw.text.toString()
-					}
 					Log.d(logTag, "로그인 성공")
+
+					//자동 로그인 설정 시 설정 여부 저장
+					if(check_login_save.isChecked)
+						App.prefs.local_login_oto=true
+
+					App.prefs.local_login_id = et_login_id.text.toString()
+					App.prefs.local_login_pw = et_login_pw.text.toString()
+
 					val token = it.body()!!.body.accessToken
 					App.prefs.local_login_token = token
 					App.prefs.local_user_id = it.body()!!.body.memberId.toString()
@@ -170,6 +173,10 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
 	companion object {
 		private const val REQUEST_CODE = 1
+	}
+
+	override fun onBackPressed() {
+		//뒤로 가기 버튼 막음
 	}
 }
 

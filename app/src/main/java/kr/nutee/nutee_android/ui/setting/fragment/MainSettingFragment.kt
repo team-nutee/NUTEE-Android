@@ -15,6 +15,7 @@ import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.extend.loadFragmentAddtoBackStack
 import kr.nutee.nutee_android.ui.member.LoginActivity
 import kr.nutee.nutee_android.ui.setting.DeveloperInformationActivity
+import kr.nutee.nutee_android.ui.setting.SettingActivity
 
 /*
  * Created by eunseo5355
@@ -82,10 +83,12 @@ class MainSettingFragment : Fragment() {
 					App.prefs.local_login_id = ""
 					App.prefs.local_login_pw = ""
 					App.prefs.local_login_token = ""
+					App.prefs.local_login_oto=false
 
 					Toast.makeText(view?.context,it.body()!!.body, Toast.LENGTH_LONG).show()
 					val intent = Intent(view?.context, LoginActivity::class.java)
 					startActivity(intent)
+					activity?.finish()
 				}
 			)
 	}
