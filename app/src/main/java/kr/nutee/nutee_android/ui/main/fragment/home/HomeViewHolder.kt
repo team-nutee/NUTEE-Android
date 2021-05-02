@@ -16,7 +16,6 @@ import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.contentMoreEvent
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.extend.dialog.cumstomReportDialog
-import kr.nutee.nutee_android.ui.extend.dialog.customDialogSingleButton
 import kr.nutee.nutee_android.ui.main.fragment.add.AddActivity
 import kr.nutee.nutee_android.ui.main.fragment.home.detail.HomeDetailActivity
 import kr.nutee.nutee_android.ui.main.fragment.search.SearchResultsView
@@ -78,7 +77,7 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 			rewritePost(customData)
 			},
 			{ //게시글 삭제
-				requestToServer.backService.requestDelete(
+				requestToServer.snsService.requestDelete(
 						"Bearer "+ App.prefs.local_login_token,
 					customData.id)
 					.customEnqueue(
@@ -91,7 +90,7 @@ class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 					)},
 			{ //게시글 신고
 				it.context.cumstomReportDialog("이 게시글을 신고하시겠습니까?"){
-					requestToServer.backService.requestReport(
+					requestToServer.snsService.requestReport(
 						RequestReport(it), customData.id)
 						.customEnqueue(
 							onSuccess = {

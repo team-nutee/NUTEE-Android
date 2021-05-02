@@ -38,7 +38,7 @@ object RequestToServer {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    var BackRetrofit: Retrofit = Retrofit.Builder()
+    var snsRetrofit: Retrofit = Retrofit.Builder()
         .baseUrl("http://3.34.61.71:9425")
         .client(clientNutee)
         .addConverterFactory(GsonConverterFactory.create())
@@ -50,8 +50,7 @@ object RequestToServer {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    var authService: RequestInterface = authRetrofit.create(RequestInterface::class.java)
-    var backService: RequestInterface = BackRetrofit.create(RequestInterface::class.java)
+    var authService: RequestAuthInterface = authRetrofit.create(RequestAuthInterface::class.java)
+    var snsService: RequestSNSInterface = snsRetrofit.create(RequestSNSInterface::class.java)
     var noticeService: NoticeRequestInterface = noticeRetrofit.create(NoticeRequestInterface::class.java)
-    //val snsCategoryAPI: SNSCategoryAPI = BackRetrofit.create(SNSCategoryAPI::class.java)
 }

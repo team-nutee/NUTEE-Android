@@ -8,7 +8,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.DateParser
@@ -91,7 +90,7 @@ class HomeDetailCommentViewHolder(itemView: View) : RecyclerView.ViewHolder(item
 				context.startActivityForResult(intent,0)
 			},
 			{//댓글 삭제
-				RequestToServer.backService.requestDelComment(
+				RequestToServer.snsService.requestDelComment(
 						"Bearer "+ App.prefs.local_login_token,
 				postId,
 				customData.id
@@ -108,7 +107,7 @@ class HomeDetailCommentViewHolder(itemView: View) : RecyclerView.ViewHolder(item
 			},
 			{//댓글 신고
 				itemView.context.cumstomReportDialog("이 댓글을 신고하시겠습니까?"){
-					RequestToServer.backService.requestReportComment(
+					RequestToServer.snsService.requestReportComment(
 							"Bearer "+ App.prefs.local_login_token,
 							postId,
 							customData.id,
@@ -131,7 +130,7 @@ class HomeDetailCommentViewHolder(itemView: View) : RecyclerView.ViewHolder(item
 		countView: TextView
 	) {
 		if (view.isActivated) {//이미 좋아요한 경우
-			RequestToServer.backService.requestDelLikecomment(
+			RequestToServer.snsService.requestDelLikecomment(
 					"Bearer "+ App.prefs.local_login_token,
 				postId,
 				commentId
@@ -143,7 +142,7 @@ class HomeDetailCommentViewHolder(itemView: View) : RecyclerView.ViewHolder(item
 						Log.d("Network", "댓글 좋아요 취소 에러")
 					})
 		} else {
-			RequestToServer.backService.requestLikecomment(
+			RequestToServer.snsService.requestLikecomment(
 					"Bearer "+ App.prefs.local_login_token,
 				postId,
 				commentId)

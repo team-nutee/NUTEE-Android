@@ -177,7 +177,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	}
 
 	private fun rewritePostNonImage() {
-		requestToServer.backService.requestRewritePost(
+		requestToServer.snsService.requestRewritePost(
 				"Bearer "+ App.prefs.local_login_token,
 			RequestRewritePost(
 					addTitle.text.toString(),
@@ -195,7 +195,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	}
 
 	private fun rewritePostHasImage() {
-		requestToServer.backService.requestUploadMultipleImage(createImageMultipart(selectedImage))
+		requestToServer.snsService.requestUploadMultipleImage(createImageMultipart(selectedImage))
 			.customEnqueue(
 				onSuccess = { uploadIt ->
 					val imagesArray= arrayOfNulls<Image>(uploadIt.body()?.body!!.size)
@@ -203,7 +203,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 						val src=Image(str)
 						imagesArray[index] = src
 					}
-					requestToServer.backService.requestRewritePost(
+					requestToServer.snsService.requestRewritePost(
 							"Bearer "+ App.prefs.local_login_token,
 						RequestRewritePost(
 							addTitle.text.toString(),
@@ -232,7 +232,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	}
 
 	private fun uploadHasImage() {
-		requestToServer.backService.requestUploadMultipleImage(createImageMultipart(selectedImage))
+		requestToServer.snsService.requestUploadMultipleImage(createImageMultipart(selectedImage))
 			.customEnqueue(
 				onSuccess = {
 					val imagesArray= arrayOfNulls<Image>(it.body()?.body!!.size)
@@ -240,7 +240,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 						val src=Image(str)
 						imagesArray[index] = src
 					}
-					requestToServer.backService.requestPost(
+					requestToServer.snsService.requestPost(
 							"Bearer "+ App.prefs.local_login_token,
 						RequestPost(
 							addTitle.text.toString(),
@@ -268,7 +268,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	}
 
 	private fun uploadNonImage() {
-		requestToServer.backService
+		requestToServer.snsService
 			.requestPost(
 					"Bearer "+ App.prefs.local_login_token,
 				RequestPost(

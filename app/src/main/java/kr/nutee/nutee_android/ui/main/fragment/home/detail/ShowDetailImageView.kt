@@ -65,7 +65,7 @@ class ShowDetailImageView : AppCompatActivity() {
     }
 
 	private fun requestImage(){
-		RequestToServer.backService.requestDetail(
+		RequestToServer.snsService.requestDetail(
 			"Bearer "+ App.prefs.local_login_token,
 			this.postId
 		).customEnqueue(

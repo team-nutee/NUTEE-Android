@@ -109,7 +109,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 
 	private fun loadDetailPage() {
 		Log.d("loadDetailPage", "포스트아이디 확인 ${this.postId}")
-		RequestToServer.backService
+		RequestToServer.snsService
 			.requestDetail(
 					"Bearer "+ App.prefs.local_login_token,
 				this.postId!!
@@ -219,7 +219,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 			rewritePost(responseBody)
 			},
 			{//게시글 삭제
-					RequestToServer.backService.requestDelete(
+					RequestToServer.snsService.requestDelete(
 							"Bearer "+ App.prefs.local_login_token,
 						responseBody.id
 					).customEnqueue(
@@ -230,7 +230,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 							})},
 			{//게시글 신고
 					cumstomReportDialog("이 게시글을 신고하시겠습니까?") {
-						RequestToServer.backService.requestReport(
+						RequestToServer.snsService.requestReport(
 							RequestReport(it), responseBody.id
 						).customEnqueue(
 								onSuccess = {
@@ -289,7 +289,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 		val view=findViewById<ImageView>(R.id.img_detail_comment_favorit_btn)
 
 		if (view.isActivated) {//이미 좋아요한 경우
-			requestToServer.backService.requestDelLike(
+			requestToServer.snsService.requestDelLike(
 					"Bearer "+ App.prefs.local_login_token,
 				postId
 			)
@@ -301,7 +301,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 						Log.d("Network", "좋아요 취소 에러")
 					})
 		} else {
-			requestToServer.backService.requestLike(
+			requestToServer.snsService.requestLike(
 					"Bearer "+ App.prefs.local_login_token,
 				postId
 			)
@@ -327,7 +327,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 	}
 
 	private fun loadCommentList() {
-		requestToServer.backService.requestCommentList(
+		requestToServer.snsService.requestCommentList(
 				"Bearer "+ App.prefs.local_login_token,
 			postId,
 			QueryValue.lastId,
@@ -350,7 +350,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 	}
 
 	private fun uploadComment(){
-		requestToServer.backService.requestComment(
+		requestToServer.snsService.requestComment(
 				"Bearer "+ App.prefs.local_login_token,
 			postId!!,
 			RequestComment(et_detail_comment.text.toString())
@@ -377,7 +377,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 	}
 
 	private fun rewriteComment(postId: Int?, commentId: Int?) {
-		RequestToServer.backService.requestRewriteComment(
+		RequestToServer.snsService.requestRewriteComment(
 				"Bearer "+ App.prefs.local_login_token,
 			postId,
 			commentId,
@@ -401,7 +401,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 	}
 
 	private fun postReply(postId: Int?, commentId: Int?) {
-		RequestToServer.backService.requestReply(
+		RequestToServer.snsService.requestReply(
 				"Bearer "+ App.prefs.local_login_token,
 			postId,
 			commentId,

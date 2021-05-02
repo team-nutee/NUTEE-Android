@@ -1,15 +1,12 @@
 package kr.nutee.nutee_android.ui.main.fragment.profile
 
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
@@ -19,10 +16,8 @@ import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.main.profile.ResponseProfile
 import kr.nutee.nutee_android.network.RequestToServer
-import kr.nutee.nutee_android.ui.extend.GlideApp
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.extend.dialog.customDialogSingleButton
-import kr.nutee.nutee_android.ui.main.fragment.search.SearchView
 
 class ProfileFragment : Fragment() {
 
@@ -65,7 +60,7 @@ class ProfileFragment : Fragment() {
 	}
 
 	private fun requestUserData() {
-		RequestToServer.backService
+		RequestToServer.snsService
 			.requestUserData("Bearer "+ App.prefs.local_login_token)
 			.customEnqueue(
 				onSuccess = {response -> bindUserProfile(response.body()!!) },

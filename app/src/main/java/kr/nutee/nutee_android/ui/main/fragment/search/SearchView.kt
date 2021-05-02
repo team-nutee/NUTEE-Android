@@ -75,7 +75,7 @@ class SearchView : AppCompatActivity() {
 	}
 
 	private fun loadMajorMenu() {
-		requestToServer.backService.getMajors()
+		requestToServer.snsService.getMajors()
 			.customEnqueue(
 				onSuccess = {
 					majorRecyclerView.adapter=CategoryMenuRecyclerViewAdapter(it.body()!!.body)
@@ -84,7 +84,7 @@ class SearchView : AppCompatActivity() {
 	}
 
 	private fun loadCategoryMenu() {
-		requestToServer.backService.getCategory()
+		requestToServer.snsService.getCategory()
 			.customEnqueue(
 				onSuccess = {
 					categoryRecyclerView.adapter=CategoryMenuRecyclerViewAdapter(it.body()!!.body)

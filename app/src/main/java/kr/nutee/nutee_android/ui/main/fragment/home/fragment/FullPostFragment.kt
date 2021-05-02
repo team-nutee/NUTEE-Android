@@ -55,7 +55,7 @@ class FullPostFragment : Fragment() {
 		}
 	}
 	private fun loadFullList(){
-		requestToServer.backService.requestFullList(
+		requestToServer.snsService.requestFullList(
 				"Bearer "+ App.prefs.local_login_token,
 			QueryValue.lastId,
 			QueryValue.limit

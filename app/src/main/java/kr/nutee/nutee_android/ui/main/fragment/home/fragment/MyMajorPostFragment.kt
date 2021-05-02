@@ -60,7 +60,7 @@ class MyMajorPostFragment : Fragment() {
 	}
 
 	private fun loadFavoriteList(){
-		requestToServer.backService.requestMyMajorList(
+		requestToServer.snsService.requestMyMajorList(
 				"Bearer "+ App.prefs.local_login_token,
 			QueryValue.lastId,
 			QueryValue.limit

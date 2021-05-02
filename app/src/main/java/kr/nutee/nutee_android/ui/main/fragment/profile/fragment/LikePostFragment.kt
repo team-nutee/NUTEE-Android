@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.android.synthetic.main.main_fragment_profile_like_post.*
-import kotlinx.android.synthetic.main.main_fragment_profile_written_post.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.QueryValue
@@ -48,7 +47,7 @@ class LikePostFragment: Fragment() {
 	}
 
 	private fun loadLikePostList() {
-		requestToServer.backService.requestMyLikePosts(
+		requestToServer.snsService.requestMyLikePosts(
 				"Bearer "+ App.prefs.local_login_token,
 				QueryValue.lastId,
 				QueryValue.limit

@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -64,7 +63,7 @@ class FavoritePostFragment : Fragment() {
 	}
 
 	private fun loadFavoriteList(){
-		requestToServer.backService.requestFavoriteList(
+		requestToServer.snsService.requestFavoriteList(
 				"Bearer "+ App.prefs.local_login_token,
 			QueryValue.lastId,
 			QueryValue.limit

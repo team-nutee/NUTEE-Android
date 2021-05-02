@@ -52,7 +52,7 @@ class ModalSelectMyMajorsList : BottomSheetDialogFragment() {
     }
 
     private fun loadDepartmentList() {
-        RequestToServer.backService
+        RequestToServer.snsService
                 .requestUserData(
                         "Bearer "+ App.prefs.local_login_token
                 )

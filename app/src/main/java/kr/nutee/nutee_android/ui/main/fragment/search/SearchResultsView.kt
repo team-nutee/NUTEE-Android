@@ -39,7 +39,7 @@ class SearchResultsView : FragmentActivity() {
 	private fun loadSearchView(){
 		if(intent.hasExtra("categorySearch")){
 			searchBoxText=intent.getStringExtra("categorySearch")!!
-			requestToServer.backService.requestCategoryList(
+			requestToServer.snsService.requestCategoryList(
 					"Bearer "+ App.prefs.local_login_token,
 					//"Bearer "+App.prefs.local_login_token,
 					searchBoxText,
@@ -81,7 +81,7 @@ class SearchResultsView : FragmentActivity() {
 	}
 
 	private fun loadSesrch(searchBoxText: String) {
-		requestToServer.backService.requestSearch(
+		requestToServer.snsService.requestSearch(
 				"Bearer "+ App.prefs.local_login_token,
 			searchBoxText,
 			QueryValue.lastId,

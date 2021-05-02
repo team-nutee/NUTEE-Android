@@ -51,7 +51,7 @@ class ModalSelectDepartment : BottomSheetDialogFragment() {
     }
 
     private fun loadDepartmentList() {
-        RequestToServer.backService
+        RequestToServer.snsService
             .getMajors()
             .customEnqueue(
                 onSuccess = { adapter.addAllData(it.body()?.body ?: listOf()) }

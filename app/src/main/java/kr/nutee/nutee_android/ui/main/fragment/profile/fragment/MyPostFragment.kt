@@ -42,7 +42,7 @@ class MyPostFragment: Fragment() {
 	}
 
 	private fun loadMyPost() {
-		requestToServer.backService.requestMyPosts(
+		requestToServer.snsService.requestMyPosts(
 				"Bearer "+ App.prefs.local_login_token,
 			QueryValue.lastId,
 			QueryValue.limit

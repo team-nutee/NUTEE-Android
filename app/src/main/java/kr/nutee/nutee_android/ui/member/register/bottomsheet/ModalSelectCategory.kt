@@ -56,7 +56,7 @@ class ModalSelectCategory: BottomSheetDialogFragment() {
     }
 
     private fun loadDepartmentList() {
-        RequestToServer.backService
+        RequestToServer.snsService
                 .getCategory()
                 .customEnqueue(
                         onSuccess = { adapter.addAllData(it.body()?.body ?: listOf()) }

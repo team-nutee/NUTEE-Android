@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import kotlinx.android.synthetic.main.main_fragment_profile_like_post.*
 import kotlinx.android.synthetic.main.main_fragment_profile_written_comment.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
@@ -47,7 +46,7 @@ class MyCommentFragment: Fragment() {
 	}
 
 	private fun loadMyCommentList() {
-		requestToServer.backService.requestMyCommentPosts(
+		requestToServer.snsService.requestMyCommentPosts(
 				"Bearer "+ App.prefs.local_login_token,
 				QueryValue.lastId,
 				QueryValue.limit
