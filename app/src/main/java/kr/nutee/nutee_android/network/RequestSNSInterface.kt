@@ -216,6 +216,15 @@ interface RequestSNSInterface {
         @Query("limit") limit: Int
     ): Call<LookUpList>
 
+    //hashtag
+    @GET("/sns/hashtag/{text}")
+    fun requestHashtag(
+            @Header("Authorization") Authorization:String,
+            @Path("text") text: String?,
+            @Query("lastId") lastId: Int,
+            @Query("limit") limit: Int
+    ): Call<ResponseWrapper<Array<ResponseMainBody>>>
+
     /*upload Image*/
     @Multipart
     @POST("/sns/upload")

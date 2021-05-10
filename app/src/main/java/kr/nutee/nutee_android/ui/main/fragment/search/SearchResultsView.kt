@@ -41,7 +41,6 @@ class SearchResultsView : FragmentActivity() {
 			searchBoxText=intent.getStringExtra("categorySearch")!!
 			requestToServer.snsService.requestCategoryList(
 					"Bearer "+ App.prefs.local_login_token,
-					//"Bearer "+App.prefs.local_login_token,
 					searchBoxText,
 					QueryValue.lastId,
 					QueryValue.limit
@@ -56,8 +55,33 @@ class SearchResultsView : FragmentActivity() {
 			)
 			return
 		}
-		searchBoxText=intent.getStringExtra("searchBoxText")!!
-		loadSesrch(searchBoxText)
+		if(intent.hasExtra("Hashtag")){
+			searchBoxText=intent.getStringExtra("Hashtag")!!
+			loadHashtag(searchBoxText)
+			return
+		}
+		if(intent.hasExtra("searchBoxText")){
+			searchBoxText=intent.getStringExtra("searchBoxText")!!
+			loadSesrch(searchBoxText)
+			return
+		}
+	}
+
+	private fun loadHashtag(searchBoxText: String) {
+		requestToServer.snsService.requestHashtag(
+			"Bearer "+ App.prefs.local_login_token,
+			searchBoxText,
+			QueryValue.lastId,
+			QueryValue.limit
+		).customEnqueue(
+			onSuccess = {
+				bodyList=it.body()?.body!!
+				if (it.body()?.body.isNullOrEmpty())
+					setFrag(false)
+				else
+					setFrag(true)
+			}
+		)
 	}
 
 	private fun setFrag(searchResult: Boolean){

@@ -281,7 +281,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 
 	override fun onHashTagClicked(hashTag: String) {
 		val intentSearchResults= Intent(this, SearchResultsView::class.java)
-		intentSearchResults.putExtra("searchBoxText", "#$hashTag")
+		intentSearchResults.putExtra("Hashtag", hashTag)
 		startActivity(intentSearchResults)
 	}
 
