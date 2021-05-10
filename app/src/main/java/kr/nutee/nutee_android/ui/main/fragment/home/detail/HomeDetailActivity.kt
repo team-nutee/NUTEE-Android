@@ -2,7 +2,11 @@ package kr.nutee.nutee_android.ui.main.fragment.home.detail
 
 import android.app.Service
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.text.Spannable
+import android.text.Spanned.SPAN_INCLUSIVE_INCLUSIVE
+import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -10,7 +14,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
 import com.volokh.danylo.hashtaghelper.HashTagHelper
@@ -32,6 +35,7 @@ import kr.nutee.nutee_android.ui.extend.dialog.cumstomReportDialog
 import kr.nutee.nutee_android.ui.extend.dialog.customDialogSingleButton
 import kr.nutee.nutee_android.ui.main.fragment.add.AddActivity
 import kr.nutee.nutee_android.ui.main.fragment.search.SearchResultsView
+import java.util.regex.Pattern
 import kotlin.collections.isNullOrEmpty as isNullOrEmpty1
 
 
@@ -44,8 +48,9 @@ import kotlin.collections.isNullOrEmpty as isNullOrEmpty1
 *       디테일 페이지 2.0버전으로 수정 및 구현
 * */
 
-class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
-	HashTagHelper.OnHashTagClickListener {
+class HomeDetailActivity : AppCompatActivity(),View.OnClickListener
+	, HashTagHelper.OnHashTagClickListener
+{
 
 	val requestToServer = RequestToServer
 	private var postId: Int? = 0
@@ -60,8 +65,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 	private lateinit var homeDetailCommentAdpater: HomeDetailCommentAdpater
 	private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
-	private lateinit var mTextHashTagHelper: HashTagHelper
-	private val additionalSymbols = '#'
+	private val HASHTAG_SYMBOLS = '#'
 
 	lateinit var detailContent: TextView
 	lateinit var detailNickname: TextView
@@ -96,11 +100,6 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 			bindRewriteComment()
 		detailViewClickEvnet()
 		detailViewButtonEnableEvent()
-		//해시태그 기능
-		mTextHashTagHelper = HashTagHelper.Creator.create(
-			ContextCompat.getColor(this, R.color.nuteeBase), this, additionalSymbols
-		)
-		mTextHashTagHelper.handle(detailContent)
 	}
 
 	private fun detailRefreshEvnet(swipeBoolean: Boolean) {
@@ -176,6 +175,33 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener,
 			val inputMethodManager: InputMethodManager =
 				getSystemService(Service.INPUT_METHOD_SERVICE) as InputMethodManager
 			inputMethodManager.showSoftInput(et_detail_comment, 0)
+		}
+
+
+		//해시태그 기능 진행 중
+		val firstIndex= ArrayList<Int>()
+		val lastIndex= ArrayList<Int>()
+
+		val partern=Pattern.compile("#([0-9a-zA-Z가-힣ㄱ-ㅎ]*)")
+		val matcher=partern.matcher(detailContent.text)
+
+		while (matcher.find()){
+			firstIndex.add(matcher.start())
+			lastIndex.add(matcher.end())
+		}
+
+		val spannableText=detailContent.text as Spannable
+
+		var i = 0
+		while (i<firstIndex.size){
+			Log.d("spannableTest", firstIndex[i].toString())
+			spannableText.setSpan(
+					ForegroundColorSpan(Color.MAGENTA),
+					firstIndex[i],
+					lastIndex[i],
+					SPAN_INCLUSIVE_INCLUSIVE
+			)
+			i++
 		}
 	}
 
