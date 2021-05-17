@@ -16,7 +16,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
-import com.volokh.danylo.hashtaghelper.HashTagHelper
 import kotlinx.android.synthetic.main.main_home_detail_activtiy.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
@@ -46,9 +45,7 @@ import kotlin.collections.isNullOrEmpty as isNullOrEmpty1
 *       디테일 페이지 2.0버전으로 수정 및 구현
 * */
 
-class HomeDetailActivity : AppCompatActivity(),View.OnClickListener
-	, HashTagHelper.OnHashTagClickListener
-{
+class HomeDetailActivity : AppCompatActivity(),View.OnClickListener {
 
 	val requestToServer = RequestToServer
 	private var postId: Int? = 0
@@ -62,8 +59,6 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener
 
 	private lateinit var homeDetailCommentAdpater: HomeDetailCommentAdpater
 	private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-
-	private val HASHTAG_SYMBOLS = '#'
 
 	lateinit var detailContent: TextView
 	lateinit var detailNickname: TextView
@@ -139,7 +134,6 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener
 	}
 
 	private fun bindDetailPostEvent(responseMainItem: ResponseMainBody) {
-		Log.d("Glide test", "프로필 사진 로딩")
 		GlideApp.with(applicationContext)
 				.load(responseMainItem.user?.image?.src)
 				.placeholder(R.drawable.ic_baseline_rotate_left_24)
@@ -175,8 +169,11 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener
 			inputMethodManager.showSoftInput(et_detail_comment, 0)
 		}
 
+		setHashtag()
 
-		//해시태그 기능 진행 중
+	}
+
+	private fun setHashtag() {
 		val firstIndex = ArrayList<Int>()
 		val lastIndex = ArrayList<Int>()
 		val arrayHashtag= ArrayList<String>()
@@ -187,11 +184,9 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener
 
 		var i = 0
 		while (match.find()) {
-			Log.d("hashtag", "find")
 			firstIndex.add(match.start())
 			lastIndex.add(match.end())
 			arrayHashtag.add(match.group(1)!!)
-			Log.d("hashtag", arrayHashtag.size.toString())
 			i++
 		}
 
@@ -205,8 +200,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener
 							val intent=Intent(view.context,SearchResultsView::class.java)
 							intent.putExtra("Hashtag",hashTagString)
 							startActivity(intent)
-						}
-					},
+						}},
 					firstIndex[i],
 					lastIndex[i],
 					SPAN_INCLUSIVE_INCLUSIVE
@@ -319,12 +313,6 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener
 				}
 			}
 		}
-	}
-
-	override fun onHashTagClicked(hashTag: String) {
-		val intentSearchResults= Intent(this, SearchResultsView::class.java)
-		intentSearchResults.putExtra("Hashtag", hashTag)
-		startActivity(intentSearchResults)
 	}
 
 	private fun likeClickEvent() {
