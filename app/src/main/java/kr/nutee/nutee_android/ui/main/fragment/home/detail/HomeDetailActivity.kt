@@ -2,11 +2,11 @@ package kr.nutee.nutee_android.ui.main.fragment.home.detail
 
 import android.app.Service
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.text.Spannable
 import android.text.Spanned.SPAN_INCLUSIVE_INCLUSIVE
-import android.text.style.ForegroundColorSpan
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -18,16 +18,14 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
 import com.volokh.danylo.hashtaghelper.HashTagHelper
 import kotlinx.android.synthetic.main.main_home_detail_activtiy.*
-import kotlinx.android.synthetic.main.main_home_detail_activtiy.img_detail_comment_favorit_btn
-import kotlinx.android.synthetic.main.main_home_detail_activtiy.text_detail_comment_favorit_count
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.DateParser
 import kr.nutee.nutee_android.data.QueryValue
 import kr.nutee.nutee_android.data.main.RequestReport
-import kr.nutee.nutee_android.data.main.home.ResponseMainBody
 import kr.nutee.nutee_android.data.main.home.Image
 import kr.nutee.nutee_android.data.main.home.LookUpDetail
+import kr.nutee.nutee_android.data.main.home.ResponseMainBody
 import kr.nutee.nutee_android.data.main.home.detail.RequestComment
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.*
@@ -44,7 +42,7 @@ import kotlin.collections.isNullOrEmpty as isNullOrEmpty1
 * DESC: 디테일 페이지를 표시하는 엑티비티
 *
 * created by 88yhtserofG
-* DESC: 해시태그 기능. Hashtag Helper 라이브러리 사용
+* DESC: 해시태그 기능. 리팩토링 완료
 *       디테일 페이지 2.0버전으로 수정 및 구현
 * */
 
@@ -88,10 +86,10 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener
 		postId = intent?.getIntExtra("Detail_id", 0)
 		commentId=intent?.getIntExtra("comment_id", 0)
 		imageViewList = listOf<ImageView>(
-			img_detail_main_image_1,
-			img_detail_main_image_2,
-			img_detail_main_image_3,
-			img_detail_main_image_4
+				img_detail_main_image_1,
+				img_detail_main_image_2,
+				img_detail_main_image_3,
+				img_detail_main_image_4
 		)
 		detailRefreshEvnet(true)
 		loadDetailPage()
@@ -103,24 +101,24 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener
 	}
 
 	private fun detailRefreshEvnet(swipeBoolean: Boolean) {
-		RefreshEvent(swipeRefreshLayout,swipeBoolean){loadCommentList()}
+		RefreshEvent(swipeRefreshLayout, swipeBoolean){loadCommentList()}
 	}
 
 	private fun loadDetailPage() {
 		Log.d("loadDetailPage", "포스트아이디 확인 ${this.postId}")
 		RequestToServer.snsService
 			.requestDetail(
-					"Bearer "+ App.prefs.local_login_token,
-				this.postId!!
+					"Bearer " + App.prefs.local_login_token,
+					this.postId!!
 			)
 			.customEnqueue(
-				onSuccess = {
-					Log.d("Network", "글 상세 통신 성공")
-					onSuccessLoadDetailView(it.body())
-				},
-				onError = {
-					onErrorDetailPage()
-				}
+					onSuccess = {
+						Log.d("Network", "글 상세 통신 성공")
+						onSuccessLoadDetailView(it.body())
+					},
+					onError = {
+						onErrorDetailPage()
+					}
 			)
 	}
 
@@ -143,66 +141,81 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener
 	private fun bindDetailPostEvent(responseMainItem: ResponseMainBody) {
 		Log.d("Glide test", "프로필 사진 로딩")
 		GlideApp.with(applicationContext)
-			.load(responseMainItem.user?.image?.src)
-			.placeholder(R.drawable.ic_baseline_rotate_left_24)
-			.error(R.mipmap.nutee_character_background_white_round)
-			.fallback(R.mipmap.nutee_character_background_white_round)
-			.into(img_detail_profile)
+				.load(responseMainItem.user?.image?.src)
+				.placeholder(R.drawable.ic_baseline_rotate_left_24)
+				.error(R.mipmap.nutee_character_background_white_round)
+				.fallback(R.mipmap.nutee_character_background_white_round)
+				.into(img_detail_profile)
 		detailNickname.text = responseMainItem.user?.nickname
 		detailTime.text =
-			responseMainItem.createdAt?.let { DateParser(it).calculateDiffDate() }
+				responseMainItem.createdAt?.let { DateParser(it).calculateDiffDate() }
 		detailContent.text = responseMainItem.content
 		setLikeEvent(
-			img_detail_comment_favorit_btn,
-			text_detail_comment_favorit_count,
-			responseMainItem.likers
+				img_detail_comment_favorit_btn,
+				text_detail_comment_favorit_count,
+				responseMainItem.likers
 		)
 		clickDetailMoreEvent = { detailMore(responseMainItem) }
 		if (!responseMainItem.images.isNullOrEmpty1()) imageFrameLoad(
-			responseMainItem.images,
-			responseMainItem.id
+				responseMainItem.images,
+				responseMainItem.id
 		)
 		else Log.d("Network", "글 상세 뷰 사진 null")
 
 		//수정 여부 표시
-		if(responseMainItem.updatedAt !=responseMainItem.createdAt)
-			detailRewrite.visibility=View.VISIBLE
+		if (responseMainItem.updatedAt != responseMainItem.createdAt)
+			detailRewrite.visibility = View.VISIBLE
 
 		//답글 생성 시
-		if(intent.hasExtra("reply")) {
+		if (intent.hasExtra("reply")) {
 			et_detail_comment.requestFocus()
 			//키보드 자동 생성
 			val inputMethodManager: InputMethodManager =
-				getSystemService(Service.INPUT_METHOD_SERVICE) as InputMethodManager
+					getSystemService(Service.INPUT_METHOD_SERVICE) as InputMethodManager
 			inputMethodManager.showSoftInput(et_detail_comment, 0)
 		}
 
 
 		//해시태그 기능 진행 중
-		val firstIndex= ArrayList<Int>()
-		val lastIndex= ArrayList<Int>()
+		val firstIndex = ArrayList<Int>()
+		val lastIndex = ArrayList<Int>()
+		val arrayHashtag= ArrayList<String>()
 
-		val partern=Pattern.compile("#([0-9a-zA-Z가-힣ㄱ-ㅎ]*)")
-		val matcher=partern.matcher(detailContent.text)
-
-		while (matcher.find()){
-			firstIndex.add(matcher.start())
-			lastIndex.add(matcher.end())
-		}
-
-		val spannableText=detailContent.text as Spannable
+		val spannableText = detailContent.text as Spannable
+		val partern = Pattern.compile("#([0-9a-zA-Z가-힣ㄱ-ㅎ]*)")
+		val match = partern.matcher(detailContent.text)
 
 		var i = 0
-		while (i<firstIndex.size){
-			Log.d("spannableTest", firstIndex[i].toString())
+		while (match.find()) {
+			Log.d("hashtag", "find")
+			firstIndex.add(match.start())
+			lastIndex.add(match.end())
+			arrayHashtag.add(match.group(1)!!)
+			Log.d("hashtag", arrayHashtag.size.toString())
+			i++
+		}
+
+		i =0
+		while (i < firstIndex.size) {
+			val hashTagString=arrayHashtag[i]
 			spannableText.setSpan(
-					ForegroundColorSpan(Color.MAGENTA),
+					object: ClickableSpan() {
+						override fun onClick(widget: View) {
+							Log.d("hashtag", hashTagString)
+							val intent=Intent(view.context,SearchResultsView::class.java)
+							intent.putExtra("Hashtag",hashTagString)
+							startActivity(intent)
+						}
+					},
 					firstIndex[i],
 					lastIndex[i],
 					SPAN_INCLUSIVE_INCLUSIVE
 			)
 			i++
 		}
+
+		detailContent.text = spannableText
+		detailContent.movementMethod=LinkMovementMethod.getInstance()
 	}
 
 	private fun imageFrameLoad(images: Array<Image>, postId: Int?) {
@@ -240,33 +253,36 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener
 
 	private fun detailMore(responseBody: ResponseMainBody) {
 		contentMoreEvent(responseBody.user,
-			View.GONE,{},
-			{//게시글 수정
-			rewritePost(responseBody)
-			},
-			{//게시글 삭제
+				View.GONE, {},
+				{//게시글 수정
+					rewritePost(responseBody)
+				},
+				{//게시글 삭제
 					RequestToServer.snsService.requestDelete(
-							"Bearer "+ App.prefs.local_login_token,
-						responseBody.id
+							"Bearer " + App.prefs.local_login_token,
+							responseBody.id
 					).customEnqueue(
 							onSuccess = { finish() },
 							onError = {
 								Toast.makeText(this, "네트워크오류", Toast.LENGTH_SHORT)
-									.show()
-							})},
-			{//게시글 신고
+										.show()
+							})
+				},
+				{//게시글 신고
 					cumstomReportDialog("이 게시글을 신고하시겠습니까?") {
 						RequestToServer.snsService.requestReport(
-							RequestReport(it), responseBody.id
+								RequestReport(it), responseBody.id
 						).customEnqueue(
 								onSuccess = {
 									Toast
-										.makeText(
-											applicationContext,
-											"신고가 성공적으로 접수되었습니다.",
-											Toast.LENGTH_SHORT
-										).show()
-								})}})
+											.makeText(
+													applicationContext,
+													"신고가 성공적으로 접수되었습니다.",
+													Toast.LENGTH_SHORT
+											).show()
+								})
+					}
+				})
 	}
 
 	private fun detailViewClickEvnet() {
@@ -296,9 +312,9 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener
 			R.id.img_comment_upload_btn -> {
 				when {
 					intent.hasExtra("rewriteComment")
-							&& !commentDuplCheck-> rewriteComment(postId, commentId)
+							&& !commentDuplCheck -> rewriteComment(postId, commentId)
 					intent.hasExtra("reply")
-							&& !commentDuplCheck-> postReply(postId, commentId)
+							&& !commentDuplCheck -> postReply(postId, commentId)
 					else -> uploadComment()
 				}
 			}
@@ -316,28 +332,28 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener
 
 		if (view.isActivated) {//이미 좋아요한 경우
 			requestToServer.snsService.requestDelLike(
-					"Bearer "+ App.prefs.local_login_token,
-				postId
+					"Bearer " + App.prefs.local_login_token,
+					postId
 			)
 				.customEnqueue(
-					onSuccess = {
-						loadUnLike(view, text_detail_comment_favorit_count)
-					},
-					onError = {
-						Log.d("Network", "좋아요 취소 에러")
-					})
+						onSuccess = {
+							loadUnLike(view, text_detail_comment_favorit_count)
+						},
+						onError = {
+							Log.d("Network", "좋아요 취소 에러")
+						})
 		} else {
 			requestToServer.snsService.requestLike(
-					"Bearer "+ App.prefs.local_login_token,
-				postId
+					"Bearer " + App.prefs.local_login_token,
+					postId
 			)
 				.customEnqueue(
-					onSuccess = {
-						loadLike(view, text_detail_comment_favorit_count, it.body()?.body?.likers)
-					},
-					onError = {
-						Log.d("Network", "좋아요 설정 에러")
-					})
+						onSuccess = {
+							loadLike(view, text_detail_comment_favorit_count, it.body()?.body?.likers)
+						},
+						onError = {
+							Log.d("Network", "좋아요 설정 에러")
+						})
 		}
 	}
 
@@ -354,42 +370,42 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener
 
 	private fun loadCommentList() {
 		requestToServer.snsService.requestCommentList(
-				"Bearer "+ App.prefs.local_login_token,
-			postId,
-			QueryValue.lastId,
-			QueryValue.limit
+				"Bearer " + App.prefs.local_login_token,
+				postId,
+				QueryValue.lastId,
+				QueryValue.limit
 		).customEnqueue(
-			onSuccess = {
-				if (it.body()?.body != null) {
-					homeDetailCommentAdpater = HomeDetailCommentAdpater(
-						this,
-							it.body()!!.body!!,
-						postId
-					)
-					rv_home_detail_comment.adapter = homeDetailCommentAdpater
+				onSuccess = {
+					if (it.body()?.body != null) {
+						homeDetailCommentAdpater = HomeDetailCommentAdpater(
+								this,
+								it.body()!!.body!!,
+								postId
+						)
+						rv_home_detail_comment.adapter = homeDetailCommentAdpater
+					}
+				},
+				onError = {
+					Toast.makeText(this, "댓글 조회 네트워크 오류", Toast.LENGTH_SHORT).show()
 				}
-			},
-			onError = {
-				Toast.makeText(this, "댓글 조회 네트워크 오류", Toast.LENGTH_SHORT).show()
-			}
 		)
 	}
 
 	private fun uploadComment(){
 		requestToServer.snsService.requestComment(
-				"Bearer "+ App.prefs.local_login_token,
-			postId!!,
-			RequestComment(et_detail_comment.text.toString())
+				"Bearer " + App.prefs.local_login_token,
+				postId!!,
+				RequestComment(et_detail_comment.text.toString())
 		).customEnqueue(
-			onSuccess = {
-				Log.d("Network", "댓글 생성 성공")
-				detailRefreshEvnet(false)
-			}
+				onSuccess = {
+					Log.d("Network", "댓글 생성 성공")
+					detailRefreshEvnet(false)
+				}
 		)
 		val manager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
 		manager.hideSoftInputFromWindow(
-			currentFocus!!.windowToken,
-			InputMethodManager.HIDE_NOT_ALWAYS
+				currentFocus!!.windowToken,
+				InputMethodManager.HIDE_NOT_ALWAYS
 		)
 		et_detail_comment.setText("")
 	}
@@ -404,19 +420,19 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener
 
 	private fun rewriteComment(postId: Int?, commentId: Int?) {
 		RequestToServer.snsService.requestRewriteComment(
-				"Bearer "+ App.prefs.local_login_token,
-			postId,
-			commentId,
-			RequestComment(et_detail_comment.text.toString())
+				"Bearer " + App.prefs.local_login_token,
+				postId,
+				commentId,
+				RequestComment(et_detail_comment.text.toString())
 		).customEnqueue(
-			onSuccess = {
-				Log.d("Network", "댓글 수정 성공")
-				commentDuplCheck=true
-				detailRefreshEvnet(false)
-			},
-			onError = {
-				Toast.makeText(this, "댓글 수정 네트워크 오류", Toast.LENGTH_SHORT).show()
-			}
+				onSuccess = {
+					Log.d("Network", "댓글 수정 성공")
+					commentDuplCheck = true
+					detailRefreshEvnet(false)
+				},
+				onError = {
+					Toast.makeText(this, "댓글 수정 네트워크 오류", Toast.LENGTH_SHORT).show()
+				}
 		)
 		val manager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
 		manager.hideSoftInputFromWindow(
@@ -428,24 +444,24 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener
 
 	private fun postReply(postId: Int?, commentId: Int?) {
 		RequestToServer.snsService.requestReply(
-				"Bearer "+ App.prefs.local_login_token,
-			postId,
-			commentId,
-			RequestComment(et_detail_comment.text.toString())
+				"Bearer " + App.prefs.local_login_token,
+				postId,
+				commentId,
+				RequestComment(et_detail_comment.text.toString())
 		).customEnqueue(
-			onSuccess = {
-				Log.d("Network", "답글 생성 성공")
-				commentDuplCheck=true
-				detailRefreshEvnet(false)
-			},
-			onError = {
-				Toast.makeText(this, "답글 생성 네트워크 오류", Toast.LENGTH_SHORT).show()
-			}
+				onSuccess = {
+					Log.d("Network", "답글 생성 성공")
+					commentDuplCheck = true
+					detailRefreshEvnet(false)
+				},
+				onError = {
+					Toast.makeText(this, "답글 생성 네트워크 오류", Toast.LENGTH_SHORT).show()
+				}
 		)
 		val manager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
 		manager.hideSoftInputFromWindow(
-			currentFocus!!.windowToken,
-			InputMethodManager.HIDE_NOT_ALWAYS
+				currentFocus!!.windowToken,
+				InputMethodManager.HIDE_NOT_ALWAYS
 		)
 		et_detail_comment.setText("")
 	}
