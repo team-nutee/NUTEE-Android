@@ -15,6 +15,7 @@ import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.main.setting.RequestChangeProfileImage
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
+import kr.nutee.nutee_android.ui.extend.dialog.customDialogDevInfo
 import kr.nutee.nutee_android.ui.extend.dialog.customDialogSingleButton
 import kr.nutee.nutee_android.ui.extend.imageSetting.createProfileMultipart
 
@@ -98,7 +99,11 @@ class ProfileImageSettingFragment : Fragment(), View.OnClickListener {
 			Glide.with(this)
 					.load(data.data!!)
 					.into(img_setting_profile_image_btn)
-			//'저장하기' 버튼 클릭 EvnetListner
+
+			tv_setting_progile_image_save_btn.apply {
+				isEnabled=true
+				setTextColor(context.getColor(R.color.nuteeBase))
+			}
 			profileImageSaveEvnetListner={profileImageRequestToServer(data.data!!)}
 			return
 		}
@@ -114,11 +119,12 @@ class ProfileImageSettingFragment : Fragment(), View.OnClickListener {
 												RequestChangeProfileImage(it.body()!!.body[0])
 										).customEnqueue(
 												onSuccess = {
-													context?.customDialogSingleButton(getString(R.string.changeSuccess)) {}
+													context?.customDialogDevInfo(getString(R.string.changeSuccess))
 												},
 												onError = {
-													context?.customDialogSingleButton(getString(R.string.changeError)) {}
-												}
+													context?.customDialogDevInfo(getString(R.string.changeError))
+												},
+												onFail ={context?.customDialogDevInfo(getString(R.string.changeFailProfilImage))}
 										)
 		}
 					)
@@ -128,3 +134,4 @@ class ProfileImageSettingFragment : Fragment(), View.OnClickListener {
 	private const val PROFILE_CODE_PICK_IMAGE = 1011
 }
 }
+

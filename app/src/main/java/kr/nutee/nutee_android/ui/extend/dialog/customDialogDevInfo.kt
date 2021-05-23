@@ -12,7 +12,7 @@ fun Context.customDialogDevInfo(msg: String) {
 	val dialog = Dialog(this)
 	dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
 	dialog.setCancelable(false)
-	dialog.setContentView(R.layout.custom_dialog_single_button)
+	dialog.setContentView(R.layout.custom_dialog_dev_info)
 
 	val body = dialog.findViewById<TextView>(R.id.dialog_text)
 	body.text = msg

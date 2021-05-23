@@ -31,10 +31,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:textSize="20dp"
-            android:textColor="@color/colorBlack"
             android:textStyle="bold"
+            android:enabled="false"
             android:text="저장하기"
-            android:clickable="true"
             app:layout_constraintTop_toBottomOf="@+id/img_setting_profile_image_btn"
             app:layout_constraintStart_toStartOf="@id/img_setting_profile_image_btn"
             app:layout_constraintEnd_toEndOf="@id/img_setting_profile_image_btn" />
