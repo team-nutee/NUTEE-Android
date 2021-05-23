@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.notice_fragment_scholarship.*
 
 import kr.nutee.nutee_android.R
-import kr.nutee.nutee_android.data.main.home.Notice
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.main.fragment.notice.NoticeRecyclerAdapter
@@ -46,7 +45,7 @@ class ScholarshipFragment : Fragment() {
 		requestToServer.noticeService.requestScholarship(
 		).customEnqueue(
 				onSuccess = {
-					rv_notice_scholarship.adapter = NoticeRecyclerAdapter(this.context!!, it.body()!!)
+					rv_notice_scholarship.adapter = NoticeRecyclerAdapter(this.context!!, it.body()!!.body)
 				}
 		)}
 

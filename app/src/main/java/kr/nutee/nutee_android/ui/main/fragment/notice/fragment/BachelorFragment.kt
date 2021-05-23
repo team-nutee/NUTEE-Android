@@ -1,7 +1,6 @@
 package kr.nutee.nutee_android.ui.main.fragment.notice.fragment
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.notice_fragment_bachelor.*
 
 import kr.nutee.nutee_android.R
-import kr.nutee.nutee_android.data.main.home.Notice
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.main.fragment.notice.NoticeRecyclerAdapter
@@ -47,7 +45,7 @@ class BachelorFragment : Fragment() {
 		requestToServer.noticeService.requestBachelor(
 		).customEnqueue(
 			onSuccess = {
-				rv_notice_bachelor.adapter = NoticeRecyclerAdapter(this.context!!, it.body()!!)
+				rv_notice_bachelor.adapter = NoticeRecyclerAdapter(this.context!!, it.body()!!.body)
 			}
 		)}
 }

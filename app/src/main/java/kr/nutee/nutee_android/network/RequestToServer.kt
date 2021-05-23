@@ -10,8 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RequestToServer {
     private val logging = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
     private val clientNotice = OkHttpClient.Builder()
-        .addInterceptor(logging)
-        .build()
+            .addInterceptor(logging).build()
 
     private val clientNutee = OkHttpClient.Builder()
         .addInterceptor { chain: Interceptor.Chain ->
@@ -45,7 +44,7 @@ object RequestToServer {
         .build()
 
     var noticeRetrofit: Retrofit = Retrofit.Builder()
-        .baseUrl("http://nutee.kr:9709/crawl/")
+        .baseUrl("http://3.34.61.71:9709/crawl/")
         .client(clientNotice)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
