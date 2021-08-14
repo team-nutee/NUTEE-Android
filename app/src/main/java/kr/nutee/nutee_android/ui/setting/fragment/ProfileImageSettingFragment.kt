@@ -13,6 +13,10 @@ import kotlinx.android.synthetic.main.setting_profile_image_fragment.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.main.setting.RequestChangeProfileImage
+import kr.nutee.nutee_android.databinding.MemberRegisterSelectCategoryFragmentBinding
+import kr.nutee.nutee_android.databinding.MemberRegisterSelectDepartmentFragmentBinding
+import kr.nutee.nutee_android.databinding.SettingPasswordFragmentBinding
+import kr.nutee.nutee_android.databinding.SettingProfileImageFragmentBinding
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.extend.dialog.customDialogDevInfo
@@ -28,15 +32,20 @@ import kr.nutee.nutee_android.ui.extend.imageSetting.createProfileMultipart
 
 class ProfileImageSettingFragment : Fragment(), View.OnClickListener {
 
+	private var binding: SettingProfileImageFragmentBinding? = null
 	private var profileImageSaveEvnetListner: (() -> Unit)? = null
 
 	override fun onCreateView(
-		inflater: LayoutInflater,
-		container: ViewGroup?,
-		savedInstanceState: Bundle?
+			inflater: LayoutInflater,
+			container: ViewGroup?,
+			savedInstanceState: Bundle?
 	): View? {
-		return inflater.inflate(R.layout.setting_profile_image_fragment, container, false)
+		binding = SettingProfileImageFragmentBinding.inflate(inflater, container, false)
+		return requireBinding().root
 	}
+
+	private fun requireBinding(): SettingProfileImageFragmentBinding = binding
+		?: error("binding is not init")
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
@@ -58,24 +67,31 @@ class ProfileImageSettingFragment : Fragment(), View.OnClickListener {
 							.load(it.body()?.body?.image?.src)
 							.placeholder(R.drawable.ic_baseline_rotate_left_24)
 							.error(R.mipmap.nutee_character_background_white_round)
-							.into(img_setting_profile_image_btn)
+							.into(requireBinding().imgSettingProfileImageBtn)
+							//.into(img_setting_profile_image_btn)
 				}
 		)
 	}
 
 	private fun profileImageSettingFragmentButtneEvent() {
-		img_setting_profile_image_btn.setOnClickListener(this)
-		tv_setting_progile_image_save_btn.setOnClickListener(this)
+		requireBinding().imgSettingProfileImageBtn.setOnClickListener(this)
+		requireBinding().tvSettingProgileImageSaveBtn.setOnClickListener(this)
 	}
 
 	override fun onClick(profileFragmentButton: View?) {
 		when (profileFragmentButton!!.id) {
-			R.id.img_setting_profile_image_btn -> {
+			requireBinding().imgSettingProfileImageBtn.id ->{
+				openSelectImage()
+			}
+			requireBinding().tvSettingProgileImageSaveBtn.id ->{
+				profileImageSaveEvnetListner?.invoke()
+			}
+			/*R.id.img_setting_profile_image_btn -> {
 				openSelectImage()
 			}
 			R.id.tv_setting_progile_image_save_btn ->{
 				profileImageSaveEvnetListner?.invoke()
-			}
+			}*/
 		}
 	}
 
@@ -92,15 +108,16 @@ class ProfileImageSettingFragment : Fragment(), View.OnClickListener {
 		super.onActivityResult(requestCode, resultCode, data)
 
 		if (
-			requestCode == PROFILE_CODE_PICK_IMAGE &&
-			resultCode == Activity.RESULT_OK &&
-			data != null
+				requestCode == PROFILE_CODE_PICK_IMAGE &&
+				resultCode == Activity.RESULT_OK &&
+				data != null
 		) {
 			Glide.with(this)
 					.load(data.data!!)
-					.into(img_setting_profile_image_btn)
+					.into(requireBinding().imgSettingProfileImageBtn)
+					//.into(img_setting_profile_image_btn)
 
-			tv_setting_progile_image_save_btn.apply {
+			requireBinding().tvSettingProgileImageSaveBtn.apply {
 				isEnabled=true
 				setTextColor(context.getColor(R.color.nuteeBase))
 			}
@@ -110,28 +127,28 @@ class ProfileImageSettingFragment : Fragment(), View.OnClickListener {
 	}
 
 	private fun profileImageRequestToServer(data: Uri) {
-			RequestToServer.snsService.requestUploadImage(context?.createProfileMultipart(data)!!)
-					.customEnqueue(
-							onSuccess = {
-								RequestToServer.authService
-										.requestToUploadProfile(
-												"Bearer "+ App.prefs.local_login_token,
-												RequestChangeProfileImage(it.body()!!.body[0])
-										).customEnqueue(
-												onSuccess = {
-													context?.customDialogDevInfo(getString(R.string.changeSuccess))
-												},
-												onError = {
-													context?.customDialogDevInfo(getString(R.string.changeError))
-												},
-												onFail ={context?.customDialogDevInfo(getString(R.string.changeFailProfilImage))}
-										)
-		}
-					)
-		}
+		RequestToServer.snsService.requestUploadImage(context?.createProfileMultipart(data)!!)
+				.customEnqueue(
+						onSuccess = {
+							RequestToServer.authService
+									.requestToUploadProfile(
+											"Bearer "+ App.prefs.local_login_token,
+											RequestChangeProfileImage(it.body()!!.body[0])
+									).customEnqueue(
+											onSuccess = {
+												context?.customDialogDevInfo(getString(R.string.changeSuccess))
+											},
+											onError = {
+												context?.customDialogDevInfo(getString(R.string.changeError))
+											},
+											onFail ={context?.customDialogDevInfo(getString(R.string.changeFailProfilImage))}
+									)
+						}
+				)
+	}
 
 	companion object {
-	private const val PROFILE_CODE_PICK_IMAGE = 1011
-}
+		private const val PROFILE_CODE_PICK_IMAGE = 1011
+	}
 }
 

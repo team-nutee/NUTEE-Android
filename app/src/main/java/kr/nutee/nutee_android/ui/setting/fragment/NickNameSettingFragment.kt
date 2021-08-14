@@ -10,6 +10,9 @@ import kotlinx.android.synthetic.main.setting_nickname_fragment.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.main.setting.RequestChangeNickname
+import kr.nutee.nutee_android.databinding.MemberRegisterSelectCategoryFragmentBinding
+import kr.nutee.nutee_android.databinding.SettingMainFragmentBinding
+import kr.nutee.nutee_android.databinding.SettingNicknameFragmentBinding
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.animation.showTextShake
 import kr.nutee.nutee_android.ui.extend.customEnqueue
@@ -22,6 +25,7 @@ import kr.nutee.nutee_android.ui.extend.textChangedListener
 
 class NickNameSettingFragment:Fragment() {
 
+	private var binding: SettingNicknameFragmentBinding? = null
 	private var isChangedData:String? = ""
 	lateinit var textViewNickname:TextView
 
@@ -30,12 +34,16 @@ class NickNameSettingFragment:Fragment() {
 		container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View? {
-		return inflater.inflate(R.layout.setting_nickname_fragment,container,false)
+		binding = SettingNicknameFragmentBinding.inflate(inflater, container, false)
+		return requireBinding().root
 	}
+
+	private fun requireBinding(): SettingNicknameFragmentBinding = binding
+			?: error("binding is not init")
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		textViewNickname=view.findViewById(R.id.tv_setting_nickname_text)
+		textViewNickname= requireBinding().tvSettingNicknameText
 
 		init()
 	}
@@ -60,27 +68,29 @@ class NickNameSettingFragment:Fragment() {
 	}
 
 	private fun nickNameSettingEnableEvent(){
-		et_setting_nickname.textChangedListener{
-			tv_setting_nickname_save_btn.isEnabled =
-				(et_setting_nickname != null && et_setting_nickname.text.isNotEmpty())
+		with(requireBinding()){
+			etSettingNickname.textChangedListener {
+				tvSettingNicknameSaveBtn.isEnabled =
+						(etSettingNickname != null && etSettingNickname.text.isNotEmpty())
+			}
 		}
 	}
 
 	private fun nickNameSettingButtonEvnet(){
-		tv_setting_nickname_save_btn.setOnClickListener {
+		requireBinding().tvSettingNicknameSaveBtn.setOnClickListener {
 			isChangedEvnet()
 		}
 	}
 
 	private fun isChangedEvnet(){
-		if (isChangedData != et_setting_nickname.text.toString()) {
+		if(isChangedData != requireBinding().etSettingNickname.text.toString()){
 			requestToNickNameChange()
 			return
 		}
 		requireContext().showTextShake(
-			tv_nick_name_change_resutl,
-			"이미 성공적으로 변경되었습니다!",
-			R.color.nuteeBase
+				requireBinding().tvNickNameChangeResutl,
+				"이미 성공적으로 변경되었습니다!",
+				R.color.nuteeBase
 		)
 	}
 
@@ -88,19 +98,19 @@ class NickNameSettingFragment:Fragment() {
 		RequestToServer.authService
 			.requestToNickNameChange(
 					"Bearer "+ App.prefs.local_login_token,
-					RequestChangeNickname(et_setting_nickname.text.toString())
+					RequestChangeNickname(requireBinding().etSettingNickname.text.toString())
 			).customEnqueue(
 				onSuccess = {
 					requireContext().showTextShake(
-						tv_nick_name_change_resutl,
+						requireBinding().tvNickNameChangeResutl,
 						"성공적으로 변경되었습니다.",
 						R.color.nuteeBase
 					)
-					isChangedData = et_setting_nickname.text.toString()
+					isChangedData = requireBinding().etSettingNickname.text.toString()
 				},
 				onError = {
 					requireContext().showTextShake(
-						tv_nick_name_change_resutl,
+						requireBinding().tvNickNameChangeResutl,
 						"이미 사용중인 닉네임 입니다",
 						R.color.colorRed
 					)

@@ -5,6 +5,7 @@ import android.os.Bundle
 import kotlinx.android.synthetic.main.developer_information_activity.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.main.home.DeveloperInformationItem
+import kr.nutee.nutee_android.databinding.DeveloperInformationActivityBinding
 
 /*
  * Created by eunseo5355
@@ -15,18 +16,22 @@ class DeveloperInformationActivity : AppCompatActivity() {
 
 	lateinit var developerInformationAdapter: DeveloperInformationAdapter
 	private val developerDatas = mutableListOf<DeveloperInformationItem>()
+	private val binding by lazy { DeveloperInformationActivityBinding.inflate(layoutInflater) }
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		setContentView(R.layout.developer_information_activity)
+		setContentView(binding.root)
 
 		//RecyclerView와 Adapter 연결
 		developerInformationAdapter = DeveloperInformationAdapter(this)
-		rv_developer_information.adapter = developerInformationAdapter
+		binding.rvDeveloperInformation.adapter = developerInformationAdapter
 
-		img_developer_information_back_btn.setOnClickListener {
+		binding.imgDeveloperInformationBackBtn.setOnClickListener {
 			onBackPressed()
 		}
+		/*img_developer_information_back_btn.setOnClickListener {
+			onBackPressed()
+		}*/
 
 		loadDatas()
 
