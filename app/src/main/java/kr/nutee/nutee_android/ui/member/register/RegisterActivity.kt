@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.register_activity.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.member.register.*
+import kr.nutee.nutee_android.databinding.RegisterActivityBinding
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.animation.showTextShake
 import kr.nutee.nutee_android.ui.extend.customEnqueue
@@ -27,6 +28,7 @@ import retrofit2.Response
 
 class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
 
+    private val binding by lazy {RegisterActivityBinding.inflate(layoutInflater) }
     private var registerEmail: String? = null
     private var registerId: String? = null
     private var nickName: String? = null
@@ -73,7 +75,7 @@ class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.register_activity)
+        setContentView(binding.root)
         customLodingDialog = CustomLodingDialog(this)
         init()
     }
@@ -84,7 +86,7 @@ class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
     }
 
     private fun registerButtonEventMapping() {
-        tv_register_top_back_btn.setOnClickListener {
+        binding.tvRegisterTopBackBtn.setOnClickListener {
             // FIXME 완벽한 방법은 아닌듯
             super.onBackPressed()
         }
@@ -96,7 +98,7 @@ class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
 
     override fun onBackPressed() {
         val fragment =
-            supportFragmentManager.findFragmentById(R.id.fl_register_frame_layout)
+                supportFragmentManager.findFragmentById(R.id.fl_register_frame_layout)
         if (fragment == emailAuthFragment) {
             loadExitRegisterDialog { super.onBackPressed() }
             return
@@ -111,7 +113,8 @@ class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
         setEmailAuthFragmentNextEventMapping()
         loadFragment(
             emailAuthFragment,
-            R.id.fl_register_frame_layout
+            binding.flRegisterFrameLayout.id
+            //R.id.fl_register_frame_layout
         )
     }
 
@@ -201,7 +204,8 @@ class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
         setIdInputFragmentPreviousEvnetMapping()
         loadFragmentAddtoBackStack(
             idInputFragment,
-            R.id.fl_register_frame_layout,
+            binding.flRegisterFrameLayout.id,
+            //R.id.fl_register_frame_layout,
             null
         )
     }
@@ -270,7 +274,8 @@ class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
         setNickNameFragmentNextEventMapping()
         loadFragmentAddtoBackStack(
             nickNameInputFragment,
-            R.id.fl_register_frame_layout,
+            binding.flRegisterFrameLayout.id,
+            //R.id.fl_register_frame_layout,
             null
         )
     }
@@ -327,7 +332,8 @@ class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
         setPasswordInputFragmentNextEvent()
         loadFragmentAddtoBackStack(
             passwordInputFragment,
-            R.id.fl_register_frame_layout,
+            binding.flRegisterFrameLayout.id,
+            //R.id.fl_register_frame_layout,
             null
         )
     }
@@ -349,7 +355,8 @@ class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
         setSelectCategoryFragmentNextEvent()
         loadFragmentAddtoBackStack(
             selectCategoryFragment,
-            R.id.fl_register_frame_layout,
+            binding.flRegisterFrameLayout.id,
+                //R.id.fl_register_frame_layout,
             null
         )
     }
@@ -378,7 +385,8 @@ class RegisterActivity : AppCompatActivity(), OnRegisterDataSetListener {
         setDepartmentFragmentNextEvent()
         loadFragmentAddtoBackStack(
             selectDepartmentFragment,
-            R.id.fl_register_frame_layout,
+            binding.flRegisterFrameLayout.id,
+                //R.id.fl_register_frame_layout,
             null
         )
     }
