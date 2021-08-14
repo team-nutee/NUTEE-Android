@@ -8,12 +8,14 @@ import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.Button
 import android.widget.TextView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.login_activity.*
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.member.login.RequestLogin
+import kr.nutee.nutee_android.databinding.LoginActivityBinding
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.extend.dialog.CustomLodingDialog
@@ -23,9 +25,11 @@ import kr.nutee.nutee_android.ui.extend.dialog.customSelectDialog
 import kr.nutee.nutee_android.ui.extend.textChangedListener
 import kr.nutee.nutee_android.ui.main.MainActivity
 import kr.nutee.nutee_android.ui.member.register.RegisterActivity
+import kotlin.math.log
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
+	private val binding by lazy { LoginActivityBinding.inflate(layoutInflater) }
 	private val REQUEST_CODE = 1
 	private val requestToServer = RequestToServer
 	lateinit var loadingDialog: CustomLodingDialog
@@ -34,30 +38,29 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		setContentView(R.layout.login_activity)
+		setContentView(binding.root)
 		loadingDialog = CustomLodingDialog(this)
 		autoLogin()
 
 		//ID&PW 입력 이벤트 처리
-		et_login_id.textChangedListener {
-			btn_login.isEnabled = et_login_id.text.isNotEmpty() && et_login_pw.text.isNotEmpty()
+		binding.etLoginId.textChangedListener {
+			binding.btnLogin.isEnabled = binding.etLoginId.text.isNotEmpty() && binding.etLoginPw.text.isNotEmpty()
 		}
-		et_login_pw.textChangedListener {
-			btn_login.isEnabled = et_login_id.text.isNotEmpty() && et_login_pw.text.isNotEmpty()
+		binding.etLoginPw.textChangedListener {
+			binding.btnLogin.isEnabled = binding.etLoginId.text.isNotEmpty() && binding.etLoginPw.text.isNotEmpty()
 		}
-
 
 		//버튼 이벤트 처리
-		text_forget_id_or_pw_button.setOnClickListener(this)
-		btn_login.setOnClickListener(this)
-		text_register_button.setOnClickListener(this)
+		binding.textForgetIdOrPwButton.setOnClickListener(this)
+		binding.btnLogin.setOnClickListener(this)
+		binding.textRegisterButton.setOnClickListener(this)
 	}
 
 	private fun autoLogin() {
 		//자동 로그인 설정 시 ID&PW창을 채워주고 자동로그인
 		if (App.prefs.local_login_oto) {
-			et_login_id.setText(App.prefs.local_login_id)
-			et_login_pw.setText(App.prefs.local_login_pw)
+			binding.etLoginId.setText(App.prefs.local_login_id)
+			binding.etLoginPw.setText(App.prefs.local_login_pw)
 			requestlogin(App.prefs.local_login_id, App.prefs.local_login_pw)
 			return
 		}
@@ -71,40 +74,74 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 		//각 버튼인 경우 동작 매칭
 		when (v!!.id) {
 			//id&pw 찾기 버튼 클릭시
-			R.id.text_forget_id_or_pw_button -> {
+			binding.textForgetIdOrPwButton.id -> {
 				val intent = Intent(this, UserFindActivity::class.java)
 				startActivity(intent)
 			}
 
-			//로그인 버튼 클릭시
-			R.id.btn_login -> {
+			//로그인 버튼 클릭 시
+			binding.btnLogin.id ->{
 				Log.d(logTag, "login button click")
 
-				if (et_login_id.text.isNullOrBlank() || et_login_pw.text.isNullOrBlank()) {
-					when (true) {
-						et_login_id.text.isNullOrBlank() -> Snackbar.make(
-							v,
-							"아이디를 입력하세요",
-							Snackbar.LENGTH_SHORT
+				if(binding.etLoginId.text.isNullOrBlank() || binding.etLoginPw.text.isNullOrBlank()){
+					when(true){
+						binding.etLoginId.text.isNullOrBlank() -> Snackbar.make(
+								v,
+								"아이디를 입력하세요",
+								Snackbar.LENGTH_SHORT
 						).show()
-						et_login_pw.text.isNullOrBlank() -> Snackbar.make(
-							v,
-							"패스워드를 입력하세요",
-							Snackbar.LENGTH_SHORT
+						binding.etLoginPw.text.isNullOrBlank() -> Snackbar.make(
+								v,
+								"패스워드를 입력하세요",
+								Snackbar.LENGTH_SHORT
 						).show()
 					}
-				} else {
-					requestlogin(et_login_id.text.toString(), et_login_pw.text.toString())
+				}else {
+					requestlogin(binding.etLoginId.text.toString(), binding.etLoginPw.text.toString())
 				}
 			}
 
+			//회원가입 버튼 클릭시
+			binding.textRegisterButton.id ->{
+				Log.d(logTag, "register button test")
+
+				val intent = Intent(this, RegisterActivity::class.java)
+				startActivityForResult(intent, REQUEST_CODE)
+			}
+
+			/*
+			//id&pw 찾기 버튼 클릭시
+			R.id.text_forget_id_or_pw_button -> {
+				val intent = Intent(this, UserFindActivity::class.java)
+				startActivity(intent)
+			}
+			//로그인 버튼 클릭시
+			R.id.btn_login -> {
+				Log.d(logTag, "login button click")
+				if(binding.etLoginId.text.isNullOrBlank() || binding.etLoginPw.text.isNullOrBlank()){
+					when(true){
+						binding.etLoginId.text.isNullOrBlank() -> Snackbar.make(
+								v,
+								"아이디를 입력하세요",
+								Snackbar.LENGTH_SHORT
+						).show()
+						binding.etLoginPw.text.isNullOrBlank() -> Snackbar.make(
+								v,
+								"패스워드를 입력하세요",
+								Snackbar.LENGTH_SHORT
+						).show()
+					}
+				}else {
+					requestlogin(binding.etLoginId.text.toString(), binding.etLoginPw.text.toString())
+				}
+			}
 			//회원가입 버튼 클릭시
 			R.id.text_register_button -> {
 				Log.d(logTag, "register button test")
 
 				val intent = Intent(this, RegisterActivity::class.java)
 				startActivityForResult(intent, REQUEST_CODE)
-			}
+			}*/
 
 		}
 	}
@@ -122,11 +159,11 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 					Log.d(logTag, "로그인 성공")
 
 					//자동 로그인 설정 시 설정 여부 저장
-					if(check_login_save.isChecked)
+					if(binding.checkLoginSave.isChecked)
 						App.prefs.local_login_oto=true
 
-					App.prefs.local_login_id = et_login_id.text.toString()
-					App.prefs.local_login_pw = et_login_pw.text.toString()
+					App.prefs.local_login_id = binding.etLoginId.text.toString()
+					App.prefs.local_login_pw = binding.etLoginPw.text.toString()
 
 					val token = it.body()!!.body.accessToken
 					App.prefs.local_login_token = token
@@ -144,8 +181,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 				onError = {
 					loadingDialog.dismissDialog()
 					Log.d(logTag, "로그인 실패")
-					showTextShake(text_login_id_check, "아이디 혹은 비밀번호가 확실하지 않습니다")
-					showTextShake(text_login_pw_check, "아이디 혹은 비밀번호가 확실하지 않습니다")
+					showTextShake(binding.textLoginIdCheck, "아이디 혹은 비밀번호가 확실하지 않습니다")
+					showTextShake(binding.textLoginPwCheck, "아이디 혹은 비밀번호가 확실하지 않습니다")
 				}
 			)
 	}
@@ -157,7 +194,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
 		if (requestCode == REQUEST_CODE) {
 			if (resultCode == Activity.RESULT_OK) {
-				et_login_id.setText(data?.getStringExtra("id"))
+				binding.etLoginId.setText(data?.getStringExtra("id"))
 			}
 		}
 	}

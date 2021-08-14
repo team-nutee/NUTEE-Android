@@ -14,18 +14,20 @@ import kotlinx.android.synthetic.main.user_find_activity.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.member.find.RequestFindPw
 import kr.nutee.nutee_android.data.member.register.RequestEmail
+import kr.nutee.nutee_android.databinding.UserFindActivityBinding
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.extend.textChangedListener
 
 class UserFindActivity : AppCompatActivity(), View.OnClickListener {
 
+	private val binding by lazy { UserFindActivityBinding.inflate(layoutInflater) }
 	val dataValid = DataValid()
 	val requestToServer = RequestToServer
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		setContentView(R.layout.user_find_activity)
+		setContentView(binding.root)
 		init()
 	}
 
@@ -37,19 +39,19 @@ class UserFindActivity : AppCompatActivity(), View.OnClickListener {
 	}
 
 	private fun btnEvent() {
-		text_find_id_email_btn.setOnClickListener(this)
-		text_find_pw_btn.setOnClickListener(this)
+		binding.textFindIdEmailBtn.setOnClickListener(this)
+		binding.textFindPwBtn.setOnClickListener(this)
 	}
 
 	private fun editTextEvent() {
 
-		et_find_pw_id.setOnFocusChangeListener { _, hasFocus ->
-			if (hasFocus && (cl_find_id.visibility != View.GONE)) {
+		binding.etFindPwId.setOnFocusChangeListener { _, hasFocus ->
+			if(hasFocus && (binding.clFindId.visibility != View.GONE)){
 				hindFindId()
 			}
 		}
-		et_find_pw_email.setOnFocusChangeListener { _, hasFocus ->
-			if (hasFocus && (cl_find_id.visibility != View.GONE)) {
+		binding.etFindPwEmail.setOnFocusChangeListener { _, hasFocus ->
+			if(hasFocus && (binding.clFindId.visibility != View.GONE)){
 				hindFindId()
 			}
 		}
@@ -61,12 +63,12 @@ class UserFindActivity : AppCompatActivity(), View.OnClickListener {
 		hindAnimation.setAnimationListener(object : Animation.AnimationListener {
 			override fun onAnimationRepeat(animation: Animation?) = Unit
 			override fun onAnimationEnd(animation: Animation?) {
-				cl_find_id.visibility = View.GONE
+				binding.clFindId.visibility = View.GONE
 			}
 
 			override fun onAnimationStart(animation: Animation?) = Unit
 		})
-		cl_find_id.startAnimation(hindAnimation)
+		binding.clFindId.startAnimation(hindAnimation)
 	}
 
 	private fun showFindId() {
@@ -74,28 +76,28 @@ class UserFindActivity : AppCompatActivity(), View.OnClickListener {
 		showAnimation.setAnimationListener(object : Animation.AnimationListener {
 			override fun onAnimationRepeat(animation: Animation?) = Unit
 			override fun onAnimationEnd(animation: Animation?) {
-				cl_find_id.visibility = View.VISIBLE
+				binding.clFindId.visibility = View.VISIBLE
 			}
 
 			override fun onAnimationStart(animation: Animation?) = Unit
 		})
-		cl_find_id.visibility = View.VISIBLE
-		cl_find_id.startAnimation(showAnimation)
+		binding.clFindId.visibility = View.VISIBLE
+		binding.clFindId.startAnimation(showAnimation)
 	}
 
 	private fun editTextChangeEvent() {
-		et_find_id_email.textChangedListener {
-			text_find_id_email_btn.isEnabled =
-				(!it.isNullOrBlank()) && dataValid.isValidEmail(et_find_id_email.text.toString())
+		binding.etFindIdEmail.textChangedListener {
+			binding.textFindIdEmailBtn.isEnabled =
+					(!it.isNullOrBlank()) && dataValid.isValidEmail(binding.etFindIdEmail.text.toString())
 		}
-		et_find_pw_email.textChangedListener {
-			text_find_pw_btn.isEnabled =
-				((!it.isNullOrBlank())) && dataValid.isValidEmail(et_find_pw_email.text.toString()) && (!et_find_pw_id.text.isNullOrBlank())
+		binding.etFindPwEmail.textChangedListener {
+			binding.textFindPwBtn.isEnabled =
+				((!it.isNullOrBlank())) && dataValid.isValidEmail(binding.etFindPwEmail.text.toString()) && (!binding.etFindPwId.text.isNullOrBlank())
 		}
 	}
 
 	override fun onBackPressed() {
-		if (cl_find_id.visibility == View.GONE) {
+		if (binding.clFindId.visibility == View.GONE) {
 			showFindId()
 		} else {
 			super.onBackPressed()
@@ -104,27 +106,31 @@ class UserFindActivity : AppCompatActivity(), View.OnClickListener {
 
 	override fun onClick(v: View?) {
 		when (v!!.id) {
-			R.id.text_find_id_email_btn -> findUserId()
+			binding.textFindIdEmailBtn.id -> findUserId()
+			binding.textFindPwBtn.id -> findUserPw()
+			binding.clUserFind.id -> if (binding.clFindId.visibility == View.GONE) showFindId()
+
+			/*R.id.text_find_id_email_btn -> findUserId()
 			R.id.text_find_pw_btn -> findUserPw()
-			R.id.cl_user_find -> if (cl_find_id.visibility == View.GONE) showFindId()
+			R.id.cl_user_find -> if (binding.clFindId.visibility == View.GONE) showFindId()*/
 		}
 	}
 
 	private fun findUserId() {
 		requestToServer.authService.requestFindId(
 				RequestEmail(
-						et_find_id_email.text.toString()
+						binding.etFindIdEmail.text.toString()
 				)).customEnqueue(
 				onSuccess = {
 					settingResultText(
-						text_find_id_result,
+						binding.textFindIdResult,
 						"입력하신 이메일로 아이디가 발송되었습니다.",
 						getColor(R.color.nuteeBase)
 					)
 				},
 				onError = {
 					settingResultText(
-						text_find_id_result,
+						binding.textFindIdResult,
 						"존재하지 않는 이메일입니다.",
 						getColor(R.color.colorRed)
 					)
@@ -135,19 +141,19 @@ class UserFindActivity : AppCompatActivity(), View.OnClickListener {
 	private fun findUserPw() {
 		requestToServer.authService.requestFindPw(
 				RequestFindPw(
-						et_find_pw_email.text.toString(),
-						et_find_pw_id.text.toString()
+						binding.etFindPwEmail.text.toString(),
+						binding.etFindPwId.text.toString()
 				)).customEnqueue(
 				onSuccess = {
 					settingResultText(
-						text_find_pw_result,
+						binding.textFindPwResult,
 						it.body()!!.body,
 						getColor(R.color.nuteeBase)
 					)
 				},
 				onError = {
 					settingResultText(
-					text_find_pw_result,
+					binding.textFindPwResult,
 					"아이디/이메일이 일치하지 않습니다.",
 					getColor(R.color.colorRed)
 				)
@@ -165,7 +171,7 @@ class UserFindActivity : AppCompatActivity(), View.OnClickListener {
 	}
 
 	private fun registerButtonEventMapping() {
-		text_user_find_back.setOnClickListener {
+		binding.textUserFindBack.setOnClickListener {
 			super.onBackPressed()
 		}
 	}
