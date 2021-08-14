@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.databinding.SplashActivityBinding
 import kr.nutee.nutee_android.ui.member.LoginActivity
 
 /*
@@ -12,6 +13,7 @@ import kr.nutee.nutee_android.ui.member.LoginActivity
 */
 class SplashActivity : AppCompatActivity() {
 
+    private val binding by lazy{SplashActivityBinding.inflate(layoutInflater)}
     private var mDelayHandler: Handler? = null
 
     private val mRunnable: Runnable = Runnable {
@@ -26,7 +28,7 @@ class SplashActivity : AppCompatActivity() {
     //해당 Activity 생명주기 생성
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.splash_activity)
+        setContentView(binding.root)
 
         //핸들러 사용
         mDelayHandler = Handler()
