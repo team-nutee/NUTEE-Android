@@ -3,14 +3,19 @@ package kr.nutee.nutee_android.ui.main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.get
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.main_activity.*
+import kotlinx.android.synthetic.main.main_activity.view.*
+import kotlinx.android.synthetic.main.setting_activity.view.*
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.databinding.MainActivityBinding
 import kr.nutee.nutee_android.ui.extend.loadMainPageFragment
 import kr.nutee.nutee_android.ui.main.fragment.add.AddActivity
 import kr.nutee.nutee_android.ui.main.fragment.home.HomeFragement
@@ -21,13 +26,14 @@ import kr.nutee.nutee_android.ui.setting.SettingActivity
 
 class MainActivity : AppCompatActivity() {
 
+	private val binding by lazy{MainActivityBinding.inflate(layoutInflater)}
 	private var pressTime:Long = 0 //onBackPressedEvent 처리 변수
 	private lateinit var icSearch:ImageButton
 	private lateinit var icSetting: ImageButton
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		setContentView(R.layout.main_activity)
+		setContentView(binding.root)
 		init()
 		icSearchEvent()
 		icSettingEvent()
@@ -35,7 +41,7 @@ class MainActivity : AppCompatActivity() {
 
 	private fun init() {
 		//초기 fragment 설정
-		supportFragmentManager.beginTransaction().replace(R.id.frame_layout, HomeFragement()).commitAllowingStateLoss()
+		supportFragmentManager.beginTransaction().replace(binding.frameLayout.id, HomeFragement()).commitAllowingStateLoss()
 
 		//navigationBottomView 등록
 		mainNavigationBottomView(main_bottom_nav)
@@ -118,7 +124,7 @@ class MainActivity : AppCompatActivity() {
 
 	//상단바 검색 위젯 이벤트
 	private fun icSearchEvent(){
-		icSearch=findViewById(R.id.img_main_top_search)
+		icSearch=binding.imgMainTopSearch
 		icSearch.setOnClickListener {
 			val intent=Intent(this,SearchView::class.java)
 			startActivity(intent)
@@ -127,7 +133,7 @@ class MainActivity : AppCompatActivity() {
 
 	//상단바 설정 위젯 이벤트
 	private fun icSettingEvent(){
-		icSetting=findViewById(R.id.img_main_top_setting)
+		icSetting=binding.imgMainTopSetting
 		icSetting.setOnClickListener {
 			val intent=Intent(this, SettingActivity::class.java)
 			startActivity(intent)
