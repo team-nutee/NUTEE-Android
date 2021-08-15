@@ -18,6 +18,7 @@ import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.main.add.RequestRewritePost
 import kr.nutee.nutee_android.data.main.add.RequestPost
 import kr.nutee.nutee_android.data.main.home.Image
+import kr.nutee.nutee_android.databinding.AddActivityBinding
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.*
 import kr.nutee.nutee_android.ui.extend.dialog.CustomLodingDialog
@@ -38,6 +39,8 @@ created by jinsu47555
 @Suppress("UNCHECKED_CAST")
 class AddActivity : AppCompatActivity(), View.OnClickListener {
 
+	private val binding by lazy { AddActivityBinding.inflate(layoutInflater) }
+
 	val requestToServer = RequestToServer
 	private val REQUEST_CODE_PICK_IMAGE = 1001
 	private val modalSelectMyMajorsList by lazy {  ModalSelectMyMajorsList() }
@@ -57,12 +60,20 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		setContentView(R.layout.add_activity)
-		addTitle=findViewById(R.id.et_add_title)
+		setContentView(binding.root)
+
+		with(binding){
+			addTitle = etAddTitle
+			addContent = etAddContent
+			addCategory = textAddCategory
+			addMajor = textAddMajor
+			addImageList = rvImageList
+		}
+		/*addTitle=findViewById(R.id.et_add_title)
 		addContent=findViewById(R.id.et_add_content)
 		addCategory=findViewById(R.id.text_add_category)
 		addMajor=findViewById(R.id.text_add_major)
-		addImageList=findViewById(R.id.rv_image_list)
+		addImageList=findViewById(R.id.rv_image_list)*/
 
 		if(intent.hasExtra("content")) fixDataMapping()
 		loadingDialog = CustomLodingDialog(this)
@@ -87,9 +98,12 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	private fun init() {
 		addTitle.requestFocus()
 
-		text_back_button.setOnClickListener(this)
+		binding.textBackButton.setOnClickListener(this)
+		binding.imgUploadImageBtn.setOnClickListener(this)
+		binding.textCreateButton.setOnClickListener(this)
+		/*text_back_button.setOnClickListener(this)
 		img_upload_image_btn.setOnClickListener(this)
-		text_create_button.setOnClickListener(this)
+		text_create_button.setOnClickListener(this)*/
 		addMajor.setOnClickListener{onClickMajor(it)}
 		addCategory.setOnClickListener { onClickCategory(it) }
 	}
@@ -124,7 +138,23 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	}
 
 	override fun onClick(v: View?) {
-		when (v!!.id) {
+		with(binding){
+			when(v!!.id){
+				textBackButton.id -> onBackPressed()
+				imgUploadImageBtn.id -> openImageChooser()
+				textCreateButton.id -> {
+					Log.d("Network", "사진 포함 게시글 수정 버튼 클릭")
+					if(checkPostBlank()){
+						if (intent.hasExtra("content"))
+							uploadRewriteContent()
+						else
+							uploadContent()
+					}
+				}
+			}
+		}
+
+		/*when (v!!.id) {
 			R.id.text_back_button -> onBackPressed()
 			R.id.img_upload_image_btn -> openImageChooser()
 			R.id.text_create_button -> {
@@ -136,7 +166,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 						uploadContent()
 				}
 			}
-		}
+		}*/
 	}
 
 	override fun onBackPressed() {

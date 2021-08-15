@@ -8,13 +8,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.main_fragment_add_photo_item.view.*
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.databinding.MainFragmentAddPhotoItemBinding
 
 class ImageAdapter(private var datas: ArrayList<Uri>, private val context: Context) : RecyclerView.Adapter<ImageViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.main_fragment_add_photo_item,parent,false)
-        return ImageViewHolder(view)
+        val binding = MainFragmentAddPhotoItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ImageViewHolder(binding)
+        /*val view = LayoutInflater.from(context).inflate(R.layout.main_fragment_add_photo_item,parent,false)
+        return ImageViewHolder(view)*/
     }
 
     override fun getItemCount() = datas.size
