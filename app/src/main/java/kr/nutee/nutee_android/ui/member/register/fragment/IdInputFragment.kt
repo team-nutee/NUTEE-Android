@@ -11,6 +11,8 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.member_register_id_input_fragment.*
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.databinding.MemberRegisterEmailAuthFragmentBinding
+import kr.nutee.nutee_android.databinding.MemberRegisterIdInputFragmentBinding
 import kr.nutee.nutee_android.ui.extend.animation.showTextShake
 import kr.nutee.nutee_android.ui.extend.textChangedListener
 import kr.nutee.nutee_android.ui.member.DataValid
@@ -23,6 +25,7 @@ import kr.nutee.nutee_android.ui.member.register.OnRegisterDataSetListener
 
 class IdInputFragment : Fragment(),View.OnClickListener {
 
+	private var binding: MemberRegisterIdInputFragmentBinding? =null
 	private var id:String? = null
 
 	private var onRegisterDataSetListener: OnRegisterDataSetListener? = null
@@ -49,12 +52,12 @@ class IdInputFragment : Fragment(),View.OnClickListener {
 		container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View? {
-		return inflater.inflate(
-			R.layout.member_register_id_input_fragment,
-			container,
-			false
-		)
+		binding = MemberRegisterIdInputFragmentBinding.inflate(inflater, container, false)
+		return requireBinding().root
 	}
+
+	private fun requireBinding(): MemberRegisterIdInputFragmentBinding = binding
+			?: error("binding is not init")
 
 	override fun onAttach(context: Context) {
 		super.onAttach(context)
@@ -70,27 +73,29 @@ class IdInputFragment : Fragment(),View.OnClickListener {
 	}
 
 	private fun idInputButtonEventMapping(){
-		tv_id_input_next.setOnClickListener(this)
-		tv_id_input_previous.setOnClickListener(this)
+		requireBinding().tvIdInputNext.setOnClickListener(this)
+		requireBinding().tvIdInputPrevious.setOnClickListener(this)
 	}
 
 	private fun buttonEnableEventMapping(){
-		et_register_id_input.textChangedListener {id ->
-			tv_id_input_next.isEnabled = !(id.isNullOrBlank()&&isVaildId(id))
+		with(requireBinding()){
+			etRegisterIdInput.textChangedListener { id ->
+				tvIdInputNext.isEnabled = !(id.isNullOrBlank()&&isVaildId(id))
+			}
 		}
 	}
 
 	private fun isVaildId(id:Editable?):Boolean{
 		if (dataValid.isValidId(id.toString())) {
-			this.id = et_register_id_input.text.toString()
-			tv_register_id_input_result_text.text = ""
+			this.id = requireBinding().etRegisterIdInput.text.toString()
+			requireBinding().tvRegisterIdInputResultText.text = ""
 			return true
 		}
 		this.id = null
 		requireContext().showTextShake(
-			tv_register_id_input_result_text,
-			"영문, 숫자만 이용하실 수 있습니다.",
-			R.color.colorRed
+			requireBinding().tvRegisterIdInputResultText,
+				"영문, 숫자만 이용하실 수 있습니다.",
+				R.color.colorRed
 		)
 		return false
 	}
@@ -103,17 +108,20 @@ class IdInputFragment : Fragment(),View.OnClickListener {
 
 	override fun onClick(idFragmentButton: View?) {
 		when (idFragmentButton!!.id) {
-			R.id.tv_id_input_next ->{
-				idInputEventListener?.invoke(et_register_id_input, tv_register_id_input_result_text)
+			requireBinding().tvIdInputNext.id ->{
+				with(requireBinding()){
+					idInputEventListener?.invoke(etRegisterIdInput, tvRegisterIdInputResultText)
+				}
 			}
-			R.id.tv_id_input_previous->{
+			requireBinding().tvIdInputPrevious.id->{
 				registerIdPreviousEventListener?.invoke()
 			}
 		}
 	}
 
 	fun idInputCheckSuccessEvnet(){
-		id = et_register_id_input.text.toString()
+		id = requireBinding().etRegisterIdInput.text.toString()
+		//id = et_register_id_input.text.toString()
 		onRegisterDataSetListener?.onRegisterIdDataSetListener(id!!)
 		registerIdNextEventListener?.invoke()
 	}

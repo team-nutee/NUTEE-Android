@@ -12,6 +12,8 @@ import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.member_register_email_auth_fragment.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.ValidData
+import kr.nutee.nutee_android.databinding.MemberRegisterEmailAuthFragmentBinding
+import kr.nutee.nutee_android.databinding.SettingMainFragmentBinding
 import kr.nutee.nutee_android.ui.extend.animation.constraintDownInAnimation
 import kr.nutee.nutee_android.ui.extend.animation.showTextShake
 import kr.nutee.nutee_android.ui.extend.textChangedListener
@@ -24,6 +26,7 @@ import kr.nutee.nutee_android.ui.member.register.OnRegisterDataSetListener
 
 class EmailAuthFragment : Fragment(), View.OnClickListener {
 
+    private var binding: MemberRegisterEmailAuthFragmentBinding? =null
     private var email: String? = null
     private var otpNum: String? = null
     private var isEmailAuthSuccess = false
@@ -71,12 +74,12 @@ class EmailAuthFragment : Fragment(), View.OnClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(
-            R.layout.member_register_email_auth_fragment,
-            container,
-            false
-        )
+        binding = MemberRegisterEmailAuthFragmentBinding.inflate(inflater, container, false)
+        return requireBinding().root
     }
+
+    private fun requireBinding(): MemberRegisterEmailAuthFragmentBinding = binding
+            ?: error("binding is not init")
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -90,34 +93,34 @@ class EmailAuthFragment : Fragment(), View.OnClickListener {
         if (isEmailAuthSuccess) {
             enableOTPInputLayout()
         }
-        tv_email_auth_next.isEnabled = isNextButtonEnabled
+        requireBinding().tvEmailAuthNext.isEnabled = isNextButtonEnabled
     }
 
     private fun emailAuthButtonEventMapping() {
-        tv_email_auth_button.setOnClickListener(this)
-        tv_email_auth_otp_button.setOnClickListener(this)
-        tv_email_auth_previous.setOnClickListener(this)
-        tv_email_auth_next.setOnClickListener(this)
+        requireBinding().tvEmailAuthButton.setOnClickListener(this)
+        requireBinding().tvEmailAuthOtpButton.setOnClickListener(this)
+        requireBinding().tvEmailAuthPrevious.setOnClickListener(this)
+        requireBinding().tvEmailAuthNext.setOnClickListener(this)
     }
 
     private fun buttonEnableEventMapping() {
-        et_register_email_input.textChangedListener { email ->
+        requireBinding().etRegisterEmailInput.textChangedListener { email ->
             emailInputButtonEnable(email)
         }
-        et_email_otp_auth.textChangedListener { otpNum ->
-            tv_email_auth_otp_button.isEnabled = !otpNum.isNullOrBlank()
+        requireBinding().etEmailOtpAuth.textChangedListener { otpNum ->
+            requireBinding().tvEmailAuthOtpButton.isEnabled = !otpNum.isNullOrBlank()
         }
     }
 
     private fun emailInputButtonEnable(email: Editable?) {
         if (validData.isValidEmail(email.toString())) {
-            tv_email_auth_button.isEnabled = true
-            tv_register_email_auth_result.text = ""
+            requireBinding().tvEmailAuthButton.isEnabled = true
+            requireBinding().tvRegisterEmailAuthResult.text = ""
             return
         }
-        tv_email_auth_button.isEnabled = false
+        requireBinding().tvEmailAuthButton.isEnabled = false
         requireContext().showTextShake(
-            tv_register_email_auth_result,
+            requireBinding().tvRegisterEmailAuthResult,
             "올바르지 못한 이메일 입니다",
             R.color.colorRed
         )
@@ -133,12 +136,12 @@ class EmailAuthFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(emailFragmentView: View?) {
         when (emailFragmentView!!.id) {
-            R.id.tv_email_auth_button -> emailAuthButtonClickEvent()
-            R.id.tv_email_auth_otp_button -> emailOTPAuthButtonClickEvnet()
-            R.id.tv_email_auth_previous -> {
+            requireBinding().tvEmailAuthButton.id -> emailAuthButtonClickEvent()
+            requireBinding().tvEmailAuthOtpButton.id -> emailOTPAuthButtonClickEvnet()
+            requireBinding().tvEmailAuthPrevious.id -> {
                 registerEmailPrevious?.invoke()
             }
-            R.id.tv_email_auth_next -> {
+            requireBinding().tvEmailAuthNext.id -> {
                 email?.let { onRegisterDataSetListener?.onRegisterEmailDataSetListener(it) }
                 registerEmailNext?.invoke()
             }
@@ -146,46 +149,49 @@ class EmailAuthFragment : Fragment(), View.OnClickListener {
     }
 
     private fun emailAuthButtonClickEvent() {
-        if (isEmailAuthSuccess && (email == et_register_email_input.text.toString())) {
+        if (isEmailAuthSuccess && (email == requireBinding().etRegisterEmailInput.text.toString())) {
             requireContext().showTextShake(
-                tv_register_email_auth_result,
+                requireBinding().tvRegisterEmailAuthResult,
                 "전송된 이메일을 확인해주세요!!",
                 R.color.nuteeBase
             )
             return
         }
         emailAuthEventListener?.invoke(
-            et_register_email_input,
-            tv_register_email_auth_result
+            requireBinding().etRegisterEmailInput,
+            requireBinding().tvRegisterEmailAuthResult
         )
     }
 
     fun emailAuthSuccessEvent() {
-        email = et_register_email_input.text.toString()
+        email = requireBinding().etRegisterEmailInput.text.toString()
         isEmailAuthSuccess = true
     }
 
     fun enableOTPInputLayout() {
-        requireContext().constraintDownInAnimation(cl_input_register_email_otp_auth)
-        cl_input_register_email_auth.visibility = View.VISIBLE
+        requireContext().constraintDownInAnimation(requireBinding().clInputRegisterEmailOtpAuth)
+        requireBinding().clInputRegisterEmailAuth.visibility = View.VISIBLE
     }
 
     private fun emailOTPAuthButtonClickEvnet() {
         if (isEmailOTPAuthSuccess) {
             requireContext().showTextShake(
-                tv_register_email_otp_result,
+                requireBinding().tvRegisterEmailOtpResult,
                 "이미 OTP 인증이 완료되었습니다!",
                 R.color.nuteeBase
             )
             return
         }
-        emailAuthOTPEventListener?.invoke(et_email_otp_auth, tv_register_email_otp_result)
+
+        with(requireBinding()) {
+            emailAuthOTPEventListener?.invoke(etEmailOtpAuth, tvRegisterEmailOtpResult)
+        }
     }
 
     fun emailOTPSuccessEvent() {
-        otpNum = et_email_otp_auth.text.toString()
-        isEmailOTPAuthSuccess = (otpNum == et_email_otp_auth.text.toString())
+        otpNum = requireBinding().etEmailOtpAuth.text.toString()
+        isEmailOTPAuthSuccess = (otpNum == requireBinding().etEmailOtpAuth.text.toString())
         isNextButtonEnabled = true
-        tv_email_auth_next.isEnabled = isNextButtonEnabled
+        requireBinding().tvEmailAuthNext.isEnabled = isNextButtonEnabled
     }
 }
