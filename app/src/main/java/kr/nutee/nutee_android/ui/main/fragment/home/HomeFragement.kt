@@ -9,8 +9,13 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.databinding.MainFragmentAddPhotoItemBinding
+import kr.nutee.nutee_android.databinding.MainFragmentHomeBinding
+import kr.nutee.nutee_android.databinding.MemberRegisterSelectCategoryFragmentBinding
 
 class HomeFragement() : Fragment() {
+
+	private var binding: MainFragmentHomeBinding ?= null
 
 	private lateinit var homeTabLayout: TabLayout
 	private lateinit var homeViewpager:ViewPager2
@@ -22,16 +27,23 @@ class HomeFragement() : Fragment() {
 		container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View? {
-		return inflater.inflate(R.layout.main_fragment_home, container, false)
+		binding =MainFragmentHomeBinding.inflate(inflater, container, false)
+		//return inflater.inflate(R.layout.main_fragment_home, container, false)
+		return requireBinding().root
 	}
+
+	private fun requireBinding():MainFragmentHomeBinding = binding
+			?: error("binding is not init")
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
 		//게시글 탭 기능
 		homeTapTextList= arrayListOf("즐겨찾기", "내 전공", "전체 게시글")
-		homeTabLayout = view.findViewById(R.id.tab_main_home)
-		homeViewpager=view.findViewById(R.id.vp_main_home)
+		homeTabLayout = requireBinding().tabMainHome
+		//homeTabLayout = view.findViewById(R.id.tab_main_home)
+		homeViewpager=requireBinding().vpMainHome
+		//homeViewpager=view.findViewById(R.id.vp_main_home)
 		homeAdapter=HomeAdapter(this)
 
 		homeViewpager.adapter = homeAdapter

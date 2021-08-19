@@ -12,6 +12,8 @@ import kotlinx.android.synthetic.main.home_favorite_post_fragment.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.QueryValue
+import kr.nutee.nutee_android.databinding.HomeFullPostFragmentBinding
+import kr.nutee.nutee_android.databinding.HomeMyMajorPostFragmentBinding
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.RefreshEvent
 import kr.nutee.nutee_android.ui.extend.customEnqueue
@@ -24,6 +26,7 @@ import kr.nutee.nutee_android.ui.main.fragment.home.HomeRecyclerViewAdapter
 
 class MyMajorPostFragment : Fragment() {
 
+	private var binding: HomeMyMajorPostFragmentBinding?=null
 	private lateinit var recyclerView: RecyclerView
 	private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 	val requestToServer = RequestToServer
@@ -37,14 +40,24 @@ class MyMajorPostFragment : Fragment() {
 		inflater: LayoutInflater, container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View? {
-		return inflater.inflate(R.layout.home_my_major_post_fragment, container, false)
+		binding = HomeMyMajorPostFragmentBinding.inflate(inflater, container, false)
+		return requireBinding().root
+		//return inflater.inflate(R.layout.home_my_major_post_fragment, container, false)
 	}
+
+	private fun requireBinding(): HomeMyMajorPostFragmentBinding = binding
+			?: error("binding is not init")
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
-		swipeRefreshLayout= view.findViewById(R.id.swipe_home_my_major_post_refresh)
-		recyclerView= view.findViewById(R.id.rv_main_home_my_major_post)
+		with(requireBinding()){
+			swipeRefreshLayout= swipeHomeMyMajorPostRefresh
+			recyclerView= rvMainHomeMyMajorPost
+
+		}
+		//swipeRefreshLayout= view.findViewById(R.id.swipe_home_my_major_post_refresh)
+		//recyclerView= view.findViewById(R.id.rv_main_home_my_major_post)
 
 		setAdapter()
 		loadFavoriteList()
@@ -67,7 +80,8 @@ class MyMajorPostFragment : Fragment() {
 		).customEnqueue(
 			onSuccess = {
 				if (it.body()?.body.isNullOrEmpty()) {
-					cl_main_home_no_post.visibility = View.VISIBLE
+					requireBinding().clMainHomeNoPost.visibility = View.VISIBLE
+					//cl_main_home_no_post.visibility = View.VISIBLE
 				}
 				else
 					recyclerView.adapter = HomeRecyclerViewAdapter(it.body()?.body!!)

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.main.home.Image
+import kr.nutee.nutee_android.databinding.LayoutDetailImageViewItemBinding
 import kr.nutee.nutee_android.ui.extend.animation.glideProgressDrawable
 
 /*
@@ -18,11 +19,12 @@ import kr.nutee.nutee_android.ui.extend.animation.glideProgressDrawable
 class DetailImageViewAdapter(private val context: Context, private var detailViewImageList: Array<Image>)
 	:RecyclerView.Adapter<DetailImageViewHolder>(){
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailImageViewHolder {
-		return DetailImageViewHolder(
-			LayoutInflater.from(parent.context).inflate(
-				R.layout.layout_detail_image_view_item, parent, false
-			)
+		val binding = LayoutDetailImageViewItemBinding.inflate(
+				LayoutInflater.from(parent.context),
+				parent,
+				false
 		)
+		return DetailImageViewHolder(binding)
 	}
 
 	override fun getItemCount(): Int {

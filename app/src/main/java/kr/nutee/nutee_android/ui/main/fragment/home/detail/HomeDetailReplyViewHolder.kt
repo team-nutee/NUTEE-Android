@@ -13,21 +13,22 @@ import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.DateParser
 import kr.nutee.nutee_android.data.main.RequestReport
 import kr.nutee.nutee_android.data.main.home.ReComment
+import kr.nutee.nutee_android.databinding.MainHomeDetailItemBinding
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.*
 import kr.nutee.nutee_android.ui.extend.dialog.cumstomReportDialog
 import kr.nutee.nutee_android.ui.extend.dialog.customSelectDialog
 
-class HomeDetailReplyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class HomeDetailReplyViewHolder(private val binding: MainHomeDetailItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-	private val img_comment_profile: ImageView = itemView.findViewById<ImageView>(R.id.img_comment_profile)
+	/*private val img_comment_profile: ImageView = itemView.findViewById<ImageView>(R.id.img_comment_profile)
 	private val text_commnet_nick = itemView.findViewById<TextView>(R.id.text_commnet_nick)
 	private val text_comment_content = itemView.findViewById<TextView>(R.id.text_comment_content)
 	private val text_comment_updateAt = itemView.findViewById<TextView>(R.id.text_comment_updateAt)
 	private val img_detail_comment_favorit_btn=itemView.findViewById<ImageView>(R.id.img_detail_comment_favorit_btn)
 	private val text_detail_comment_favorit_count=itemView.findViewById<TextView>(R.id.text_detail_comment_favorit_count)
 	private val more_button=itemView.findViewById<ImageView>(R.id.img_comment_more)
-	private val textRewrite = itemView.findViewById<TextView>(R.id.text_comment_rewrite)
+	private val textRewrite = itemView.findViewById<TextView>(R.id.text_comment_rewrite)*/
 
 	fun bindWithView(reComment: ReComment, context: Context, postId: Int?, commentId: Int?) {
 		//답글 프로필 이미지 설정
@@ -36,19 +37,19 @@ class HomeDetailReplyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVi
 			.placeholder(R.drawable.ic_baseline_rotate_left_24)
 			.error(R.mipmap.nutee_character_background_white_round)
 			.fallback(R.mipmap.nutee_character_background_white_round)
-			.into(img_comment_profile)
-		text_commnet_nick.text = reComment.user?.nickname
-		text_comment_content.text = reComment.content
-		text_comment_updateAt.text = reComment.updatedAt?.let { DateParser(it).calculateDiffDate() }
-		setLikeEvent(img_detail_comment_favorit_btn,text_detail_comment_favorit_count,reComment.likers)
+			.into(binding.imgCommentProfile)
+		binding.textCommnetNick.text = reComment.user?.nickname
+		binding.textCommentContent.text = reComment.content
+		binding.textCommentUpdateAt.text = reComment.updatedAt?.let { DateParser(it).calculateDiffDate() }
+		setLikeEvent(binding.imgDetailCommentFavoritBtn,binding.textDetailCommentFavoritCount,reComment.likers)
 		//수정 여부 표시
 		if(reComment.updatedAt !=reComment.createdAt)
-			textRewrite.visibility=View.VISIBLE
+			binding.textCommentRewrite.visibility=View.VISIBLE
 
-		img_detail_comment_favorit_btn.setOnClickListener {
-			likeClickEvent(it, postId, reComment.id, text_detail_comment_favorit_count)
+		binding.imgDetailCommentFavoritBtn.setOnClickListener {
+			likeClickEvent(it, postId, reComment.id, binding.textDetailCommentFavoritCount)
 		}
-		more_button.setOnClickListener{
+		binding.imgCommentMore.setOnClickListener{
 			moreEvent(reComment,postId,context)
 		}
 	}

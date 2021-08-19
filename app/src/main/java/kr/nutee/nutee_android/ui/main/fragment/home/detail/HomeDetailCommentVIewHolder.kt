@@ -13,21 +13,22 @@ import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.DateParser
 import kr.nutee.nutee_android.data.main.RequestReport
 import kr.nutee.nutee_android.data.main.home.CommentBody
+import kr.nutee.nutee_android.databinding.MainHomeDetailItemBinding
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.*
 import kr.nutee.nutee_android.ui.extend.dialog.cumstomReportDialog
 
-class HomeDetailCommentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class HomeDetailCommentViewHolder(private val binding: MainHomeDetailItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-	private val img_comment_profile: ImageView = itemView.findViewById(R.id.img_comment_profile)
-	private val text_commnet_nick = itemView.findViewById<TextView>(R.id.text_commnet_nick)
-	private val text_comment_content = itemView.findViewById<TextView>(R.id.text_comment_content)
-	private val text_comment_updateAt = itemView.findViewById<TextView>(R.id.text_comment_updateAt)
-	private val recyclerView_Reply = itemView.findViewById<RecyclerView>(R.id.rv_comment_reply)
-	private val more_button = itemView.findViewById<ImageView>(R.id.img_comment_more)
-	private val img_detail_favorit_btn=itemView.findViewById<ImageView>(R.id.img_detail_comment_favorit_btn)
-	private val text_detail_favorit_count=itemView.findViewById<TextView>(R.id.text_detail_comment_favorit_count)
-	private val textRewrite = itemView.findViewById<TextView>(R.id.text_comment_rewrite)
+	private val img_comment_profile: ImageView = binding.imgCommentProfile
+	private val text_commnet_nick = binding.textCommnetNick
+	private val text_comment_content = binding.textCommentContent
+	private val text_comment_updateAt = binding.textCommentUpdateAt
+	private val recyclerView_Reply = binding.rvCommentReply
+	private val more_button = binding.imgCommentMore
+	private val img_detail_favorit_btn=binding.imgDetailCommentFavoritBtn
+	private val text_detail_favorit_count=binding.textDetailCommentFavoritCount
+	private val textRewrite = binding.textCommentRewrite
 
 	lateinit var homeDetailReplyAdapter:HomeDetailReplyAdapter
 	private var commentId:Int?=0

@@ -26,6 +26,7 @@ import kr.nutee.nutee_android.data.main.home.Image
 import kr.nutee.nutee_android.data.main.home.LookUpDetail
 import kr.nutee.nutee_android.data.main.home.ResponseMainBody
 import kr.nutee.nutee_android.data.main.home.detail.RequestComment
+import kr.nutee.nutee_android.databinding.MainHomeDetailActivtiyBinding
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.*
 import kr.nutee.nutee_android.ui.extend.dialog.cumstomReportDialog
@@ -47,6 +48,8 @@ import kotlin.collections.isNullOrEmpty as isNullOrEmpty1
 
 class HomeDetailActivity : AppCompatActivity(),View.OnClickListener {
 
+	private val binding by lazy { MainHomeDetailActivtiyBinding.inflate(layoutInflater) }
+
 	val requestToServer = RequestToServer
 	private var postId: Int? = 0
 	private var commentId: Int? = 0
@@ -67,12 +70,13 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		setContentView(R.layout.main_home_detail_activtiy)
-		detailNickname=findViewById(R.id.text_detail_nick)
-		detailTime=findViewById(R.id.text_detail_time)
-		detailContent=findViewById(R.id.text_detail_content)
-		swipeRefreshLayout=findViewById(R.id.swipe_refresh_detail_view)
-		detailRewrite=findViewById(R.id.text_detail_content_rewrite)
+		//setContentView(R.layout.main_home_detail_activtiy)
+		setContentView(binding.root)
+		detailNickname=binding.textDetailNick
+		detailTime=binding.textDetailTime
+		detailContent=binding.textDetailContent
+		swipeRefreshLayout=binding.swipeRefreshDetailView
+		detailRewrite=binding.textDetailContentRewrite
 
 		init()
 	}
@@ -81,10 +85,10 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener {
 		postId = intent?.getIntExtra("Detail_id", 0)
 		commentId=intent?.getIntExtra("comment_id", 0)
 		imageViewList = listOf<ImageView>(
-				img_detail_main_image_1,
-				img_detail_main_image_2,
-				img_detail_main_image_3,
-				img_detail_main_image_4
+				binding.imgDetailMainImage1,
+				binding.imgDetailMainImage2,
+				binding.imgDetailMainImage3,
+				binding.imgDetailMainImage4
 		)
 		detailRefreshEvnet(true)
 		loadDetailPage()
@@ -139,14 +143,17 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener {
 				.placeholder(R.drawable.ic_baseline_rotate_left_24)
 				.error(R.mipmap.nutee_character_background_white_round)
 				.fallback(R.mipmap.nutee_character_background_white_round)
-				.into(img_detail_profile)
+				.into(binding.imgDetailProfile)
+				//.into(img_detail_profile)
 		detailNickname.text = responseMainItem.user?.nickname
 		detailTime.text =
 				responseMainItem.createdAt?.let { DateParser(it).calculateDiffDate() }
 		detailContent.text = responseMainItem.content
 		setLikeEvent(
-				img_detail_comment_favorit_btn,
-				text_detail_comment_favorit_count,
+				binding.imgDetailCommentFavoritBtn,
+				binding.textDetailCommentFavoritCount,
+				/*img_detail_comment_favorit_btn,
+				text_detail_comment_favorit_count,*/
 				responseMainItem.likers
 		)
 		clickDetailMoreEvent = { detailMore(responseMainItem) }
@@ -162,11 +169,12 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener {
 
 		//답글 생성 시
 		if (intent.hasExtra("reply")) {
-			et_detail_comment.requestFocus()
+			binding.etDetailComment.requestFocus()
+			//et_detail_comment.requestFocus()
 			//키보드 자동 생성
 			val inputMethodManager: InputMethodManager =
 					getSystemService(Service.INPUT_METHOD_SERVICE) as InputMethodManager
-			inputMethodManager.showSoftInput(et_detail_comment, 0)
+			inputMethodManager.showSoftInput(binding.etDetailComment, 0)
 		}
 
 		setHashtag()
@@ -225,10 +233,10 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener {
 	}
 
 	private fun loadNoMoreImageFrame(images: Array<Image>) {
-		cl_detail_main_image.visibility = View.VISIBLE
+		binding.clDetailMainImage.visibility = View.VISIBLE
 		var boolImageSize= images.size
 		if(images.size > 4) {
-			bt_detail_main_image_more.apply {
+			binding.btDetailMainImageMore.apply {
 				visibility = View.VISIBLE
 				text=getString(R.string.detailImageMore, images.size)
 			}
@@ -280,25 +288,45 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener {
 	}
 
 	private fun detailViewClickEvnet() {
-		cl_detail_main_image.setOnClickListener(this)
+		binding.clDetailMainImage.setOnClickListener(this)
+		binding.btDetailMainImageMore.setOnClickListener(this)
+		binding.imgCommentUploadBtn.setOnClickListener(this)
+		binding.imgDetailMore.setOnClickListener(this)
+		binding.imgDetailTopBackBtn.setOnClickListener(this)
+		binding.imgDetailCommentFavoritBtn.setOnClickListener(this)
+		/*cl_detail_main_image.setOnClickListener(this)
 		bt_detail_main_image_more.setOnClickListener(this)
 		img_comment_upload_btn.setOnClickListener(this)
 		img_detail_more.setOnClickListener(this)
 		img_detail_top_back_btn.setOnClickListener(this)
-		img_detail_comment_favorit_btn.setOnClickListener(this)
+		img_detail_comment_favorit_btn.setOnClickListener(this)*/
 	}
 
 	private fun detailViewButtonEnableEvent() {
-		et_detail_comment.textChangedListener {
+		binding.etDetailComment.textChangedListener {
 			if (!it.isNullOrBlank()) {
-				img_comment_upload_btn.visibility = View.VISIBLE
+				binding.imgCommentUploadBtn.visibility = View.VISIBLE
 			}
 		}
 	}
 
 	override fun onClick(detailClickableView: View?) {
 		when (detailClickableView!!.id) {
-			R.id.cl_detail_main_image -> sendDataToShowDetailImageView?.invoke()
+			binding.clDetailMainImage.id -> sendDataToShowDetailImageView?.invoke()
+			binding.btDetailMainImageMore.id -> sendDataToShowDetailImageView?.invoke()
+			binding.imgDetailMore.id -> clickDetailMoreEvent?.invoke()
+			binding.imgDetailCommentFavoritBtn.id -> likeClickEvent()
+			binding.imgCommentUploadBtn.id -> {
+				when {
+					intent.hasExtra("rewriteComment")
+							&& !commentDuplCheck -> rewriteComment(postId, commentId)
+					intent.hasExtra("reply")
+							&& !commentDuplCheck -> postReply(postId, commentId)
+					else -> uploadComment()
+				}
+			}
+
+			/*R.id.cl_detail_main_image -> sendDataToShowDetailImageView?.invoke()
 			R.id.bt_detail_main_image_more -> sendDataToShowDetailImageView?.invoke()
 			R.id.img_detail_more -> clickDetailMoreEvent?.invoke()
 			R.id.img_detail_top_back_btn -> onBackPressed()
@@ -311,12 +339,13 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener {
 							&& !commentDuplCheck -> postReply(postId, commentId)
 					else -> uploadComment()
 				}
-			}
+			}*/
 		}
 	}
 
 	private fun likeClickEvent() {
-		val view=findViewById<ImageView>(R.id.img_detail_comment_favorit_btn)
+		val view = binding.imgDetailCommentFavoritBtn
+		//val view=findViewById<ImageView>(R.id.img_detail_comment_favorit_btn)
 
 		if (view.isActivated) {//이미 좋아요한 경우
 			requestToServer.snsService.requestDelLike(
@@ -325,7 +354,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener {
 			)
 				.customEnqueue(
 						onSuccess = {
-							loadUnLike(view, text_detail_comment_favorit_count)
+							loadUnLike(view, binding.textDetailCommentFavoritCount)
 						},
 						onError = {
 							Log.d("Network", "좋아요 취소 에러")
@@ -337,7 +366,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener {
 			)
 				.customEnqueue(
 						onSuccess = {
-							loadLike(view, text_detail_comment_favorit_count, it.body()?.body?.likers)
+							loadLike(view, binding.textDetailCommentFavoritCount, it.body()?.body?.likers)
 						},
 						onError = {
 							Log.d("Network", "좋아요 설정 에러")
@@ -370,7 +399,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener {
 								it.body()!!.body!!,
 								postId
 						)
-						rv_home_detail_comment.adapter = homeDetailCommentAdpater
+						binding.rvHomeDetailComment.adapter = homeDetailCommentAdpater
 					}
 				},
 				onError = {
@@ -383,7 +412,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener {
 		requestToServer.snsService.requestComment(
 				"Bearer " + App.prefs.local_login_token,
 				postId!!,
-				RequestComment(et_detail_comment.text.toString())
+				RequestComment(binding.etDetailComment.text.toString())
 		).customEnqueue(
 				onSuccess = {
 					Log.d("Network", "댓글 생성 성공")
@@ -395,12 +424,12 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener {
 				currentFocus!!.windowToken,
 				InputMethodManager.HIDE_NOT_ALWAYS
 		)
-		et_detail_comment.setText("")
+		binding.etDetailComment.setText("")
 	}
 
 	private fun bindRewriteComment() {
 		val comment= intent?.getStringExtra("rewriteComment").toString()
-		et_detail_comment.apply {
+		binding.etDetailComment.apply {
 			setText(comment)
 			requestFocus()
 		}
@@ -411,7 +440,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener {
 				"Bearer " + App.prefs.local_login_token,
 				postId,
 				commentId,
-				RequestComment(et_detail_comment.text.toString())
+				RequestComment(binding.etDetailComment.text.toString())
 		).customEnqueue(
 				onSuccess = {
 					Log.d("Network", "댓글 수정 성공")
@@ -427,7 +456,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener {
 				currentFocus!!.windowToken,
 				InputMethodManager.HIDE_NOT_ALWAYS
 		)
-		et_detail_comment.setText("")
+		binding.etDetailComment.setText("")
 	}
 
 	private fun postReply(postId: Int?, commentId: Int?) {
@@ -435,7 +464,7 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener {
 				"Bearer " + App.prefs.local_login_token,
 				postId,
 				commentId,
-				RequestComment(et_detail_comment.text.toString())
+				RequestComment(binding.etDetailComment.text.toString())
 		).customEnqueue(
 				onSuccess = {
 					Log.d("Network", "답글 생성 성공")
@@ -451,6 +480,6 @@ class HomeDetailActivity : AppCompatActivity(),View.OnClickListener {
 				currentFocus!!.windowToken,
 				InputMethodManager.HIDE_NOT_ALWAYS
 		)
-		et_detail_comment.setText("")
+		binding.etDetailComment.setText("")
 	}
 }

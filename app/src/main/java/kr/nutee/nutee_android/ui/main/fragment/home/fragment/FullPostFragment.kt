@@ -13,6 +13,8 @@ import kotlinx.android.synthetic.main.home_favorite_post_fragment.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.QueryValue
+import kr.nutee.nutee_android.databinding.HomeFavoritePostFragmentBinding
+import kr.nutee.nutee_android.databinding.HomeFullPostFragmentBinding
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.RefreshEvent
 import kr.nutee.nutee_android.ui.extend.customEnqueue
@@ -25,6 +27,7 @@ import kr.nutee.nutee_android.ui.main.fragment.home.HomeRecyclerViewAdapter
 
 class FullPostFragment : Fragment() {
 
+	private var binding: HomeFullPostFragmentBinding?=null
 	private lateinit var recyclerView: RecyclerView
 	private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 	val requestToServer = RequestToServer
@@ -33,14 +36,23 @@ class FullPostFragment : Fragment() {
 		inflater: LayoutInflater, container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View? {
-		return inflater.inflate(R.layout.home_full_post_fragment, container, false)
+		binding = HomeFullPostFragmentBinding.inflate(inflater, container, false)
+		return requireBinding().root
+		//return inflater.inflate(R.layout.home_full_post_fragment, container, false)
 	}
+
+	private fun requireBinding(): HomeFullPostFragmentBinding = binding
+			?: error("binding is not init")
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
-		swipeRefreshLayout= view.findViewById(R.id.swipe_home_full_post_refresh)
-		recyclerView= view.findViewById(R.id.rv_main_home_full_post)
+		with(requireBinding()){
+			swipeRefreshLayout= swipeHomeFullPostRefresh
+			recyclerView= rvMainHomeFullPost
+		}
+		//swipeRefreshLayout= view.findViewById(R.id.swipe_home_full_post_refresh)
+		//recyclerView= view.findViewById(R.id.rv_main_home_full_post)
 
 		setAdapter()
 		loadFullList()
@@ -63,7 +75,8 @@ class FullPostFragment : Fragment() {
 			onSuccess = {
 				Log.d("Network", "전체 게시글 통신 성공")
 				if (it.body()?.body.isNullOrEmpty()) {
-					cl_main_home_no_post.visibility = View.VISIBLE
+					requireBinding().clMainHomeNoPost.visibility = View.VISIBLE
+					//cl_main_home_no_post.visibility = View.VISIBLE
 				}
 				else
 					recyclerView.adapter = HomeRecyclerViewAdapter(it.body()?.body!!)

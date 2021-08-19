@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.main.home.ReComment
+import kr.nutee.nutee_android.databinding.MainHomeDetailItemBinding
 
 class HomeDetailReplyAdapter(
 	val context: Context,
@@ -15,8 +16,9 @@ class HomeDetailReplyAdapter(
 )
 	: RecyclerView.Adapter<HomeDetailReplyViewHolder>() {
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeDetailReplyViewHolder {
-		val view=LayoutInflater.from(context).inflate(R.layout.main_home_detail_item,parent,false)
-		return HomeDetailReplyViewHolder(view)
+		val binding = MainHomeDetailItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+		//val view=LayoutInflater.from(context).inflate(R.layout.main_home_detail_item,parent,false)
+		return HomeDetailReplyViewHolder(binding)
 	}
 
 	override fun getItemCount(): Int {

@@ -12,6 +12,7 @@ import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.DateParser
 import kr.nutee.nutee_android.data.main.RequestReport
 import kr.nutee.nutee_android.data.main.home.ResponseMainBody
+import kr.nutee.nutee_android.databinding.MainHomeRecyclerviewItemBinding
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.contentMoreEvent
 import kr.nutee.nutee_android.ui.extend.customEnqueue
@@ -22,20 +23,19 @@ import kr.nutee.nutee_android.ui.main.fragment.search.SearchResultsView
 
 
 /*home fragment RecyclerView 내부 하나의 뷰의 정보를 지정하는 클래스 */
-class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class HomeViewHolder(private val binding: MainHomeRecyclerviewItemBinding) : RecyclerView.ViewHolder(binding.root) {
+		val requestToServer = RequestToServer
 
-	val requestToServer = RequestToServer
-
-	val category = itemView.findViewById<TextView>(R.id.text_main_home_recyclerview_item_category)
-	val title = itemView.findViewById<TextView>(R.id.text_main_home_recyclerview_item_title)
-	val content = itemView.findViewById<TextView>(R.id.text_main_home_recyclerview_item_content)
-	val text_main_home_count_image = itemView.findViewById<TextView>(R.id.text_main_home_recyclerview_item_img)
-	val text_main_home_count_comment = itemView.findViewById<TextView>(R.id.text_main_home_recyclerview_item_comment)
-	val text_main_home_count_like = itemView.findViewById<TextView>(R.id.text_main_home_recyclerview_item_likes)
-	val text_main_home_updateat = itemView.findViewById<TextView>(R.id.text_main_home_recyclerview_item_date)
-	val text_main_home_hits = itemView.findViewById<TextView>(R.id.text_main_home_recyclerview_item_hits)
-	val img_main_home_more=itemView.findViewById<ImageView>(R.id.img_main_home_recyclerview_item_more)
-	private val textRewrite = itemView.findViewById<TextView>(R.id.text_main_item_rewrite)
+	val category = binding.textMainHomeRecyclerviewItemCategory
+	val title = binding.textMainHomeRecyclerviewItemTitle
+	val content = binding.textMainHomeRecyclerviewItemContent
+	val text_main_home_count_image = binding.textMainHomeRecyclerviewItemImg
+	val text_main_home_count_comment = binding.textMainHomeRecyclerviewItemComment
+	val text_main_home_count_like = binding.textMainHomeRecyclerviewItemLikes
+	val text_main_home_updateat = binding.textMainHomeRecyclerviewItemDate
+	val text_main_home_hits = binding.textMainHomeRecyclerviewItemHits
+	val img_main_home_more=binding.imgMainHomeRecyclerviewItemMore
+	private val textRewrite = binding.textMainItemRewrite
 
 	fun bind(
 		customData: ResponseMainBody
