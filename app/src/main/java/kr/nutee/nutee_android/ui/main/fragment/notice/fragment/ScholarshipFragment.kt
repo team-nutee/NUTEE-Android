@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.notice_fragment_scholarship.*
 
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.databinding.NoticeFragmentGeneralBinding
+import kr.nutee.nutee_android.databinding.NoticeFragmentScholarshipBinding
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.main.fragment.notice.NoticeRecyclerAdapter
@@ -20,6 +22,8 @@ import kr.nutee.nutee_android.ui.main.fragment.notice.NoticeRecyclerAdapter
 
 class ScholarshipFragment : Fragment() {
 
+	private var binding: NoticeFragmentScholarshipBinding?= null
+
 	val requestToServer = RequestToServer
 
 	override fun onCreateView(
@@ -27,15 +31,20 @@ class ScholarshipFragment : Fragment() {
 		savedInstanceState: Bundle?
 	): View? {
 		// Inflate the layout for this fragment
-		return inflater.inflate(R.layout.notice_fragment_scholarship, container, false)
+		//return inflater.inflate(R.layout.notice_fragment_scholarship, container, false)
+		binding = NoticeFragmentScholarshipBinding.inflate(inflater, container, false)
+		return requireBinding().root
 	}
+
+	private fun requireBinding(): NoticeFragmentScholarshipBinding = binding
+			?: error("binding is not init")
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
-		rv_notice_scholarship.layoutManager = LinearLayoutManager(this.context,
+		requireBinding().rvNoticeScholarship.layoutManager = LinearLayoutManager(this.context,
 			LinearLayoutManager.VERTICAL, false)
-		rv_notice_scholarship.setHasFixedSize(true)
+		requireBinding().rvNoticeScholarship.setHasFixedSize(true)
 
 		loadScholarship()
 
@@ -45,7 +54,7 @@ class ScholarshipFragment : Fragment() {
 		requestToServer.noticeService.requestScholarship(
 		).customEnqueue(
 				onSuccess = {
-					rv_notice_scholarship.adapter = NoticeRecyclerAdapter(this.context!!, it.body()!!.body)
+					requireBinding().rvNoticeScholarship.adapter = NoticeRecyclerAdapter(this.context!!, it.body()!!.body)
 				}
 		)}
 

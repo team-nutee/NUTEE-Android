@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.notice_fragment_bachelor.*
 
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.databinding.HomeFavoritePostFragmentBinding
+import kr.nutee.nutee_android.databinding.NoticeFragmentBachelorBinding
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.main.fragment.notice.NoticeRecyclerAdapter
@@ -22,6 +24,8 @@ import kr.nutee.nutee_android.ui.main.fragment.notice.NoticeRecyclerAdapter
 
 class BachelorFragment : Fragment() {
 
+	private var binding: NoticeFragmentBachelorBinding?= null
+
 	val requestToServer = RequestToServer
 
 	override fun onCreateView(
@@ -29,15 +33,20 @@ class BachelorFragment : Fragment() {
 		savedInstanceState: Bundle?
 	): View? {
 		// Inflate the layout for this fragment
-		return inflater.inflate(R.layout.notice_fragment_bachelor, container, false)
+		//return inflater.inflate(R.layout.notice_fragment_bachelor, container, false)
+		binding = NoticeFragmentBachelorBinding.inflate(inflater, container, false)
+		return requireBinding().root
 	}
+
+	private fun requireBinding(): NoticeFragmentBachelorBinding = binding
+			?: error("binding is not init")
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
-		rv_notice_bachelor.layoutManager = LinearLayoutManager(this.context,
+		requireBinding().rvNoticeBachelor.layoutManager = LinearLayoutManager(this.context,
 			LinearLayoutManager.VERTICAL, false)
-		rv_notice_bachelor.setHasFixedSize(true)
+		requireBinding().rvNoticeBachelor.setHasFixedSize(true)
 		loadBachelor()
 	}
 
@@ -45,7 +54,7 @@ class BachelorFragment : Fragment() {
 		requestToServer.noticeService.requestBachelor(
 		).customEnqueue(
 			onSuccess = {
-				rv_notice_bachelor.adapter = NoticeRecyclerAdapter(this.context!!, it.body()!!.body)
+				requireBinding().rvNoticeBachelor.adapter = NoticeRecyclerAdapter(this.context!!, it.body()!!.body)
 			}
 		)}
 }

@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.notice_fragment_class.*
 
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.databinding.NoticeFragmentBachelorBinding
+import kr.nutee.nutee_android.databinding.NoticeFragmentClassBinding
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.main.fragment.notice.NoticeRecyclerAdapter
@@ -20,6 +22,8 @@ import kr.nutee.nutee_android.ui.main.fragment.notice.NoticeRecyclerAdapter
 
 class ClassFragment : Fragment() {
 
+	private var binding: NoticeFragmentClassBinding?= null
+
 	val requestToServer = RequestToServer
 
 	override fun onCreateView(
@@ -27,15 +31,20 @@ class ClassFragment : Fragment() {
 		savedInstanceState: Bundle?
 	): View? {
 		// Inflate the layout for this fragment
-		return inflater.inflate(R.layout.notice_fragment_class, container, false)
+		//return inflater.inflate(R.layout.notice_fragment_class, container, false)
+		binding = NoticeFragmentClassBinding.inflate(inflater, container, false)
+		return requireBinding().root
 	}
+
+	private fun requireBinding(): NoticeFragmentClassBinding = binding
+			?: error("binding is not init")
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
-		rv_notice_class.layoutManager = LinearLayoutManager(this.context,
+		requireBinding().rvNoticeClass.layoutManager = LinearLayoutManager(this.context,
 			LinearLayoutManager.VERTICAL, false)
-		rv_notice_class.setHasFixedSize(true)
+		requireBinding().rvNoticeClass.setHasFixedSize(true)
 
 		loadClass()
 
@@ -45,7 +54,7 @@ class ClassFragment : Fragment() {
 		requestToServer.noticeService.requestClass(
 		).customEnqueue (
 				onSuccess = {
-					rv_notice_class.adapter = NoticeRecyclerAdapter(this.context!!, it.body()!!.body)
+					requireBinding().rvNoticeClass.adapter = NoticeRecyclerAdapter(this.context!!, it.body()!!.body)
 				})
 			}
 }

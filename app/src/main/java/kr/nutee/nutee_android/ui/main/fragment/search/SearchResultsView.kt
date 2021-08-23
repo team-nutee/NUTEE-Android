@@ -7,6 +7,7 @@ import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.QueryValue
 import kr.nutee.nutee_android.data.main.home.ResponseMainBody
+import kr.nutee.nutee_android.databinding.SearchResultsActivityBinding
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 
@@ -16,22 +17,24 @@ import kr.nutee.nutee_android.ui.extend.customEnqueue
  */
 
 class SearchResultsView : FragmentActivity() {
+	private val binding by lazy {SearchResultsActivityBinding.inflate(layoutInflater)}
 	lateinit var searchBoxText:String
 	private val requestToServer = RequestToServer
 	lateinit var bodyList: Array<ResponseMainBody>
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		setContentView(R.layout.search_results_activity)
+		//setContentView(R.layout.search_results_activity)
+		setContentView(binding.root)
 
 		loadSearchView()
 
 		//검색어 창 기능
-		tv_searchBoxText.apply {
+		binding.tvSearchBoxText.apply {
 			setOnClickListener{ finish() }
 			text = searchBoxText
 		}
-		img_search_back_btn.setOnClickListener {
+		binding.imgSearchBackBtn.setOnClickListener {
 			onBackPressed()
 		}
 	}
@@ -89,12 +92,20 @@ class SearchResultsView : FragmentActivity() {
 
 		fragmentManager.apply {
 			if(searchResult) {
-				replace(R.id.fl_search_results_view,
+				replace(binding.flSearchResultsView.id,
 					SearchResultsFindFragment())
+			}else
+				replace(binding.flSearchResultsView.id, SearchResultsNotFindFragment())
+			commit()
+		}
+		/*fragmentManager.apply {
+			if(searchResult) {
+				replace(R.id.fl_search_results_view,
+						SearchResultsFindFragment())
 			}else
 				replace(R.id.fl_search_results_view, SearchResultsNotFindFragment())
 			commit()
-		}
+		}*/
 	}
 
 	override fun onBackPressed() {

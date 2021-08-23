@@ -9,6 +9,8 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.main.home.NoticeItem
+import kr.nutee.nutee_android.databinding.ItemModelListBinding
+import kr.nutee.nutee_android.databinding.NoticeItemBinding as NoticeItemBinding
 
 /*
  * Created by eunseo5355
@@ -18,8 +20,10 @@ import kr.nutee.nutee_android.data.main.home.NoticeItem
 class NoticeRecyclerAdapter(private val context: Context, private var noticedatas: Array<NoticeItem>): RecyclerView.Adapter<NoticeViewHolder>() {
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoticeViewHolder {
-		val view = LayoutInflater.from(context).inflate(R.layout.notice_item, parent, false)
-		return NoticeViewHolder(view)
+		/*val view = LayoutInflater.from(context).inflate(R.layout.notice_item, parent, false)
+		return NoticeViewHolder(view)*/
+		val binding = NoticeItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+		return NoticeViewHolder(binding)
 	}
 
 	override fun getItemCount(): Int = noticedatas.size

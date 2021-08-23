@@ -9,6 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_search_results_find.*
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.main.home.ResponseMainBody
+import kr.nutee.nutee_android.databinding.FragmentSearchResultsFindBinding
+import kr.nutee.nutee_android.databinding.FragmentSearchResultsNotFindBinding
+import kr.nutee.nutee_android.databinding.NoticeFragmentBachelorBinding
 import kr.nutee.nutee_android.ui.main.fragment.home.HomeRecyclerViewAdapter
 
 /*
@@ -18,6 +21,7 @@ import kr.nutee.nutee_android.ui.main.fragment.home.HomeRecyclerViewAdapter
 
 class SearchResultsFindFragment : Fragment() {
 
+	private var binding: FragmentSearchResultsFindBinding?= null
 	lateinit var bodyList: Array<ResponseMainBody>
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,13 +33,18 @@ class SearchResultsFindFragment : Fragment() {
 		inflater: LayoutInflater, container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View? {
-		return inflater.inflate(R.layout.fragment_search_results_find, container, false)
+		//return inflater.inflate(R.layout.fragment_search_results_find, container, false)
+		binding = FragmentSearchResultsFindBinding.inflate(inflater, container, false)
+		return requireBinding().root
 	}
+
+	private fun requireBinding(): FragmentSearchResultsFindBinding = binding
+			?: error("binding is not init")
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		//loadSesrch(searchBoxText, lastId, limit)
-		rv_search_results.apply {
+		requireBinding().rvSearchResults.apply {
 			layoutManager= LinearLayoutManager(
 					activity, LinearLayoutManager.VERTICAL, false
 			)

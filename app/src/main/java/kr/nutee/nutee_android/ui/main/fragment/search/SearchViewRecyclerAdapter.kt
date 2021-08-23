@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
+import kr.nutee.nutee_android.databinding.ItemRecyclerviewPreviousSearchResultsBinding
+import kr.nutee.nutee_android.databinding.SearchCategoryItemBinding
 
 /*
  * Created by 88yhtesrof
@@ -14,9 +16,15 @@ import kr.nutee.nutee_android.data.App
 class SearchViewRecyclerAdapter(var previousSearchResultsList:ArrayList<String>)
 	:RecyclerView.Adapter<SearchViewHolder>(){
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
-		return SearchViewHolder(LayoutInflater.from(parent.context).inflate(
-											R.layout.item_recyclerview_previous_search_results, parent, false))
+		/*return SearchViewHolder(LayoutInflater.from(parent.context).inflate(
+											R.layout.item_recyclerview_previous_search_results, parent, false))*/
 
+		val binding = ItemRecyclerviewPreviousSearchResultsBinding.inflate(
+				LayoutInflater.from(parent.context),
+				parent,
+				false
+		)
+		return SearchViewHolder(binding)
 	}
 
 	override fun getItemCount(): Int {
