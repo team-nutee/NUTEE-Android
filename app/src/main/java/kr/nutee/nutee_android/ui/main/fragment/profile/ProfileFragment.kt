@@ -15,12 +15,15 @@ import com.google.android.material.tabs.TabLayoutMediator
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
 import kr.nutee.nutee_android.data.main.profile.ResponseProfile
+import kr.nutee.nutee_android.databinding.MainFragmentNoticeBinding
+import kr.nutee.nutee_android.databinding.MainFragmentProfileBinding
 import kr.nutee.nutee_android.network.RequestToServer
 import kr.nutee.nutee_android.ui.extend.customEnqueue
 import kr.nutee.nutee_android.ui.extend.dialog.customDialogSingleButton
 
 class ProfileFragment : Fragment() {
 
+	private var binding: MainFragmentProfileBinding? = null
 	private lateinit var profileAdapter:ProfilePagerAdapter
 	private lateinit var vp_profile: ViewPager2
 	private lateinit var profileTapTextList: ArrayList<String>
@@ -35,24 +38,33 @@ class ProfileFragment : Fragment() {
 		savedInstanceState: Bundle?
 	): View? {
 		// Inflate the layout for this fragment
-		return inflater.inflate(R.layout.main_fragment_profile, container, false)
+		//return inflater.inflate(R.layout.main_fragment_profile, container, false)
+		binding = MainFragmentProfileBinding.inflate(inflater, container, false)
+		return requireBinding().root
 	}
+
+	private fun requireBinding(): MainFragmentProfileBinding = binding
+			?: error("binding is not init")
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
 		profileTapTextList = arrayListOf("게시글", "댓글", "추천 게시글")
-		vp_profile = view.findViewById(R.id.vp_profile)
-		tab_profile = view.findViewById(R.id.tab_profile)
-		img_profile_image = view.findViewById(R.id.img_profile_image)
-		textUserName = view.findViewById(R.id.text_user_name)
+		vp_profile = requireBinding().vpProfile
+		//vp_profile = view.findViewById(R.id.vp_profile)
+		tab_profile = requireBinding().tabProfile
+		//tab_profile = view.findViewById(R.id.tab_profile)
+		img_profile_image = requireBinding().imgProfileImage
+		//img_profile_image = view.findViewById(R.id.img_profile_image)
+		textUserName = requireBinding().textUserName
+		//textUserName = view.findViewById(R.id.text_user_name)
 
 		profileAdapter = ProfilePagerAdapter(this)
 
-		vp_profile.adapter = profileAdapter
+		requireBinding().vpProfile.adapter = profileAdapter
 
 		// viewpager와 tablayout 연결
-		TabLayoutMediator(tab_profile, vp_profile) { tab, position ->
+		TabLayoutMediator(requireBinding().tabProfile, requireBinding().vpProfile) { tab, position ->
 			tab.text = profileTapTextList[position]
 		}.attach()
 
@@ -72,12 +84,12 @@ class ProfileFragment : Fragment() {
 
 
 	private fun bindUserProfile(res: ResponseProfile) {
-		textUserName.text = res.body.nickname
+		requireBinding().textUserName.text = res.body.nickname
 		Glide.with(requireActivity())
 				.load(res.body.image?.src)
 				.placeholder(R.drawable.ic_baseline_rotate_left_24)
 			.error(R.mipmap.nutee_character_background_white_round)
 			.fallback(R.mipmap.nutee_character_background_white_round)
-				.into(img_profile_image)
+				.into(requireBinding().imgProfileImage)
 	}
 }
