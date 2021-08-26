@@ -18,7 +18,7 @@ import kr.nutee.nutee_android.databinding.DeveloperInformationItemBinding
  * 누티 2.0 수정
  */
 
-class DeveloperInformationViewHolder(private val binding: DeveloperInformationItemBinding): RecyclerView.ViewHolder(binding.root) {
+class DeveloperInformationViewHolder(val binding: DeveloperInformationItemBinding): RecyclerView.ViewHolder(binding.root) {
 
 	//private var tv_developer_role_1: TextView = itemView.findViewById(R.id.tv_developer_information_role_1)
 	//private val tv_developer_role_2: TextView = itemView.findViewById(R.id.tv_developer_information_role_2)
