@@ -44,7 +44,8 @@ class MainActivity : AppCompatActivity() {
 		supportFragmentManager.beginTransaction().replace(binding.frameLayout.id, HomeFragement()).commitAllowingStateLoss()
 
 		//navigationBottomView 등록
-		mainNavigationBottomView(main_bottom_nav)
+		mainNavigationBottomView(binding.mainBottomNav)
+		//mainNavigationBottomView(main_bottom_nav)
 	}
 
     override fun onBackPressed() {
