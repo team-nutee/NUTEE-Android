@@ -2,10 +2,14 @@ package kr.nutee.nutee_android.ui.extend.dialog
 
 import android.app.Dialog
 import android.content.Context
+import android.view.LayoutInflater
 import android.view.Window
 import android.widget.Button
 import android.widget.TextView
 import kr.nutee.nutee_android.R
+import kr.nutee.nutee_android.databinding.CustomDialogBinding
+import kr.nutee.nutee_android.databinding.CustomSelectDialogBinding
+import kr.nutee.nutee_android.databinding.MainActivityBinding
 
 fun Context.customSelectDialog(
 	reportVisible:Int,
@@ -19,15 +23,18 @@ fun Context.customSelectDialog(
 )
 {
 	val dialog = Dialog(this)
+	val binding: CustomSelectDialogBinding = CustomSelectDialogBinding.inflate(LayoutInflater.from(this))
+
 	dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
 	dialog.setCancelable(false)
-	dialog.setContentView(R.layout.custom_select_dialog)
+	dialog.setContentView(binding.root)
+	//dialog.setContentView(R.layout.custom_select_dialog)
 
-	val report_button = dialog.findViewById<Button>(R.id.report_button)
-	val reply_button = dialog.findViewById<Button>(R.id.reply_button)
-	val fix_button = dialog.findViewById<Button>(R.id.fix_button)
-	val del_button = dialog.findViewById<Button>(R.id.del_button)
-	val cancle_button = dialog.findViewById<TextView>(R.id.cancel_button_select)
+	val report_button = binding.reportButton
+	val reply_button = binding.replyButton
+	val fix_button = binding.fixButton
+	val del_button = binding.delButton
+	val cancle_button = binding.cancelButtonSelect
 
 	report_button.visibility = reportVisible
 	reply_button.visibility = replyVisible
