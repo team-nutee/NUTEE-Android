@@ -54,7 +54,7 @@ class BachelorFragment : Fragment() {
 		requestToServer.noticeService.requestBachelor(
 		).customEnqueue(
 			onSuccess = {
-				requireBinding().rvNoticeBachelor.adapter = NoticeRecyclerAdapter(this.context!!, it.body()!!.body)
+				requireBinding().rvNoticeBachelor.adapter = NoticeRecyclerAdapter(this.requireContext(), it.body()!!.body)
 			}
 		)}
 }

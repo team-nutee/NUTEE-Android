@@ -54,7 +54,7 @@ class ExchangeFragment : Fragment() {
 		requestToServer.noticeService.requestExchange(
 		).customEnqueue(
 				onSuccess = {
-					requireBinding().rvNoticeExchange.adapter = NoticeRecyclerAdapter(this.context!!, it.body()!!.body)
+					requireBinding().rvNoticeExchange.adapter = NoticeRecyclerAdapter(this.requireContext(), it.body()!!.body)
 				})
 	}
 }

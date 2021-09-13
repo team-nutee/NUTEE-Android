@@ -54,7 +54,7 @@ class ScholarshipFragment : Fragment() {
 		requestToServer.noticeService.requestScholarship(
 		).customEnqueue(
 				onSuccess = {
-					requireBinding().rvNoticeScholarship.adapter = NoticeRecyclerAdapter(this.context!!, it.body()!!.body)
+					requireBinding().rvNoticeScholarship.adapter = NoticeRecyclerAdapter(this.requireContext(), it.body()!!.body)
 				}
 		)}
 

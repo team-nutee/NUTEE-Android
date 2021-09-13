@@ -54,7 +54,7 @@ class EventFragment : Fragment() {
 		requestToServer.noticeService.requestEvent(
 		).customEnqueue(
 				onSuccess = {
-					requireBinding().rvNoticeEvent.adapter = NoticeRecyclerAdapter(this.context!!, it.body()!!.body)
+					requireBinding().rvNoticeEvent.adapter = NoticeRecyclerAdapter(this.requireContext(), it.body()!!.body)
 				}
 		)
 	}

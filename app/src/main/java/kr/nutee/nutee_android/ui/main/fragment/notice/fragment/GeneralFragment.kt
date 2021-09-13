@@ -54,7 +54,7 @@ class GeneralFragment : Fragment() {
 		requestToServer.noticeService.requestGeneral(
 		).customEnqueue(
 				onSuccess = {
-					requireBinding().rvNoticeGeneral.adapter = NoticeRecyclerAdapter(this.context!!, it.body()!!.body)
+					requireBinding().rvNoticeGeneral.adapter = NoticeRecyclerAdapter(this.requireContext(), it.body()!!.body)
 				}
 		)}
 
