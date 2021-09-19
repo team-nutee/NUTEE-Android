@@ -10,6 +10,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.login_activity.*
 import kr.nutee.nutee_android.data.App
@@ -34,6 +35,11 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 	private val requestToServer = RequestToServer
 	lateinit var loadingDialog: CustomLodingDialog
 	private val logTag = "LoginActivityButtonEv"
+	private val getContent = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+		if (it.resultCode == Activity.RESULT_OK) {
+				binding.etLoginId.setText(it.data?.getStringExtra("id"))
+		}
+	}
 
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,14 +92,14 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 				if(binding.etLoginId.text.isNullOrBlank() || binding.etLoginPw.text.isNullOrBlank()){
 					when(true){
 						binding.etLoginId.text.isNullOrBlank() -> Snackbar.make(
-								v,
-								"아이디를 입력하세요",
-								Snackbar.LENGTH_SHORT
+							v,
+							"아이디를 입력하세요",
+							Snackbar.LENGTH_SHORT
 						).show()
 						binding.etLoginPw.text.isNullOrBlank() -> Snackbar.make(
-								v,
-								"패스워드를 입력하세요",
-								Snackbar.LENGTH_SHORT
+							v,
+							"패스워드를 입력하세요",
+							Snackbar.LENGTH_SHORT
 						).show()
 					}
 				}else {
@@ -106,7 +112,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 				Log.d(logTag, "register button test")
 
 				val intent = Intent(this, RegisterActivity::class.java)
-				startActivityForResult(intent, REQUEST_CODE)
+				//startActivityForResult(intent, REQUEST_CODE)
+				getContent.launch(intent)
 			}
 
 			/*
@@ -138,7 +145,6 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 			//회원가입 버튼 클릭시
 			R.id.text_register_button -> {
 				Log.d(logTag, "register button test")
-
 				val intent = Intent(this, RegisterActivity::class.java)
 				startActivityForResult(intent, REQUEST_CODE)
 			}*/
@@ -189,7 +195,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
 	//TODO 이부분이 불안정한 코드이므로 수정이 필요하다
 	//FIXME
-	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+	/*override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 		super.onActivityResult(requestCode, resultCode, data)
 
 		if (requestCode == REQUEST_CODE) {
@@ -197,7 +203,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 				binding.etLoginId.setText(data?.getStringExtra("id"))
 			}
 		}
-	}
+	}*/
 
 	/* 애니메이션 설정 */
 	private fun showTextShake(myTextView: TextView, msg: String) {
@@ -216,4 +222,3 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 		//뒤로 가기 버튼 막음
 	}
 }
-

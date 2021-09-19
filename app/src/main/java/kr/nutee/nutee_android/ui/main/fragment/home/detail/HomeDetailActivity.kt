@@ -13,6 +13,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
@@ -49,6 +50,9 @@ import kotlin.collections.isNullOrEmpty as isNullOrEmpty1
 class HomeDetailActivity : AppCompatActivity(),View.OnClickListener {
 
 	private val binding by lazy { MainHomeDetailActivtiyBinding.inflate(layoutInflater) }
+	public val getContent = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+		loadCommentList()
+	}
 
 	val requestToServer = RequestToServer
 	private var postId: Int? = 0

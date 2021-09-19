@@ -7,6 +7,8 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.RecyclerView
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
@@ -80,7 +82,8 @@ class HomeDetailCommentViewHolder(private val binding: MainHomeDetailItemBinding
 				intent.putExtra("comment_id",customData.id)
 				intent.putExtra("Detail_id",postId)
 				(context as HomeDetailActivity).finish()
-				context.startActivityForResult(intent,0)
+				//context.startActivityForResult(intent,0)
+				context.getContent.launch(intent)
 			},
 			{//댓글 수정
 				val intent=Intent(context,HomeDetailActivity::class.java)
@@ -88,7 +91,8 @@ class HomeDetailCommentViewHolder(private val binding: MainHomeDetailItemBinding
 				intent.putExtra("comment_id",customData.id)
 				intent.putExtra("Detail_id",postId)
 				(context as HomeDetailActivity).finish()
-				context.startActivityForResult(intent,0)
+				//context.startActivityForResult(intent,0)
+				context.getContent.launch(intent)
 			},
 			{//댓글 삭제
 				RequestToServer.snsService.requestDelComment(

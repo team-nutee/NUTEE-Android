@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.add_activity.*
@@ -45,6 +46,37 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	private val REQUEST_CODE_PICK_IMAGE = 1001
 	private val modalSelectMyMajorsList by lazy {  ModalSelectMyMajorsList() }
 	private val modalSelectCategory by lazy { ModalSelectCategory() }
+	private val getContent = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+		if (
+				it.resultCode == Activity.RESULT_OK &&
+				it.data != null
+		) {
+			if (it.data!!.data != null) {
+				val selectedImageArrayList = arrayListOf<Uri>()
+				if (it.data!!.clipData != null) {
+					val clipdata = it.data!!.clipData!!
+					when {
+						clipdata.itemCount > 10 -> {
+							Toast.makeText(this, "사진은 10개까지 선택 가능합니다", Toast.LENGTH_SHORT).show()
+						}
+						else -> {
+							for (i in 0 until clipdata.itemCount) {
+								selectedImageArrayList.add(clipdata.getItemAt(i).uri)
+							}
+							selectedImage.addAll(selectedImageArrayList)
+							setImageAndAdpater()
+
+						}
+					}
+				} else {//멀티 선택 미지원 기기에서 clipData가 없음.
+					selectedImageArrayList.add(it.data!!.data!!)
+					selectedImage.addAll(selectedImageArrayList)
+					setImageAndAdpater()
+				}
+
+			}
+		}
+	}
 
 	var selectedImage = arrayListOf<Uri>()
 	lateinit var loadingDialog:CustomLodingDialog
@@ -182,7 +214,8 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 			it.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
 			val mimeTypes = arrayOf("image/jpeg", "image/png")
 			it.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
-			startActivityForResult(it, REQUEST_CODE_PICK_IMAGE)
+			//startActivityForResult(it, REQUEST_CODE_PICK_IMAGE)
+			getContent.launch(it)
 		}
 	}
 
@@ -319,7 +352,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 	}
 
 
-	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+/*	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 		super.onActivityResult(requestCode, resultCode, data)
 
 		if (
@@ -353,7 +386,7 @@ class AddActivity : AppCompatActivity(), View.OnClickListener {
 
 			}
 		}
-	}
+	}*/
 
 	private fun setImageAndAdpater() {
 		sv_selected_image.visibility = View.VISIBLE

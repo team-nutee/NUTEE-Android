@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.RecyclerView
 import kr.nutee.nutee_android.R
 import kr.nutee.nutee_android.data.App
@@ -64,7 +65,8 @@ class HomeDetailReplyViewHolder(private val binding: MainHomeDetailItemBinding) 
 				intent.putExtra("comment_id",reComment.id)
 				intent.putExtra("Detail_id",postId)
 				(context as HomeDetailActivity).finish()
-				context.startActivityForResult(intent,0)
+				//context.startActivityForResult(intent,0)
+				context.getContent.launch(intent)
 			},
 			{//답글 삭제
 				RequestToServer.snsService.requestDelComment(
