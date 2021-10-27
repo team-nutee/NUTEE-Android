@@ -3,7 +3,8 @@
     package="kr.nutee.nutee_android">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+                     android:maxSdkVersion="28"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
@@ -15,7 +16,10 @@
         android:roundIcon="@mipmap/nutee_logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        android:requestLegacyExternalStorage="true">
+        <!-- API 29 이상을 타겟팅하는 경우 requestLegacyExternalStorage를 true로 설정  -->
+        
         <activity android:name=".ui.main.fragment.home.detail.HomeDetailActivity"
             android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".ui.setting.DeveloperInformationActivity" />
