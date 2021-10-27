@@ -93,15 +93,15 @@ class DeveloperInformationActivity : AppCompatActivity() {
 							name = "임윤휘",
 							role1 = "Android",
 							role2 = null,
-							date = "2020 ~",
+							date = "2020 ~ 2021",
 							href = "https://github.com/88yhtserof"
 					)
 			)
 			add(
 				DeveloperInformationItem(
 					name = "김지원",
-					role1 = "Web",
-					role2 = null,
+					role1 = "PM",
+					role2 = "Web",
 					date = "2020 ~",
 					href = "https://github.com/gwonkim"
 				)
@@ -111,7 +111,7 @@ class DeveloperInformationActivity : AppCompatActivity() {
 							name = "김산호",
 							role1 = "Web",
 							role2 = null,
-							date = "2020 ~",
+							date = "2020 ~ 2021",
 							href = "https://github.com/san9901"
 					)
 			)
@@ -120,7 +120,7 @@ class DeveloperInformationActivity : AppCompatActivity() {
 							name = "박세연",
 							role1 = "QA",
 							role2 = null,
-							date = "2020 ~",
+							date = "2020 ~ 2021",
 							href = "https://github.com/SEYEON-PARK"
 					)
 			)
@@ -149,6 +149,24 @@ class DeveloperInformationActivity : AppCompatActivity() {
 							role2 = null,
 							date = "2020 ~ 2021",
 							href = "https://github.com/eunseo5355"
+					)
+			)
+			add(
+					DeveloperInformationItem(
+							name = "김희선",
+							role1 = "Android",
+							role2 = null,
+							date = "2021 ~ ",
+							href = "https://github.com/kimheeseon"
+					)
+			)
+			add(
+					DeveloperInformationItem(
+							name = "최윤정",
+							role1 = "Android",
+							role2 = null,
+							date = "2021 ~ ",
+							href = "https://github.com/cbj0010"
 					)
 			)
 		}
