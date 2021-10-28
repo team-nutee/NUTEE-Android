@@ -13,8 +13,8 @@ android {
         applicationId "kr.nutee.nutee_android"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 11
-        versionName "2.2.1"
+        versionCode 12
+        versionName "2.2.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
