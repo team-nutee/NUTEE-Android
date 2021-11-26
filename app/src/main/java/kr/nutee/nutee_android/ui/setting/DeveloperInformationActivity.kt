@@ -160,33 +160,6 @@ class DeveloperInformationActivity : AppCompatActivity() {
 							href = "https://github.com/kimheeseon"
 					)
 			)
-			add(
-					DeveloperInformationItem(
-							name = "최윤정",
-							role1 = "Android",
-							role2 = null,
-							date = "2021 ~ ",
-							href = "https://github.com/cbj0010"
-					)
-			)
-			add(
-					DeveloperInformationItem(
-							name = "심형준",
-							role1 = "BackEnd",
-							role2 = null,
-							date = "2021 ~",
-							href = ""
-					)
-			)
-			add(
-					DeveloperInformationItem(
-							name = "황창훈",
-							role1 = "Web",
-							role2 = null,
-							date = "2021",
-							href = ""
-					)
-			)
 		}
 		developerInformationAdapter.developerDatas = developerDatas
 		developerInformationAdapter.notifyDataSetChanged()
